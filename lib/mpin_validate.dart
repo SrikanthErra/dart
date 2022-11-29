@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
+import 'package:side_menu/Routes/App_routes.dart';
 
 import 'Reusable/button_component.dart';
 
@@ -27,7 +28,7 @@ class _mpinValidateState extends State<mpinValidate> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppInputText(
-                  text: 'Set MPIN',
+                  text: 'Validate MPIN',
                   colors: Colors.black,
                   size: 30,
                   weight: FontWeight.bold),
@@ -49,15 +50,15 @@ class _mpinValidateState extends State<mpinValidate> {
                 node: _node,
                 action: TextInputAction.next,
                 onEditingComplete: () {
-                        _node.nextFocus();
-                      },
+                  _node.nextFocus();
+                },
                 globalKey: _formkey1),
-                    ButtonComponent(
-                        onPressed: () {
-                          if (_formkey1.currentState!.validate()) {}
-                          
-                        },
-                        buttonText: 'Validate'),
+            ButtonComponent(
+                onPressed: () {
+                  if (_formkey1.currentState!.validate()) {}
+                  Navigator.pushNamed(context, AppRoutes.login);
+                },
+                buttonText: 'Validate'),
           ],
         ),
       ),

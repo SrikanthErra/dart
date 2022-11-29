@@ -1,18 +1,20 @@
 class familyListModel {
-  String? nameOfFamilyMember;
-  String? prescriptionCount;
+  String? Name;
+  String? Count;
 
-  familyListModel({this.nameOfFamilyMember, this.prescriptionCount});
+  familyListModel({this.Name, this.Count});
 
   familyListModel.fromJson(Map<String, dynamic> json) {
-    nameOfFamilyMember = json['Name of Family Member'];
-    prescriptionCount = json['Prescription Count'];
+    Name = json['name'];
+    Count = json['Count'];
   }
+
+  familyListModel.fromMap(Map<String, Object?> first);
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Name of Family Member'] = this.nameOfFamilyMember;
-    data['Prescription Count'] = this.prescriptionCount;
+    data['name'] = this.Name;
+    data['Count'] = this.Count;
     return data;
   }
 }

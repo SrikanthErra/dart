@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:side_menu/Routes/App_routes.dart';
+import 'package:side_menu/database_helper.dart';
 import 'package:side_menu/modelClasses/family_list_model.dart';
 import 'package:side_menu/modelClasses/prescription_list_model.dart';
 
@@ -16,8 +17,8 @@ class familyList extends StatefulWidget {
 
 class _familyListState extends State<familyList> {
   List<familyListModel> famList = [];
-  String? FamilyMemeber;
-  String? PrescriptionCount;
+  String? FamilyMemeber = "";
+  String? PrescriptionCount = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,10 +40,11 @@ class _familyListState extends State<familyList> {
               itemCount: famList.length,
               itemBuilder: (context, index) {
                 final familylist = famList[index];
-                FamilyMemeber = familylist.nameOfFamilyMember;
-                PrescriptionCount = familylist.prescriptionCount;
+                print(familylist);
+                FamilyMemeber = familylist.Name;
+                print(FamilyMemeber);
+                PrescriptionCount = familylist.Count;
                 return Container(
-                  height: 100,
                   child: Card(
                     // margin: EdgeInsets.symmetric(horizontal: 50,vertical: 20),
                     child: ListTile(
@@ -77,17 +79,18 @@ class _familyListState extends State<familyList> {
                           Expanded(
                             child: AppInputText(
                                 text: FamilyMemeber ?? "",
+                                //text: familylist.nameOfFamilyMember ?? "",
                                 colors: Colors.black,
                                 size: 14,
                                 weight: FontWeight.normal),
                           ),
-                          Expanded(
-                            child: AppInputText(
-                                text: PrescriptionCount ?? "",
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
+                          // Expanded(
+                          //   child: AppInputText(
+                          //       text: PrescriptionCount ?? "",
+                          //       colors: Colors.black,
+                          //       size: 14,
+                          //       weight: FontWeight.normal),
+                          // ),
                         ],
                       ),
                     ),
@@ -106,24 +109,16 @@ class _familyListState extends State<familyList> {
     fetchNextVisitData();
   }
 
-  fetchNextVisitData() {
-    famList = [
-      familyListModel(
-        nameOfFamilyMember: "VPsycho Hospital",
-        prescriptionCount: "5",
-      ),
-      familyListModel(
-        nameOfFamilyMember: "VPsycho Hospital",
-        prescriptionCount: "5",
-      ),
-      familyListModel(
-        nameOfFamilyMember: "VPsycho Hospital",
-        prescriptionCount: "5",
-      ),
-      familyListModel(
-        nameOfFamilyMember: "VPsycho Hospital",
-        prescriptionCount: "5",
-      ),
-    ];
+  fetchNextVisitData() async {
+    DatabaseHelper _dbInstance = DatabaseHelper.instance;
+    await _dbInstance.queryAllRows('FamilyList').then((value) {
+      setState(() {
+        value.forEach((element) {
+          famList.add(familyListModel(Name: element['name']));
+          //print('getdetails${famList}');
+        });
+      });
+      print('getdetails${famList}');
+    });
   }
 }

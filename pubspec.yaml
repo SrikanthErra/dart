@@ -41,6 +41,9 @@ dependencies:
   group_radio_button: ^1.2.0
   intl: ^0.17.0
   file_picker: ^5.2.2
+  sqflite: ^2.2.0+3
+  path_provider: ^2.0.11
+  another_flushbar: ^1.12.29
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
   # with background color and splash image.

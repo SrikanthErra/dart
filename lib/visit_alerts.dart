@@ -129,7 +129,7 @@ class _visitAlertsState extends State<visitAlerts> {
 
                       print("the name is $hospitalName");
                       return Container(
-                        height: 60,
+                        //height: 60,
                         child: Card(
                           // margin: EdgeInsets.symmetric(horizontal: 50,vertical: 20),
                           child: ListTile(
@@ -141,7 +141,7 @@ class _visitAlertsState extends State<visitAlerts> {
                                   child: AppInputText(
                                       text: 'Medicine Name',
                                       colors: Colors.black,
-                                      size: 14,
+                                      size: 18,
                                       weight: FontWeight.normal),
                                 ),
                                 Expanded(

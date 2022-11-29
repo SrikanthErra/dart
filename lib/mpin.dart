@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Routes/App_routes.dart';
+import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 
 import 'Reusable/button_component.dart';
+import 'database_helper.dart';
 
 class mpinPage extends StatefulWidget {
   const mpinPage({super.key});
@@ -18,19 +21,18 @@ class _mpinPageState extends State<mpinPage> {
   FocusScopeNode _node = FocusScopeNode();
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    final arg =
+        ModalRoute.of(context)?.settings.arguments as registrationFamilyModel;
+    print(arg.mobile);
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            /* Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Image.asset('assets/pqms.jpeg',
-                  width: 100, height: 50, fit: BoxFit.fill),
-            ), */
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppInputText(
@@ -80,10 +82,31 @@ class _mpinPageState extends State<mpinPage> {
                 },
                 globalKey: _formkey2),
             ButtonComponent(
-                onPressed: () {
-                  if (_formkey1.currentState!.validate()) {}
-                  if (_formkey2.currentState!.validate()) {}
-                  Navigator.pushNamed(context, AppRoutes.mpinValidate);
+                onPressed: () async {
+                  if (_formkey1.currentState!.validate() &&
+                      _formkey2.currentState!.validate()) {
+                    if (_mpin.text == _confirm_mpin.text) {
+                      final registered_famList = registrationFamilyModel(
+                          mpin: _mpin.text,
+                          age: arg.age,
+                          name: arg.name,
+                          gender: arg.gender,
+                          mobile: arg.mobile);
+                      final DatabaseHelper _databaseService =
+                          DatabaseHelper.instance;
+                      final saved = await _databaseService.insertInto(
+                          registered_famList.toJson(), DatabaseHelper.table);
+                      print("data saved $saved");
+                      Navigator.pushNamed(context, AppRoutes.mpinValidate);
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AppShowAlert(
+                                message: 'Please enter correct MPIN');
+                          });
+                    }
+                  }
                 },
                 buttonText: 'Proceed'),
           ],

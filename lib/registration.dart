@@ -6,8 +6,11 @@ import 'package:group_radio_button/group_radio_button.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/button_component.dart';
+import 'package:side_menu/Routes/App_routes.dart';
+import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 
 import 'Reusable/alert.dart';
+import 'database_helper.dart';
 
 class registerFamily extends StatefulWidget {
   const registerFamily({super.key});
@@ -22,12 +25,19 @@ class _registerFamilyState extends State<registerFamily> {
   TextEditingController _mobileNumber = TextEditingController();
   FocusScopeNode _node = FocusScopeNode();
   List<String> _gender = ["Male", "Female", "Others"];
-  String _verticalGroupValue = "";
+
+  String holder = '';
   bool value = false;
   String? selectedValue;
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
   final _formkey3 = GlobalKey<FormState>();
+  void getDropDownItem() {
+    setState(() {
+      holder = selectedValue ?? "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +45,7 @@ class _registerFamilyState extends State<registerFamily> {
       appBar: AppBar(title: Center(child: Text('Register a Family'))),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-       // crossAxisAlignment: CrossAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AppInputText(
             text: 'Registration',
@@ -113,9 +123,11 @@ class _registerFamilyState extends State<registerFamily> {
                   ),
                 ]),
           ),
-           AppInputTextfield(
+          Text('Selected Item = ' + '$holder',
+              style: TextStyle(fontSize: 22, color: Colors.black)),
+          AppInputTextfield(
             hintText: 'Mobile Number',
-            nameController: _age,
+            nameController: _mobileNumber,
             errorMessage: 'please enter Mobile number',
             input_type: TextInputType.number,
             obsecuretext: false,
@@ -127,15 +139,20 @@ class _registerFamilyState extends State<registerFamily> {
             globalKey: _formkey3,
           ),
           ButtonComponent(
-              onPressed: () {
-                 /* showDialog(context: context, builder: (BuildContext context) => 
-                       AppShowAlert(message: 'LogIn button clicked')); */
-                if (_formkey1.currentState!.validate()) {}
-                if (_formkey2.currentState!.validate()) {}
-                if (_formkey3.currentState!.validate()) {}
+              onPressed: () async {
+                if (_formkey1.currentState!.validate() &&
+                    _formkey2.currentState!.validate() &&
+                    _formkey3.currentState!.validate()) {
+                  getDropDownItem();
+                }
+                Navigator.pushNamed(context, AppRoutes.mpinPage,
+                    arguments: registrationFamilyModel(
+                        name: _family_name.text,
+                        age: _age.text,
+                        mobile: _mobileNumber.text,
+                        gender: holder));
               },
               buttonText: 'Submit'),
-              
         ],
       ),
     );
