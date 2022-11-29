@@ -38,6 +38,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   dropdown_button2: ^1.8.9
   flutter_native_splash: ^2.2.14
+  group_radio_button: ^1.2.0
+  intl: ^0.17.0
+  file_picker: ^5.2.2
+  sqflite: ^2.2.0+3
+  path_provider: ^2.0.11
+  another_flushbar: ^1.12.29
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
   # with background color and splash image.
@@ -179,7 +185,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  # flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

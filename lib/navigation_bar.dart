@@ -1,9 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:side_menu/hello.dart';
+//import 'package:side_menu/hello.dart';
 
 class Nav_Bar extends StatelessWidget {
   const Nav_Bar({super.key});
@@ -74,8 +70,8 @@ class Nav_Bar extends StatelessWidget {
                     leading: Icon(Icons.notifications),
                     title: Text("Inbox"),
                     onTap: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => hello()));
+                      // Navigator.of(context).push(
+                      //     MaterialPageRoute(builder: (context) => hello()));
                     },
                   ),
                 ],

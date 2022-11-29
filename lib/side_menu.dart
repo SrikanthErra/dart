@@ -5,13 +5,13 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:side_menu/navigation_bar.dart';
 
-import 'dashboard_model.dart';
+import 'dashboard.dart';
 
 class SideMenu extends StatelessWidget {
   SideMenu({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> emp = ['Srikanth', '22', 'Teju', '16', 'Kasai', '40'];
-  final List<DashboardList> dashbordList = [];
+  //final List<DashboardList> dashbordList = [];
   
   @override
   Widget build(BuildContext context) {
