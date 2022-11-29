@@ -95,7 +95,8 @@ class _LoginPageState extends State<LoginPage> {
                           if (mobileList[j] == _username.text) {
                             Navigator.pushNamed(
                                 context, AppRoutes.mpinValidate);
-                          } else {
+                          } 
+                          else {
                             showAlert('Please enter valid mobile number');
                           }
                         }
@@ -130,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   validateInputs() {
-    if (_username.text.isEmpty) {
+   /*  if (_username.text.isEmpty) {
       showAlert("Please enter email");
     } else if (_password.text.isEmpty) {
       showAlert("Please enter Mobile Number");
@@ -140,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
       showAlert("Please Enter a Valid Password");
     } else {
       return true;
-    }
+    } */
   }
 
   showAlert(String message) {

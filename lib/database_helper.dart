@@ -11,6 +11,8 @@ class DatabaseHelper {
   static final _databaseVersion = 1;
 
   static final table = 'FamilyList';
+  static final table2 = 'Symptoms';
+  static final table3 = "Medicines";
   static final name = 'name';
   static final age = 'age';
   static final gender = 'gender';
@@ -57,32 +59,31 @@ name varchar(255),
 age varchar(255),
 gender varchar(255),
 mobileNumber varchar(255),
-password varchar(255)
-mpin varchar(255),
+mpin varchar(255)
 );
           ''');
-    /* await db.execute('''
-          CREATE TABLE FamilyList
+    await db.execute('''CREATE TABLE Symptoms(
+      SymptomId INTEGER PRIMARY KEY AUTOINCREMENT,
+      mobileNumber varchar(255),
+      FamilyMemberName varchar(255),
+      Symptom varchar(255),
+      MedicineName varchar(255),
+      DoctorName varchar(255),
+      HospitalName varchar(255),
+      DateOfAppointment varchar(255),
+      ReasonForAppointment varchar(255)
+          );
+                    ''');
+    await db.execute('''
+          CREATE TABLE Medicines
 (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(255),
-age varchar(255),
-gender varchar(255),
-mobileNumber varchar(255)
+MedicineId INTEGER PRIMARY KEY AUTOINCREMENT,
+MedicineName varchar(255),
+ExpiryDate varchar(255),
+MedicinePhoto varchar(255),
+SymptomId varchar(255)
 );
           ''');
-
-          await db.execute('''
-          CREATE TABLE FamilyList
-(
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(255),
-age varchar(255),
-gender varchar(255),
-mobileNumber varchar(255)
-);
-          ''');
- */
     // await db.execute(
     //     "CREATE TABLE user (username TEXT NOT NULL,phone TEXT NOT NULL,email TEXT NOT NULL)");
   }
@@ -127,6 +128,25 @@ mobileNumber varchar(255)
     return Sqflite.firstIntValue(
             await db.rawQuery('SELECT COUNT(*) FROM $table')) ??
         0;
+  }
+
+  //Used for getting the last row count or last symptom Id added
+  Future<int> queryRowLast(String tablename) async {
+    Database db = await instance.database;
+
+    if (tablename == table) {
+      return Sqflite.firstIntValue(await db.rawQuery(
+              'SELECT SymptomId FROM $table ORDER BY SymptomId DESC LIMIT 1')) ??
+          0;
+    } else if (tablename == table2) {
+      return Sqflite.firstIntValue(await db.rawQuery(
+              'SELECT SymptomId FROM $table2 ORDER BY SymptomId DESC LIMIT 1')) ??
+          0;
+    } else {
+      return Sqflite.firstIntValue(await db.rawQuery(
+              'SELECT SymptomId FROM $table2 ORDER BY SymptomId DESC LIMIT 1')) ??
+          0;
+    }
   }
 
   // Future<String> queryLogin(String username, String pwd, String table) async {
@@ -195,5 +215,4 @@ mobileNumber varchar(255)
   //Read
   //Update
   //Delete
-
 }

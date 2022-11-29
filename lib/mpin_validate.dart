@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Routes/App_routes.dart';
+import 'package:side_menu/database_helper.dart';
 
 import 'Reusable/button_component.dart';
 
@@ -55,13 +57,66 @@ class _mpinValidateState extends State<mpinValidate> {
                 globalKey: _formkey1),
             ButtonComponent(
                 onPressed: () {
-                  if (_formkey1.currentState!.validate()) {}
-                  Navigator.pushNamed(context, AppRoutes.login);
+                  if (_formkey1.currentState!.validate()) {
+                    for (var i = 0; i < mpinList.length; i++) {
+                      if (mpinList[i] == _mpin.text) {
+                        for (var j = 0; j < mobileList.length; j++) {
+                          if (i == j) {
+                            Navigator.pushNamed(context, AppRoutes.dashboard);
+                          }
+                        }
+                      }
+                    }
+                  } else {
+                    showAlert("Enter Valid MPIN");
+                  }
                 },
                 buttonText: 'Validate'),
           ],
         ),
       ),
     );
+  }
+
+  showAlert(String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AppShowAlert(message: message);
+        });
+  }
+
+  List<String> mpinList = [];
+  Future<void> MpinCall() async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    final saved = await _databaseService.queryLogin(DatabaseHelper.table);
+    print("data saved ${saved}");
+    // print('mobile number is${saved[0]['mobileNumber']}');
+    for (var i = 0; i < saved.length; i++) {
+      // print('mobile numbers are ${saved[i]["mobileNumber"]}');
+      mpinList.add({saved[i]["mpin"]}.toString());
+    }
+    print(mpinList);
+  }
+
+  List<String> mobileList = [];
+  Future<void> LoginCall() async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    final saved = await _databaseService.queryLogin(DatabaseHelper.table);
+    print("data saved ${saved}");
+    // print('mobile number is${saved[0]['mobileNumber']}');
+    for (var i = 0; i < saved.length; i++) {
+      // print('mobile numbers are ${saved[i]["mobileNumber"]}');
+      mobileList.add({saved[i]["mobileNumber"]}.toString());
+    }
+    print(mobileList);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    MpinCall();
+    LoginCall();
   }
 }
