@@ -24,6 +24,12 @@ class _familyListState extends State<familyList> {
     return Scaffold(
       appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
       body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         margin: EdgeInsets.symmetric(vertical: 20),
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(

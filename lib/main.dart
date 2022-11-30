@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         routes: AppPages.routes,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        
       ),
       home: SideMenu(),
     );

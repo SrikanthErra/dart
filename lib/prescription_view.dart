@@ -47,115 +47,118 @@ class _viewPrescriptionState extends State<viewPrescription> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          //crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Card(
-              child: Column(
-                children: [
-                  AppInputTextfield(
-                      hintText: 'symptom ',
-                      nameController: _symptom,
-                      errorMessage: 'please enter symptom',
-                      input_type: TextInputType.text,
-                      obsecuretext: false,
-                      node: _node,
-                      action: TextInputAction.next,
-                      onEditingComplete: () {
-                        _node.nextFocus();
-                      },
-                      globalKey: _formkey1),
-                  AppInputTextfield(
-                      hintText: 'Medicine Name',
-                      nameController: _medicineName,
-                      errorMessage: 'please enter medicine name',
-                      input_type: TextInputType.text,
-                      obsecuretext: false,
-                      node: _node,
-                      action: TextInputAction.next,
-                      onEditingComplete: () {
-                        _node.nextFocus();
-                      },
-                      globalKey: _formkey2),
-                  datePickerComponent(
-                      hintText: 'Expiry date',
-                      nameController: _expiryDate,
-                      errorMessage: 'Please enter expiry date',
-                      obsecuretext: false,
-                      node: _node,
-                      action: TextInputAction.next,
-                      onEditingComplete: () {
-                        _node.nextFocus();
-                      },
-                      globalKey: _formkey3),
-                  /*  Container(
-                    width: 100,
-                    height: 100,
-                    child: Image(image: placeholder),
-                  ), */
-                ],
+        child: Container(
+          decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Card(
+                child: Column(
+                  children: [
+                    AppInputTextfield(
+                        hintText: 'symptom ',
+                        nameController: _symptom,
+                        errorMessage: 'please enter symptom',
+                        input_type: TextInputType.text,
+                        obsecuretext: false,
+                        node: _node,
+                        action: TextInputAction.next,
+                        onEditingComplete: () {
+                          _node.nextFocus();
+                        },
+                        globalKey: _formkey1),
+                    AppInputTextfield(
+                        hintText: 'Medicine Name',
+                        nameController: _medicineName,
+                        errorMessage: 'please enter medicine name',
+                        input_type: TextInputType.text,
+                        obsecuretext: false,
+                        node: _node,
+                        action: TextInputAction.next,
+                        onEditingComplete: () {
+                          _node.nextFocus();
+                        },
+                        globalKey: _formkey2),
+                    datePickerComponent(
+                        hintText: 'Expiry date',
+                        nameController: _expiryDate,
+                        errorMessage: 'Please enter expiry date',
+                        obsecuretext: false,
+                        node: _node,
+                        action: TextInputAction.next,
+                        onEditingComplete: () {
+                          _node.nextFocus();
+                        },
+                        globalKey: _formkey3),
+                  ],
+                ),
               ),
-            ),
-            AppInputTextfield(
-              hintText: 'Hospital Name',
-              nameController: _hospitalName,
-              errorMessage: 'please enter hospital name',
-              input_type: TextInputType.text,
-              obsecuretext: false,
-              node: _node,
-              action: TextInputAction.next,
-              onEditingComplete: () {
-                _node.nextFocus();
-              },
-            ),
-            datePickerComponent(
-              hintText: 'Date of Appointment',
-              nameController: _appointment,
-              errorMessage: 'Please enter appointment date',
-              obsecuretext: false,
-              node: _node,
-              action: TextInputAction.next,
-              onEditingComplete: () {
-                _node.nextFocus();
-              },
-            ),
-            AppInputTextfield(
-              hintText: 'Doctor Name',
-              nameController: _doctorName,
-              errorMessage: 'please enter doctor name',
-              input_type: TextInputType.text,
-              obsecuretext: false,
-              node: _node,
-              action: TextInputAction.next,
-              onEditingComplete: () {
-                _node.nextFocus();
-              },
-            ),
-            AppInputTextfield(
-              hintText: 'Reason for Appointment',
-              nameController: _reason,
-              errorMessage: 'please enter reason for appointment',
-              input_type: TextInputType.text,
-              obsecuretext: false,
-              node: _node,
-              action: TextInputAction.next,
-              onEditingComplete: () {
-                _node.nextFocus();
-              },
-            ),
-            datePickerComponent(
-              hintText: 'Next Appointment Date',
-              nameController: _expiryDate,
-              errorMessage: 'Please enter next Appointment date',
-              obsecuretext: false,
-              node: _node,
-              action: TextInputAction.next,
-              onEditingComplete: () {
-                _node.nextFocus();
-              },
-            ),
-          ],
+              AppInputTextfield(
+                hintText: 'Hospital Name',
+                nameController: _hospitalName,
+                errorMessage: 'please enter hospital name',
+                input_type: TextInputType.text,
+                obsecuretext: false,
+                node: _node,
+                action: TextInputAction.next,
+                onEditingComplete: () {
+                  _node.nextFocus();
+                },
+              ),
+              datePickerComponent(
+                hintText: 'Date of Appointment',
+                nameController: _appointment,
+                errorMessage: 'Please enter appointment date',
+                obsecuretext: false,
+                node: _node,
+                action: TextInputAction.next,
+                onEditingComplete: () {
+                  _node.nextFocus();
+                },
+              ),
+              AppInputTextfield(
+                hintText: 'Doctor Name',
+                nameController: _doctorName,
+                errorMessage: 'please enter doctor name',
+                input_type: TextInputType.text,
+                obsecuretext: false,
+                node: _node,
+                action: TextInputAction.next,
+                onEditingComplete: () {
+                  _node.nextFocus();
+                },
+              ),
+              AppInputTextfield(
+                hintText: 'Reason for Appointment',
+                nameController: _reason,
+                errorMessage: 'please enter reason for appointment',
+                input_type: TextInputType.text,
+                obsecuretext: false,
+                node: _node,
+                action: TextInputAction.next,
+                onEditingComplete: () {
+                  _node.nextFocus();
+                },
+              ),
+              datePickerComponent(
+                hintText: 'Next Appointment Date',
+                nameController: _expiryDate,
+                errorMessage: 'Please enter next Appointment date',
+                obsecuretext: false,
+                node: _node,
+                action: TextInputAction.next,
+                onEditingComplete: () {
+                  _node.nextFocus();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

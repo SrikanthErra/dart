@@ -23,8 +23,14 @@ class _prescriptionListState extends State<prescriptionList> {
     return Scaffold(
       appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
       body: Container(
-        margin: EdgeInsets.symmetric(vertical: 20),
-        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+       margin: EdgeInsets.symmetric(vertical: 20),
+       height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -44,7 +50,6 @@ class _prescriptionListState extends State<prescriptionList> {
                 MedicineName = prescriptionlist.medicineName;
                 Symptoms = prescriptionlist.symptoms;
                 return Container(
-                  height: 100,
                   child: Card(
                     // margin: EdgeInsets.symmetric(horizontal: 50,vertical: 20),
                     child: ListTile(

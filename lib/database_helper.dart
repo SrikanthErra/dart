@@ -14,10 +14,11 @@ class DatabaseHelper {
   static final name = 'name';
   static final age = 'age';
   static final gender = 'gender';
-  static final mobileNumber = 'mobile number';
+  static final mobileNumber = 'mobilenumber';
   static final id = 'id';
-  static final password = 'password';
   static final mpin = 'mpin';
+
+  static final medicineTable = 'MedicineList';
   // static final tableContact = 'contact';
 
   // make this a singleton class
@@ -57,8 +58,7 @@ name varchar(255),
 age varchar(255),
 gender varchar(255),
 mobileNumber varchar(255),
-password varchar(255)
-mpin varchar(255),
+mpin varchar(255)
 );
           ''');
     /* await db.execute('''
@@ -135,12 +135,40 @@ mobileNumber varchar(255)
   //           .rawQuery('SELECT * FROM $table) ??
   //       "";
 
-  // }
-  Future<List<Map>> queryLogin(String table) async {
+  // }SELECT COUNT(*) FROM sqlite_schema WHERE type = 'table
+  queryLogin(String table, String mobile) async {
     Database? db = await instance.database;
-    List<Map> list = await db.rawQuery('SELECT * FROM $table');
+    dynamic list = await db.rawQuery(
+        'SELECT COUNT(*) FROM $table WHERE $mobileNumber = ?', ['mobile']);
     return list;
+    /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
+    return res; */
   }
+
+  Future<int> queryRowCountforuser(String table, String mobile) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery(
+            'SELECT COUNT(*) FROM $table WHERE $mobileNumber = ?', [mobile])) ??
+        0;
+  }
+
+  Future<List<Map>> queryRowCountforMpinValidate(String table, String mobile) async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+            'SELECT $mpin FROM $table WHERE $mobileNumber = ?', [mobile])
+        ;
+  }
+
+/* 
+  Future<List<Map<String, dynamic>>> getUser(
+      String table, String mobilenumber) async {
+    Database? db = await instance.database;
+    print('mobile $mobilenumber');
+    List<Map<String, dynamic>> list = await db
+        .query(table, where: '$mobileNumber = ?', whereArgs: [mobilenumber]);
+    print('list is $list');
+    return list;
+  } */
 
   // List<Map> expectedList = [
   //   {'name': 'updated name', 'id': 1, 'value': 9876, 'num': 456.789},

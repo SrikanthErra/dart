@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:side_menu/add_prescription.dart';
-import 'package:side_menu/dashboard.dart';
+
 import 'package:side_menu/dashboard_gridview.dart';
 import 'package:side_menu/family_list.dart';
 import 'package:side_menu/login.dart';
@@ -29,7 +29,7 @@ class AppPages {
       AppRoutes.mpinValidate: ((context) => mpinValidate()),
       AppRoutes.login: ((context) => LoginPage()),
       AppRoutes.visitAlerts: ((context) => visitAlerts()),
-      AppRoutes.dashboard: ((context) => Dashboard()),
+    
       AppRoutes.registraion: ((context) => registerFamily()),
     };
   }

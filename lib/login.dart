@@ -5,6 +5,7 @@ import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/database_helper.dart';
+import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,26 +15,29 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _username = TextEditingController();
+  TextEditingController _mobile = TextEditingController();
   TextEditingController _password = TextEditingController();
   FocusScopeNode _node = FocusScopeNode();
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
   final _formKey = GlobalKey<FormState>();
-  var dbHelper;
+  int? flag;
   List<String> mobileList = []; //for database mobile numbers
   bool _isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: Text("login")),
-      body: Form(
-        key: _formKey,
-        child: Center(
-          child: Card(
-            surfaceTintColor: Colors.grey,
-            shadowColor: Colors.grey,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Form(
+          key: _formKey,
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -46,8 +50,8 @@ class _LoginPageState extends State<LoginPage> {
                       weight: FontWeight.bold),
                 ),
                 AppInputTextfield(
-                  hintText: 'Username/Mobile Number',
-                  nameController: _username,
+                  hintText: 'Mobile Number',
+                  nameController: _mobile,
                   errorMessage: 'Please Enter username',
                   input_type: TextInputType.text,
                   obsecuretext: false,
@@ -58,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   globalKey: _formkey1,
                 ),
-                AppInputTextfield(
+                /* AppInputTextfield(
                   hintText: 'Password',
                   nameController: _password,
                   errorMessage: 'Please Enter Mobile Number',
@@ -82,23 +86,32 @@ class _LoginPageState extends State<LoginPage> {
                             : Icons.visibility_off,
                         color: Colors.grey),
                   ),
-                ),
-                Center(
+                ), */
+                /* Center(
                     child: TextButton(
-                        onPressed: () {}, child: Text('Forgot Password'))),
+                        onPressed: () {}, child: Text('Forgot Password'))), */
                 ButtonComponent(
                     onPressed: () {
-                      if (_formkey1.currentState!.validate()) {}
-                      if (_formkey2.currentState!.validate()) {}
+                      if (_formkey1.currentState!
+                              .validate() /* &&
+                          _formkey2.currentState!.validate() */
+                          ) {}
                       if (validateInputs()) {
-                        for (var j = 0; j < mobileList.length; j++) {
+                        /*  for (var j = 0; j < mobileList.length; j++) {
+                          print('number is ${mobileList[j]}');
+                          print('number2 is ${_username.text}');
                           if (mobileList[j] == _username.text) {
+                            print('true');
                             Navigator.pushNamed(
                                 context, AppRoutes.mpinValidate);
                           } else {
                             showAlert('Please enter valid mobile number');
                           }
-                        }
+                        } */
+                        LoginCall(_mobile.text);
+                        /* if (flag == 1) {
+                          showAlert('No data found.... Please SignUp');
+                        } */
                       }
                     },
                     buttonText: 'Login'),
@@ -130,15 +143,16 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   validateInputs() {
-    if (_username.text.isEmpty) {
-      showAlert("Please enter email");
-    } else if (_password.text.isEmpty) {
+    if (_mobile.text.isEmpty) {
+      showAlert("Please enter Mobie Number");
+    } /* else if (_password.text.isEmpty) {
       showAlert("Please enter Mobile Number");
     } else if (!RegExp(
             r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
         .hasMatch(_password.text)) {
       showAlert("Please Enter a Valid Password");
-    } else {
+    } */
+    else {
       return true;
     }
   }
@@ -151,22 +165,30 @@ class _LoginPageState extends State<LoginPage> {
         });
   }
 
-  Future<void> LoginCall(String username, String pwd) async {
+  LoginCall(String username) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
-    final saved = await _databaseService.queryLogin(DatabaseHelper.table);
+    final saved = await _databaseService.queryRowCountforuser(
+        DatabaseHelper.table, username);
     print("data saved ${saved}");
+    flag = saved;
+    print('flag is $flag');
+    if (flag == 0) {
+      showAlert('Please Sign Up');
+    } else {
+      Navigator.pushNamed(context, AppRoutes.mpinValidate,arguments: ScreenArguments(_mobile.text));
+    }
     // print('mobile number is${saved[0]['mobileNumber']}');
-    for (var i = 0; i < saved.length; i++) {
+    /* for (var i = 0; i < saved.length; i++) {
       // print('mobile numbers are ${saved[i]["mobileNumber"]}');
       mobileList.add({saved[i]["mobileNumber"]}.toString());
     }
-    print(mobileList);
+    print(mobileList); */
   }
 
-  @override
+  /*  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    LoginCall(_username.text, _password.text);
-  }
+    LoginCall(_mobile.text);
+  } */
 }

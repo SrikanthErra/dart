@@ -28,88 +28,96 @@ class _mpinPageState extends State<mpinPage> {
         ModalRoute.of(context)?.settings.arguments as registrationFamilyModel;
     print(arg.mobile);
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppInputText(
-                  text: 'Set MPIN',
-                  colors: Colors.black,
-                  size: 30,
-                  weight: FontWeight.bold),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppInputText(
-                  text: 'Enter 4 digit MPIN',
-                  colors: Colors.black,
-                  size: 15,
-                  weight: FontWeight.bold),
-            ),
-            AppInputTextfield(
-                hintText: 'Enter 4 digit MPIN',
-                nameController: _mpin,
-                errorMessage: 'please enter MPIN',
-                input_type: TextInputType.number,
-                obsecuretext: false,
-                node: _node,
-                action: TextInputAction.next,
-                onEditingComplete: () {
-                  _node.nextFocus();
-                },
-                globalKey: _formkey1),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: AppInputText(
-                  text: 'Confirm 4 digit MPIN',
-                  colors: Colors.black,
-                  size: 15,
-                  weight: FontWeight.bold),
-            ),
-            AppInputTextfield(
-                hintText: 'Confirm 4 digit MPIN',
-                nameController: _confirm_mpin,
-                errorMessage: 'please enter MPIN to confirm',
-                input_type: TextInputType.number,
-                obsecuretext: false,
-                node: _node,
-                action: TextInputAction.next,
-                onEditingComplete: () {
-                  _node.nextFocus();
-                },
-                globalKey: _formkey2),
-            ButtonComponent(
-                onPressed: () async {
-                  if (_formkey1.currentState!.validate() &&
-                      _formkey2.currentState!.validate()) {
-                    if (_mpin.text == _confirm_mpin.text) {
-                      final registered_famList = registrationFamilyModel(
-                          mpin: _mpin.text,
-                          age: arg.age,
-                          name: arg.name,
-                          gender: arg.gender,
-                          mobile: arg.mobile);
-                      final DatabaseHelper _databaseService =
-                          DatabaseHelper.instance;
-                      final saved = await _databaseService.insertInto(
-                          registered_famList.toJson(), DatabaseHelper.table);
-                      print("data saved $saved");
-                      Navigator.pushNamed(context, AppRoutes.mpinValidate);
-                    } else {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AppShowAlert(
-                                message: 'Please enter correct MPIN');
-                          });
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppInputText(
+                    text: 'Set MPIN',
+                    colors: Colors.black,
+                    size: 30,
+                    weight: FontWeight.bold),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppInputText(
+                    text: 'Enter 4 digit MPIN',
+                    colors: Colors.black,
+                    size: 15,
+                    weight: FontWeight.bold),
+              ),
+              AppInputTextfield(
+                  hintText: 'Enter 4 digit MPIN',
+                  nameController: _mpin,
+                  errorMessage: 'please enter MPIN',
+                  input_type: TextInputType.number,
+                  obsecuretext: false,
+                  node: _node,
+                  action: TextInputAction.next,
+                  onEditingComplete: () {
+                    _node.nextFocus();
+                  },
+                  globalKey: _formkey1),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: AppInputText(
+                    text: 'Confirm 4 digit MPIN',
+                    colors: Colors.black,
+                    size: 15,
+                    weight: FontWeight.bold),
+              ),
+              AppInputTextfield(
+                  hintText: 'Confirm 4 digit MPIN',
+                  nameController: _confirm_mpin,
+                  errorMessage: 'please enter MPIN to confirm',
+                  input_type: TextInputType.number,
+                  obsecuretext: false,
+                  node: _node,
+                  action: TextInputAction.next,
+                  onEditingComplete: () {
+                    _node.nextFocus();
+                  },
+                  globalKey: _formkey2),
+              ButtonComponent(
+                  onPressed: () async {
+                    if (_formkey1.currentState!.validate() &&
+                        _formkey2.currentState!.validate()) {
+                      if (_mpin.text == _confirm_mpin.text) {
+                        final registered_famList = registrationFamilyModel(
+                            mpin: _mpin.text,
+                            age: arg.age,
+                            name: arg.name,
+                            gender: arg.gender,
+                            mobile: arg.mobile);
+                        final DatabaseHelper _databaseService =
+                            DatabaseHelper.instance;
+                        final saved = await _databaseService.insertInto(
+                            registered_famList.toJson(), DatabaseHelper.table);
+                        print("data saved $saved");
+                        Navigator.pushNamed(context, AppRoutes.login);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AppShowAlert(
+                                  message: 'Please enter correct MPIN');
+                            });
+                      }
                     }
-                  }
-                },
-                buttonText: 'Proceed'),
-          ],
+                  },
+                  buttonText: 'Proceed'),
+            ],
+          ),
         ),
       ),
     );

@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:side_menu/navigation_bar.dart';
 
-import 'dashboard.dart';
+//import 'dashboard.dart';
 
 class SideMenu extends StatelessWidget {
   SideMenu({super.key});
@@ -53,12 +53,8 @@ class SideMenu extends StatelessWidget {
                   child: Center(
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          //child: Image(image: AssetImage('assets/pqms.jpeg'),height: 50,width: 200,),
-                          child: Image.asset('assets/pqms.jpeg',
-                              width: 150, height: 50, fit: BoxFit.fill),
-                        ),
+                        //Image.asset('assets/pqms.jpeg',
+                           // width: 150, height: 50, fit: BoxFit.fill),
                         Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: Text(

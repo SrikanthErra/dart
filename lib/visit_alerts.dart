@@ -29,6 +29,12 @@ class _visitAlertsState extends State<visitAlerts> {
         //resizeToAvoidBottomInset: false,
         appBar: AppBar(title: Text('Alerts'), centerTitle: true),
         body: Container(
+          decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
             margin: EdgeInsets.symmetric(vertical: 20),
             //  width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
