@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background.png"),
+            image: AssetImage("assets/background_bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -175,7 +175,8 @@ class _LoginPageState extends State<LoginPage> {
     if (flag == 0) {
       showAlert('Please Sign Up');
     } else {
-      Navigator.pushNamed(context, AppRoutes.mpinValidate,arguments: ScreenArguments(_mobile.text));
+      Navigator.pushNamed(context, AppRoutes.mpinValidate,
+          arguments: ScreenArguments(_mobile.text));
     }
     // print('mobile number is${saved[0]['mobileNumber']}');
     /* for (var i = 0; i < saved.length; i++) {

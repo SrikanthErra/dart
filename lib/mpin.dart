@@ -31,7 +31,7 @@ class _mpinPageState extends State<mpinPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background.png"),
+            image: AssetImage("assets/background_bg.png"),
             fit: BoxFit.cover,
           ),
         ),
