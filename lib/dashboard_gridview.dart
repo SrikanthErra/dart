@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 
-
 import 'modelClasses/dashboard_gridview_model.dart';
 
 class dashboardGridview extends StatefulWidget {
@@ -26,7 +25,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
           color: Colors.white,
         ),
         title: 'Add Family Member',
-        navigateApproute: AppRoutes.prescriptionList),
+        navigateApproute: AppRoutes.registraion),
     gridListView(
         image: Image.asset(
           "assets/icons-06.png",
@@ -56,7 +55,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
           color: Colors.white,
         ),
         title: 'Alerts',
-        navigateApproute: AppRoutes.viewPrescription),
+        navigateApproute: AppRoutes.visitAlerts),
     gridListView(
         image: Image.asset(
           "assets/icons-02.png",
@@ -71,7 +70,6 @@ class _dashboardGridviewState extends State<dashboardGridview> {
         image: Image.asset(
           "assets/icons-04.png",
           fit: BoxFit.fitWidth,
-          
           height: 60,
           width: 60,
           color: Colors.white,
@@ -83,33 +81,38 @@ class _dashboardGridviewState extends State<dashboardGridview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-        /* appBar: AppBar(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
           title: Text('Dashboard'),
           centerTitle: true,
-        ), */
+        ),
         body: Container(
-          
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/background.png"),
+              image: AssetImage("assets/background_bg.png"),
               fit: BoxFit.cover,
             ),
           ),
-         // margin: EdgeInsets.only(top: 50),
+          // margin: EdgeInsets.only(top: 50),
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 100),
-                child: AppInputText(text: 'DASHBOARD', colors: Colors.white, size: 30, weight: FontWeight.w400),
+                child: AppInputText(
+                    text: 'DASHBOARD',
+                    colors: Colors.white,
+                    size: 30,
+                    weight: FontWeight.w400),
               ),
               GridView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.symmetric(vertical: 20),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(vertical: 20),
                   itemCount: dashboardList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,childAspectRatio:  4/3 ,
-                       crossAxisSpacing: 20, mainAxisSpacing: 1),
+                      crossAxisCount: 2,
+                      childAspectRatio: 4 / 3,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 1),
                   itemBuilder: (context, index) {
                     final dashboardData = dashboardList[index];
                     return GestureDetector(
@@ -117,16 +120,14 @@ class _dashboardGridviewState extends State<dashboardGridview> {
                         Navigator.pushNamed(
                             context, dashboardData.navigateApproute ?? "");
                       },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
+                      child: Column(mainAxisSize: MainAxisSize.max, children: [
                         Expanded(
                           flex: 2,
                           child: Material(
-                             borderOnForeground: true,
+                              borderOnForeground: false,
                               color: Colors.transparent,
                               shape: CircleBorder(),
-                               elevation: 3.0,
+                              elevation: 3.0,
                               child: dashboardData.image),
                         ),
                         Expanded(
@@ -134,7 +135,10 @@ class _dashboardGridviewState extends State<dashboardGridview> {
                           child: Container(
                             alignment: Alignment.center,
                             //padding: EdgeInsets.all(5),
-                            child: Text(dashboardData.title ?? "",style: TextStyle(color: Colors.white),),
+                            child: Text(
+                              dashboardData.title ?? "",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                       ]),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:side_menu/side_menu.dart';
+import 'package:provider/provider.dart';
 
 import 'Routes/App_pages.dart';
 import 'Routes/App_routes.dart';
+import 'appColor.dart';
+import 'modelClasses/medicine_list_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,15 +16,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+     
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MedicineListProvider()), 
+      ],
+    child:MaterialApp(
       title: 'Flutter Demo',
       initialRoute: AppRoutes.initial,
-        routes: AppPages.routes,
+      routes: AppPages.routes,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        
+        primarySwatch: AppColors.navy,
       ),
-      home: SideMenu(),
-    );
+      //home: SideMenu(),
+    ));
   }
 }

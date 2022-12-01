@@ -47,17 +47,18 @@ class datePickerComponent extends StatelessWidget {
             obscureText: obsecuretext,
             textInputAction: action,
             onEditingComplete: onEditingComplete,
-            style: const TextStyle(color: Color.fromARGB(255, 20, 19, 19)),
+            style: const TextStyle(color: Colors.white),
             controller: nameController,
             decoration: InputDecoration(
               hintText: hintText,
+              hintStyle: TextStyle(color: Colors.white),
               prefixIcon: prefixIcon,
               //suffixIcon: null == suffixIcon ? null : Icon(suffixIcon),
               suffixIcon: suffixIcon,
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               labelStyle: TextStyle(
-                // color: node.hasFocus?Colors.amber:Colors.blue,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
               labelText: hintText,

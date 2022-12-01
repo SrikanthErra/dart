@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
@@ -40,11 +38,14 @@ class _mpinValidateState extends State<mpinValidate> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              CircleAvatar(
+                  radius: 60,
+                  backgroundImage: AssetImage("assets/appLogo.png")),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppInputText(
                     text: 'Validate MPIN',
-                    colors: Colors.black,
+                    colors: Colors.white,
                     size: 30,
                     weight: FontWeight.bold),
               ),
@@ -52,7 +53,7 @@ class _mpinValidateState extends State<mpinValidate> {
                 padding: const EdgeInsets.all(8.0),
                 child: AppInputText(
                     text: 'Enter 4 digit MPIN',
-                    colors: Colors.black,
+                    colors: Colors.white,
                     size: 15,
                     weight: FontWeight.bold),
               ),
@@ -95,12 +96,10 @@ class _mpinValidateState extends State<mpinValidate> {
         DatabaseHelper.table, phoneNumber);
     print("data saved ${saved}");
     mpin_value = saved[0];
-    if(mpin_value['mpin'] == mpin)
-    {
+    if (mpin_value['mpin'] == mpin) {
       Navigator.pushNamed(context, AppRoutes.dashboardGridview);
-    }
-    else{
-        showAlert('Please Enter Valid MPIN');
+    } else {
+      showAlert('Please Enter Valid MPIN');
     }
     /* flag = saved;
     print('flag is $flag');

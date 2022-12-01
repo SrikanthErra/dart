@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class AppInputTextfield extends StatelessWidget {
-  const AppInputTextfield(
-      {super.key,
-      required this.hintText,
-      required this.nameController,
-      required this.errorMessage,
-      required this.input_type,
-      required this.obsecuretext,
-      required this.node,
-      required this.action,
-      required this.onEditingComplete,
-      this.globalKey,
-      this.prefixIcon,
-      // this.isSecured,
-      // this.isVisible,
-      this.onTap,
-      this.suffixIcon, this.onChanged,});
+class AlertTextField extends StatelessWidget {
+  const AlertTextField({
+    super.key,
+    required this.hintText,
+    required this.nameController,
+    required this.errorMessage,
+    required this.input_type,
+    required this.obsecuretext,
+    required this.node,
+    required this.action,
+    required this.onEditingComplete,
+    this.globalKey,
+    this.prefixIcon,
+    // this.isSecured,
+    // this.isVisible,
+    this.onTap,
+    this.suffixIcon,
+    this.onChanged,
+  });
   final String hintText, errorMessage;
   final TextEditingController nameController;
   final TextInputType input_type;
@@ -29,7 +31,7 @@ class AppInputTextfield extends StatelessWidget {
   final GlobalKey? globalKey;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
- final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onChanged;
   // final IconData? suffixIcon;
   // final bool? isSecured;
   // final bool? isVisible;
@@ -46,11 +48,11 @@ class AppInputTextfield extends StatelessWidget {
             obscureText: obsecuretext,
             textInputAction: action,
             onEditingComplete: onEditingComplete,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.black),
             controller: nameController,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: TextStyle(color: Colors.white),
+              hintStyle: TextStyle(color: Colors.grey),
               prefixIcon: prefixIcon,
               //suffixIcon: null == suffixIcon ? null : Icon(suffixIcon),
               suffixIcon: suffixIcon,
@@ -69,7 +71,7 @@ class AppInputTextfield extends StatelessWidget {
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               labelStyle: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 // color: node.hasFocus?Colors.amber:Colors.blue,
                 fontWeight: FontWeight.bold,
               ),

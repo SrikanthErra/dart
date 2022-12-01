@@ -40,11 +40,14 @@ class _mpinPageState extends State<mpinPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+               CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage("assets/appLogo.png")),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppInputText(
                     text: 'Set MPIN',
-                    colors: Colors.black,
+                    colors: Colors.white,
                     size: 30,
                     weight: FontWeight.bold),
               ),
@@ -52,7 +55,7 @@ class _mpinPageState extends State<mpinPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: AppInputText(
                     text: 'Enter 4 digit MPIN',
-                    colors: Colors.black,
+                    colors: Colors.white,
                     size: 15,
                     weight: FontWeight.bold),
               ),
@@ -72,7 +75,7 @@ class _mpinPageState extends State<mpinPage> {
                 padding: const EdgeInsets.all(5.0),
                 child: AppInputText(
                     text: 'Confirm 4 digit MPIN',
-                    colors: Colors.black,
+                    colors: Colors.white,
                     size: 15,
                     weight: FontWeight.bold),
               ),

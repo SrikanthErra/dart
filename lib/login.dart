@@ -41,18 +41,21 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage("assets/appLogo.png")),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: AppInputText(
                       text: 'Login',
-                      colors: Colors.black,
+                      colors: Colors.white,
                       size: 20,
                       weight: FontWeight.bold),
                 ),
                 AppInputTextfield(
                   hintText: 'Mobile Number',
                   nameController: _mobile,
-                  errorMessage: 'Please Enter username',
+                  errorMessage: 'Please Enter Mobile Number',
                   input_type: TextInputType.text,
                   obsecuretext: false,
                   node: _node,
@@ -130,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           'Sign Up here',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
+                              fontWeight: FontWeight.bold, color: Colors.white),
                         ))
                   ],
                 )

@@ -5,7 +5,6 @@ import 'package:side_menu/family_list.dart';
 import 'package:side_menu/mpin.dart';
 import 'package:side_menu/prescription_list.dart';
 import 'package:side_menu/prescription_view.dart';
-import 'package:side_menu/side_menu.dart';
 import 'package:side_menu/visit_alerts.dart';
 
 class AppRoutes {

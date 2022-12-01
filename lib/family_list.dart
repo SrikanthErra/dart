@@ -22,90 +22,90 @@ class _familyListState extends State<familyList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background.png"),
+            image: AssetImage("assets/background_bg.png"),
             fit: BoxFit.cover,
           ),
         ),
-        margin: EdgeInsets.symmetric(vertical: 20),
+        //margin: EdgeInsets.symmetric(vertical: 20),
         height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-            child: Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            AppInputText(
-                text: 'Family List',
-                colors: Colors.black,
-                size: 15,
-                weight: FontWeight.bold),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: famList.length,
-              itemBuilder: (context, index) {
-                final familylist = famList[index];
-                print(familylist);
-                FamilyMemeber = familylist.Name;
-                print(FamilyMemeber);
-                PrescriptionCount = familylist.Count;
-                return Container(
-                  child: Card(
-                    // margin: EdgeInsets.symmetric(horizontal: 50,vertical: 20),
-                    child: ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, AppRoutes.prescriptionList);
-                      },
-                      leading: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: AppInputText(
-                                text: 'Name of Family Member',
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                          Expanded(
-                            child: AppInputText(
-                                text: 'Prescription Count',
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                        ],
+        AppInputText(
+            text: 'Family List',
+            colors: Colors.white,
+            size: 15,
+            weight: FontWeight.bold),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: famList.length,
+          itemBuilder: (context, index) {
+            final familylist = famList[index];
+            print(familylist);
+            FamilyMemeber = familylist.Name;
+            print(FamilyMemeber);
+            PrescriptionCount = familylist.Count;
+            return Container(
+              child: Card(
+                child: ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, AppRoutes.prescriptionList);
+                  },
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: AppInputText(
+                            text: 'Name of Family Member',
+                            colors: Colors.black,
+                            size: 14,
+                            weight: FontWeight.normal),
                       ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: AppInputText(
-                                text: FamilyMemeber ?? "",
-                                //text: familylist.nameOfFamilyMember ?? "",
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                          // Expanded(
-                          //   child: AppInputText(
-                          //       text: PrescriptionCount ?? "",
-                          //       colors: Colors.black,
-                          //       size: 14,
-                          //       weight: FontWeight.normal),
-                          // ),
-                        ],
+                      Expanded(
+                        child: AppInputText(
+                            text: 'Prescription Count',
+                            colors: Colors.black,
+                            size: 14,
+                            weight: FontWeight.normal),
                       ),
-                    ),
+                    ],
                   ),
-                );
-              },
-            ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: AppInputText(
+                            text: FamilyMemeber ?? "",
+                            //text: familylist.nameOfFamilyMember ?? "",
+                            colors: Colors.black,
+                            size: 14,
+                            weight: FontWeight.normal),
+                      ),
+                      // Expanded(
+                      //   child: AppInputText(
+                      //       text: PrescriptionCount ?? "",
+                      //       colors: Colors.black,
+                      //       size: 14,
+                      //       weight: FontWeight.normal),
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
           ],
-        )),
+        ),
       ),
     );
   }

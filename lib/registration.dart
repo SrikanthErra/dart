@@ -24,19 +24,20 @@ class _registerFamilyState extends State<registerFamily> {
   TextEditingController _age = TextEditingController();
   TextEditingController _mobileNumber = TextEditingController();
   FocusScopeNode _node = FocusScopeNode();
-  List<String> _gender = ["Male", "Female", "Others"];
+  //List<String> _gender = ["Male", "Female", "Others"];
+  String? gender;
 
-  String holder = '';
+  //String holder = '';
   bool value = false;
   String? selectedValue;
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
   final _formkey3 = GlobalKey<FormState>();
-  void getDropDownItem() {
+  /* void getDropDownItem() {
     setState(() {
       holder = selectedValue ?? "";
     });
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class _registerFamilyState extends State<registerFamily> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background.png"),
+            image: AssetImage("assets/background_bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -54,9 +55,11 @@ class _registerFamilyState extends State<registerFamily> {
           mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            CircleAvatar(
+                radius: 50, backgroundImage: AssetImage("assets/appLogo.png")),
             AppInputText(
               text: 'Registration',
-              colors: Colors.black,
+              colors: Colors.white,
               size: 30,
               weight: FontWeight.w600,
             ),
@@ -86,14 +89,62 @@ class _registerFamilyState extends State<registerFamily> {
               },
               globalKey: _formkey2,
             ),
-            Padding(
+            Text(
+              "Select Gender:",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
+            RadioListTile(
+              title: Text(
+                "Male",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+              value: "male",
+              groupValue: gender,
+              onChanged: (value) {
+                setState(() {
+                  gender = value.toString();
+                });
+              },
+            ),
+            RadioListTile(
+              title: Text(
+                "Female",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+              value: "female",
+              groupValue: gender,
+              onChanged: (value) {
+                setState(() {
+                  gender = value.toString();
+                });
+              },
+            ),
+            RadioListTile(
+              title: Text(
+                "Other",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+              value: "other",
+              groupValue: gender,
+              onChanged: (value) {
+                setState(() {
+                  gender = value.toString();
+                });
+              },
+            ),
+
+            /* Padding(
               padding: const EdgeInsets.all(15.0),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppInputText(
                         text: 'Select Gender',
-                        colors: Colors.black,
+                        colors: Colors.white,
                         size: 20,
                         weight: FontWeight.normal),
                     DropdownButtonHideUnderline(
@@ -103,15 +154,18 @@ class _registerFamilyState extends State<registerFamily> {
                           'Select Gender',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Theme.of(context).hintColor,
+                            color: Colors.black,
                           ),
                         ),
                         items: _gender
                             .map((item) => DropdownMenuItem<String>(
                                   value: item,
+                                  
                                   child: Text(
                                     item,
+                                    
                                     style: const TextStyle(
+                                      color: Colors.white,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -129,7 +183,7 @@ class _registerFamilyState extends State<registerFamily> {
                       ),
                     ),
                   ]),
-            ),
+            ), */
             AppInputTextfield(
               hintText: 'Mobile Number',
               nameController: _mobileNumber,
@@ -148,14 +202,14 @@ class _registerFamilyState extends State<registerFamily> {
                   if (_formkey1.currentState!.validate() &&
                       _formkey2.currentState!.validate() &&
                       _formkey3.currentState!.validate()) {
-                    getDropDownItem();
+                    //getDropDownItem();
                   }
                   Navigator.pushNamed(context, AppRoutes.mpinPage,
                       arguments: registrationFamilyModel(
                           name: _family_name.text,
                           age: _age.text,
                           mobile: _mobileNumber.text,
-                          gender: holder));
+                          gender: gender));
                 },
                 buttonText: 'Submit'),
           ],
