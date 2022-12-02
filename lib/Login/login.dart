@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:side_menu/Database/database_helper.dart';
 import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/database_helper.dart';
+
 import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
 
 class LoginPage extends StatefulWidget {
@@ -56,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Mobile Number',
                   nameController: _mobile,
                   errorMessage: 'Please Enter Mobile Number',
-                  input_type: TextInputType.text,
+                  input_type: TextInputType.number,
                   obsecuretext: false,
                   node: _node,
                   action: TextInputAction.next,
@@ -123,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     AppInputText(
                         text: 'Didnt have any account?',
-                        colors: Colors.grey,
+                        colors: Colors.black,
                         size: 15,
                         weight: FontWeight.w300),
                     TextButton(

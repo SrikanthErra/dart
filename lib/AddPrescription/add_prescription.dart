@@ -11,8 +11,10 @@ import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
 import 'package:side_menu/modelClasses/medicine_list_provider.dart';
-import 'Reusable/button_component.dart';
-import 'appColor.dart';
+import 'package:side_menu/Reusable/button_component.dart';
+
+import '../appColor.dart';
+
 
 class addPrescription extends StatefulWidget {
   const addPrescription({super.key});

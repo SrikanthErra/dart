@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:side_menu/add_prescription.dart';
+import 'package:side_menu/AddPrescription/add_prescription.dart';
+import 'package:side_menu/Dashboard/dashboard_gridview.dart';
+import 'package:side_menu/Login/mpin.dart';
+import 'package:side_menu/Login/mpin_validate.dart';
+import 'package:side_menu/Login/otp.dart';
+import 'package:side_menu/Login/registration.dart';
+import 'package:side_menu/PrescriptionView/prescription_view.dart';
 
-import 'package:side_menu/family_list.dart';
-import 'package:side_menu/login.dart';
-import 'package:side_menu/mpin.dart';
-import 'package:side_menu/mpin_validate.dart';
-import 'package:side_menu/otp.dart';
-import 'package:side_menu/prescription_list.dart';
-import 'package:side_menu/prescription_view.dart';
-import 'package:side_menu/visit_alerts.dart';
 
-import '../dashboard_gridview.dart';
-import '../registration.dart';
+
+import '../Alerts/visit_alerts.dart';
+import '../FamilyList/family_list.dart';
+import '../FamilyList/prescription_list.dart';
+import '../Login/login.dart';
 import 'App_routes.dart';
 
 class AppPages {

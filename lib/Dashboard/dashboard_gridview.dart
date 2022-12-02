@@ -4,8 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
-
-import 'modelClasses/dashboard_gridview_model.dart';
+import '../modelClasses/dashboard_gridview_model.dart';
 
 class dashboardGridview extends StatefulWidget {
   const dashboardGridview({super.key});
@@ -81,12 +80,13 @@ class _dashboardGridviewState extends State<dashboardGridview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+       // resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('Dashboard'),
           centerTitle: true,
         ),
         body: Container(
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/background_bg.png"),
@@ -97,7 +97,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 100),
+                padding: const EdgeInsets.only(top: 40),
                 child: AppInputText(
                     text: 'DASHBOARD',
                     colors: Colors.white,

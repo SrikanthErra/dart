@@ -5,8 +5,8 @@ import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 
-import 'Reusable/button_component.dart';
-import 'database_helper.dart';
+import 'package:side_menu/Reusable/button_component.dart';
+import 'package:side_menu/Database/database_helper.dart';
 
 class mpinPage extends StatefulWidget {
   const mpinPage({super.key});
@@ -28,7 +28,9 @@ class _mpinPageState extends State<mpinPage> {
         ModalRoute.of(context)?.settings.arguments as registrationFamilyModel;
     print(arg.mobile);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/background_bg.png"),

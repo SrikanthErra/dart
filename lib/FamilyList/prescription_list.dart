@@ -3,7 +3,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:side_menu/modelClasses/prescription_list_model.dart';
 
-import 'Reusable/app_input_text.dart';
+import '../Reusable/app_input_text.dart';
+
+
 
 class prescriptionList extends StatefulWidget {
   const prescriptionList({super.key});

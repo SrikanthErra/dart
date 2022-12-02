@@ -4,9 +4,9 @@ import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
 
-import 'Reusable/alert.dart';
-import 'Reusable/button_component.dart';
-import 'database_helper.dart';
+import 'package:side_menu/Reusable/alert.dart';
+import 'package:side_menu/Reusable/button_component.dart';
+import 'package:side_menu/Database/database_helper.dart';
 
 class mpinValidate extends StatefulWidget {
   const mpinValidate({super.key});
