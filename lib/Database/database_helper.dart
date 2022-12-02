@@ -61,28 +61,28 @@ mobileNumber varchar(255),
 mpin varchar(255)
 );
           ''');
-    /* await db.execute('''
-          CREATE TABLE FamilyList
+    await db.execute('''CREATE TABLE Symptoms(
+      SymptomId INTEGER PRIMARY KEY AUTOINCREMENT,
+      mobileNumber varchar(255),
+      FamilyMemberName varchar(255),
+      Symptom varchar(255),
+      MedicineName varchar(255),
+      DoctorName varchar(255),
+      HospitalName varchar(255),
+      DateOfAppointment varchar(255),
+      ReasonForAppointment varchar(255)
+          );
+                    ''');
+    await db.execute('''
+          CREATE TABLE Medicines
 (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(255),
-age varchar(255),
-gender varchar(255),
-mobileNumber varchar(255)
+MedicineId INTEGER PRIMARY KEY AUTOINCREMENT,
+MedicineName varchar(255),
+ExpiryDate varchar(255),
+MedicinePhoto varchar(255),
+SymptomId varchar(255)
 );
           ''');
-
-          await db.execute('''
-          CREATE TABLE FamilyList
-(
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(255),
-age varchar(255),
-gender varchar(255),
-mobileNumber varchar(255)
-);
-          ''');
- */
     // await db.execute(
     //     "CREATE TABLE user (username TEXT NOT NULL,phone TEXT NOT NULL,email TEXT NOT NULL)");
   }
@@ -152,11 +152,11 @@ mobileNumber varchar(255)
         0;
   }
 
-  Future<List<Map>> queryRowCountforMpinValidate(String table, String mobile) async {
+  Future<List<Map>> queryRowCountforMpinValidate(
+      String table, String mobile) async {
     Database db = await instance.database;
-    return await db.rawQuery(
-            'SELECT $mpin FROM $table WHERE $mobileNumber = ?', [mobile])
-        ;
+    return await db
+        .rawQuery('SELECT $mpin FROM $table WHERE $mobileNumber = ?', [mobile]);
   }
 
 /* 
@@ -223,5 +223,4 @@ mobileNumber varchar(255)
   //Read
   //Update
   //Delete
-
 }

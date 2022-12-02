@@ -57,7 +57,8 @@ class _registerFamilyState extends State<registerFamily> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                  radius: 50, backgroundImage: AssetImage("assets/appLogo.png")),
+                  radius: 50,
+                  backgroundImage: AssetImage("assets/appLogo.png")),
               AppInputText(
                 text: 'Registration',
                 colors: Colors.white,
@@ -91,20 +92,33 @@ class _registerFamilyState extends State<registerFamily> {
                 globalKey: _formkey2,
               ),
               RadioGroup(
-              children: [
-                AppInputText(text: 'Male', colors: Colors.white, size: 15, weight: FontWeight.normal),
-                 AppInputText(text: 'Female', colors: Colors.white, size: 15, weight: FontWeight.normal),
-                  AppInputText(text: 'Others', colors: Colors.white, size: 15, weight: FontWeight.normal)
-              ],
-              groupItemsAlignment: GroupItemsAlignment.row,
-              mainAxisAlignment: MainAxisAlignment.start,
-              internMainAxisAlignment: MainAxisAlignment.start,
-              /// In reality this is not needed
-             // priority: RadioPriority.textBeforeRadio,
-              defaultSelectedItem: -1,
-              onSelectionChanged: (selection) {
-                print(selection);
-              }),
+                  children: [
+                    AppInputText(
+                        text: 'Male',
+                        colors: Colors.white,
+                        size: 15,
+                        weight: FontWeight.normal),
+                    AppInputText(
+                        text: 'Female',
+                        colors: Colors.white,
+                        size: 15,
+                        weight: FontWeight.normal),
+                    AppInputText(
+                        text: 'Others',
+                        colors: Colors.white,
+                        size: 15,
+                        weight: FontWeight.normal)
+                  ],
+                  groupItemsAlignment: GroupItemsAlignment.row,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  internMainAxisAlignment: MainAxisAlignment.start,
+
+                  /// In reality this is not needed
+                  // priority: RadioPriority.textBeforeRadio,
+                  defaultSelectedItem: -1,
+                  onSelectionChanged: (selection) {
+                    print(selection);
+                  }),
               Text(
                 "Select Gender:",
                 textAlign: TextAlign.left,
@@ -114,7 +128,7 @@ class _registerFamilyState extends State<registerFamily> {
                     fontWeight: FontWeight.bold),
               ),
               RadioListTile(
-               // contentPadding: EdgeInsets.zero,
+                // contentPadding: EdgeInsets.zero,
                 title: Text(
                   "Male",
                   style: TextStyle(fontSize: 18, color: Colors.white),
@@ -155,7 +169,7 @@ class _registerFamilyState extends State<registerFamily> {
                   });
                 },
               ),
-        
+
               /* Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Row(
@@ -223,7 +237,7 @@ class _registerFamilyState extends State<registerFamily> {
                         _formkey3.currentState!.validate()) {
                       //getDropDownItem();
                     }
-                    Navigator.pushNamed(context, AppRoutes.mpinPage,
+                    Navigator.pushReplacementNamed(context, AppRoutes.mpinPage,
                         arguments: registrationFamilyModel(
                             name: _family_name.text,
                             age: _age.text,
