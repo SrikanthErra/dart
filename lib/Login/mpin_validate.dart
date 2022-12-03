@@ -68,6 +68,7 @@ class _mpinValidateState extends State<mpinValidate> {
                   onEditingComplete: () {
                     _node.nextFocus();
                   },
+                  //lengthRequired: 4,
                   globalKey: _formkey1),
               ButtonComponent(
                   onPressed: () {

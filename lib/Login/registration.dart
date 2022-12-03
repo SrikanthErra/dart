@@ -228,6 +228,7 @@ class _registerFamilyState extends State<registerFamily> {
                 onEditingComplete: () {
                   _node.nextFocus();
                 },
+                //lengthRequired: 10,
                 globalKey: _formkey3,
               ),
               ButtonComponent(
@@ -235,14 +236,15 @@ class _registerFamilyState extends State<registerFamily> {
                     if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
                         _formkey3.currentState!.validate()) {
+                      Navigator.pushReplacementNamed(
+                          context, AppRoutes.mpinPage,
+                          arguments: registrationFamilyModel(
+                              name: _family_name.text,
+                              age: _age.text,
+                              mobile: _mobileNumber.text,
+                              gender: gender));
                       //getDropDownItem();
                     }
-                    Navigator.pushReplacementNamed(context, AppRoutes.mpinPage,
-                        arguments: registrationFamilyModel(
-                            name: _family_name.text,
-                            age: _age.text,
-                            mobile: _mobileNumber.text,
-                            gender: gender));
                   },
                   buttonText: 'Submit'),
             ],

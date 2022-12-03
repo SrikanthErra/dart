@@ -1,11 +1,11 @@
-class PrescriptionModel {
+class MedicineModel {
   int? MedicineId;
   String? MedicineName;
   String? ExpiryDate;
   String? MedicinePhoto;
   String? SymptomId;
 
-  PrescriptionModel({
+  MedicineModel({
     this.MedicineId,
     this.MedicineName,
     this.ExpiryDate,
@@ -13,7 +13,7 @@ class PrescriptionModel {
     this.SymptomId,
   });
 
-  PrescriptionModel.fromJson(Map<String, dynamic> json) {
+  MedicineModel.fromJson(Map<String, dynamic> json) {
     MedicineId = json['MedicineId'];
     MedicineName = json['MedicineName'];
     ExpiryDate = json['ExpiryDate'];

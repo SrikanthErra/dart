@@ -16,6 +16,8 @@ import 'package:side_menu/Routes/App_routes.dart';
 
 import 'package:universal_io/io.dart';
 
+import '../Database/database_helper.dart';
+import '../modelClasses/database_modelClass/medicationModel.dart';
 import '../modelClasses/medicine_data_model.dart';
 import '../modelClasses/medicine_list_provider.dart';
 import 'alertInputTextfield.dart';
@@ -61,6 +63,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
     return SingleChildScrollView(
       child: new Center(child: (() {
         print('OS: ${Platform.operatingSystem}');
+
         if (defaultTargetPlatform == TargetPlatform.android) {
           return new AlertDialog(
               insetPadding: EdgeInsets.symmetric(
@@ -112,6 +115,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         studentsStateProvider.addMedicineData(medicineDataModel(
                             medicineName: MedicinenameController.text,
                             ExpiryDate: ExpiryDateController.text));
+                        //MedicinesDataTable();
                         print("data added successfully" +
                             studentsStateProvider.Medicines.length.toString());
                         Navigator.pop(context);
@@ -175,4 +179,8 @@ class AppShowAlertMedicineData extends StatelessWidget {
       })()),
     );
   }
+
+  
+
+ 
 }

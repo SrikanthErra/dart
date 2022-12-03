@@ -91,7 +91,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/background_bg.png"),
+              image: AssetImage("assets/dashboardBg.png"),
               fit: BoxFit.cover,
             ),
           ),

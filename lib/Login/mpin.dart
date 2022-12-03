@@ -72,6 +72,7 @@ class _mpinPageState extends State<mpinPage> {
                   onEditingComplete: () {
                     _node.nextFocus();
                   },
+                  //lengthRequired: 4,
                   globalKey: _formkey1),
               Padding(
                 padding: const EdgeInsets.all(5.0),
@@ -92,6 +93,7 @@ class _mpinPageState extends State<mpinPage> {
                   onEditingComplete: () {
                     _node.nextFocus();
                   },
+                  //lengthRequired: 4,
                   globalKey: _formkey2),
               ButtonComponent(
                   onPressed: () async {

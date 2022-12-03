@@ -11,6 +11,8 @@ class DatabaseHelper {
   static final _databaseVersion = 1;
 
   static final table = 'FamilyList';
+  static final table2 = 'Symptoms';
+  static final table3 = 'Medicines';
   static final name = 'name';
   static final age = 'age';
   static final gender = 'gender';
@@ -126,6 +128,13 @@ SymptomId varchar(255)
     Database db = await instance.database;
     return Sqflite.firstIntValue(
             await db.rawQuery('SELECT COUNT(*) FROM $table')) ??
+        0;
+  }
+
+  Future<int> queryRowLast(String tablename) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery(
+            'SELECT SymptomId FROM $table2 ORDER BY SymptomId DESC LIMIT 1')) ??
         0;
   }
 

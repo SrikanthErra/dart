@@ -10,11 +10,14 @@ import 'package:side_menu/Reusable/alert_for_medicineData.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
+import 'package:side_menu/Reusable/toast.dart';
+import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
 import 'package:side_menu/modelClasses/medicine_list_provider.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 
+import '../Database/database_helper.dart';
 import '../appColor.dart';
-
+import '../modelClasses/database_modelClass/medicationModel.dart';
 
 class addPrescription extends StatefulWidget {
   const addPrescription({super.key});
@@ -314,10 +317,11 @@ class _addPrescriptionState extends State<addPrescription> {
                     ),
                     ButtonComponent(
                         onPressed: () {
-                          if (_formkey1.currentState!.validate()) {}
-                          if (_formkey2.currentState!.validate()) {}
-                          if (_formkey3.currentState!.validate()) {}
-                          if (_formkey4.currentState!.validate()) {}
+                          if (validateField()) {
+                            SaveData(medicineStateProvider);
+                            showToast("Prescription added Successfully");
+                            Navigator.pop(context);
+                          }
                         },
                         buttonText: 'Submit'),
                   ],
@@ -365,5 +369,67 @@ class _addPrescriptionState extends State<addPrescription> {
         ),
       ),
     );
+  }
+
+  bool validateField() {
+    if (_formkey1.currentState!.validate()) {
+      if (_formkey2.currentState!.validate()) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+    return false;
+  }
+
+  Future<int> SaveData(MedicineListProvider medicineStateProvider) async {
+    final PrescriptionAdded = PrescriptionModel(
+        mobileNumber: "",
+        FamilyMemberName: _famName.text,
+        Symptom: _symptom.text,
+        MedicineName: _medicineName.text,
+        DoctorName: _doctorName.text,
+        HospitalName: _hospitalName.text,
+        DateOfAppointment: _appointment.text,
+        ReasonForAppointment: _reason.text);
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    final saved = await _databaseService.insertInto(
+        PrescriptionAdded.toJson(), DatabaseHelper.table2);
+    print("data saved $saved");
+    //dynamic symptomID = GetSymptomId();
+    final count = await _databaseService.queryRowLast("Symptoms");
+    print("""last Symptoms ID is  $count""");
+    MedicinesDataTable(count, medicineStateProvider);
+    return saved;
+  }
+
+  MedicinesDataTable(
+      int count, MedicineListProvider medicineStateProvider) async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    final MedicineLength = (medicineStateProvider.Medicines.length);
+    print("I am Printing $MedicineLength");
+    for (final medicine in medicineStateProvider.Medicines) {
+      String name = medicine.medicineName;
+      print("I am Printing: $name");
+      //for (var ii; ii < MedicineLength; ii++) {
+      final MedicineTableData = MedicineModel(
+          // MedicineName: medicineStateProvider.Medicines[ii].medicineName,
+          // ExpiryDate: medicineStateProvider.Medicines[ii].ExpiryDate,
+          MedicineName: medicine.medicineName,
+          ExpiryDate: medicine.ExpiryDate,
+          MedicinePhoto: "",
+          SymptomId: count.toString());
+      final saved = await _databaseService.insertInto(
+          MedicineTableData.toJson(), DatabaseHelper.table3);
+      print("data saved $saved");
+      medicineStateProvider.Medicines.clear();
+    }
+  }
+
+  Future<int> GetSymptomId() async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    final count = await _databaseService.queryRowLast("Symptoms");
+    print("""last Symptoms ID is  $count""");
+    return count;
   }
 }
