@@ -89,8 +89,7 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -164,6 +163,13 @@ class _addPrescriptionState extends State<addPrescription> {
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
                               onTap: () {
+                                
+             /*  bool focus = await Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new SecondPage()));
+              if (focus == true|| focus==null){
+
+                  FocusScope.of(context).requestFocus(_node);
+
+              } */
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -181,7 +187,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                               ExpiryDateController,
                                           input_type: TextInputType.text,
                                           obsecuretext: false,
-                                          node: _node,
+                                          //node: _node,
                                           action: TextInputAction.next,
                                           onEditingComplete: () {
                                             _node.nextFocus();
@@ -209,6 +215,7 @@ class _addPrescriptionState extends State<addPrescription> {
                     // color: AppColors.PRIMARY_COLOR_DARK,
                     child: ListView.builder(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: medicineStateProvider.Medicines.length,
                         itemBuilder: ((context, index) {
                           final details =
@@ -405,11 +412,10 @@ class _addPrescriptionState extends State<addPrescription> {
       });
       familyNamesStateProvider.FamilyNames.forEach(
         (element) {
-          print("names are ${element.FamilyMemberName}");
+          famNamesList.add(element.FamilyMemberName);
         },
       );
-      print(
-          'getdetails${familyNamesStateProvider.FamilyNames[0].FamilyMemberName}');
+      print('names are $famNamesList');
     });
   }
 
@@ -474,4 +480,5 @@ class _addPrescriptionState extends State<addPrescription> {
     }
     return false;
   }
+   
 }
