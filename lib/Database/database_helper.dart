@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
-import 'package:side_menu/family_list.dart';
+
 import 'package:side_menu/modelClasses/family_list_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,13 +11,16 @@ class DatabaseHelper {
   static final _databaseVersion = 1;
 
   static final table = 'FamilyList';
+  static final table2 = 'Symptoms';
+  static final table3 = 'Medicines';
   static final name = 'name';
   static final age = 'age';
   static final gender = 'gender';
-  static final mobileNumber = 'mobile number';
+  static final mobileNumber = 'mobilenumber';
   static final id = 'id';
-  static final password = 'password';
   static final mpin = 'mpin';
+
+  static final medicineTable = 'MedicineList';
   // static final tableContact = 'contact';
 
   // make this a singleton class
@@ -57,32 +60,31 @@ name varchar(255),
 age varchar(255),
 gender varchar(255),
 mobileNumber varchar(255),
-password varchar(255)
-mpin varchar(255),
+mpin varchar(255)
 );
           ''');
-    /* await db.execute('''
-          CREATE TABLE FamilyList
+    await db.execute('''CREATE TABLE Symptoms(
+      SymptomId INTEGER PRIMARY KEY AUTOINCREMENT,
+      mobileNumber varchar(255),
+      FamilyMemberName varchar(255),
+      Symptom varchar(255),
+      MedicineName varchar(255),
+      DoctorName varchar(255),
+      HospitalName varchar(255),
+      DateOfAppointment varchar(255),
+      ReasonForAppointment varchar(255)
+          );
+                    ''');
+    await db.execute('''
+          CREATE TABLE Medicines
 (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(255),
-age varchar(255),
-gender varchar(255),
-mobileNumber varchar(255)
+MedicineId INTEGER PRIMARY KEY AUTOINCREMENT,
+MedicineName varchar(255),
+ExpiryDate varchar(255),
+MedicinePhoto varchar(255),
+SymptomId varchar(255)
 );
           ''');
-
-          await db.execute('''
-          CREATE TABLE FamilyList
-(
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name varchar(255),
-age varchar(255),
-gender varchar(255),
-mobileNumber varchar(255)
-);
-          ''');
- */
     // await db.execute(
     //     "CREATE TABLE user (username TEXT NOT NULL,phone TEXT NOT NULL,email TEXT NOT NULL)");
   }
@@ -129,18 +131,53 @@ mobileNumber varchar(255)
         0;
   }
 
+  Future<int> queryRowLast(String tablename) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery(
+            'SELECT SymptomId FROM $table2 ORDER BY SymptomId DESC LIMIT 1')) ??
+        0;
+  }
+
   // Future<String> queryLogin(String username, String pwd, String table) async {
   //   Database db = await instance.database;
   //   return await db
   //           .rawQuery('SELECT * FROM $table) ??
   //       "";
 
-  // }
-  Future<List<Map>> queryLogin(String table) async {
+  // }SELECT COUNT(*) FROM sqlite_schema WHERE type = 'table
+  queryLogin(String table, String mobile) async {
     Database? db = await instance.database;
-    List<Map> list = await db.rawQuery('SELECT * FROM $table');
+    dynamic list = await db.rawQuery(
+        'SELECT COUNT(*) FROM $table WHERE $mobileNumber = ?', ['mobile']);
     return list;
+    /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
+    return res; */
   }
+
+  Future<int> queryRowCountforuser(String table, String mobile) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery(
+            'SELECT COUNT(*) FROM $table WHERE $mobileNumber = ?', [mobile])) ??
+        0;
+  }
+
+  Future<List<Map>> queryRowCountforMpinValidate(
+      String table, String mobile) async {
+    Database db = await instance.database;
+    return await db
+        .rawQuery('SELECT $mpin FROM $table WHERE $mobileNumber = ?', [mobile]);
+  }
+
+/* 
+  Future<List<Map<String, dynamic>>> getUser(
+      String table, String mobilenumber) async {
+    Database? db = await instance.database;
+    print('mobile $mobilenumber');
+    List<Map<String, dynamic>> list = await db
+        .query(table, where: '$mobileNumber = ?', whereArgs: [mobilenumber]);
+    print('list is $list');
+    return list;
+  } */
 
   // List<Map> expectedList = [
   //   {'name': 'updated name', 'id': 1, 'value': 9876, 'num': 456.789},
@@ -195,5 +232,4 @@ mobileNumber varchar(255)
   //Read
   //Update
   //Delete
-
 }

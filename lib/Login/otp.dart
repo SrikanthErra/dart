@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
-import 'package:side_menu/Routes/App_routes.dart';
+import 'package:side_menu/Reusable/button_component.dart';
 
-import 'Reusable/button_component.dart';
 
-class mpinValidate extends StatefulWidget {
-  const mpinValidate({super.key});
+class otp extends StatefulWidget {
+  const otp({super.key});
 
   @override
-  State<mpinValidate> createState() => _mpinValidateState();
+  State<otp> createState() => _otpState();
 }
 
-class _mpinValidateState extends State<mpinValidate> {
+class _otpState extends State<otp> {
   TextEditingController _mpin = TextEditingController();
   TextEditingController _confirm_mpin = TextEditingController();
   FocusScopeNode _node = FocusScopeNode();
@@ -28,7 +27,7 @@ class _mpinValidateState extends State<mpinValidate> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppInputText(
-                  text: 'Validate MPIN',
+                  text: 'OTP',
                   colors: Colors.black,
                   size: 30,
                   weight: FontWeight.bold),
@@ -36,29 +35,29 @@ class _mpinValidateState extends State<mpinValidate> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppInputText(
-                  text: 'Enter 4 digit MPIN',
+                  text: 'Enter 4 digit OTP',
                   colors: Colors.black,
                   size: 15,
                   weight: FontWeight.bold),
             ),
             AppInputTextfield(
-                hintText: 'Enter 4 digit MPIN',
+                hintText: 'Enter OTP',
                 nameController: _mpin,
-                errorMessage: 'please enter MPIN',
+                errorMessage: 'please enter OTP',
                 input_type: TextInputType.number,
                 obsecuretext: false,
                 node: _node,
                 action: TextInputAction.next,
                 onEditingComplete: () {
-                  _node.nextFocus();
-                },
+                        _node.nextFocus();
+                      },
                 globalKey: _formkey1),
-            ButtonComponent(
-                onPressed: () {
-                  if (_formkey1.currentState!.validate()) {}
-                  Navigator.pushNamed(context, AppRoutes.login);
-                },
-                buttonText: 'Validate'),
+                    ButtonComponent(
+                        onPressed: () {
+                          if (_formkey1.currentState!.validate()) {}
+                          
+                        },
+                        buttonText: 'Submit'),
           ],
         ),
       ),

@@ -1,22 +1,25 @@
+import 'dart:ui';
+
 import 'package:flutter/animation.dart';
+import 'package:flutter/cupertino.dart';
 
 class gridListView {
   String? title;
-  Color? color;
+  Image? image;
   String? navigateApproute;
 
-  gridListView({this.title, this.color, this.navigateApproute});
+  gridListView({this.title, this.image, this.navigateApproute});
 
   gridListView.fromJson(Map<String, dynamic> json) {
     title = json['title'];
-    color = json['color'];
+    image = json['icon'];
     navigateApproute = json['NavigateApproute'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
-    data['color'] = this.color;
+    data['image'] = this.image;
     data['NavigateApproute'] = this.navigateApproute;
     return data;
   }

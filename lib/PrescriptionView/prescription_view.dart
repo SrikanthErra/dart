@@ -7,7 +7,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
 
-import 'Reusable/button_component.dart';
 
 class viewPrescription extends StatefulWidget {
   const viewPrescription({super.key});
@@ -42,60 +41,61 @@ class _viewPrescriptionState extends State<viewPrescription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text('Family Member Name'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_bg.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
-              child: Column(
-                children: [
-                  AppInputTextfield(
-                      hintText: 'symptom ',
-                      nameController: _symptom,
-                      errorMessage: 'please enter symptom',
-                      input_type: TextInputType.text,
-                      obsecuretext: false,
-                      node: _node,
-                      action: TextInputAction.next,
-                      onEditingComplete: () {
-                        _node.nextFocus();
-                      },
-                      globalKey: _formkey1),
-                  AppInputTextfield(
-                      hintText: 'Medicine Name',
-                      nameController: _medicineName,
-                      errorMessage: 'please enter medicine name',
-                      input_type: TextInputType.text,
-                      obsecuretext: false,
-                      node: _node,
-                      action: TextInputAction.next,
-                      onEditingComplete: () {
-                        _node.nextFocus();
-                      },
-                      globalKey: _formkey2),
-                  datePickerComponent(
-                      hintText: 'Expiry date',
-                      nameController: _expiryDate,
-                      errorMessage: 'Please enter expiry date',
-                      obsecuretext: false,
-                      node: _node,
-                      action: TextInputAction.next,
-                      onEditingComplete: () {
-                        _node.nextFocus();
-                      },
-                      globalKey: _formkey3),
-                  /*  Container(
-                    width: 100,
-                    height: 100,
-                    child: Image(image: placeholder),
-                  ), */
-                ],
-              ),
+            Column(
+              children: [
+                AppInputTextfield(
+                    hintText: 'symptom ',
+                    nameController: _symptom,
+                    errorMessage: 'please enter symptom',
+                    input_type: TextInputType.text,
+                    obsecuretext: false,
+                    node: _node,
+                    action: TextInputAction.next,
+                    onEditingComplete: () {
+                      _node.nextFocus();
+                    },
+                    globalKey: _formkey1),
+                AppInputTextfield(
+                    hintText: 'Medicine Name',
+                    nameController: _medicineName,
+                    errorMessage: 'please enter medicine name',
+                    input_type: TextInputType.text,
+                    obsecuretext: false,
+                    node: _node,
+                    action: TextInputAction.next,
+                    onEditingComplete: () {
+                      _node.nextFocus();
+                    },
+                    globalKey: _formkey2),
+                datePickerComponent(
+                    hintText: 'Expiry date',
+                    nameController: _expiryDate,
+                    errorMessage: 'Please enter expiry date',
+                    obsecuretext: false,
+                    node: _node,
+                    action: TextInputAction.next,
+                    onEditingComplete: () {
+                      _node.nextFocus();
+                    },
+                    globalKey: _formkey3),
+              ],
             ),
             AppInputTextfield(
               hintText: 'Hospital Name',

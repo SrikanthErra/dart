@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.side_menu">
    <application
-        android:label="side_menu"
+        android:label="Medicine Home Inventory"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

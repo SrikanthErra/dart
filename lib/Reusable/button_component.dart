@@ -14,7 +14,7 @@ class ButtonComponent extends StatelessWidget {
         height: 50,
         child: ElevatedButton(
           onPressed: this.onPressed!,
-          child: Text(buttonText),
+          child: Text(buttonText,style: TextStyle(color: Colors.white),),
         ),
       ),
       padding: EdgeInsets.symmetric(horizontal: 15.0),

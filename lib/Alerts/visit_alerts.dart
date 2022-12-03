@@ -25,11 +25,18 @@ class _visitAlertsState extends State<visitAlerts> {
   String? _expiryDate;
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.transparent,
 
         //resizeToAvoidBottomInset: false,
         appBar: AppBar(title: Text('Alerts'), centerTitle: true),
         body: Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/background_bg.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            //margin: EdgeInsets.symmetric(vertical: 20),
             //  width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: SingleChildScrollView(
@@ -38,7 +45,7 @@ class _visitAlertsState extends State<visitAlerts> {
                 children: [
                   AppInputText(
                       text: 'Next Visit Alerts',
-                      colors: Colors.black,
+                      colors: Colors.white,
                       size: 15,
                       weight: FontWeight.bold),
                   ListView.builder(
@@ -116,7 +123,7 @@ class _visitAlertsState extends State<visitAlerts> {
                   ),
                   AppInputText(
                       text: 'Expiry Alerts',
-                      colors: Colors.black,
+                      colors: Colors.white,
                       size: 15,
                       weight: FontWeight.bold),
                   ListView.builder(
