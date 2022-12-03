@@ -91,7 +91,7 @@ class _registerFamilyState extends State<registerFamily> {
                 },
                 globalKey: _formkey2,
               ),
-              RadioGroup(
+
                   children: [
                     AppInputText(
                         text: 'Male',
@@ -109,16 +109,7 @@ class _registerFamilyState extends State<registerFamily> {
                         size: 15,
                         weight: FontWeight.normal)
                   ],
-                  groupItemsAlignment: GroupItemsAlignment.row,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  internMainAxisAlignment: MainAxisAlignment.start,
 
-                  /// In reality this is not needed
-                  // priority: RadioPriority.textBeforeRadio,
-                  defaultSelectedItem: -1,
-                  onSelectionChanged: (selection) {
-                    print(selection);
-                  }),
               Text(
                 "Select Gender:",
                 textAlign: TextAlign.left,
@@ -217,20 +208,7 @@ class _registerFamilyState extends State<registerFamily> {
                       ),
                     ]),
               ), */
-              AppInputTextfield(
-                hintText: 'Mobile Number',
-                nameController: _mobileNumber,
-                errorMessage: 'please enter Mobile number',
-                input_type: TextInputType.number,
-                obsecuretext: false,
-                action: TextInputAction.next,
-                node: _node,
-                onEditingComplete: () {
-                  _node.nextFocus();
-                },
-                //lengthRequired: 10,
-                globalKey: _formkey3,
-              ),
+
               ButtonComponent(
                   onPressed: () async {
                     if (_formkey1.currentState!.validate() &&

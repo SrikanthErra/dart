@@ -62,6 +62,7 @@ class _mpinPageState extends State<mpinPage> {
                     weight: FontWeight.bold),
               ),
               AppInputTextfield(
+                length: 4,
                   hintText: 'Enter 4 digit MPIN',
                   nameController: _mpin,
                   errorMessage: 'please enter MPIN',
@@ -83,6 +84,7 @@ class _mpinPageState extends State<mpinPage> {
                     weight: FontWeight.bold),
               ),
               AppInputTextfield(
+                length: 4,
                   hintText: 'Confirm 4 digit MPIN',
                   nameController: _confirm_mpin,
                   errorMessage: 'please enter MPIN to confirm',

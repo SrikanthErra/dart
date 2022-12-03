@@ -53,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                       weight: FontWeight.bold),
                 ),
                 AppInputTextfield(
+                  length: 10,
                   hintText: 'Mobile Number',
                   nameController: _mobile,
                   errorMessage: 'Please Enter Mobile Number',
