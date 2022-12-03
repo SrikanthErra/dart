@@ -7,11 +7,10 @@ import 'package:side_menu/Login/otp.dart';
 import 'package:side_menu/Login/registration.dart';
 import 'package:side_menu/PrescriptionView/prescription_view.dart';
 
-
-
 import '../Alerts/visit_alerts.dart';
 import '../FamilyList/family_list.dart';
 import '../FamilyList/prescription_list.dart';
+import '../FamilyList/registerFamily.dart';
 import '../Login/login.dart';
 import 'App_routes.dart';
 
@@ -29,6 +28,8 @@ class AppPages {
       AppRoutes.login: ((context) => LoginPage()),
       AppRoutes.visitAlerts: ((context) => visitAlerts()),
       AppRoutes.registraion: ((context) => registerFamily()),
+      AppRoutes.registerFamilyDashboard: ((context) =>
+          registerFamilyFromDashboard()),
     };
   }
 }

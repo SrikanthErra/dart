@@ -1,3 +1,4 @@
+import 'package:side_menu/Login/registration.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -14,4 +15,5 @@ class AppRoutes {
   static const visitAlerts = "/visitAlerts";
   static const registraion = "/registraion";
   static const dashboardGridview = "/dashboardGridview";
+  static const registerFamilyDashboard = "/registerFamily.dart";
 }

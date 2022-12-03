@@ -28,7 +28,7 @@ class _mpinPageState extends State<mpinPage> {
         ModalRoute.of(context)?.settings.arguments as registrationFamilyModel;
     print(arg.mobile);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
@@ -62,7 +62,7 @@ class _mpinPageState extends State<mpinPage> {
                     weight: FontWeight.bold),
               ),
               AppInputTextfield(
-                length: 4,
+                  length: 4,
                   hintText: 'Enter 4 digit MPIN',
                   nameController: _mpin,
                   errorMessage: 'please enter MPIN',
@@ -84,7 +84,7 @@ class _mpinPageState extends State<mpinPage> {
                     weight: FontWeight.bold),
               ),
               AppInputTextfield(
-                length: 4,
+                  length: 4,
                   hintText: 'Confirm 4 digit MPIN',
                   nameController: _confirm_mpin,
                   errorMessage: 'please enter MPIN to confirm',
