@@ -3,22 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class AppInputTextfield extends StatelessWidget {
-  const AppInputTextfield(
-      {super.key,
-      required this.hintText,
-      required this.nameController,
-      required this.errorMessage,
-      required this.input_type,
-      required this.obsecuretext,
-      required this.node,
-      required this.action,
-      required this.onEditingComplete,
-      this.globalKey,
-      this.prefixIcon,
-      // this.isSecured,
-      // this.isVisible,
-      this.onTap,
-      this.suffixIcon, this.onChanged, this.length,});
+
   final String hintText, errorMessage;
   final TextEditingController nameController;
   final TextInputType input_type;
@@ -30,7 +15,7 @@ class AppInputTextfield extends StatelessWidget {
   final int? length;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
- final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onChanged;
   // final IconData? suffixIcon;
   // final bool? isSecured;
   // final bool? isVisible;
@@ -68,8 +53,12 @@ class AppInputTextfield extends StatelessWidget {
                     )
                   : null, */
               //prefixIcon: Icon(Icons.people),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.white)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.white)),
               labelStyle: TextStyle(
                 color: Colors.white,
                 // color: node.hasFocus?Colors.amber:Colors.blue,

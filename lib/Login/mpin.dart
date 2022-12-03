@@ -42,9 +42,9 @@ class _mpinPageState extends State<mpinPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-               CircleAvatar(
-                    radius: 60,
-                    backgroundImage: AssetImage("assets/appLogo.png")),
+              CircleAvatar(
+                  radius: 60,
+                  backgroundImage: AssetImage("assets/appLogo.png")),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppInputText(
@@ -73,6 +73,7 @@ class _mpinPageState extends State<mpinPage> {
                   onEditingComplete: () {
                     _node.nextFocus();
                   },
+                  //lengthRequired: 4,
                   globalKey: _formkey1),
               Padding(
                 padding: const EdgeInsets.all(5.0),
@@ -94,6 +95,7 @@ class _mpinPageState extends State<mpinPage> {
                   onEditingComplete: () {
                     _node.nextFocus();
                   },
+                  //lengthRequired: 4,
                   globalKey: _formkey2),
               ButtonComponent(
                   onPressed: () async {
@@ -111,7 +113,8 @@ class _mpinPageState extends State<mpinPage> {
                         final saved = await _databaseService.insertInto(
                             registered_famList.toJson(), DatabaseHelper.table);
                         print("data saved $saved");
-                        Navigator.pushNamed(context, AppRoutes.login);
+                        Navigator.pushReplacementNamed(
+                            context, AppRoutes.login);
                       } else {
                         showDialog(
                             context: context,

@@ -12,13 +12,13 @@ import 'package:side_menu/Reusable/app_input_dropdown.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
-import 'package:side_menu/modelClasses/familyNamesModel.dart';
-import 'package:side_menu/modelClasses/family_list_names_provider.dart';
+
 import 'package:side_menu/modelClasses/medicine_list_provider.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 
 import '../Database/database_helper.dart';
 import '../appColor.dart';
+
 
 class addPrescription extends StatefulWidget {
   const addPrescription({super.key});
@@ -323,10 +323,11 @@ class _addPrescriptionState extends State<addPrescription> {
                     ),
                     ButtonComponent(
                         onPressed: () {
-                          if (_formkey1.currentState!.validate()) {}
-                          if (_formkey2.currentState!.validate()) {}
-                          if (_formkey3.currentState!.validate()) {}
-                          if (_formkey4.currentState!.validate()) {}
+                          if (validateField()) {
+                            SaveData(medicineStateProvider);
+                            showToast("Prescription added Successfully");
+                            Navigator.pop(context);
+                          }
                         },
                         buttonText: 'Submit'),
                   ],
@@ -376,33 +377,6 @@ class _addPrescriptionState extends State<addPrescription> {
     );
   }
 
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-// your code goes here
-      fetchNextVisitData();
-    });
-  }
-
-  fetchNextVisitData() async {
-    final familyNamesStateProvider =
-        Provider.of<FamilyListNamesProvider>(context, listen: false);
-    DatabaseHelper _dbInstance = DatabaseHelper.instance;
-    await _dbInstance.queryAllRows('FamilyList').then((value) {
-      value.forEach((element) {
-        print(element);
-        familyNamesStateProvider.addFamilyNamesData(
-            familyNamesDataModel(FamilyMemberName: element['name']));
-      });
-      familyNamesStateProvider.FamilyNames.forEach(
-        (element) {
-          print("names are ${element.FamilyMemberName}");
-        },
-      );
-      print(
-          'getdetails${familyNamesStateProvider.FamilyNames[0].FamilyMemberName}');
-    });
-  }
 }
 
 /*studentsStateProvider.addMedicineData(medicineDataModel(

@@ -69,6 +69,7 @@ class _mpinValidateState extends State<mpinValidate> {
                   onEditingComplete: () {
                     _node.nextFocus();
                   },
+                  //lengthRequired: 4,
                   globalKey: _formkey1),
               ButtonComponent(
                   onPressed: () {
@@ -98,7 +99,7 @@ class _mpinValidateState extends State<mpinValidate> {
     print("data saved ${saved}");
     mpin_value = saved[0];
     if (mpin_value['mpin'] == mpin) {
-      Navigator.pushNamed(context, AppRoutes.dashboardGridview);
+      Navigator.pushReplacementNamed(context, AppRoutes.dashboardGridview);
     } else {
       showAlert('Please Enter Valid MPIN');
     }

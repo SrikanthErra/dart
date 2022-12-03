@@ -91,27 +91,7 @@ class _registerFamilyState extends State<registerFamily> {
                 },
                 globalKey: _formkey2,
               ),
-                AppInputTextfield(
-                  length: 10,
-                hintText: 'Mobile Number',
-                nameController: _mobileNumber,
-                errorMessage: 'please enter Mobile number',
-                input_type: TextInputType.number,
-                obsecuretext: false,
-                action: TextInputAction.next,
-                node: _node,
-                onEditingComplete: () {
-                  _node.nextFocus();
-                },
-                globalKey: _formkey3,
-              ),
-              /* AppInputText(
-                  text: 'Select Gender',
-                  colors: Colors.white,
-                  size: 20,
-                  weight: FontWeight.normal), */
-              /* RadioGroup(
-                  textBeforeRadio: false,
+
                   children: [
                     AppInputText(
                         text: 'Male',
@@ -129,17 +109,7 @@ class _registerFamilyState extends State<registerFamily> {
                         size: 15,
                         weight: FontWeight.normal)
                   ],
-                  groupItemsAlignment: GroupItemsAlignment.row,
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  // internMainAxisAlignment: MainAxisAlignment.start,
-                  /// In reality this is not needed
-                  //priority: RadioPriority.textBeforeRadio,
-                  defaultSelectedItem: -1,
-                  onSelectionChanged: (value) {
-                    setState(() {
-                      gender = value.toString();
-                    });
-                  }), */
+
               Text(
                 "Select Gender:",
                 textAlign: TextAlign.left,
@@ -238,20 +208,21 @@ class _registerFamilyState extends State<registerFamily> {
                       ),
                     ]),
               ), */
-            
+
               ButtonComponent(
                   onPressed: () async {
                     if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
                         _formkey3.currentState!.validate()) {
+                      Navigator.pushReplacementNamed(
+                          context, AppRoutes.mpinPage,
+                          arguments: registrationFamilyModel(
+                              name: _family_name.text,
+                              age: _age.text,
+                              mobile: _mobileNumber.text,
+                              gender: gender));
                       //getDropDownItem();
                     }
-                    Navigator.pushNamed(context, AppRoutes.mpinPage,
-                        arguments: registrationFamilyModel(
-                            name: _family_name.text,
-                            age: _age.text,
-                            mobile: _mobileNumber.text,
-                            gender: gender));
                   },
                   buttonText: 'Submit'),
             ],

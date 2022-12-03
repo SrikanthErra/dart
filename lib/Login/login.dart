@@ -5,7 +5,6 @@ import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Routes/App_routes.dart';
-
 import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
 
 class LoginPage extends StatefulWidget {
@@ -65,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                   onEditingComplete: () {
                     _node.nextFocus();
                   },
+                  //lengthRequired: 10,
                   globalKey: _formkey1,
                 ),
                 /* AppInputTextfield(

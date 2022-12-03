@@ -8,8 +8,6 @@ import 'package:side_menu/modelClasses/prescription_list_model.dart';
 
 import '../Reusable/app_input_text.dart';
 
-
-
 class familyList extends StatefulWidget {
   const familyList({super.key});
 
@@ -36,78 +34,81 @@ class _familyListState extends State<familyList> {
         ),
         //margin: EdgeInsets.symmetric(vertical: 20),
         height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-        AppInputText(
-            text: 'Family List',
-            colors: Colors.white,
-            size: 15,
-            weight: FontWeight.bold),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: famList.length,
-          itemBuilder: (context, index) {
-            final familylist = famList[index];
-            print(familylist);
-            FamilyMemeber = familylist.Name;
-            print(FamilyMemeber);
-            PrescriptionCount = familylist.Count;
-            return Container(
-              child: Card(
-                child: ListTile(
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, AppRoutes.prescriptionList);
-                  },
-                  leading: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: AppInputText(
-                            text: 'Name of Family Member',
-                            colors: Colors.black,
-                            size: 14,
-                            weight: FontWeight.normal),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              AppInputText(
+                  text: 'Family List',
+                  colors: Colors.white,
+                  size: 15,
+                  weight: FontWeight.bold),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: famList.length,
+                itemBuilder: (context, index) {
+                  final familylist = famList[index];
+                  print(familylist);
+                  FamilyMemeber = familylist.Name;
+                  print(FamilyMemeber);
+                  PrescriptionCount = familylist.Count;
+                  return Container(
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(color: Colors.black87, width: 1),
                       ),
-                      Expanded(
-                        child: AppInputText(
-                            text: 'Prescription Count',
-                            colors: Colors.black,
-                            size: 14,
-                            weight: FontWeight.normal),
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Column(
+                          children: [
+                            RowComponent(
+                              "Name of the family Member",
+                              familylist.Name,
+                            ),
+                            RowComponent(
+                              "Prescription Count",
+                              PrescriptionCount,
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: AppInputText(
-                            text: FamilyMemeber ?? "",
-                            //text: familylist.nameOfFamilyMember ?? "",
-                            colors: Colors.black,
-                            size: 14,
-                            weight: FontWeight.normal),
-                      ),
-                      // Expanded(
-                      //   child: AppInputText(
-                      //       text: PrescriptionCount ?? "",
-                      //       colors: Colors.black,
-                      //       size: 14,
-                      //       weight: FontWeight.normal),
-                      // ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
+            ],
+          ),
         ),
-          ],
-        ),
+      ),
+    );
+  }
+
+  RowComponent(var data, var value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              data.toString(),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: Text(
+              value.toString(),
+              style: TextStyle(color: Colors.black, fontSize: 14),
+            ),
+          )
+        ],
       ),
     );
   }

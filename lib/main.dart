@@ -17,20 +17,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-     
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MedicineListProvider()),
-        ChangeNotifierProvider(create: (_) => FamilyListNamesProvider()), 
-      ],
-    child:MaterialApp(
-      title: 'Flutter Demo',
-      initialRoute: AppRoutes.initial,
-      routes: AppPages.routes,
-      theme: ThemeData(
-        primarySwatch: AppColors.navy,
-      ),
-      //home: SideMenu(),
-    ));
+
   }
 }
