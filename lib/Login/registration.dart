@@ -57,7 +57,8 @@ class _registerFamilyState extends State<registerFamily> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                  radius: 50, backgroundImage: AssetImage("assets/appLogo.png")),
+                  radius: 50,
+                  backgroundImage: AssetImage("assets/appLogo.png")),
               AppInputText(
                 text: 'Registration',
                 colors: Colors.white,
@@ -90,21 +91,55 @@ class _registerFamilyState extends State<registerFamily> {
                 },
                 globalKey: _formkey2,
               ),
-              RadioGroup(
-              children: [
-                AppInputText(text: 'Male', colors: Colors.white, size: 15, weight: FontWeight.normal),
-                 AppInputText(text: 'Female', colors: Colors.white, size: 15, weight: FontWeight.normal),
-                  AppInputText(text: 'Others', colors: Colors.white, size: 15, weight: FontWeight.normal)
-              ],
-              groupItemsAlignment: GroupItemsAlignment.row,
-              mainAxisAlignment: MainAxisAlignment.start,
-              internMainAxisAlignment: MainAxisAlignment.start,
-              /// In reality this is not needed
-             // priority: RadioPriority.textBeforeRadio,
-              defaultSelectedItem: -1,
-              onSelectionChanged: (selection) {
-                print(selection);
-              }),
+                AppInputTextfield(
+                  length: 10,
+                hintText: 'Mobile Number',
+                nameController: _mobileNumber,
+                errorMessage: 'please enter Mobile number',
+                input_type: TextInputType.number,
+                obsecuretext: false,
+                action: TextInputAction.next,
+                node: _node,
+                onEditingComplete: () {
+                  _node.nextFocus();
+                },
+                globalKey: _formkey3,
+              ),
+              /* AppInputText(
+                  text: 'Select Gender',
+                  colors: Colors.white,
+                  size: 20,
+                  weight: FontWeight.normal), */
+              /* RadioGroup(
+                  textBeforeRadio: false,
+                  children: [
+                    AppInputText(
+                        text: 'Male',
+                        colors: Colors.white,
+                        size: 15,
+                        weight: FontWeight.normal),
+                    AppInputText(
+                        text: 'Female',
+                        colors: Colors.white,
+                        size: 15,
+                        weight: FontWeight.normal),
+                    AppInputText(
+                        text: 'Others',
+                        colors: Colors.white,
+                        size: 15,
+                        weight: FontWeight.normal)
+                  ],
+                  groupItemsAlignment: GroupItemsAlignment.row,
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  // internMainAxisAlignment: MainAxisAlignment.start,
+                  /// In reality this is not needed
+                  //priority: RadioPriority.textBeforeRadio,
+                  defaultSelectedItem: -1,
+                  onSelectionChanged: (value) {
+                    setState(() {
+                      gender = value.toString();
+                    });
+                  }), */
               Text(
                 "Select Gender:",
                 textAlign: TextAlign.left,
@@ -114,7 +149,7 @@ class _registerFamilyState extends State<registerFamily> {
                     fontWeight: FontWeight.bold),
               ),
               RadioListTile(
-               // contentPadding: EdgeInsets.zero,
+                // contentPadding: EdgeInsets.zero,
                 title: Text(
                   "Male",
                   style: TextStyle(fontSize: 18, color: Colors.white),
@@ -155,7 +190,7 @@ class _registerFamilyState extends State<registerFamily> {
                   });
                 },
               ),
-        
+
               /* Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Row(
@@ -203,19 +238,7 @@ class _registerFamilyState extends State<registerFamily> {
                       ),
                     ]),
               ), */
-              AppInputTextfield(
-                hintText: 'Mobile Number',
-                nameController: _mobileNumber,
-                errorMessage: 'please enter Mobile number',
-                input_type: TextInputType.number,
-                obsecuretext: false,
-                action: TextInputAction.next,
-                node: _node,
-                onEditingComplete: () {
-                  _node.nextFocus();
-                },
-                globalKey: _formkey3,
-              ),
+            
               ButtonComponent(
                   onPressed: () async {
                     if (_formkey1.currentState!.validate() &&

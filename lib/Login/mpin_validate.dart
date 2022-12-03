@@ -58,6 +58,7 @@ class _mpinValidateState extends State<mpinValidate> {
                     weight: FontWeight.bold),
               ),
               AppInputTextfield(
+                length: 4,
                   hintText: 'Enter 4 digit MPIN',
                   nameController: _mpin,
                   errorMessage: 'please enter MPIN',

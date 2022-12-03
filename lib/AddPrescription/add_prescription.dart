@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -7,14 +8,17 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Reusable/alert_for_medicineData.dart';
+import 'package:side_menu/Reusable/app_input_dropdown.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
+import 'package:side_menu/modelClasses/familyNamesModel.dart';
+import 'package:side_menu/modelClasses/family_list_names_provider.dart';
 import 'package:side_menu/modelClasses/medicine_list_provider.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 
+import '../Database/database_helper.dart';
 import '../appColor.dart';
-
 
 class addPrescription extends StatefulWidget {
   const addPrescription({super.key});
@@ -42,7 +46,10 @@ class _addPrescriptionState extends State<addPrescription> {
   final _formkey5 = GlobalKey<FormState>();
   List<PlatformFile> files_list = [];
   FilePickerResult? result;
-  String textt = 'Hello World';
+
+  List<String> famNamesList = [];
+
+  String? selectedValue;
 
   dynamic placeholder = NetworkImage(
       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg');
@@ -50,6 +57,9 @@ class _addPrescriptionState extends State<addPrescription> {
   //File? _image;
   @override
   Widget build(BuildContext context) {
+    //fetchNextVisitData();
+    final familyNamesStateProvider =
+        Provider.of<FamilyListNamesProvider>(context);
     final medicineStateProvider = Provider.of<MedicineListProvider>(context);
     return Scaffold(
       //resizeToAvoidBottomInset: true,
@@ -72,8 +82,7 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -366,4 +375,36 @@ class _addPrescriptionState extends State<addPrescription> {
       ),
     );
   }
+
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+// your code goes here
+      fetchNextVisitData();
+    });
+  }
+
+  fetchNextVisitData() async {
+    final familyNamesStateProvider =
+        Provider.of<FamilyListNamesProvider>(context, listen: false);
+    DatabaseHelper _dbInstance = DatabaseHelper.instance;
+    await _dbInstance.queryAllRows('FamilyList').then((value) {
+      value.forEach((element) {
+        print(element);
+        familyNamesStateProvider.addFamilyNamesData(
+            familyNamesDataModel(FamilyMemberName: element['name']));
+      });
+      familyNamesStateProvider.FamilyNames.forEach(
+        (element) {
+          print("names are ${element.FamilyMemberName}");
+        },
+      );
+      print(
+          'getdetails${familyNamesStateProvider.FamilyNames[0].FamilyMemberName}');
+    });
+  }
 }
+
+/*studentsStateProvider.addMedicineData(medicineDataModel(
+                            medicineName: MedicinenameController.text,
+                            ExpiryDate: ExpiryDateController.text)*/

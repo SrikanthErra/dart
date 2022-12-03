@@ -18,7 +18,7 @@ class AppInputTextfield extends StatelessWidget {
       // this.isSecured,
       // this.isVisible,
       this.onTap,
-      this.suffixIcon, this.onChanged,});
+      this.suffixIcon, this.onChanged, this.length,});
   final String hintText, errorMessage;
   final TextEditingController nameController;
   final TextInputType input_type;
@@ -27,6 +27,7 @@ class AppInputTextfield extends StatelessWidget {
   final TextInputAction action;
   final VoidCallback? onEditingComplete;
   final GlobalKey? globalKey;
+  final int? length;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
  final ValueChanged<String>? onChanged;
@@ -43,6 +44,7 @@ class AppInputTextfield extends StatelessWidget {
         child: Form(
           key: globalKey,
           child: TextFormField(
+            maxLength: length,
             obscureText: obsecuretext,
             textInputAction: action,
             onEditingComplete: onEditingComplete,
