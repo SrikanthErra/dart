@@ -2,8 +2,10 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:side_menu/Dashboard/sidemenuDashboard.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
+import 'package:side_menu/appColor.dart';
 import '../modelClasses/dashboard_gridview_model.dart';
 
 class dashboardGridview extends StatefulWidget {
@@ -24,7 +26,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
           color: Colors.white,
         ),
         title: 'Add Family Member',
-        navigateApproute: AppRoutes.registraion),
+        navigateApproute: AppRoutes.registerFamilyDashboard),
     gridListView(
         image: Image.asset(
           "assets/icons-06.png",
@@ -82,6 +84,8 @@ class _dashboardGridviewState extends State<dashboardGridview> {
     return new WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        backgroundColor: Colors.transparent,
+        drawer: SidemenuDashboard(),
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('Dashboard'),
@@ -122,32 +126,41 @@ class _dashboardGridviewState extends State<dashboardGridview> {
                         Navigator.pushNamed(
                             context, dashboardData.navigateApproute ?? "");
                       },
-                      child: Column(mainAxisSize: MainAxisSize.max, children: [
-                        Expanded(
-                          flex: 2,
-                          child: Material(
-                              borderOnForeground: false,
-                              color: Colors.transparent,
-                              shape: CircleBorder(),
-                              elevation: 3.0,
-                              child: dashboardData.image),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            alignment: Alignment.center,
-                            //padding: EdgeInsets.all(5),
-                            child: Text(
-                              dashboardData.title ?? "",
-                              style: TextStyle(color: Colors.white),
+                      child: Card(
+                        color: AppColors.navy.withOpacity(0.1),
+                        child:
+                            Column(mainAxisSize: MainAxisSize.max, children: [
+                          Expanded(
+                            flex: 2,
+                            child: Material(
+                                //borderOnForeground: false,
+                                color: Colors.transparent,
+                                //shape: CircleBorder(),
+                                //elevation: 3.0,
+                                child: dashboardData.image),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              alignment: Alignment.center,
+                              //padding: EdgeInsets.all(5),
+                              child: Text(
+                                dashboardData.title ?? "",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
-                        ),
-                      ]),
+                        ]),
+                      ),
                     );
                   }),
             ],
           ),
+        ),
+        bottomSheet: Image.asset(
+          "assets/footer.png",
+          width: double.infinity,
+          height: 40,
         ),
       ),
     );

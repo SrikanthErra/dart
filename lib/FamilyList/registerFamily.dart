@@ -1,32 +1,28 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_group_button/flutter_group_button.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/button_component.dart';
+import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
-import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Database/database_helper.dart';
 
-class registerFamily extends StatefulWidget {
-  const registerFamily({super.key});
+class registerFamilyFromDashboard extends StatefulWidget {
+  const registerFamilyFromDashboard({super.key});
 
   @override
-  State<registerFamily> createState() => _registerFamilyState();
+  State<registerFamilyFromDashboard> createState() =>
+      _registerFamilyFromDashboardState();
 }
 
-class _registerFamilyState extends State<registerFamily> {
+class _registerFamilyFromDashboardState
+    extends State<registerFamilyFromDashboard> {
   TextEditingController _family_name = TextEditingController();
   TextEditingController _age = TextEditingController();
   TextEditingController _mobileNumber = TextEditingController();
   FocusScopeNode _node = FocusScopeNode();
-  //List<String> _gender = ["Male", "Female", "Others"];
   String? gender;
-
-  //String holder = '';
   bool value = false;
   String? selectedValue;
   final _formkey1 = GlobalKey<FormState>();
@@ -60,7 +56,7 @@ class _registerFamilyState extends State<registerFamily> {
                   radius: 50,
                   backgroundImage: AssetImage("assets/appLogo.png")),
               AppInputText(
-                text: 'Registration',
+                text: 'Register a family member',
                 colors: Colors.white,
                 size: 30,
                 weight: FontWeight.w600,
@@ -91,83 +87,63 @@ class _registerFamilyState extends State<registerFamily> {
                 },
                 globalKey: _formkey2,
               ),
-              RadioGroup(
-                  children: [
-                    AppInputText(
-                        text: 'Male',
-                        colors: Colors.white,
-                        size: 15,
-                        weight: FontWeight.normal),
-                    AppInputText(
-                        text: 'Female',
-                        colors: Colors.white,
-                        size: 15,
-                        weight: FontWeight.normal),
-                    AppInputText(
-                        text: 'Others',
-                        colors: Colors.white,
-                        size: 15,
-                        weight: FontWeight.normal)
-                  ],
-                  groupItemsAlignment: GroupItemsAlignment.row,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  internMainAxisAlignment: MainAxisAlignment.start,
-
-                  /// In reality this is not needed
-                  // priority: RadioPriority.textBeforeRadio,
-                  defaultSelectedItem: -1,
-                  onSelectionChanged: (selection) {
-                    print(selection);
-                  }),
-              Text(
-                "Select Gender:",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              RadioListTile(
-                // contentPadding: EdgeInsets.zero,
-                title: Text(
-                  "Male",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                value: "male",
-                groupValue: gender,
-                onChanged: (value) {
-                  setState(() {
-                    gender = value.toString();
-                  });
-                },
-              ),
-              RadioListTile(
-                //contentPadding: EdgeInsets.zero,
-                title: Text(
-                  "Female",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                value: "female",
-                groupValue: gender,
-                onChanged: (value) {
-                  setState(() {
-                    gender = value.toString();
-                  });
-                },
-              ),
-              RadioListTile(
-                //contentPadding: EdgeInsets.zero,
-                title: Text(
-                  "Other",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                value: "other",
-                groupValue: gender,
-                onChanged: (value) {
-                  setState(() {
-                    gender = value.toString();
-                  });
-                },
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      "Select Gender:",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  RadioListTile(
+                    // contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      "Male",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    value: "male",
+                    groupValue: gender,
+                    onChanged: (value) {
+                      setState(() {
+                        gender = value.toString();
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    //contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      "Female",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    value: "female",
+                    groupValue: gender,
+                    onChanged: (value) {
+                      setState(() {
+                        gender = value.toString();
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    //contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      "Other",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    value: "other",
+                    groupValue: gender,
+                    onChanged: (value) {
+                      setState(() {
+                        gender = value.toString();
+                      });
+                    },
+                  ),
+                ],
               ),
 
               /* Padding(
@@ -236,13 +212,20 @@ class _registerFamilyState extends State<registerFamily> {
                     if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
                         _formkey3.currentState!.validate()) {
+                      final registered_famList = registrationFamilyModel(
+                          mpin: "-",
+                          age: _age.text,
+                          name: _family_name.text,
+                          gender: gender,
+                          mobile: _mobileNumber.text);
+                      final DatabaseHelper _databaseService =
+                          DatabaseHelper.instance;
+                      final saved = await _databaseService.insertInto(
+                          registered_famList.toJson(), DatabaseHelper.table);
+                      print("data saved $saved");
                       Navigator.pushReplacementNamed(
-                          context, AppRoutes.mpinPage,
-                          arguments: registrationFamilyModel(
-                              name: _family_name.text,
-                              age: _age.text,
-                              mobile: _mobileNumber.text,
-                              gender: gender));
+                          context, AppRoutes.dashboardGridview);
+                      showToast("Family Member Added");
                       //getDropDownItem();
                     }
                   },
