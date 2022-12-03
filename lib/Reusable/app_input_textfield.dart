@@ -37,7 +37,8 @@ class AppInputTextfield extends StatelessWidget {
       this.onTap,
       this.suffixIcon,
       this.onChanged,
-      this.length});
+      this.length,
+       this.autofocus});
   final String hintText, errorMessage;
   final TextEditingController nameController;
   final TextInputType input_type;
@@ -50,7 +51,7 @@ class AppInputTextfield extends StatelessWidget {
   final Widget? suffixIcon;
   final ValueChanged<String>? onChanged;
   final int? length;
-
+  final bool? autofocus;
   final void Function()? onTap;
   Widget build(BuildContext context) {
     return Padding(
@@ -60,6 +61,7 @@ class AppInputTextfield extends StatelessWidget {
         child: Form(
           key: globalKey,
           child: TextFormField(
+            autofocus: autofocus ?? false,
             maxLength: length,
             obscureText: obsecuretext,
             textInputAction: action,
@@ -103,6 +105,7 @@ class AppInputTextfield extends StatelessWidget {
               }
             },
             keyboardType: input_type,
+            
           ),
         ),
       ),

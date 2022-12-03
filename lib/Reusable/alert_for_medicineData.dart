@@ -25,7 +25,7 @@ import 'alert_date_picker.dart';
 import 'alert_textformfield.dart';
 
 class AppShowAlertMedicineData extends StatelessWidget {
-  const AppShowAlertMedicineData({
+   AppShowAlertMedicineData({
     super.key,
     required this.message,
     required this.hintText,
@@ -34,7 +34,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
     required this.ExpiryDateController,
     required this.input_type,
     required this.obsecuretext,
-    required this.node,
+   // required this.node,
     required this.action,
     this.onEditingComplete,
     this.globalKey,
@@ -47,15 +47,18 @@ class AppShowAlertMedicineData extends StatelessWidget {
   final TextEditingController MedicinenameController, ExpiryDateController;
   final TextInputType input_type;
   final bool obsecuretext;
-  final FocusScopeNode node;
+ // final FocusScopeNode node;
+  final FocusScopeNode node = FocusScopeNode();
   final TextInputAction action;
   final VoidCallback? onEditingComplete;
   final GlobalKey? globalKey;
+  
 
   @override
   Widget build(BuildContext context) {
     final _formkey1 = GlobalKey<FormState>();
     final _formkey2 = GlobalKey<FormState>();
+   
     final studentsStateProvider = Provider.of<MedicineListProvider>(context);
     MedicinenameController.text = "";
     ExpiryDateController.text = "";
@@ -179,8 +182,6 @@ class AppShowAlertMedicineData extends StatelessWidget {
       })()),
     );
   }
-
-  
 
  
 }
