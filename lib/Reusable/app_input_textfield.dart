@@ -3,7 +3,41 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class AppInputTextfield extends StatelessWidget {
+  //const AppInputTextfield(
+  // {super.key,
+  // required this.hintText,
+  // required this.nameController,
+  // required this.errorMessage,
+  // required this.input_type,
+  // required this.obsecuretext,
+  // required this.node,
+  // required this.action,
+  // required this.onEditingComplete,
+  // this.globalKey,
+  // this.prefixIcon,
+  // // this.isSecured,
+  // // this.isVisible,
+  // this.onTap,
+  // this.suffixIcon, this.onChanged, this.length,});
 
+  const AppInputTextfield(
+      {super.key,
+      required this.hintText,
+      required this.nameController,
+      required this.errorMessage,
+      required this.input_type,
+      required this.obsecuretext,
+      required this.node,
+      required this.action,
+      required this.onEditingComplete,
+      this.globalKey,
+      this.prefixIcon,
+      // this.isSecured,
+      // this.isVisible,
+      this.onTap,
+      this.suffixIcon,
+      this.onChanged,
+      this.length});
   final String hintText, errorMessage;
   final TextEditingController nameController;
   final TextInputType input_type;
@@ -12,13 +46,10 @@ class AppInputTextfield extends StatelessWidget {
   final TextInputAction action;
   final VoidCallback? onEditingComplete;
   final GlobalKey? globalKey;
-  final int? length;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final ValueChanged<String>? onChanged;
-  // final IconData? suffixIcon;
-  // final bool? isSecured;
-  // final bool? isVisible;
+  final int? length;
 
   final void Function()? onTap;
   Widget build(BuildContext context) {
