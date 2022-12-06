@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
@@ -21,6 +22,7 @@ class _mpinPageState extends State<mpinPage> {
   FocusScopeNode _node = FocusScopeNode();
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
+  late String mpin;
 
   @override
   Widget build(BuildContext context) {
@@ -61,20 +63,30 @@ class _mpinPageState extends State<mpinPage> {
                     size: 15,
                     weight: FontWeight.bold),
               ),
-              AppInputTextfield(
-                  length: 4,
-                  hintText: 'Enter 4 digit MPIN',
-                  nameController: _mpin,
-                  errorMessage: 'please enter MPIN',
-                  input_type: TextInputType.number,
-                  obsecuretext: false,
-                  node: _node,
-                  action: TextInputAction.next,
-                  onEditingComplete: () {
-                    _node.nextFocus();
-                  },
-                  //lengthRequired: 4,
-                  globalKey: _formkey1),
+              PinCodeFields(
+                length: 4,
+                fieldBorderStyle: FieldBorderStyle.square,
+                controller: _mpin,
+                responsive: false,
+                fieldHeight: 40.0,
+                fieldWidth: 40.0,
+                borderWidth: 1.0,
+                activeBorderColor: Colors.grey,
+                activeBackgroundColor: Colors.blue[100],
+                borderRadius: BorderRadius.circular(10.0),
+                keyboardType: TextInputType.number,
+                autoHideKeyboard: false,
+                fieldBackgroundColor: Colors.black12,
+                borderColor: Colors.black38,
+                textStyle: TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                onComplete: (mpinOutput) {
+                  // Your logic with pin code
+                  print(mpinOutput);
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: AppInputText(
@@ -83,46 +95,75 @@ class _mpinPageState extends State<mpinPage> {
                     size: 15,
                     weight: FontWeight.bold),
               ),
-              AppInputTextfield(
-                  length: 4,
-                  hintText: 'Confirm 4 digit MPIN',
-                  nameController: _confirm_mpin,
-                  errorMessage: 'please enter MPIN to confirm',
-                  input_type: TextInputType.number,
-                  obsecuretext: false,
-                  node: _node,
-                  action: TextInputAction.next,
-                  onEditingComplete: () {
-                    _node.nextFocus();
-                  },
-                  //lengthRequired: 4,
-                  globalKey: _formkey2),
+              PinCodeFields(
+                length: 4,
+                fieldBorderStyle: FieldBorderStyle.square,
+                controller: _confirm_mpin,
+                responsive: false,
+                fieldHeight: 40.0,
+                fieldWidth: 40.0,
+                borderWidth: 1.0,
+                activeBorderColor: Colors.grey,
+                activeBackgroundColor: Colors.blue[100],
+                borderRadius: BorderRadius.circular(10.0),
+                keyboardType: TextInputType.number,
+                autoHideKeyboard: false,
+                fieldBackgroundColor: Colors.black12,
+                borderColor: Colors.black38,
+                textStyle: TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                onComplete: (confirm_mpinOutput) {
+                  // Your logic with pin code
+                  print(confirm_mpinOutput);
+                },
+              ),
               ButtonComponent(
                   onPressed: () async {
-                    if (_formkey1.currentState!.validate() &&
-                        _formkey2.currentState!.validate()) {
-                      if (_mpin.text == _confirm_mpin.text) {
-                        final registered_famList = registrationFamilyModel(
-                            mpin: _mpin.text,
-                            age: arg.age,
-                            name: arg.name,
-                            gender: arg.gender,
-                            mobile: arg.mobile);
-                        final DatabaseHelper _databaseService =
-                            DatabaseHelper.instance;
-                        final saved = await _databaseService.insertInto(
-                            registered_famList.toJson(), DatabaseHelper.table);
-                        print("data saved $saved");
-                        Navigator.pushReplacementNamed(
-                            context, AppRoutes.login);
+                    if (_mpin.text.length == 4 && _mpin.text.isNotEmpty) {
+                      if (_confirm_mpin.text.length == 4 &&
+                          _confirm_mpin.text.isNotEmpty) {
+                        if (_mpin.text == _confirm_mpin.text) {
+                          final registered_famList = registrationFamilyModel(
+                              mpin: _mpin.text,
+                              age: arg.age,
+                              name: arg.name,
+                              gender: arg.gender,
+                              mobile: arg.mobile);
+                          final DatabaseHelper _databaseService =
+                              DatabaseHelper.instance;
+                          final saved = await _databaseService.insertInto(
+                              registered_famList.toJson(),
+                              DatabaseHelper.table);
+                          print("data saved $saved");
+                          Navigator.pushReplacementNamed(
+                              context, AppRoutes.login);
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AppShowAlert(
+                                    message:
+                                        "MPINs doesn't match Please Check!!");
+                              });
+                        }
                       } else {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AppShowAlert(
-                                  message: 'Please enter correct MPIN');
+                                  message:
+                                      'Please enter 4 digit to ConfirmMPIN');
                             });
                       }
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AppShowAlert(
+                                message: 'Please enter 4 digit MPIN');
+                          });
                     }
                   },
                   buttonText: 'Proceed'),

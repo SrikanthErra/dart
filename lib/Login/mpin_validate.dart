@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Routes/App_routes.dart';
@@ -57,24 +58,43 @@ class _mpinValidateState extends State<mpinValidate> {
                     size: 15,
                     weight: FontWeight.bold),
               ),
-              AppInputTextfield(
+              PinCodeFields(
                 length: 4,
-                  hintText: 'Enter 4 digit MPIN',
-                  nameController: _mpin,
-                  errorMessage: 'please enter MPIN',
-                  input_type: TextInputType.number,
-                  obsecuretext: false,
-                  node: _node,
-                  action: TextInputAction.next,
-                  onEditingComplete: () {
-                    _node.nextFocus();
-                  },
-                  //lengthRequired: 4,
-                  globalKey: _formkey1),
+                fieldBorderStyle: FieldBorderStyle.square,
+                controller: _mpin,
+                responsive: false,
+                fieldHeight: 40.0,
+                fieldWidth: 40.0,
+                borderWidth: 1.0,
+                activeBorderColor: Colors.grey,
+                activeBackgroundColor: Colors.blue[100],
+                borderRadius: BorderRadius.circular(10.0),
+                keyboardType: TextInputType.number,
+                autoHideKeyboard: false,
+                fieldBackgroundColor: Colors.black12,
+                borderColor: Colors.black38,
+                textStyle: TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                onComplete: (mpinOutput) {
+                  // Your logic with pin code
+                  print(mpinOutput);
+                  //mpin = mpinOutput;
+                },
+              ),
               ButtonComponent(
                   onPressed: () {
-                    if (_formkey1.currentState!.validate()) {}
-                    LoginCall(arg.phoneNumber, _mpin.text);
+                    if (_mpin.text.length == 4 && _mpin.text.isNotEmpty) {
+                      LoginCall(arg.phoneNumber, _mpin.text);
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AppShowAlert(
+                                message: 'Please enter 4 digit MPIN');
+                          });
+                    }
                   },
                   buttonText: 'Validate'),
             ],
