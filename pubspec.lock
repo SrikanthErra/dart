@@ -164,8 +164,7 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_pin_code_fields
-      sha256: c61795c8c893cc2bfd8c3e19b5409ee1f20acbd74d9407efe92235e98ec307b4
-      url: "https://pub.dev"
+      url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
   flutter_plugin_android_lifecycle:
@@ -463,6 +462,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  uuid:
+    dependency: "direct main"
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:
