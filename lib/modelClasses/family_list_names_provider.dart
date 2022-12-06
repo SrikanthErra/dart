@@ -11,6 +11,10 @@ class FamilyListNamesProvider with ChangeNotifier {
     _items.add(familyNamesData);
     notifyListeners();
   }
+ removeFamilyNamesData(familyNamesDataModel familyNamesData) {
+    _items.clear();
+    notifyListeners();
+  }
 
   List<familyNamesDataModel> get FamilyNames {
     return _items;

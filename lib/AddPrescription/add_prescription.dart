@@ -53,11 +53,8 @@ class _addPrescriptionState extends State<addPrescription> {
   final _formkey5 = GlobalKey<FormState>();
   List<PlatformFile> files_list = [];
   FilePickerResult? result;
-
   List<String> famNamesList = [];
-
   String? selectedValue;
-
   dynamic placeholder = NetworkImage(
       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg');
 
@@ -93,18 +90,46 @@ class _addPrescriptionState extends State<addPrescription> {
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
-                        AppInputTextfield(
-                            hintText: 'Family Member Name',
-                            nameController: _famName,
-                            errorMessage: 'please enter family member name',
-                            input_type: TextInputType.text,
-                            obsecuretext: false,
-                            node: _node,
-                            action: TextInputAction.next,
-                            onEditingComplete: () {
-                              _node.nextFocus();
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DropdownButtonFormField<String>(
+                            //focusColor: Colors.white,
+                            dropdownColor: Colors.blueGrey,
+                            decoration: InputDecoration(
+                              labelText: 'Name of a Family member',
+                              labelStyle: TextStyle(color: Colors.white),
+                              hintText: 'Please enter name',
+                              hintStyle: TextStyle(color: Colors.white),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: Colors.white)),
+                            ),
+
+                            value: selectedValue,
+                            items: familyNamesStateProvider.FamilyNames.map(
+                                (item) => DropdownMenuItem<String>(
+                                    value: item.FamilyMemberName,
+                                    child: Text(
+                                      item.FamilyMemberName,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
+                                    ))).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedValue = value as String;
+                              });
                             },
-                            globalKey: _formkey1),
+                            style: TextStyle(color: Colors.white),
+                            // buttonHeight: 40,
+                            //             buttonWidth: 140,
+                            // itemHeight: 40,
+                          ),
+                        ),
                         AppInputTextfield(
                             hintText: 'symptom ',
                             nameController: _symptom,
@@ -163,13 +188,7 @@ class _addPrescriptionState extends State<addPrescription> {
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
                               onTap: () {
-                                
-             /*  bool focus = await Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new SecondPage()));
-              if (focus == true|| focus==null){
-
-                  FocusScope.of(context).requestFocus(_node);
-
-              } */
+                                print('names are $famNamesList');
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -396,27 +415,32 @@ class _addPrescriptionState extends State<addPrescription> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
 // your code goes here
+
       fetchNextVisitData();
     });
   }
 
   fetchNextVisitData() async {
+    
     final familyNamesStateProvider =
         Provider.of<FamilyListNamesProvider>(context, listen: false);
+        if (familyNamesStateProvider.FamilyNames.length == 0){
     DatabaseHelper _dbInstance = DatabaseHelper.instance;
     await _dbInstance.queryAllRows('FamilyList').then((value) {
       value.forEach((element) {
         print(element);
-        familyNamesStateProvider.addFamilyNamesData(
-            familyNamesDataModel(FamilyMemberName: element['name']));
+        familyNamesStateProvider.removeFamilyNamesData;
+        print('get names ${familyNamesStateProvider.FamilyNames.length}');
+         familyNamesStateProvider.addFamilyNamesData(
+              familyNamesDataModel(FamilyMemberName: element['name']));
+        // if (familyNamesStateProvider.FamilyNames.length == 0) {
+        //   familyNamesStateProvider.addFamilyNamesData(
+        //       familyNamesDataModel(FamilyMemberName: element['name']));
+        // }
       });
-      familyNamesStateProvider.FamilyNames.forEach(
-        (element) {
-          famNamesList.add(element.FamilyMemberName);
-        },
-      );
-      print('names are $famNamesList');
+      print('Length is ${famNamesList.length}');
     });
+    }
   }
 
   Future<int> SaveData(MedicineListProvider medicineStateProvider) async {
@@ -480,5 +504,4 @@ class _addPrescriptionState extends State<addPrescription> {
     }
     return false;
   }
-   
 }

@@ -4,7 +4,6 @@ class registrationFamilyModel {
   String? gender;
   String? mobile;
   String? mpin;
-
   registrationFamilyModel({this.name, this.age, this.gender, this.mobile,this.mpin});
 
   registrationFamilyModel.fromJson(Map<String, dynamic> json) {
