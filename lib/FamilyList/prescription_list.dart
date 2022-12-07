@@ -18,7 +18,6 @@ class prescriptionList extends StatefulWidget {
 
 class _prescriptionListState extends State<prescriptionList> {
   List<PrescriptionModel> prescList = [];
-  List<MedicineModel> MedList = [];
   String? DoctorName;
   String? PrescriptionDate;
   String? MedicineName;
@@ -27,151 +26,81 @@ class _prescriptionListState extends State<prescriptionList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        //margin: EdgeInsets.symmetric(vertical: 20),
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-            physics: ScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                AppInputText(
-                    text: 'Family Member Name',
-                    colors: Colors.white,
-                    size: 15,
-                    weight: FontWeight.bold),
-                ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: prescList.length,
-                  itemBuilder: (context, index) {
-                    final prescriptionlist = prescList[index];
-                    DoctorName = prescriptionlist.DoctorName;
-                    PrescriptionDate = prescriptionlist.DateOfAppointment;
-                    Symptoms = prescriptionlist.Symptom;
-                    return Container(
-                      child: GestureDetector(
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(color: Colors.black87, width: 1),
-                          ),
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Column(
-                              children: [
-                                RowComponent(
-                                  "Doctor Name",
-                                  DoctorName,
-                                ),
-                                RowComponent(
-                                  "Prescription Date",
-                                  PrescriptionDate,
-                                ),
-
-                                RowComponent(
-                                  "Symptoms",
-                                  Symptoms,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, AppRoutes.MedicineListView);
-                        },
-                      ),
-                      /*  child: Card(
-                    // margin: EdgeInsets.symmetric(horizontal: 50,vertical: 20),
-                    child: ListTile(
-                      leading: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: AppInputText(
-                                text: 'Doctor Name',
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                          Expanded(
-                            child: AppInputText(
-                                text: 'Prescription Date',
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                          Expanded(
-                            child: AppInputText(
-                                text: 'Medicine Name',
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                          Expanded(
-                            child: AppInputText(
-                                text: 'Symptoms',
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                        ],
-                      ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: AppInputText(
-                                text: DoctorName ?? "",
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                          Expanded(
-                            child: AppInputText(
-                                text: PrescriptionDate ?? "",
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                          Expanded(
-                            child: AppInputText(
-                                text: MedicineName ?? "",
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          ),
-                          Expanded(
-                            child: AppInputText(
-                                text: Symptoms ?? "",
-                                colors: Colors.black,
-                                size: 14,
-                                weight: FontWeight.normal),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                 */
-                    );
-                  },
+      body: prescList.isEmpty
+          ? Center(
+              child: Text('No Data Added.....:('),
+            )
+          : Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/background_bg.png"),
+                  fit: BoxFit.cover,
                 ),
-              ],
-            )),
-
+              ),
+              //margin: EdgeInsets.symmetric(vertical: 20),
+              height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
+                physics: ScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    AppInputText(
+                        text: 'Family Member Name',
+                        colors: Colors.white,
+                        size: 15,
+                        weight: FontWeight.bold),
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: prescList.length,
+                      itemBuilder: (context, index) {
+                        final prescriptionlist = prescList[index];
+                        DoctorName = prescriptionlist.DoctorName;
+                        PrescriptionDate = prescriptionlist.DateOfAppointment;
+                        Symptoms = prescriptionlist.Symptom;
+                        return Container(
+                          child: GestureDetector(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side:
+                                    BorderSide(color: Colors.black87, width: 1),
                               ),
-                 );
-             
+                              color: Colors.white,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Column(
+                                  children: [
+                                    RowComponent(
+                                      "Doctor Name",
+                                      DoctorName,
+                                    ),
+                                    RowComponent(
+                                      "Prescription Date",
+                                      PrescriptionDate,
+                                    ),
+                                    RowComponent(
+                                      "Symptoms",
+                                      Symptoms,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, AppRoutes.MedicineListView);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
   }
 
   RowComponent(var data, var value) {
@@ -210,7 +139,6 @@ class _prescriptionListState extends State<prescriptionList> {
           prescList.add(
             PrescriptionModel(
               Symptom: element["Symptom"],
-              FamilyMemberId: element['FamilyMemberId'],
               DoctorName: element["DoctorName"],
               HospitalName: element["HospitalName"],
               DateOfAppointment: element["DateOfAppointment"],
