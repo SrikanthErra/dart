@@ -111,6 +111,7 @@ class _MedicineListState extends State<MedicineList> {
           MedList.add(
             MedicineModel(
               MedicineName: element["MedicineName"],
+              SymptomId: element["SymptomId"],
             ),
           );
         });
