@@ -60,8 +60,7 @@ name varchar(255),
 age varchar(255),
 gender varchar(255),
 mobileNumber varchar(255),
-mpin varchar(255),
-userId varchar(255)
+mpin varchar(255)
 );
           ''');
     await db.execute('''CREATE TABLE Symptoms(

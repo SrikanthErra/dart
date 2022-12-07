@@ -10,7 +10,6 @@ import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Database/database_helper.dart';
-import 'package:uuid/uuid.dart';
 
 class registerFamily extends StatefulWidget {
   const registerFamily({super.key});
@@ -170,54 +169,6 @@ class _registerFamilyState extends State<registerFamily> {
                   });
                 },
               ),
-
-              /* Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppInputText(
-                          text: 'Select Gender',
-                          colors: Colors.white,
-                          size: 20,
-                          weight: FontWeight.normal),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          alignment: Alignment.centerLeft,
-                          hint: Text(
-                            'Select Gender',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                            ),
-                          ),
-                          items: _gender
-                              .map((item) => DropdownMenuItem<String>(
-                                    value: item,
-                                    
-                                    child: Text(
-                                      item,
-                                      
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ))
-                              .toList(),
-                          value: selectedValue,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue = value as String;
-                            });
-                          },
-                          buttonHeight: 40,
-                          buttonWidth: 140,
-                          itemHeight: 40,
-                        ),
-                      ),
-                    ]),
-              ), */
               AppInputTextfield(
                 hintText: 'Mobile Number',
                 nameController: _mobileNumber,
