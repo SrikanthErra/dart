@@ -449,22 +449,21 @@ class _addPrescriptionState extends State<addPrescription> {
           print(element);
           familyNamesStateProvider.removeFamilyNamesData;
           print('get names ${familyNamesStateProvider.FamilyNames.length}');
- AddPrescription&Mpin
+ 
           familyNamesStateProvider.addFamilyNamesData(
               familyNamesDataModel(FamilyMemberName: element['name']));
-=======
+
           familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
               FamilyMemberName: element['name'],
-              FamilyMemberId: element['id'])); menuBar
+              FamilyMemberId: element['id'])); 
           // if (familyNamesStateProvider.FamilyNames.length == 0) {
           //   familyNamesStateProvider.addFamilyNamesData(
           //       familyNamesDataModel(FamilyMemberName: element['name']));
           // }
- AddPrescription&Mpin
-=======
+ 
           /*  print(
               'Id is ${familyNamesStateProvider.FamilyNames[0].FamilyMemberId}'); */
- menuBar
+
         });
         print('Length is ${famNamesList.length}');
       });
