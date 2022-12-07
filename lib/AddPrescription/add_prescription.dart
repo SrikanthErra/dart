@@ -86,7 +86,8 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -421,25 +422,24 @@ class _addPrescriptionState extends State<addPrescription> {
   }
 
   fetchNextVisitData() async {
-    
     final familyNamesStateProvider =
         Provider.of<FamilyListNamesProvider>(context, listen: false);
-        if (familyNamesStateProvider.FamilyNames.length == 0){
-    DatabaseHelper _dbInstance = DatabaseHelper.instance;
-    await _dbInstance.queryAllRows('FamilyList').then((value) {
-      value.forEach((element) {
-        print(element);
-        familyNamesStateProvider.removeFamilyNamesData;
-        print('get names ${familyNamesStateProvider.FamilyNames.length}');
-         familyNamesStateProvider.addFamilyNamesData(
+    if (familyNamesStateProvider.FamilyNames.length == 0) {
+      DatabaseHelper _dbInstance = DatabaseHelper.instance;
+      await _dbInstance.queryAllRows('FamilyList').then((value) {
+        value.forEach((element) {
+          print(element);
+          familyNamesStateProvider.removeFamilyNamesData;
+          print('get names ${familyNamesStateProvider.FamilyNames.length}');
+          familyNamesStateProvider.addFamilyNamesData(
               familyNamesDataModel(FamilyMemberName: element['name']));
-        // if (familyNamesStateProvider.FamilyNames.length == 0) {
-        //   familyNamesStateProvider.addFamilyNamesData(
-        //       familyNamesDataModel(FamilyMemberName: element['name']));
-        // }
+          // if (familyNamesStateProvider.FamilyNames.length == 0) {
+          //   familyNamesStateProvider.addFamilyNamesData(
+          //       familyNamesDataModel(FamilyMemberName: element['name']));
+          // }
+        });
+        print('Length is ${famNamesList.length}');
       });
-      print('Length is ${famNamesList.length}');
-    });
     }
   }
 
@@ -483,25 +483,21 @@ class _addPrescriptionState extends State<addPrescription> {
       final saved = await _databaseService.insertInto(
           MedicineTableData.toJson(), DatabaseHelper.table3);
       print("data saved $saved");
-      medicineStateProvider.Medicines.clear();
     }
-
-    Future<int> GetSymptomId() async {
+    medicineStateProvider.Medicines.clear();
+    /* Future<int> GetSymptomId() async {
       final DatabaseHelper _databaseService = DatabaseHelper.instance;
       final count = await _databaseService.queryRowLast("Symptoms");
       print("""last Symptoms ID is  $count""");
       return count;
-    }
+    } */
   }
 
   bool validateField() {
-    if (_formkey1.currentState!.validate()) {
-      if (_formkey2.currentState!.validate()) {
-        return true;
-      }
+    if (_formkey2.currentState!.validate()) {
+      return true;
     } else {
       return false;
     }
-    return false;
   }
 }

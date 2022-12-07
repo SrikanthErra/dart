@@ -21,6 +21,7 @@ class _mpinValidateState extends State<mpinValidate> {
   TextEditingController _confirm_mpin = TextEditingController();
   FocusScopeNode _node = FocusScopeNode();
   final _formkey1 = GlobalKey<FormState>();
+  late String mpin;
   Map mpin_value = {};
   @override
   Widget build(BuildContext context) {
@@ -80,12 +81,12 @@ class _mpinValidateState extends State<mpinValidate> {
                 onComplete: (mpinOutput) {
                   // Your logic with pin code
                   print(mpinOutput);
-                  //mpin = mpinOutput;
+                  _mpin.text = mpinOutput;
                 },
               ),
               ButtonComponent(
                   onPressed: () {
-                    if (_mpin.text.length == 4 && _mpin.text.isNotEmpty) {
+                    if (_mpin.text.isNotEmpty && _mpin.text.length == 4) {
                       LoginCall(arg.phoneNumber, _mpin.text);
                     } else {
                       showDialog(
