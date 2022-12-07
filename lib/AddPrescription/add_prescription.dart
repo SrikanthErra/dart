@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -55,6 +56,7 @@ class _addPrescriptionState extends State<addPrescription> {
   FilePickerResult? result;
   List<String> famNamesList = [];
   String? selectedValue;
+  int? selectedId;
   dynamic placeholder = NetworkImage(
       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg');
 
@@ -109,6 +111,7 @@ class _addPrescriptionState extends State<addPrescription> {
                             ),
 
                             value: selectedValue,
+
                             items: familyNamesStateProvider.FamilyNames.map(
                                 (item) => DropdownMenuItem<String>(
                                     value: item.FamilyMemberName,
@@ -119,10 +122,25 @@ class _addPrescriptionState extends State<addPrescription> {
                                         fontSize: 14,
                                       ),
                                     ))).toList(),
-                            onChanged: (value) {
+                            onChanged: ( value) {
+                              //familyNamesStateProvider.FamilyNames[0].FamilyMemberId
+                              //selectedId = familyNamesStateProvider.FamilyNames.indexOf();
+                              // selectedId =
+                              // selectedId = familInfoToMap.indexOf(selectedUser);
+                              //print('Id is $selectedId');
                               setState(() {
                                 selectedValue = value as String;
+                                //selectedId = value.indexOf(selectedValue ?? '');
+
+                                //selectedId = selectedValue.indexOf(value);
                               });
+                              /*  selectedId =
+                                  famNamesList.indexOf(selectedValue ?? '') */
+                              ;
+                              print('Id is $selectedId');
+                              print(familyNamesStateProvider.FamilyNames.map(
+                                  (e) => e.FamilyMemberId));
+                            //  print({'${selectedValue!.FamilyMemberId}'});
                             },
                             style: TextStyle(color: Colors.white),
                             // buttonHeight: 40,
@@ -421,25 +439,27 @@ class _addPrescriptionState extends State<addPrescription> {
   }
 
   fetchNextVisitData() async {
-    
     final familyNamesStateProvider =
         Provider.of<FamilyListNamesProvider>(context, listen: false);
-        if (familyNamesStateProvider.FamilyNames.length == 0){
-    DatabaseHelper _dbInstance = DatabaseHelper.instance;
-    await _dbInstance.queryAllRows('FamilyList').then((value) {
-      value.forEach((element) {
-        print(element);
-        familyNamesStateProvider.removeFamilyNamesData;
-        print('get names ${familyNamesStateProvider.FamilyNames.length}');
-         familyNamesStateProvider.addFamilyNamesData(
-              familyNamesDataModel(FamilyMemberName: element['name']));
-        // if (familyNamesStateProvider.FamilyNames.length == 0) {
-        //   familyNamesStateProvider.addFamilyNamesData(
-        //       familyNamesDataModel(FamilyMemberName: element['name']));
-        // }
+    if (familyNamesStateProvider.FamilyNames.length == 0) {
+      DatabaseHelper _dbInstance = DatabaseHelper.instance;
+      await _dbInstance.queryAllRows('FamilyList').then((value) {
+        value.forEach((element) {
+          print(element);
+          familyNamesStateProvider.removeFamilyNamesData;
+          print('get names ${familyNamesStateProvider.FamilyNames.length}');
+          familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
+              FamilyMemberName: element['name'],
+              FamilyMemberId: element['id']));
+          // if (familyNamesStateProvider.FamilyNames.length == 0) {
+          //   familyNamesStateProvider.addFamilyNamesData(
+          //       familyNamesDataModel(FamilyMemberName: element['name']));
+          // }
+          /*  print(
+              'Id is ${familyNamesStateProvider.FamilyNames[0].FamilyMemberId}'); */
+        });
+        print('Length is ${famNamesList.length}');
       });
-      print('Length is ${famNamesList.length}');
-    });
     }
   }
 
