@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -55,6 +56,7 @@ class _addPrescriptionState extends State<addPrescription> {
   FilePickerResult? result;
   List<String> famNamesList = [];
   String? selectedValue;
+  int? selectedId;
   dynamic placeholder = NetworkImage(
       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg');
 
@@ -110,6 +112,7 @@ class _addPrescriptionState extends State<addPrescription> {
                             ),
 
                             value: selectedValue,
+
                             items: familyNamesStateProvider.FamilyNames.map(
                                 (item) => DropdownMenuItem<String>(
                                     value: item.FamilyMemberName,
@@ -120,10 +123,25 @@ class _addPrescriptionState extends State<addPrescription> {
                                         fontSize: 14,
                                       ),
                                     ))).toList(),
-                            onChanged: (value) {
+                            onChanged: ( value) {
+                              //familyNamesStateProvider.FamilyNames[0].FamilyMemberId
+                              //selectedId = familyNamesStateProvider.FamilyNames.indexOf();
+                              // selectedId =
+                              // selectedId = familInfoToMap.indexOf(selectedUser);
+                              //print('Id is $selectedId');
                               setState(() {
                                 selectedValue = value as String;
+                                //selectedId = value.indexOf(selectedValue ?? '');
+
+                                //selectedId = selectedValue.indexOf(value);
                               });
+                              /*  selectedId =
+                                  famNamesList.indexOf(selectedValue ?? '') */
+                              ;
+                              print('Id is $selectedId');
+                              print(familyNamesStateProvider.FamilyNames.map(
+                                  (e) => e.FamilyMemberId));
+                            //  print({'${selectedValue!.FamilyMemberId}'});
                             },
                             style: TextStyle(color: Colors.white),
                             // buttonHeight: 40,
@@ -431,12 +449,22 @@ class _addPrescriptionState extends State<addPrescription> {
           print(element);
           familyNamesStateProvider.removeFamilyNamesData;
           print('get names ${familyNamesStateProvider.FamilyNames.length}');
+ AddPrescription&Mpin
           familyNamesStateProvider.addFamilyNamesData(
               familyNamesDataModel(FamilyMemberName: element['name']));
+=======
+          familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
+              FamilyMemberName: element['name'],
+              FamilyMemberId: element['id'])); menuBar
           // if (familyNamesStateProvider.FamilyNames.length == 0) {
           //   familyNamesStateProvider.addFamilyNamesData(
           //       familyNamesDataModel(FamilyMemberName: element['name']));
           // }
+ AddPrescription&Mpin
+=======
+          /*  print(
+              'Id is ${familyNamesStateProvider.FamilyNames[0].FamilyMemberId}'); */
+ menuBar
         });
         print('Length is ${famNamesList.length}');
       });

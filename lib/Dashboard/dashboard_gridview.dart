@@ -165,4 +165,10 @@ class _dashboardGridviewState extends State<dashboardGridview> {
       ),
     );
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {});
+  }
 }

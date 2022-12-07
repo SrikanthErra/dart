@@ -22,7 +22,7 @@ class _familyListState extends State<familyList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      //resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
       body: Container(
@@ -35,6 +35,7 @@ class _familyListState extends State<familyList> {
         //margin: EdgeInsets.symmetric(vertical: 20),
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
+          physics: ScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -44,6 +45,7 @@ class _familyListState extends State<familyList> {
                   size: 15,
                   weight: FontWeight.bold),
               ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: famList.length,
                 itemBuilder: (context, index) {
@@ -53,25 +55,31 @@ class _familyListState extends State<familyList> {
                   print(FamilyMemeber);
                   PrescriptionCount = familylist.Count;
                   return Container(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Colors.black87, width: 1),
-                      ),
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Column(
-                          children: [
-                            RowComponent(
-                              "Name of the family Member",
-                              familylist.Name,
-                            ),
-                            RowComponent(
-                              "Prescription Count",
-                              PrescriptionCount,
-                            ),
-                          ],
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, AppRoutes.prescriptionList);
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: Colors.black87, width: 1),
+                        ),
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Column(
+                            children: [
+                              RowComponent(
+                                "Name of the family Member",
+                                familylist.Name,
+                              ),
+                              RowComponent(
+                                "Prescription Count",
+                                PrescriptionCount,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

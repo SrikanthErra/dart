@@ -7,7 +7,6 @@ import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 import 'package:side_menu/Database/database_helper.dart';
-import 'package:uuid/uuid.dart';
 class registerFamilyFromDashboard extends StatefulWidget {
   const registerFamilyFromDashboard({super.key});
 
@@ -18,10 +17,10 @@ class registerFamilyFromDashboard extends StatefulWidget {
 
 class _registerFamilyFromDashboardState
     extends State<registerFamilyFromDashboard> {
-  TextEditingController _family_name = TextEditingController();
-  TextEditingController _age = TextEditingController();
-  TextEditingController _mobileNumber = TextEditingController();
-  FocusScopeNode _node = FocusScopeNode();
+  TextEditingController family_name = TextEditingController();
+  TextEditingController age = TextEditingController();
+  TextEditingController mobileNumber = TextEditingController();
+  FocusScopeNode node = FocusScopeNode();
   String? gender;
   bool value = false;
   String? selectedValue;
@@ -63,27 +62,27 @@ class _registerFamilyFromDashboardState
               ),
               AppInputTextfield(
                 hintText: 'Name of family Member',
-                nameController: _family_name,
+                nameController: family_name,
                 errorMessage: 'please enter name',
                 input_type: TextInputType.text,
                 obsecuretext: false,
                 action: TextInputAction.next,
-                node: _node,
+                node: node,
                 onEditingComplete: () {
-                  _node.nextFocus();
+                  node.nextFocus();
                 },
                 globalKey: _formkey1,
               ),
               AppInputTextfield(
                 hintText: 'Age',
-                nameController: _age,
+                nameController: age,
                 errorMessage: 'please enter age',
                 input_type: TextInputType.number,
                 obsecuretext: false,
                 action: TextInputAction.next,
-                node: _node,
+                node: node,
                 onEditingComplete: () {
-                  _node.nextFocus();
+                  node.nextFocus();
                 },
                 globalKey: _formkey2,
               ),
@@ -147,14 +146,14 @@ class _registerFamilyFromDashboardState
               ),
               AppInputTextfield(
                 hintText: 'Mobile Number',
-                nameController: _mobileNumber,
+                nameController: mobileNumber,
                 errorMessage: 'please enter Mobile number',
                 input_type: TextInputType.number,
                 obsecuretext: false,
                 action: TextInputAction.next,
-                node: _node,
+                node: node,
                 onEditingComplete: () {
-                  _node.nextFocus();
+                  node.nextFocus();
                 },
                 length: 10,
                 //lengthRequired: 10,
@@ -167,10 +166,10 @@ class _registerFamilyFromDashboardState
                         _formkey3.currentState!.validate()) {
                       final registered_famList = registrationFamilyModel(
                           mpin: "-",
-                          age: _age.text,
-                          name: _family_name.text,
+                          age: age.text,
+                          name: family_name.text,
                           gender: gender,
-                          mobile: _mobileNumber.text);
+                          mobile: mobileNumber.text);
                       final DatabaseHelper _databaseService =
                           DatabaseHelper.instance;
                       final saved = await _databaseService.insertInto(
@@ -193,7 +192,7 @@ class _registerFamilyFromDashboardState
   @override
   void dispose() {
     // TODO: implement dispose
-    _node.dispose();
+    node.dispose();
     super.dispose();
   }
 }
