@@ -111,6 +111,13 @@ class _addPrescriptionState extends State<addPrescription> {
                                       ),
                                     ))).toList(),
                             onChanged: (value) {
+
+                              //familyNamesStateProvider.FamilyNames[0].FamilyMemberId
+                              //selectedId = familyNamesStateProvider.FamilyNames.indexOf();
+                              // selectedId =
+                              // selectedId = familInfoToMap.indexOf(selectedUser);
+                              //print('Id is $selectedId');
+
                               getId(String name) async {
                                 final DatabaseHelper _databaseService =
                                     DatabaseHelper.instance;
@@ -133,6 +140,15 @@ class _addPrescriptionState extends State<addPrescription> {
                               int.parse(data[index]['emp_id']) */
                                 //selectedId = selectedValue.indexOf(value);
                               });
+
+                              /*  selectedId =
+                                  famNamesList.indexOf(selectedValue ?? '') */
+                              ;
+                              print('Id is $selectedId');
+                              print(familyNamesStateProvider.FamilyNames.map(
+                                  (e) => e.FamilyMemberId));
+                              //  print({'${selectedValue!.FamilyMemberId}'});
+
                             },
                             style: TextStyle(color: Colors.white),
                             // buttonHeight: 40,
@@ -373,9 +389,26 @@ class _addPrescriptionState extends State<addPrescription> {
           print(element);
           familyNamesStateProvider.removeFamilyNamesData;
           print('get names ${familyNamesStateProvider.FamilyNames.length}');
+
+
+          /*  familyNamesStateProvider.addFamilyNamesData(
+              familyNamesDataModel(FamilyMemberName: element['name'])); */
+
           familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
               FamilyMemberName: element['name'],
               FamilyMemberId: element['id']));
+          // if (familyNamesStateProvider.FamilyNames.length == 0) {
+          //   familyNamesStateProvider.addFamilyNamesData(
+          //       familyNamesDataModel(FamilyMemberName: element['name']));
+          // }
+
+          /*  print(
+              'Id is ${familyNamesStateProvider.FamilyNames[0].FamilyMemberId}'); */
+
+          familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
+              FamilyMemberName: element['name'],
+              FamilyMemberId: element['id']));
+
         });
         print('Length is ${famNamesList.length}');
       });
@@ -394,6 +427,9 @@ class _addPrescriptionState extends State<addPrescription> {
     final saved = await _databaseService.insertInto(
         PrescriptionAdded.toJson(), DatabaseHelper.table2);
     print("data saved $saved");
+    final SymptomEntries =
+        await _databaseService.queryAllRows(DatabaseHelper.table2);
+    print("Entries in Symptoms Table $SymptomEntries");
     //dynamic symptomID = GetSymptomId();
     final count = await _databaseService.queryRowLast("Symptoms");
     print("""last Symptoms ID is  $count""");
@@ -420,6 +456,9 @@ class _addPrescriptionState extends State<addPrescription> {
       final saved = await _databaseService.insertInto(
           MedicineTableData.toJson(), DatabaseHelper.table3);
       print("data saved $saved");
+      final MedicineEntries =
+          await _databaseService.queryAllRows(DatabaseHelper.table3);
+      print("Entries in Medicine Table $MedicineEntries");
     }
     medicineStateProvider.Medicines.clear();
     /* Future<int> GetSymptomId() async {

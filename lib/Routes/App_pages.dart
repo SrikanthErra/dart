@@ -9,6 +9,7 @@ import 'package:side_menu/PrescriptionView/prescription_view.dart';
 
 import '../Alerts/visit_alerts.dart';
 import '../FamilyList/family_list.dart';
+import '../FamilyList/medicinesView.dart';
 import '../FamilyList/prescription_list.dart';
 import '../FamilyList/registerFamily.dart';
 import '../Login/login.dart';
@@ -30,6 +31,7 @@ class AppPages {
       AppRoutes.registraion: ((context) => registerFamily()),
       AppRoutes.registerFamilyDashboard: ((context) =>
           registerFamilyFromDashboard()),
+      AppRoutes.MedicineListView: ((context) => MedicineList()),
     };
   }
 }

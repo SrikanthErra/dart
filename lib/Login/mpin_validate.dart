@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
@@ -120,7 +121,10 @@ class _mpinValidateState extends State<mpinValidate> {
     print("data saved ${saved}");
     mpin_value = saved[0];
     if (mpin_value['mpin'] == mpin) {
+      await EasyLoading.show(
+          status: "Loading...", maskType: EasyLoadingMaskType.black);
       Navigator.pushReplacementNamed(context, AppRoutes.dashboardGridview);
+      EasyLoading.dismiss();
     } else {
       showAlert('Please Enter Valid MPIN');
     }
