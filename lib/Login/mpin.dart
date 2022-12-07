@@ -22,7 +22,7 @@ class _mpinPageState extends State<mpinPage> {
   FocusScopeNode _node = FocusScopeNode();
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
-  late String mpin;
+  late String mpin, confirmMpin;
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +85,7 @@ class _mpinPageState extends State<mpinPage> {
                 onComplete: (mpinOutput) {
                   // Your logic with pin code
                   print(mpinOutput);
+                  _mpin.text = mpinOutput;
                 },
               ),
               Padding(
@@ -117,6 +118,7 @@ class _mpinPageState extends State<mpinPage> {
                 onComplete: (confirm_mpinOutput) {
                   // Your logic with pin code
                   print(confirm_mpinOutput);
+                  _confirm_mpin.text = confirm_mpinOutput;
                 },
               ),
               ButtonComponent(
@@ -145,7 +147,7 @@ class _mpinPageState extends State<mpinPage> {
                               builder: (BuildContext context) {
                                 return AppShowAlert(
                                     message:
-                                        "MPINs doesn't match Please Check!!");
+                                        "MPINs doesn't match Please Check..!!");
                               });
                         }
                       } else {
@@ -154,7 +156,7 @@ class _mpinPageState extends State<mpinPage> {
                             builder: (BuildContext context) {
                               return AppShowAlert(
                                   message:
-                                      'Please enter 4 digit to ConfirmMPIN');
+                                      "Please Enter above MPIN correctly to confirm");
                             });
                       }
                     } else {
@@ -162,7 +164,7 @@ class _mpinPageState extends State<mpinPage> {
                           context: context,
                           builder: (BuildContext context) {
                             return AppShowAlert(
-                                message: 'Please enter 4 digit MPIN');
+                                message: "Please Enter 4 digit MPIN");
                           });
                     }
                   },

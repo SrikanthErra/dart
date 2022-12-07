@@ -88,7 +88,8 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -448,15 +449,22 @@ class _addPrescriptionState extends State<addPrescription> {
           print(element);
           familyNamesStateProvider.removeFamilyNamesData;
           print('get names ${familyNamesStateProvider.FamilyNames.length}');
+ AddPrescription&Mpin
+          familyNamesStateProvider.addFamilyNamesData(
+              familyNamesDataModel(FamilyMemberName: element['name']));
+=======
           familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
               FamilyMemberName: element['name'],
-              FamilyMemberId: element['id']));
+              FamilyMemberId: element['id'])); menuBar
           // if (familyNamesStateProvider.FamilyNames.length == 0) {
           //   familyNamesStateProvider.addFamilyNamesData(
           //       familyNamesDataModel(FamilyMemberName: element['name']));
           // }
+ AddPrescription&Mpin
+=======
           /*  print(
               'Id is ${familyNamesStateProvider.FamilyNames[0].FamilyMemberId}'); */
+ menuBar
         });
         print('Length is ${famNamesList.length}');
       });
@@ -503,25 +511,21 @@ class _addPrescriptionState extends State<addPrescription> {
       final saved = await _databaseService.insertInto(
           MedicineTableData.toJson(), DatabaseHelper.table3);
       print("data saved $saved");
-      medicineStateProvider.Medicines.clear();
     }
-
-    Future<int> GetSymptomId() async {
+    medicineStateProvider.Medicines.clear();
+    /* Future<int> GetSymptomId() async {
       final DatabaseHelper _databaseService = DatabaseHelper.instance;
       final count = await _databaseService.queryRowLast("Symptoms");
       print("""last Symptoms ID is  $count""");
       return count;
-    }
+    } */
   }
 
   bool validateField() {
-    if (_formkey1.currentState!.validate()) {
-      if (_formkey2.currentState!.validate()) {
-        return true;
-      }
+    if (_formkey2.currentState!.validate()) {
+      return true;
     } else {
       return false;
     }
-    return false;
   }
 }
