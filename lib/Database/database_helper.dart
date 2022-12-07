@@ -65,10 +65,8 @@ mpin varchar(255)
           ''');
     await db.execute('''CREATE TABLE Symptoms(
       SymptomId INTEGER PRIMARY KEY AUTOINCREMENT,
-      mobileNumber varchar(255),
-      FamilyMemberName varchar(255),
+      FamilyMemberId varchar(255),
       Symptom varchar(255),
-      MedicineName varchar(255),
       DoctorName varchar(255),
       HospitalName varchar(255),
       DateOfAppointment varchar(255),
@@ -168,6 +166,20 @@ SymptomId varchar(255)
         .rawQuery('SELECT $mpin FROM $table WHERE $mobileNumber = ?', [mobile]);
   }
 
+
+/*  Future<List<Map>> userId(
+      String table, String selectedValue) async {
+    Database db = await instance.database;
+    return await db
+        .rawQuery('SELECT $id FROM $table WHERE $name = ?', [selectedValue]);
+  } */
+
+    Future<int> userId(String table, String selectedValue) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery(
+            'SELECT $id FROM $table WHERE $name = ?', [selectedValue])) ??
+        0;
+  }
 /* 
   Future<List<Map<String, dynamic>>> getUser(
       String table, String mobilenumber) async {

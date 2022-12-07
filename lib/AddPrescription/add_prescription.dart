@@ -1,31 +1,19 @@
-import 'dart:ffi';
-import 'dart:io';
-
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Reusable/alert_for_medicineData.dart';
-import 'package:side_menu/Reusable/app_input_dropdown.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
-
 import 'package:side_menu/modelClasses/medicine_list_provider.dart';
 import 'package:side_menu/Reusable/button_component.dart';
-
 import '../Database/database_helper.dart';
 import '../appColor.dart';
-
 import 'package:side_menu/modelClasses/familyNamesModel.dart';
 import 'package:side_menu/modelClasses/family_list_names_provider.dart';
-
 import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
-
 import '../modelClasses/database_modelClass/medicationModel.dart';
 
 class addPrescription extends StatefulWidget {
@@ -57,6 +45,7 @@ class _addPrescriptionState extends State<addPrescription> {
   List<String> famNamesList = [];
   String? selectedValue;
   int? selectedId;
+
   dynamic placeholder = NetworkImage(
       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg');
 
@@ -88,8 +77,7 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -112,7 +100,6 @@ class _addPrescriptionState extends State<addPrescription> {
                             ),
 
                             value: selectedValue,
-
                             items: familyNamesStateProvider.FamilyNames.map(
                                 (item) => DropdownMenuItem<String>(
                                     value: item.FamilyMemberName,
@@ -124,17 +111,36 @@ class _addPrescriptionState extends State<addPrescription> {
                                       ),
                                     ))).toList(),
                             onChanged: (value) {
+
                               //familyNamesStateProvider.FamilyNames[0].FamilyMemberId
                               //selectedId = familyNamesStateProvider.FamilyNames.indexOf();
                               // selectedId =
                               // selectedId = familInfoToMap.indexOf(selectedUser);
                               //print('Id is $selectedId');
+
+                              getId(String name) async {
+                                final DatabaseHelper _databaseService =
+                                    DatabaseHelper.instance;
+                                final saved = await _databaseService.userId(
+                                    DatabaseHelper.table, name);
+                                print("data saved ${saved}");
+                                selectedId = saved;
+                                print('Id selected is $selectedId');
+                              }
+
                               setState(() {
                                 selectedValue = value as String;
+                                getId(selectedValue ?? "");
                                 //selectedId = value.indexOf(selectedValue ?? '');
-
+                                /*  selectedId = familyNamesStateProvider
+                                    .FamilyNames[selectedValue].FamilyMemberId; */
+                                //indexOf(['selectedValue'])
+                                /*data[index]['name'],
+                                  data[index]['post'],
+                              int.parse(data[index]['emp_id']) */
                                 //selectedId = selectedValue.indexOf(value);
                               });
+
                               /*  selectedId =
                                   famNamesList.indexOf(selectedValue ?? '') */
                               ;
@@ -142,6 +148,7 @@ class _addPrescriptionState extends State<addPrescription> {
                               print(familyNamesStateProvider.FamilyNames.map(
                                   (e) => e.FamilyMemberId));
                               //  print({'${selectedValue!.FamilyMemberId}'});
+
                             },
                             style: TextStyle(color: Colors.white),
                             // buttonHeight: 40,
@@ -162,36 +169,6 @@ class _addPrescriptionState extends State<addPrescription> {
                             },
                             globalKey: _formkey2),
                       ]),
-
-                      // ListView.builder(
-                      //     scrollDirection: Axis.vertical,
-                      //     shrinkWrap: true,
-                      //     itemCount: files_list.length,
-                      //     itemBuilder: (context, index) {
-                      //       final file = files_list[index];
-                      //       return buildFile(file);
-                      //       //return Text('Hello');
-                      //     }),
-                      // TextButton(
-                      //   onPressed: () async {
-                      //     final result = await FilePicker.platform.pickFiles(
-                      //         withReadStream: true, allowMultiple: true);
-                      //     if (result == null) return;
-                      //     //  final files = result.files;
-                      //     //   print(
-                      //     //   'file is $files'); //EDIT: THIS PROBABLY CAUSED YOU AN ERROR
-                      //     /* textt = result.files.first.path.toString();
-                      //     print("test is $textt"); */
-                      //     //  files_list = result.files;
-                      //     files_list = result.paths
-                      //         .map((path) => File(path ?? "") as PlatformFile)
-                      //         .toList();
-                      //     print('files picked are $files_list');
-                      //     // placeholder = FileImage(File());
-                      //     setState(() {});
-                      //   },
-                      //   child: Text('Upload File'),
-                      // )
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -252,17 +229,16 @@ class _addPrescriptionState extends State<addPrescription> {
                   child: Container(
                     // color: AppColors.PRIMARY_COLOR_DARK,
                     child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: medicineStateProvider.Medicines.length,
-                        itemBuilder: ((context, index) {
-                          final details =
-                              medicineStateProvider.Medicines[index];
-                          return Card(
-                            // color: AppColors.PRIMARY_COLOR_DARK,
-                            child: Container(
-                                // color: AppColors.PRIMARY_COLOR,
-                                child: Column(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: medicineStateProvider.Medicines.length,
+                      itemBuilder: ((context, index) {
+                        final details = medicineStateProvider.Medicines[index];
+                        return Card(
+                          // color: AppColors.PRIMARY_COLOR_DARK,
+                          child: Container(
+                            // color: AppColors.PRIMARY_COLOR,
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -307,9 +283,11 @@ class _addPrescriptionState extends State<addPrescription> {
                                     medicineStateProvider
                                         .Medicines[index].ExpiryDate, colors: Colors.black, size: 16, weight: FontWeight.normal), */
                               ],
-                            )),
-                          );
-                        })),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ),
               ),
@@ -393,55 +371,17 @@ class _addPrescriptionState extends State<addPrescription> {
     );
   }
 
-  Widget buildFile(PlatformFile file) {
-    final kb = file.size / 1024;
-    final mb = kb / 1024;
-    final size = (mb >= 1)
-        ? '${mb.toStringAsFixed(2)} MB'
-        : '${kb.toStringAsFixed(2)} KB';
-    return Container(
-      width: 100,
-      height: 100,
-      child: InkWell(
-        onTap: () => null,
-        child: Container(
-          width: 200,
-          height: 200,
-          child: ListTile(
-            leading: (file.extension == 'jpg' || file.extension == 'png')
-                ? Image.file(
-                    File(file.path.toString()),
-                    width: 80,
-                    height: 80,
-                  )
-                : Container(
-                    width: 80,
-                    height: 80,
-                  ),
-            title: Text('${file.name}'),
-            subtitle: Text('${file.extension}'),
-            trailing: Text(
-              '$size',
-              style: TextStyle(fontWeight: FontWeight.w700),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
 // your code goes here
-
       fetchNextVisitData();
     });
   }
 
   fetchNextVisitData() async {
     final familyNamesStateProvider =
-        Provider.of<FamilyListNamesProvider>(context, listen: false);
+        await Provider.of<FamilyListNamesProvider>(context, listen: false);
     if (familyNamesStateProvider.FamilyNames.length == 0) {
       DatabaseHelper _dbInstance = DatabaseHelper.instance;
       await _dbInstance.queryAllRows('FamilyList').then((value) {
@@ -449,6 +389,7 @@ class _addPrescriptionState extends State<addPrescription> {
           print(element);
           familyNamesStateProvider.removeFamilyNamesData;
           print('get names ${familyNamesStateProvider.FamilyNames.length}');
+
 
           /*  familyNamesStateProvider.addFamilyNamesData(
               familyNamesDataModel(FamilyMemberName: element['name'])); */
@@ -463,6 +404,11 @@ class _addPrescriptionState extends State<addPrescription> {
 
           /*  print(
               'Id is ${familyNamesStateProvider.FamilyNames[0].FamilyMemberId}'); */
+
+          familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
+              FamilyMemberName: element['name'],
+              FamilyMemberId: element['id']));
+
         });
         print('Length is ${famNamesList.length}');
       });
@@ -471,10 +417,8 @@ class _addPrescriptionState extends State<addPrescription> {
 
   Future<int> SaveData(MedicineListProvider medicineStateProvider) async {
     final PrescriptionAdded = PrescriptionModel(
-        mobileNumber: "",
-        FamilyMemberName: _famName.text,
+        FamilyMemberId: selectedId,
         Symptom: _symptom.text,
-        MedicineName: _medicineName.text,
         DoctorName: _doctorName.text,
         HospitalName: _hospitalName.text,
         DateOfAppointment: _appointment.text,
@@ -532,4 +476,21 @@ class _addPrescriptionState extends State<addPrescription> {
       return false;
     }
   }
+
+  getId(String name) async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    final saved = await _databaseService.userId(DatabaseHelper.table, name);
+    print("data saved ${saved}");
+  }
+  /*  LoginCall(String phoneNumber, String mpin) async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    final saved = await _databaseService.queryRowCountforMpinValidate(
+        DatabaseHelper.table, phoneNumber);
+    print("data saved ${saved}");
+    mpin_value = saved[0];
+    if (mpin_value['mpin'] == mpin) {
+      Navigator.pushReplacementNamed(context, AppRoutes.dashboardGridview);
+    } else {
+      showAlert('Please Enter Valid MPIN');
+    } */
 }

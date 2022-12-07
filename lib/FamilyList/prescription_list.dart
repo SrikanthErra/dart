@@ -75,6 +75,7 @@ class _prescriptionListState extends State<prescriptionList> {
                                   "Prescription Date",
                                   PrescriptionDate,
                                 ),
+
                                 RowComponent(
                                   "Symptoms",
                                   Symptoms,
@@ -167,6 +168,14 @@ class _prescriptionListState extends State<prescriptionList> {
                 ),
               ],
             )),
+
+                              ),
+                 );
+              },
+            ),
+          ],
+        )),
+
       ),
     );
   }
