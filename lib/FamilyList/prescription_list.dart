@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/prescription_list_model.dart';
 
+import '../Database/database_helper.dart';
 import '../Reusable/app_input_text.dart';
-
-
+import '../modelClasses/database_modelClass/PrescriptionModel.dart';
+import '../modelClasses/database_modelClass/medicationModel.dart';
 
 class prescriptionList extends StatefulWidget {
   const prescriptionList({super.key});
@@ -15,14 +17,15 @@ class prescriptionList extends StatefulWidget {
 }
 
 class _prescriptionListState extends State<prescriptionList> {
-  List<prescriptionListModel> prescList = [];
+  List<PrescriptionModel> prescList = [];
+  List<MedicineModel> MedList = [];
   String? DoctorName;
   String? PrescriptionDate;
   String? MedicineName;
   String? Symptoms;
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
+    return Scaffold(
       appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
@@ -31,62 +34,61 @@ class _prescriptionListState extends State<prescriptionList> {
             fit: BoxFit.cover,
           ),
         ),
-       //margin: EdgeInsets.symmetric(vertical: 20),
-       height: MediaQuery.of(context).size.height,
+        //margin: EdgeInsets.symmetric(vertical: 20),
+        height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
+            physics: ScrollPhysics(),
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            AppInputText(
-                text: 'Family Member Name',
-                colors: Colors.white,
-                size: 15,
-                weight: FontWeight.bold),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: prescList.length,
-              itemBuilder: (context, index) {
-                final prescriptionlist = prescList[index];
-                DoctorName = prescriptionlist.doctorName;
-                PrescriptionDate = prescriptionlist.prescriptionDate;
-                MedicineName = prescriptionlist.medicineName;
-                Symptoms = prescriptionlist.symptoms;
-                return Container(
-                  child: Card(
-                  
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                  side: BorderSide(
-                                      color: Colors.black87, width: 1),
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                AppInputText(
+                    text: 'Family Member Name',
+                    colors: Colors.white,
+                    size: 15,
+                    weight: FontWeight.bold),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: prescList.length,
+                  itemBuilder: (context, index) {
+                    final prescriptionlist = prescList[index];
+                    DoctorName = prescriptionlist.DoctorName;
+                    PrescriptionDate = prescriptionlist.DateOfAppointment;
+                    Symptoms = prescriptionlist.Symptom;
+                    return Container(
+                      child: GestureDetector(
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.black87, width: 1),
+                          ),
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: Column(
+                              children: [
+                                RowComponent(
+                                  "Doctor Name",
+                                  DoctorName,
                                 ),
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
-                                  child: Column(
-                                    children: [
-                                      RowComponent(
-                                        "Doctor Name",
-                                        prescriptionlist.doctorName,
-                                      ),
-                                      RowComponent(
-                                        "Prescription Date",
-                                        prescriptionlist.prescriptionDate,
-                                      ),
-                                      RowComponent(
-                                        "Medicine Name",
-                                        prescriptionlist.medicineName,
-                                      ),
-                                      RowComponent(
-                                        "Symptoms",
-                                        prescriptionlist.symptoms,
-                                      ),
-                                    
-                                    ],
-                                  ),
+                                RowComponent(
+                                  "Prescription Date",
+                                  PrescriptionDate,
                                 ),
-                              ),
-                 /*  child: Card(
+                                RowComponent(
+                                  "Symptoms",
+                                  Symptoms,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, AppRoutes.MedicineListView);
+                        },
+                      ),
+                      /*  child: Card(
                     // margin: EdgeInsets.symmetric(horizontal: 50,vertical: 20),
                     child: ListTile(
                       leading: Column(
@@ -159,15 +161,17 @@ class _prescriptionListState extends State<prescriptionList> {
                       ),
                     ),
                   ),
-                 */);
-              },
-            ),
-          ],
-        )),
+                 */
+                    );
+                  },
+                ),
+              ],
+            )),
       ),
     );
-     }
-     RowComponent(var data, var value) {
+  }
+
+  RowComponent(var data, var value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
       child: Row(
@@ -197,26 +201,24 @@ class _prescriptionListState extends State<prescriptionList> {
 
   void initState() {
     super.initState();
-    fetchNextVisitData();
-  }
-
-  fetchNextVisitData() {
-    prescList = [
-      prescriptionListModel(
-          doctorName: "VPsycho Hospital",
-          prescriptionDate: "30/12/2022",
-          medicineName: 'Sugar',
-          symptoms: 'Fever,Itching'),
-      prescriptionListModel(
-          doctorName: "VPsycho Hospital",
-          prescriptionDate: "30/12/2022",
-          medicineName: 'Sugar',
-          symptoms: 'Fever,Itching'),
-      prescriptionListModel(
-          doctorName: "VPsycho Hospital",
-          prescriptionDate: "30/12/2022",
-          medicineName: 'Sugar',
-          symptoms: 'Fever,Itching'),
-    ];
+    DatabaseHelper.instance.queryAllRows("Symptoms").then((value) {
+      setState(() {
+        value.forEach((element) {
+          prescList.add(
+            PrescriptionModel(
+              FamilyMemberName: element['FamilyMemberName'],
+              Symptom: element["Symptom"],
+              MedicineName: element["MedicineName"],
+              DoctorName: element["DoctorName"],
+              HospitalName: element["HospitalName"],
+              DateOfAppointment: element["DateOfAppointment"],
+              ReasonForAppointment: element["ReasonForAppointment"],
+            ),
+          );
+        });
+      });
+    }).catchError((error) {
+      print(error);
+    });
   }
 }

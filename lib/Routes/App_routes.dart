@@ -16,4 +16,5 @@ class AppRoutes {
   static const registraion = "/registraion";
   static const dashboardGridview = "/dashboardGridview";
   static const registerFamilyDashboard = "/registerFamily.dart";
+  static const MedicineListView = "/medicineView.dart";
 }

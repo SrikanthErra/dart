@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/modelClasses/family_list_names_provider.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: AppColors.navy,
           ),
           //home: SideMenu(),
+          builder: EasyLoading.init(),
         ));
   }
 }
