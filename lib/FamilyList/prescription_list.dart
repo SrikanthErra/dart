@@ -171,13 +171,7 @@ class _prescriptionListState extends State<prescriptionList> {
 
                               ),
                  );
-              },
-            ),
-          ],
-        )),
-
-      ),
-    );
+             
   }
 
   RowComponent(var data, var value) {
@@ -215,9 +209,8 @@ class _prescriptionListState extends State<prescriptionList> {
         value.forEach((element) {
           prescList.add(
             PrescriptionModel(
-              FamilyMemberName: element['FamilyMemberName'],
               Symptom: element["Symptom"],
-              MedicineName: element["MedicineName"],
+              FamilyMemberId: element['FamilyMemberId'],
               DoctorName: element["DoctorName"],
               HospitalName: element["HospitalName"],
               DateOfAppointment: element["DateOfAppointment"],

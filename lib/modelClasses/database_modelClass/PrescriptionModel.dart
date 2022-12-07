@@ -14,7 +14,7 @@ class PrescriptionModel {
     this.DoctorName,
     this.HospitalName,
     this.DateOfAppointment,
-    this.ReasonForAppointment,
+    this.ReasonForAppointment, 
   });
 
   PrescriptionModel.fromJson(Map<String, dynamic> json) {

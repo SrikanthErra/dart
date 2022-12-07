@@ -111,13 +111,6 @@ class _addPrescriptionState extends State<addPrescription> {
                                       ),
                                     ))).toList(),
                             onChanged: (value) {
-
-                              //familyNamesStateProvider.FamilyNames[0].FamilyMemberId
-                              //selectedId = familyNamesStateProvider.FamilyNames.indexOf();
-                              // selectedId =
-                              // selectedId = familInfoToMap.indexOf(selectedUser);
-                              //print('Id is $selectedId');
-
                               getId(String name) async {
                                 final DatabaseHelper _databaseService =
                                     DatabaseHelper.instance;
@@ -389,26 +382,9 @@ class _addPrescriptionState extends State<addPrescription> {
           print(element);
           familyNamesStateProvider.removeFamilyNamesData;
           print('get names ${familyNamesStateProvider.FamilyNames.length}');
-
-
-          /*  familyNamesStateProvider.addFamilyNamesData(
-              familyNamesDataModel(FamilyMemberName: element['name'])); */
-
           familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
               FamilyMemberName: element['name'],
               FamilyMemberId: element['id']));
-          // if (familyNamesStateProvider.FamilyNames.length == 0) {
-          //   familyNamesStateProvider.addFamilyNamesData(
-          //       familyNamesDataModel(FamilyMemberName: element['name']));
-          // }
-
-          /*  print(
-              'Id is ${familyNamesStateProvider.FamilyNames[0].FamilyMemberId}'); */
-
-          familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
-              FamilyMemberName: element['name'],
-              FamilyMemberId: element['id']));
-
         });
         print('Length is ${famNamesList.length}');
       });
