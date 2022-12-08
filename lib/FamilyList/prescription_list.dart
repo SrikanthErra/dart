@@ -26,20 +26,28 @@ class _prescriptionListState extends State<prescriptionList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
-      body: prescList.isEmpty
-          ? Center(
-              child: Text('No Data Added.....:('),
-            )
-          : Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/background_bg.png"),
-                  fit: BoxFit.cover,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_bg.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        //margin: EdgeInsets.symmetric(vertical: 20),
+        height: MediaQuery.of(context).size.height,
+        child: prescList.isEmpty
+            ? Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                child: AppInputText(
+                  colors: Colors.white,
+                  size: 12,
+                  text: 'No Data Added.....:(',
+                  weight: FontWeight.bold,
                 ),
-              ),
-              //margin: EdgeInsets.symmetric(vertical: 20),
-              height: MediaQuery.of(context).size.height,
-              child: SingleChildScrollView(
+              )
+            : SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -99,7 +107,7 @@ class _prescriptionListState extends State<prescriptionList> {
                   ],
                 ),
               ),
-            ),
+      ),
     );
   }
 
