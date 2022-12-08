@@ -2,6 +2,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:side_menu/Dashboard/sidemenuDashboard.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
@@ -122,9 +123,13 @@ class _dashboardGridviewState extends State<dashboardGridview> {
                   itemBuilder: (context, index) {
                     final dashboardData = dashboardList[index];
                     return GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        await EasyLoading.show(
+                            status: "Loading...",
+                            maskType: EasyLoadingMaskType.black);
                         Navigator.pushNamed(
                             context, dashboardData.navigateApproute ?? "");
+                        EasyLoading.dismiss();
                       },
                       child: Card(
                         color: AppColors.navy.withOpacity(0.1),
@@ -165,6 +170,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
       ),
     );
   }
+
   @override
   void initState() {
     // TODO: implement initState
