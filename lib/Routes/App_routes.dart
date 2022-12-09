@@ -8,6 +8,7 @@ class AppRoutes {
   static const prescriptionList = "/prescriptionList";
   static const addPrescription = "/addPrescription";
   static const otp = "/otp";
+  static const pdfViewer = "/pdfViewer";
   static const viewPrescription = "/viewPrescription";
   static const mpinPage = "/mpinPage";
   static const mpinValidate = "/mpinValidate";

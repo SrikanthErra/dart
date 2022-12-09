@@ -1,5 +1,8 @@
+import 'dart:io';
+
 class medicineDataModel {
   final String medicineName;
   final String ExpiryDate;
-  medicineDataModel({required this.medicineName, required this.ExpiryDate});
+  final List<File> medicineFiles;
+  medicineDataModel({ required this.medicineFiles, required this.medicineName, required this.ExpiryDate});
 }

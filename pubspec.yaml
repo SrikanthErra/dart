@@ -52,6 +52,8 @@ dependencies:
   flutter_pin_code_fields: ^1.2.0
   uuid: ^3.0.7
   flutter_easyloading: ^3.0.5
+  pdf_viewer_plugin: ^2.0.1
+  syncfusion_flutter_pdfviewer: ^20.3.59
 
 flutter_icons:
   image_path: "assets/appLogo.png" 

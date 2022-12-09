@@ -28,7 +28,7 @@ class _mpinValidateState extends State<mpinValidate> {
   Widget build(BuildContext context) {
     final arg = ModalRoute.of(context)?.settings.arguments as ScreenArguments;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+    // resizeToAvoidBottomInset: true,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
