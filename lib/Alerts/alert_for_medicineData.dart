@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,15 +18,15 @@ import 'package:side_menu/Routes/App_routes.dart';
 import 'package:universal_io/io.dart';
 
 import '../Database/database_helper.dart';
-import '../modelClasses/database_modelClass/medicationModel.dart';
+
 import '../modelClasses/medicine_data_model.dart';
 import '../modelClasses/medicine_list_provider.dart';
-import 'alertInputTextfield.dart';
-import 'alert_date_picker.dart';
-import 'alert_textformfield.dart';
+import '../Reusable/alertInputTextfield.dart';
+import '../Reusable/alert_date_picker.dart';
+import '../Reusable/alert_textformfield.dart';
 
 class AppShowAlertMedicineData extends StatelessWidget {
-   AppShowAlertMedicineData({
+  AppShowAlertMedicineData({
     super.key,
     required this.message,
     required this.hintText,
@@ -34,7 +35,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
     required this.ExpiryDateController,
     required this.input_type,
     required this.obsecuretext,
-   // required this.node,
+    // required this.node,
     required this.action,
     this.onEditingComplete,
     this.globalKey,
@@ -47,18 +48,17 @@ class AppShowAlertMedicineData extends StatelessWidget {
   final TextEditingController MedicinenameController, ExpiryDateController;
   final TextInputType input_type;
   final bool obsecuretext;
- // final FocusScopeNode node;
+  // final FocusScopeNode node;
   final FocusScopeNode node = FocusScopeNode();
   final TextInputAction action;
   final VoidCallback? onEditingComplete;
   final GlobalKey? globalKey;
-  
 
   @override
   Widget build(BuildContext context) {
     final _formkey1 = GlobalKey<FormState>();
     final _formkey2 = GlobalKey<FormState>();
-   
+    List<File> fileIs = [];
     final studentsStateProvider = Provider.of<MedicineListProvider>(context);
     MedicinenameController.text = "";
     ExpiryDateController.text = "";
@@ -98,7 +98,17 @@ class AppShowAlertMedicineData extends StatelessWidget {
                       node: node,
                       action: action,
                       onEditingComplete: onEditingComplete,
-                      globalKey: _formkey2)
+                      globalKey: _formkey2),
+                  TextButton(
+                    onPressed: () async {
+                      final result = await FilePicker.platform
+                          .pickFiles(withReadStream: true, allowMultiple: true);
+                      if (result == null) return;
+                      fileIs = result.paths.map((path) => File(path!)).toList();
+                      print('files length is ${fileIs.length}');
+                    },
+                    child: Text('Upload File'),
+                  )
                 ],
               ),
               actions: [
@@ -117,8 +127,10 @@ class AppShowAlertMedicineData extends StatelessWidget {
                           _formkey2.currentState!.validate()) {
                         studentsStateProvider.addMedicineData(medicineDataModel(
                             medicineName: MedicinenameController.text,
-                            ExpiryDate: ExpiryDateController.text));
+                            ExpiryDate: ExpiryDateController.text,
+                            medicineFiles: fileIs));
                         //MedicinesDataTable();
+                        print('files are $fileIs');
                         print("data added successfully" +
                             studentsStateProvider.Medicines.length.toString());
                         Navigator.pop(context);
@@ -166,7 +178,8 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     onPressed: (() {
                       studentsStateProvider.addMedicineData(medicineDataModel(
                           medicineName: MedicinenameController.text,
-                          ExpiryDate: ExpiryDateController.text));
+                          ExpiryDate: ExpiryDateController.text,
+                          medicineFiles: fileIs));
                       print("data added successfully" +
                           studentsStateProvider.Medicines.length.toString());
                       Navigator.pop(context);
@@ -182,6 +195,4 @@ class AppShowAlertMedicineData extends StatelessWidget {
       })()),
     );
   }
-
- 
 }

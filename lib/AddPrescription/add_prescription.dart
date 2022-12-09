@@ -1,11 +1,13 @@
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:side_menu/Reusable/alert_for_medicineData.dart';
+import 'package:side_menu/Alerts/alert_for_medicineData.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
+import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/medicine_list_provider.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import '../Database/database_helper.dart';
@@ -14,6 +16,7 @@ import 'package:side_menu/modelClasses/familyNamesModel.dart';
 import 'package:side_menu/modelClasses/family_list_names_provider.dart';
 import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
+import '../app_constants.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
 
 class addPrescription extends StatefulWidget {
@@ -40,8 +43,7 @@ class _addPrescriptionState extends State<addPrescription> {
   final _formkey3 = GlobalKey<FormState>();
   final _formkey4 = GlobalKey<FormState>();
   final _formkey5 = GlobalKey<FormState>();
-  List<PlatformFile> files_list = [];
-  FilePickerResult? result;
+
   List<String> famNamesList = [];
   String? selectedValue;
   int? selectedId;
@@ -141,7 +143,6 @@ class _addPrescriptionState extends State<addPrescription> {
                               print(familyNamesStateProvider.FamilyNames.map(
                                   (e) => e.FamilyMemberId));
                               //  print({'${selectedValue!.FamilyMemberId}'});
-
                             },
                             style: TextStyle(color: Colors.white),
                             // buttonHeight: 40,
@@ -221,65 +222,112 @@ class _addPrescriptionState extends State<addPrescription> {
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
                     // color: AppColors.PRIMARY_COLOR_DARK,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: medicineStateProvider.Medicines.length,
-                      itemBuilder: ((context, index) {
-                        final details = medicineStateProvider.Medicines[index];
-                        return Card(
-                          // color: AppColors.PRIMARY_COLOR_DARK,
-                          child: Container(
-                            // color: AppColors.PRIMARY_COLOR,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppInputText(
-                                        text: "Medicine Name: ",
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                    AppInputText(
-                                        text: medicineStateProvider
-                                            .Medicines[index].medicineName,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppInputText(
-                                        text: "Expiry Date:: ",
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                    AppInputText(
-                                        text: medicineStateProvider
-                                            .Medicines[index].ExpiryDate,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                  ],
-                                ),
-                                /*  AppInputText(text: "Medicine Name: " +
-                                    medicineStateProvider
-                                        .Medicines[index].medicineName, colors: Colors.black, size: 16, weight: FontWeight.normal),
-                                   AppInputText(text: "Expiry Date: " +
-                                    medicineStateProvider
-                                        .Medicines[index].ExpiryDate, colors: Colors.black, size: 16, weight: FontWeight.normal), */
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
+                    child: Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: medicineStateProvider.Medicines.length,
+                          itemBuilder: ((context, index) {
+                            final details =
+                                medicineStateProvider.Medicines[index];
+                            //final details2 = medicineStateProvider.Medicines[index].medicineFiles[index];
+                            return Card(
+                              // color: AppColors.PRIMARY_COLOR_DARK,
+                              child: Container(
+                                  // color: AppColors.PRIMARY_COLOR,
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        AppInputText(
+                                            text: "Medicine Name: ",
+                                            colors: Colors.black,
+                                            size: 16,
+                                            weight: FontWeight.normal),
+                                        AppInputText(
+                                            text: details.medicineName,
+                                            colors: Colors.black,
+                                            size: 16,
+                                            weight: FontWeight.normal),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        AppInputText(
+                                            text: "Expiry Date:: ",
+                                            colors: Colors.black,
+                                            size: 16,
+                                            weight: FontWeight.normal),
+                                        AppInputText(
+                                            text: details.ExpiryDate,
+                                            colors: Colors.black,
+                                            size: 16,
+                                            weight: FontWeight.normal),
+                                      ],
+                                    ),
+                                    ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: details.medicineFiles.length,
+                                        itemBuilder: ((context, index) {
+                                          final details2 =
+                                              details.medicineFiles[index];
+                                          return ListTile(
+                                              leading: ConstrainedBox(
+                                                
+                                                constraints: BoxConstraints(
+                                                  minWidth: 100,
+                                                  minHeight: 260,
+                                                  maxWidth: 104,
+                                                  maxHeight: 264,
+                                                ),
+                                              child:   (details2.path.split('.').last ==
+                                                          'jpg' ||
+                                                      details2.path
+                                                              .split('.')
+                                                              .last ==
+                                                          'png')
+                                                  ? Image.file(
+                                                      File(details2.path
+                                                          .toString()),
+                                                      /* width: 80,
+                                                      height: 80, */
+                                                    )
+                                                  : SvgPicture.asset(
+                                                      'assets/pdf.svg',
+                                                      /* height: 30,
+                                                      width: 30, */
+                                                      //  color: Colors.white,
+                                                    ), 
+                                              ),
+                                              onTap: () {
+                                            AppConstants.filePath =
+                                                details2.path.toString();
+                                            print(AppConstants.filePath);
+                                            Navigator.pushNamed(
+                                                context, AppRoutes.pdfViewer);
+                                          } 
+                                             //  child: PdfView(path: fileName.path),
+
+                                              //       SfPdfViewer.file(
+                                              // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
+
+                                              );
+                                        }))
+                                  ])),
+                            );
+                          }),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -427,7 +475,7 @@ class _addPrescriptionState extends State<addPrescription> {
           // ExpiryDate: medicineStateProvider.Medicines[ii].ExpiryDate,
           MedicineName: medicine.medicineName,
           ExpiryDate: medicine.ExpiryDate,
-          MedicinePhoto: "",
+          MedicinePhoto: medicine.medicineFiles.toString(),
           SymptomId: count.toString());
       final saved = await _databaseService.insertInto(
           MedicineTableData.toJson(), DatabaseHelper.table3);

@@ -191,10 +191,10 @@ class _LoginPageState extends State<LoginPage> {
     print(mobileList); */
   }
 
-  /*  @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    LoginCall(_mobile.text);
-  } */
+    _mobile.text = '1111111111';
+  }
 }

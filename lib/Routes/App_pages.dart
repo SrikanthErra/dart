@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:side_menu/AddPrescription/add_prescription.dart';
+import 'package:side_menu/AddPrescription/pdf_viewer.dart';
 import 'package:side_menu/Dashboard/dashboard_gridview.dart';
 import 'package:side_menu/Login/mpin.dart';
 import 'package:side_menu/Login/mpin_validate.dart';
@@ -29,6 +30,7 @@ class AppPages {
       AppRoutes.login: ((context) => LoginPage()),
       AppRoutes.visitAlerts: ((context) => visitAlerts()),
       AppRoutes.registraion: ((context) => registerFamily()),
+       AppRoutes.pdfViewer: ((context) => PdfViewer()),
       AppRoutes.registerFamilyDashboard: ((context) =>
           registerFamilyFromDashboard()),
       AppRoutes.MedicineListView: ((context) => MedicineList()),

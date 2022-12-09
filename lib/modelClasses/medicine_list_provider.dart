@@ -5,7 +5,7 @@ import 'medicine_data_model.dart';
 
 class MedicineListProvider with ChangeNotifier {
   List<medicineDataModel> _items = [];
-
+  // List<medicineDataModel> medicineFilesList = [];
   void addMedicineData(medicineDataModel MedicineData) {
     _items.add(MedicineData);
     notifyListeners();
@@ -13,5 +13,11 @@ class MedicineListProvider with ChangeNotifier {
 
   List<medicineDataModel> get Medicines {
     return _items;
+
+  }
+  @override
+  void notifyListeners() {
+    // TODO: implement notifyListeners
+    super.notifyListeners();
   }
 }
