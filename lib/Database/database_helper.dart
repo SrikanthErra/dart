@@ -166,7 +166,6 @@ SymptomId varchar(255)
         .rawQuery('SELECT $mpin FROM $table WHERE $mobileNumber = ?', [mobile]);
   }
 
-
 /*  Future<List<Map>> userId(
       String table, String selectedValue) async {
     Database db = await instance.database;
@@ -174,7 +173,7 @@ SymptomId varchar(255)
         .rawQuery('SELECT $id FROM $table WHERE $name = ?', [selectedValue]);
   } */
 
-    Future<int> userId(String table, String selectedValue) async {
+  Future<int> userId(String table, String selectedValue) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery(
             'SELECT $id FROM $table WHERE $name = ?', [selectedValue])) ??
@@ -244,4 +243,11 @@ SymptomId varchar(255)
   //Read
   //Update
   //Delete
+
+  Future<int> queryPresCount(String table, int FamilyMemberId) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery(
+            'SELECT COUNT(*) FROM Symptoms WHERE familyMemberId = ?', [FamilyMemberId])) ??
+        0;
+  }
 }

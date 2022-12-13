@@ -36,6 +36,7 @@ class _visitAlertsState extends State<visitAlerts> {
         //  width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
+          physics: ScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -45,6 +46,7 @@ class _visitAlertsState extends State<visitAlerts> {
                   size: 15,
                   weight: FontWeight.bold),
               ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: nextvisitList.length,
                 itemBuilder: (context, index) {
