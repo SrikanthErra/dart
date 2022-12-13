@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_group_button/flutter_group_button.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
@@ -7,6 +8,7 @@ import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 import 'package:side_menu/Database/database_helper.dart';
+
 class registerFamilyFromDashboard extends StatefulWidget {
   const registerFamilyFromDashboard({super.key});
 
@@ -35,6 +37,7 @@ class _registerFamilyFromDashboardState
 
   @override
   Widget build(BuildContext context) {
+    EasyLoading.dismiss();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(title: Center(child: Text('Register a Family'))),
