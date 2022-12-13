@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/Database/database_helper.dart';
+import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
 import 'package:side_menu/modelClasses/family_list_model.dart';
 import 'package:side_menu/modelClasses/prescription_list_model.dart';
 
 import '../Reusable/app_input_text.dart';
+import '../modelClasses/familyNamesModel.dart';
 
 class familyList extends StatefulWidget {
   const familyList({super.key});
@@ -17,10 +20,12 @@ class familyList extends StatefulWidget {
 
 class _familyListState extends State<familyList> {
   List<familyListModel> famList = [];
+  List<int> presCount = [];
+  //int PrescriptionCount = 0;
   String? FamilyMemeber = "";
-  String? PrescriptionCount = "";
   @override
   Widget build(BuildContext context) {
+    EasyLoading.dismiss();
     return Scaffold(
       //resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
@@ -53,7 +58,7 @@ class _familyListState extends State<familyList> {
                   print(familylist);
                   FamilyMemeber = familylist.Name;
                   print(FamilyMemeber);
-                  PrescriptionCount = familylist.Count;
+                  final PrescriptionCount = familylist.Count;
                   return Container(
                     child: GestureDetector(
                       onTap: () {
@@ -72,7 +77,7 @@ class _familyListState extends State<familyList> {
                             children: [
                               RowComponent(
                                 "Name of the family Member",
-                                familylist.Name,
+                                FamilyMemeber,
                               ),
                               RowComponent(
                                 "Prescription Count",
@@ -131,11 +136,25 @@ class _familyListState extends State<familyList> {
     await _dbInstance.queryAllRows('FamilyList').then((value) {
       setState(() {
         value.forEach((element) {
-          famList.add(familyListModel(Name: element['name']));
-          //print('getdetails${famList}');
+          famList
+              .add(familyListModel(Name: element['name'], id: element['id']));
         });
       });
-      print('getdetails${famList}');
     });
+    int i = 0;
+    while (i < famList.length) {
+      final PresCount =
+          await _dbInstance.queryPresCount('Symptoms', famList[i].id ?? 0);
+      presCount.add(PresCount);
+      i++;
+    }
+    print(presCount);
+    int j = 0;
+    while (j < presCount.length) {
+      setState(() {
+        famList[j].Count = presCount[j];
+      });
+      j++;
+    }
   }
 }

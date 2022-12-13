@@ -1,11 +1,13 @@
 class familyListModel {
   String? Name;
-  String? Count;
+  int? id;
+  int? Count;
 
-  familyListModel({this.Name, this.Count});
+  familyListModel({this.Name, this.id, this.Count});
 
   familyListModel.fromJson(Map<String, dynamic> json) {
     Name = json['name'];
+    id = json['id'];
     Count = json['Count'];
   }
 
@@ -14,6 +16,7 @@ class familyListModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.Name;
+    data['id'] = this.id;
     data['Count'] = this.Count;
     return data;
   }

@@ -129,7 +129,6 @@ class _dashboardGridviewState extends State<dashboardGridview> {
                             maskType: EasyLoadingMaskType.black);
                         Navigator.pushNamed(
                             context, dashboardData.navigateApproute ?? "");
-                        EasyLoading.dismiss();
                       },
                       child: Card(
                         color: AppColors.navy.withOpacity(0.1),

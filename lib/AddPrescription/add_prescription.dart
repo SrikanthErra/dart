@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Alerts/alert_for_medicineData.dart';
@@ -79,7 +80,8 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -283,40 +285,41 @@ class _addPrescriptionState extends State<addPrescription> {
                                               details.medicineFiles[index];
                                           return ListTile(
                                               leading: ConstrainedBox(
-                                                
                                                 constraints: BoxConstraints(
                                                   minWidth: 100,
                                                   minHeight: 260,
                                                   maxWidth: 104,
                                                   maxHeight: 264,
                                                 ),
-                                              child:   (details2.path.split('.').last ==
-                                                          'jpg' ||
-                                                      details2.path
-                                                              .split('.')
-                                                              .last ==
-                                                          'png')
-                                                  ? Image.file(
-                                                      File(details2.path
-                                                          .toString()),
-                                                      /* width: 80,
+                                                child: (details2.path
+                                                                .split('.')
+                                                                .last ==
+                                                            'jpg' ||
+                                                        details2.path
+                                                                .split('.')
+                                                                .last ==
+                                                            'png')
+                                                    ? Image.file(
+                                                        File(details2.path
+                                                            .toString()),
+                                                        /* width: 80,
                                                       height: 80, */
-                                                    )
-                                                  : SvgPicture.asset(
-                                                      'assets/pdf.svg',
-                                                      /* height: 30,
+                                                      )
+                                                    : SvgPicture.asset(
+                                                        'assets/pdf.svg',
+                                                        /* height: 30,
                                                       width: 30, */
-                                                      //  color: Colors.white,
-                                                    ), 
+                                                        //  color: Colors.white,
+                                                      ),
                                               ),
                                               onTap: () {
-                                            AppConstants.filePath =
-                                                details2.path.toString();
-                                            print(AppConstants.filePath);
-                                            Navigator.pushNamed(
-                                                context, AppRoutes.pdfViewer);
-                                          } 
-                                             //  child: PdfView(path: fileName.path),
+                                                AppConstants.filePath =
+                                                    details2.path.toString();
+                                                print(AppConstants.filePath);
+                                                Navigator.pushNamed(context,
+                                                    AppRoutes.pdfViewer);
+                                              }
+                                              //  child: PdfView(path: fileName.path),
 
                                               //       SfPdfViewer.file(
                                               // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
@@ -437,6 +440,7 @@ class _addPrescriptionState extends State<addPrescription> {
         print('Length is ${famNamesList.length}');
       });
     }
+    EasyLoading.dismiss();
   }
 
   Future<int> SaveData(MedicineListProvider medicineStateProvider) async {
