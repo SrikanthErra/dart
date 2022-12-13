@@ -46,7 +46,9 @@ class _visitAlertsState extends State<visitAlerts> {
                   size: 15,
                   weight: FontWeight.bold),
               ListView.builder(
+
                 physics: NeverScrollableScrollPhysics(),
+
                 shrinkWrap: true,
                 itemCount: nextvisitList.length,
                 itemBuilder: (context, index) {

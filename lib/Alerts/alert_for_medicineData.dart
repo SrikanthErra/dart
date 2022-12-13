@@ -162,7 +162,17 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     obsecuretext: obsecuretext,
                     node: node,
                     action: action,
-                    onEditingComplete: onEditingComplete)
+                    onEditingComplete: onEditingComplete),
+                     TextButton(
+                    onPressed: () async {
+                      final result = await FilePicker.platform
+                          .pickFiles(withReadStream: true, allowMultiple: true);
+                      if (result == null) return;
+                      fileIs = result.paths.map((path) => File(path!)).toList();
+                      print('files length is ${fileIs.length}');
+                    },
+                    child: Text('Upload File'),
+                  )
               ]),
               actions: [
                 TextButton(
