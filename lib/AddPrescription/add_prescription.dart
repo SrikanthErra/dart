@@ -48,7 +48,7 @@ class _addPrescriptionState extends State<addPrescription> {
   List<String> famNamesList = [];
   String? selectedValue;
   int? selectedId;
-
+  String? getIdName;
   dynamic placeholder = NetworkImage(
       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg');
 
@@ -80,8 +80,7 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -115,41 +114,15 @@ class _addPrescriptionState extends State<addPrescription> {
                                       ),
                                     ))).toList(),
                             onChanged: (value) {
-                              getId(String name) async {
-                                final DatabaseHelper _databaseService =
-                                    DatabaseHelper.instance;
-                                final saved = await _databaseService.userId(
-                                    DatabaseHelper.table, name);
-                                print("data saved ${saved}");
-                                selectedId = saved;
-                                print('Id selected is $selectedId');
-                              }
-
                               setState(() {
                                 selectedValue = value as String;
                                 getId(selectedValue ?? "");
-                                //selectedId = value.indexOf(selectedValue ?? '');
-                                /*  selectedId = familyNamesStateProvider
-                                    .FamilyNames[selectedValue].FamilyMemberId; */
-                                //indexOf(['selectedValue'])
-                                /*data[index]['name'],
-                                  data[index]['post'],
-                              int.parse(data[index]['emp_id']) */
-                                //selectedId = selectedValue.indexOf(value);
                               });
-
-                              /*  selectedId =
-                                  famNamesList.indexOf(selectedValue ?? '') */
-                              ;
-                              print('Id is $selectedId');
-                              print(familyNamesStateProvider.FamilyNames.map(
-                                  (e) => e.FamilyMemberId));
-                              //  print({'${selectedValue!.FamilyMemberId}'});
+                              /* print('Id is $selectedId');
+                              print('Result is ${familyNamesStateProvider.FamilyNames.map(
+                                  (e) => e.FamilyMemberId)}'); */
                             },
                             style: TextStyle(color: Colors.white),
-                            // buttonHeight: 40,
-                            //             buttonWidth: 140,
-                            // itemHeight: 40,
                           ),
                         ),
                         AppInputTextfield(
@@ -417,18 +390,30 @@ class _addPrescriptionState extends State<addPrescription> {
 
   void initState() {
     super.initState();
+    getId(getIdName ?? '');
     WidgetsBinding.instance.addPostFrameCallback((_) async {
 // your code goes here
       fetchNextVisitData();
+      
     });
   }
-
-  fetchNextVisitData() async {
+/* async {
+                        await EasyLoading.show(
+                            status: "Loading...",
+                            maskType: EasyLoadingMaskType.black);
+                        Navigator.pushNamed(
+                            context, dashboardData.navigateApproute ?? "");
+                      }, */
+  fetchNextVisitData() async
+   {
+    EasyLoading.show(
+                            status: "Loading...",
+                            maskType: EasyLoadingMaskType.black);
     final familyNamesStateProvider =
         await Provider.of<FamilyListNamesProvider>(context, listen: false);
     if (familyNamesStateProvider.FamilyNames.length == 0) {
       DatabaseHelper _dbInstance = DatabaseHelper.instance;
-      await _dbInstance.queryAllRows('FamilyList').then((value) {
+      await  _dbInstance.queryAllRows('FamilyList').then((value)  {
         value.forEach((element) {
           print(element);
           familyNamesStateProvider.removeFamilyNamesData;
@@ -480,7 +465,7 @@ class _addPrescriptionState extends State<addPrescription> {
           MedicineName: medicine.medicineName,
           ExpiryDate: medicine.ExpiryDate,
           MedicinePhoto: medicine.medicineFiles.toString(),
-          SymptomId: count.toString());
+          SymptomId: count);
       final saved = await _databaseService.insertInto(
           MedicineTableData.toJson(), DatabaseHelper.table3);
       print("data saved $saved");
@@ -505,10 +490,17 @@ class _addPrescriptionState extends State<addPrescription> {
     }
   }
 
+  /* getId(String name) async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    final saved = await _databaseService.userId(DatabaseHelper.table, name);
+    print("data saved ${saved}");
+  } */
   getId(String name) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
     final saved = await _databaseService.userId(DatabaseHelper.table, name);
     print("data saved ${saved}");
+    selectedId = saved;
+    print('Id selected is $selectedId');
   }
   /*  LoginCall(String phoneNumber, String mpin) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;

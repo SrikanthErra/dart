@@ -47,7 +47,8 @@ class _dashboardGridviewState extends State<dashboardGridview> {
           color: Colors.white,
         ),
         title: 'Reports',
-        navigateApproute: AppRoutes.prescriptionList),
+        //navigateApproute: AppRoutes.
+        ),
     gridListView(
         image: Image.asset(
           "assets/icons-03.png",
@@ -124,9 +125,9 @@ class _dashboardGridviewState extends State<dashboardGridview> {
                     final dashboardData = dashboardList[index];
                     return GestureDetector(
                       onTap: () async {
-                        await EasyLoading.show(
+                       /*  await EasyLoading.show(
                             status: "Loading...",
-                            maskType: EasyLoadingMaskType.black);
+                            maskType: EasyLoadingMaskType.black); */
                         Navigator.pushNamed(
                             context, dashboardData.navigateApproute ?? "");
                       },

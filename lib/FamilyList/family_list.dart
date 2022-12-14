@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/Database/database_helper.dart';
+import 'package:side_menu/app_constants.dart';
 import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
 import 'package:side_menu/modelClasses/family_list_model.dart';
+import 'package:side_menu/modelClasses/pass_name_from_famlist_to_prescriptionview.dart';
 import 'package:side_menu/modelClasses/prescription_list_model.dart';
 
 import '../Reusable/app_input_text.dart';
@@ -21,6 +24,8 @@ class familyList extends StatefulWidget {
 class _familyListState extends State<familyList> {
   List<familyListModel> famList = [];
   List<int> presCount = [];
+  List<PrescriptionModel> prescList = [];
+  int? selectedId;
   //int PrescriptionCount = 0;
   String? FamilyMemeber = "";
   @override
@@ -55,15 +60,17 @@ class _familyListState extends State<familyList> {
                 itemCount: famList.length,
                 itemBuilder: (context, index) {
                   final familylist = famList[index];
-                  print(familylist);
+                  //  print(familylist);
                   FamilyMemeber = familylist.Name;
-                  print(FamilyMemeber);
+                  //  print(FamilyMemeber);
                   final PrescriptionCount = familylist.Count;
                   return Container(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, AppRoutes.prescriptionList);
+                        print('name clicked is ${familylist.Name}');
+                        getId(familylist.Name ?? '');
+                        // fetchdata();
+                        // AppConstants.passFamilyMemberName = familylist.Name ?? '';
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -156,5 +163,51 @@ class _familyListState extends State<familyList> {
       });
       j++;
     }
+  }
+
+  getId(String name) async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    final saved = await _databaseService.userId(DatabaseHelper.table, name);
+    print("data saved ${saved}");
+    selectedId = saved;
+    print('Id selected is $selectedId');
+    fetchdata(selectedId ?? 0);
+  }
+
+  fetchdata(int id) async {
+    print('selected id is $id');
+   await DatabaseHelper.instance.prescList('Symptoms', id).then((value) {
+      setState(() {
+        prescList = [];
+        value.forEach((element) {
+          print('element is $element');
+          prescList.add(
+            PrescriptionModel(
+              Symptom: element["Symptom"],
+              DoctorName: element["DoctorName"],
+              HospitalName: element["HospitalName"],
+              DateOfAppointment: element["DateOfAppointment"],
+              ReasonForAppointment: element["ReasonForAppointment"],
+              SymptomId: element["SymptomId"],
+            ),
+          );
+          print(' id ${id}');
+          print('length id ${prescList.length}');
+        });
+        if (prescList.length != 0) {
+          Navigator.pushNamed(context, AppRoutes.prescriptionList,
+              arguments: prescList
+              // arguments:tappedNames(FamilyMemberName: familylist.Name!)
+              );
+        } else {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AppShowAlert(message: 'No Prescription data found');
+              });
+        }
+      });
+      //  print('data saved is ${saved}');
+    });
   }
 }
