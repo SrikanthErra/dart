@@ -12,8 +12,12 @@ class MedicineList extends StatefulWidget {
 
 class _MedicineListState extends State<MedicineList> {
   List<MedicineModel> MedList = [];
+  String? MedName;
+  int? SymId;
+  String? ExpDate;
   @override
   Widget build(BuildContext context) {
+    MedList = ModalRoute.of(context)?.settings.arguments as dynamic;
     return Scaffold(
       //resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
@@ -43,8 +47,9 @@ class _MedicineListState extends State<MedicineList> {
                 itemCount: MedList.length,
                 itemBuilder: (context, index) {
                   final MedicineList = MedList[index];
-                  final MedName = MedicineList.MedicineName;
-                  final SymId = MedicineList.SymptomId;
+                  MedName = MedicineList.MedicineName;
+                  ExpDate = MedicineList.ExpiryDate;
+                  //  SymId = MedicineList.SymptomId;
                   return Container(
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -58,10 +63,7 @@ class _MedicineListState extends State<MedicineList> {
                             "Medicine Name",
                             MedName,
                           ),
-                          RowComponent(
-                            "Symptom ID",
-                            SymId,
-                          ),
+                          RowComponent("Expiry Date", ExpDate),
                         ],
                       ),
                     ),
@@ -103,21 +105,12 @@ class _MedicineListState extends State<MedicineList> {
     );
   }
 
+ /*  @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    DatabaseHelper.instance.queryAllRows("Medicines").then((value) {
-      setState(() {
-        value.forEach((element) {
-          MedList.add(
-            MedicineModel(
-              MedicineName: element["MedicineName"],
-              SymptomId: element["SymptomId"],
-            ),
-          );
-        });
-      });
-    }).catchError((error) {
-      print(error);
+    setState(() {
+      MedList = [];
     });
-  }
+  } */
 }

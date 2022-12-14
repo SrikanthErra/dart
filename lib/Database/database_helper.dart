@@ -146,11 +146,13 @@ SymptomId varchar(255)
   queryLogin(String table, String mobile) async {
     Database? db = await instance.database;
     dynamic list = await db.rawQuery(
-        'SELECT COUNT(*) FROM $table WHERE $mobileNumber = ?', ['mobile']);
+        'SELECT COUNT(*) FROM $table2 WHERE $mobileNumber = ?', ['mobile']);
     return list;
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
     return res; */
   }
+
+ 
 
   Future<int> queryRowCountforuser(String table, String mobile) async {
     Database db = await instance.database;
@@ -189,7 +191,30 @@ SymptomId varchar(255)
     print('list is $list');
     return list;
   } */
+  Future<List<Map>> prescList(String table, int id) async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+        'SELECT * FROM $table2 WHERE familyMemberId = ?', [id]);
+    
+    /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
+    return res; */
+  }
 
+   Future<List<Map>> medicineList(String table, int id) async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+        'SELECT * FROM $table3 WHERE SymptomId = ?', [id]);
+    
+    /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
+    return res; */
+  }
+
+  /*  Future<List<Map>> queryRowCountforMpinValidate(
+      String table, String mobile) async {
+    Database db = await instance.database;
+    return await db
+        .rawQuery('SELECT $mpin FROM $table WHERE $mobileNumber = ?', [mobile]);
+  } */
   // List<Map> expectedList = [
   //   {'name': 'updated name', 'id': 1, 'value': 9876, 'num': 456.789},
   //   {'name': 'another name', 'id': 2, 'value': 12345678, 'num': 3.1416}

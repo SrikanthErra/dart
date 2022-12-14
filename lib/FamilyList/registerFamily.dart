@@ -37,7 +37,7 @@ class _registerFamilyFromDashboardState
 
   @override
   Widget build(BuildContext context) {
-    EasyLoading.dismiss();
+    //EasyLoading.dismiss();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(title: Center(child: Text('Register a Family'))),
@@ -167,6 +167,7 @@ class _registerFamilyFromDashboardState
                     if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
                         _formkey3.currentState!.validate()) {
+                     // EasyLoading.show();
                       final registered_famList = registrationFamilyModel(
                           mpin: "-",
                           age: age.text,
@@ -182,6 +183,7 @@ class _registerFamilyFromDashboardState
                           context, AppRoutes.dashboardGridview);
                       showToast("Family Member Added");
                       //getDropDownItem();
+                     // EasyLoading.dismiss();
                     }
                   },
                   buttonText: 'Submit'),

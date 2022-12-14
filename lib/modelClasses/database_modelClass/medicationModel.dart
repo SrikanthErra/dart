@@ -3,7 +3,7 @@ class MedicineModel {
   String? MedicineName;
   String? ExpiryDate;
   String? MedicinePhoto;
-  String? SymptomId;
+  int? SymptomId;
 
   MedicineModel({
     this.MedicineId,
