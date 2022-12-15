@@ -39,16 +39,16 @@ class _dashboardGridviewState extends State<dashboardGridview> {
         title: ' Family List',
         navigateApproute: AppRoutes.familyList),
     gridListView(
-        image: Image.asset(
-          "assets/icons-05.png",
-          fit: BoxFit.fitWidth,
-          height: 60,
-          width: 60,
-          color: Colors.white,
-        ),
-        title: 'Reports',
-        //navigateApproute: AppRoutes.
-        ),
+      image: Image.asset(
+        "assets/icons-05.png",
+        fit: BoxFit.fitWidth,
+        height: 60,
+        width: 60,
+        color: Colors.white,
+      ),
+      title: 'Reports',
+      //navigateApproute: AppRoutes.
+    ),
     gridListView(
         image: Image.asset(
           "assets/icons-03.png",
@@ -83,6 +83,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
 
   @override
   Widget build(BuildContext context) {
+    EasyLoading.dismiss();
     return new WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -125,7 +126,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
                     final dashboardData = dashboardList[index];
                     return GestureDetector(
                       onTap: () async {
-                       /*  await EasyLoading.show(
+                        /*  await EasyLoading.show(
                             status: "Loading...",
                             maskType: EasyLoadingMaskType.black); */
                         Navigator.pushNamed(

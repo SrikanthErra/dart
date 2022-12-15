@@ -70,7 +70,8 @@ mpin varchar(255)
       DoctorName varchar(255),
       HospitalName varchar(255),
       DateOfAppointment varchar(255),
-      ReasonForAppointment varchar(255)
+      ReasonForAppointment varchar(255),
+      NextAppointmentDate varchar(255)
           );
                     ''');
     await db.execute('''
@@ -153,8 +154,6 @@ SymptomId varchar(255)
     return res; */
   }
 
- 
-
   Future<int> queryRowCountforuser(String table, String mobile) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery(
@@ -182,6 +181,7 @@ SymptomId varchar(255)
             'SELECT $id FROM $table WHERE $name = ?', [selectedValue])) ??
         0;
   }
+
 /* 
   Future<List<Map<String, dynamic>>> getUser(
       String table, String mobilenumber) async {
@@ -194,15 +194,22 @@ SymptomId varchar(255)
   } */
   Future<List<Map>> prescList(String table, int id) async {
     Database db = await instance.database;
+
+    return await db
+        .rawQuery('SELECT * FROM $table2 WHERE familyMemberId = ?', [id]);
+
+    /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
+    return res; */
+
     return await db.rawQuery(
         'SELECT * FROM $table2 WHERE familyMemberId = ?', [id]);
+
   }
 
-   Future<List<Map>> medicineList(String table, int id) async {
+  Future<List<Map>> medicineList(String table, int id) async {
     Database db = await instance.database;
-    return await db.rawQuery(
-        'SELECT * FROM $table3 WHERE SymptomId = ?', [id]);
-    
+    return await db.rawQuery('SELECT * FROM $table3 WHERE SymptomId = ?', [id]);
+
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
     return res; */
   }
@@ -277,7 +284,8 @@ SymptomId varchar(255)
   Future<int> queryPresCount(String table, int FamilyMemberId) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery(
-            'SELECT COUNT(*) FROM Symptoms WHERE familyMemberId = ?', [FamilyMemberId])) ??
+            'SELECT COUNT(*) FROM Symptoms WHERE familyMemberId = ?',
+            [FamilyMemberId])) ??
         0;
   }
 }

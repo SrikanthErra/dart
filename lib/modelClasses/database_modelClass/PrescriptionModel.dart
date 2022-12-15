@@ -6,16 +6,17 @@ class PrescriptionModel {
   String? HospitalName;
   String? DateOfAppointment;
   String? ReasonForAppointment;
+  String? NextAppointmentDate;
 
-  PrescriptionModel({
-    this.SymptomId,
-    this.FamilyMemberId,
-    this.Symptom,
-    this.DoctorName,
-    this.HospitalName,
-    this.DateOfAppointment,
-    this.ReasonForAppointment, 
-  });
+  PrescriptionModel(
+      {this.SymptomId,
+      this.FamilyMemberId,
+      this.Symptom,
+      this.DoctorName,
+      this.HospitalName,
+      this.DateOfAppointment,
+      this.ReasonForAppointment,
+      this.NextAppointmentDate});
 
   PrescriptionModel.fromJson(Map<String, dynamic> json) {
     SymptomId = json['SymptomId'];
@@ -25,6 +26,7 @@ class PrescriptionModel {
     HospitalName = json['HospitalName'];
     DateOfAppointment = json['DateOfAppointment'];
     ReasonForAppointment = json['ReasonForAppointment'];
+    NextAppointmentDate = json['NextAppointmentDate'];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,6 +38,7 @@ class PrescriptionModel {
     data['HospitalName'] = this.HospitalName;
     data['DateOfAppointment'] = this.DateOfAppointment;
     data['ReasonForAppointment'] = this.ReasonForAppointment;
+    data['NextAppointmentDate'] = this.NextAppointmentDate;
     return data;
   }
 }

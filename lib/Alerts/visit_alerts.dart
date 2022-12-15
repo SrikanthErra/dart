@@ -46,15 +46,13 @@ class _visitAlertsState extends State<visitAlerts> {
                   size: 15,
                   weight: FontWeight.bold),
               ListView.builder(
-
                 physics: NeverScrollableScrollPhysics(),
-
                 shrinkWrap: true,
                 itemCount: nextvisitList.length,
                 itemBuilder: (context, index) {
                   final nextvisit = nextvisitList[index];
                   hospitalName = nextvisit.HospitalName;
-                  nextvisitdate = nextvisit.DateOfAppointment;
+                  nextvisitdate = nextvisit.NextAppointmentDate;
                   reason = nextvisit.ReasonForAppointment;
                   return Container(
                     child: Card(
@@ -92,6 +90,7 @@ class _visitAlertsState extends State<visitAlerts> {
                   size: 15,
                   weight: FontWeight.bold),
               ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: expiryList.length,
                 itemBuilder: (context, index) {
@@ -172,6 +171,7 @@ class _visitAlertsState extends State<visitAlerts> {
               HospitalName: element["HospitalName"],
               DateOfAppointment: element["DateOfAppointment"],
               ReasonForAppointment: element["ReasonForAppointment"],
+              NextAppointmentDate: element['NextAppointmentDate'],
             ),
           );
         });
