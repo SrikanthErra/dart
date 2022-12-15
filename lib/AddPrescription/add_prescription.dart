@@ -394,9 +394,9 @@ class _addPrescriptionState extends State<addPrescription> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
 // your code goes here
       fetchNextVisitData();
-      
     });
   }
+
 /* async {
                         await EasyLoading.show(
                             status: "Loading...",
@@ -404,28 +404,42 @@ class _addPrescriptionState extends State<addPrescription> {
                         Navigator.pushNamed(
                             context, dashboardData.navigateApproute ?? "");
                       }, */
-  fetchNextVisitData() async
-   {
-    EasyLoading.show(
-                            status: "Loading...",
-                            maskType: EasyLoadingMaskType.black);
+  fetchNextVisitData() async {
+    //EasyLoading.show(status: "Loading...", maskType: EasyLoadingMaskType.black);
     final familyNamesStateProvider =
         await Provider.of<FamilyListNamesProvider>(context, listen: false);
+    familyNamesStateProvider.FamilyNames.length = 0;
     if (familyNamesStateProvider.FamilyNames.length == 0) {
       DatabaseHelper _dbInstance = DatabaseHelper.instance;
-      await  _dbInstance.queryAllRows('FamilyList').then((value)  {
+      await _dbInstance.queryAllRows('FamilyList').then((value) {
+      //  familyNamesStateProvider.removeFamilyNamesData;
         value.forEach((element) {
           print(element);
-          familyNamesStateProvider.removeFamilyNamesData;
           print('get names ${familyNamesStateProvider.FamilyNames.length}');
           familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
               FamilyMemberName: element['name'],
               FamilyMemberId: element['id']));
+          print('Length is ${famNamesList.length}');
         });
-        print('Length is ${famNamesList.length}');
       });
     }
-    EasyLoading.dismiss();
+    /* else{
+      DatabaseHelper _dbInstance = DatabaseHelper.instance;
+      await _dbInstance.queryAllRows('FamilyList').then((value) {
+         familyNamesStateProvider.removeFamilyNamesData;
+        value.forEach((element) {
+          print(element);
+          print('get names ${familyNamesStateProvider.FamilyNames.length}');
+          familyNamesStateProvider.addFamilyNamesData(familyNamesDataModel(
+              FamilyMemberName: element['name'],
+              FamilyMemberId: element['id']));
+              print('Length is ${famNamesList.length}');
+        });
+        
+      });
+    } */
+    // List<String> famNamesList = [];
+    // EasyLoading.dismiss();
   }
 
   Future<int> SaveData(MedicineListProvider medicineStateProvider) async {

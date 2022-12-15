@@ -12,7 +12,7 @@ class FamilyListNamesProvider with ChangeNotifier {
     notifyListeners();
   }
  removeFamilyNamesData(familyNamesDataModel familyNamesData) {
-    _items.clear();
+    _items = [];
     notifyListeners();
   }
 
