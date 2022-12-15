@@ -31,7 +31,7 @@ class _addPrescriptionState extends State<addPrescription> {
   TextEditingController _famName = TextEditingController();
   TextEditingController _medicineName = TextEditingController();
   TextEditingController _symptom = TextEditingController();
-  TextEditingController _expiryDate = TextEditingController();
+  TextEditingController _NextAppointmentDate = TextEditingController();
   TextEditingController _hospitalName = TextEditingController();
   TextEditingController _appointment = TextEditingController();
   TextEditingController _doctorName = TextEditingController();
@@ -80,7 +80,8 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -360,7 +361,7 @@ class _addPrescriptionState extends State<addPrescription> {
                     ),
                     datePickerComponent(
                       hintText: 'Next Appointment Date',
-                      nameController: _expiryDate,
+                      nameController: _NextAppointmentDate,
                       errorMessage: 'Please enter next Appointment date',
                       obsecuretext: false,
                       node: _node,
@@ -412,7 +413,7 @@ class _addPrescriptionState extends State<addPrescription> {
     if (familyNamesStateProvider.FamilyNames.length == 0) {
       DatabaseHelper _dbInstance = DatabaseHelper.instance;
       await _dbInstance.queryAllRows('FamilyList').then((value) {
-      //  familyNamesStateProvider.removeFamilyNamesData;
+        //  familyNamesStateProvider.removeFamilyNamesData;
         value.forEach((element) {
           print(element);
           print('get names ${familyNamesStateProvider.FamilyNames.length}');
@@ -449,7 +450,8 @@ class _addPrescriptionState extends State<addPrescription> {
         DoctorName: _doctorName.text,
         HospitalName: _hospitalName.text,
         DateOfAppointment: _appointment.text,
-        ReasonForAppointment: _reason.text);
+        ReasonForAppointment: _reason.text,
+        NextAppointmentDate: _NextAppointmentDate.text);
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
     final saved = await _databaseService.insertInto(
         PrescriptionAdded.toJson(), DatabaseHelper.table2);

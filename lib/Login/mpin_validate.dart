@@ -124,7 +124,6 @@ class _mpinValidateState extends State<mpinValidate> {
       await EasyLoading.show(
           status: "Loading...", maskType: EasyLoadingMaskType.black);
       Navigator.pushReplacementNamed(context, AppRoutes.dashboardGridview);
-      EasyLoading.dismiss();
     } else {
       showAlert('Please Enter Valid MPIN');
     }

@@ -1,8 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:side_menu/Routes/App_routes.dart';
+import 'package:flutter/services.dart';
+import 'package:side_menu/Reusable/alert.dart';
+import '../Routes/App_routes.dart';
 
-class SidemenuDashboard extends StatelessWidget {
+class SidemenuDashboard extends StatefulWidget {
   const SidemenuDashboard({super.key});
+
+  @override
+  State<SidemenuDashboard> createState() => _SidemenuDashboardState();
+}
+
+class _SidemenuDashboardState extends State<SidemenuDashboard>
+    with SingleTickerProviderStateMixin {
+  late Animation<Color?> animation;
+  late AnimationController controller;
+  @override
+  initState() {
+    super.initState();
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    final CurvedAnimation curve =
+        CurvedAnimation(parent: controller, curve: Curves.linear);
+    animation =
+        ColorTween(begin: Colors.white, end: Colors.blue).animate(curve);
+    // Keep the animation going forever once it is started
+    animation.addStatusListener((status) {
+      // Reverse the animation after it has been completed
+      if (status == AnimationStatus.completed) {
+        controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        controller.forward();
+      }
+      setState(() {});
+    });
+    // Remove this line if you want to start the animation later
+    controller.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +96,29 @@ class SidemenuDashboard extends StatelessWidget {
                       Navigator.pushNamed(context, AppRoutes.familyList);
                     },
                   ),
-                  ListTile(
-                    leading: Icon(Icons.notifications),
-                    title: Text("Alerts"),
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.visitAlerts);
+                  AnimatedBuilder(
+                    animation: animation,
+                    builder: (BuildContext context, Widget? child) {
+                      return Container(
+                        color: animation.value,
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            // Start the animation or do something else on click
+                            // controller.forward();
+                            Navigator.pushNamed(context, AppRoutes.visitAlerts);
+                            print('button does something!');
+                          },
+                          child: ListTile(
+                            leading: Icon(Icons.notifications),
+                            title: Text("Alerts"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, AppRoutes.visitAlerts);
+                            },
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -131,14 +184,65 @@ class SidemenuDashboard extends StatelessWidget {
                     leading: Icon(Icons.exit_to_app),
                     title: Text("Exit"),
                     onTap: () {
-                      Navigator.pop(context);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Do you want to Exit from app...?"),
+                            actions: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () =>
+                                        SystemNavigator.pop(),
+                                    child: const Text('YES'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('NO'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
                   ListTile(
                     leading: Icon(Icons.logout_outlined),
                     title: Text("Logout"),
                     onTap: () {
-                      Navigator.pushReplacementNamed(context, AppRoutes.login);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Do you want to logout from app...?"),
+                            /* content:
+                                const Text('Do you want to logout from app'), */
+                            actions: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () =>
+                                        Navigator.pushReplacementNamed(
+                                            context, AppRoutes.login),
+                                    child: const Text('YES'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('NO'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
@@ -182,5 +286,11 @@ class SidemenuDashboard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
