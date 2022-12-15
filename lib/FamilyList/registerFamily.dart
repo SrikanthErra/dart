@@ -89,6 +89,21 @@ class _registerFamilyFromDashboardState
                 },
                 globalKey: _formkey2,
               ),
+              AppInputTextfield(
+                hintText: 'Mobile Number',
+                nameController: mobileNumber,
+                errorMessage: 'please enter Mobile number',
+                input_type: TextInputType.number,
+                obsecuretext: false,
+                action: TextInputAction.next,
+                node: node,
+                onEditingComplete: () {
+                  node.nextFocus();
+                },
+                length: 10,
+                //lengthRequired: 10,
+                globalKey: _formkey3,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -147,27 +162,12 @@ class _registerFamilyFromDashboardState
                   ),
                 ],
               ),
-              AppInputTextfield(
-                hintText: 'Mobile Number',
-                nameController: mobileNumber,
-                errorMessage: 'please enter Mobile number',
-                input_type: TextInputType.number,
-                obsecuretext: false,
-                action: TextInputAction.next,
-                node: node,
-                onEditingComplete: () {
-                  node.nextFocus();
-                },
-                length: 10,
-                //lengthRequired: 10,
-                globalKey: _formkey3,
-              ),
               ButtonComponent(
                   onPressed: () async {
                     if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
                         _formkey3.currentState!.validate()) {
-                     // EasyLoading.show();
+                      // EasyLoading.show();
                       final registered_famList = registrationFamilyModel(
                           mpin: "-",
                           age: age.text,
@@ -182,8 +182,6 @@ class _registerFamilyFromDashboardState
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.dashboardGridview);
                       showToast("Family Member Added");
-                      //getDropDownItem();
-                     // EasyLoading.dismiss();
                     }
                   },
                   buttonText: 'Submit'),
@@ -192,12 +190,5 @@ class _registerFamilyFromDashboardState
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    node.dispose();
-    super.dispose();
   }
 }
