@@ -92,6 +92,7 @@ SymptomId varchar(255)
   // Inserts a row in the database where each key in the Map is a column name
   // and the value is the column value. The return value is the id of the
   // inserted row.
+  
   Future<int> insert(
     Map<String, dynamic> row,
   ) async {
@@ -195,9 +196,6 @@ SymptomId varchar(255)
     Database db = await instance.database;
     return await db.rawQuery(
         'SELECT * FROM $table2 WHERE familyMemberId = ?', [id]);
-    
-    /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
-    return res; */
   }
 
    Future<List<Map>> medicineList(String table, int id) async {
@@ -209,6 +207,13 @@ SymptomId varchar(255)
     return res; */
   }
 
+  Future<List<Map>> viewMed() async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+        'SELECT Symptom,MedicineName,ExpiryDate FROM $table2 INNER JOIN $table3 ON $table3.SymptomId = $table2.SymptomId '
+        );
+        // Medicines   Symptoms  SymptomId
+  }
   /*  Future<List<Map>> queryRowCountforMpinValidate(
       String table, String mobile) async {
     Database db = await instance.database;
