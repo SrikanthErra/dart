@@ -6,7 +6,8 @@ import 'package:side_menu/Login/mpin.dart';
 import 'package:side_menu/Login/mpin_validate.dart';
 import 'package:side_menu/Login/otp.dart';
 import 'package:side_menu/Login/registration.dart';
-import 'package:side_menu/PrescriptionView/prescription_view.dart';
+import 'package:side_menu/view_Medicine/prescription_view.dart';
+import 'package:side_menu/view_Medicine/view_medicine.dart';
 
 import '../Alerts/visit_alerts.dart';
 import '../FamilyList/family_list.dart';
@@ -34,6 +35,7 @@ class AppPages {
       AppRoutes.registerFamilyDashboard: ((context) =>
           registerFamilyFromDashboard()),
       AppRoutes.MedicineListView: ((context) => MedicineList()),
+      AppRoutes.viewMedicine: ((context) => viewMedicine()),
     };
   }
 }
