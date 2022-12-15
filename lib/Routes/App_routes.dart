@@ -1,4 +1,5 @@
 import 'package:side_menu/Login/registration.dart';
+import 'package:side_menu/view_Medicine/view_medicine.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -16,6 +17,7 @@ class AppRoutes {
   static const visitAlerts = "/visitAlerts";
   static const registraion = "/registraion";
   static const dashboardGridview = "/dashboardGridview";
-  static const registerFamilyDashboard = "/registerFamily.dart";
-  static const MedicineListView = "/medicineView.dart";
+  static const registerFamilyDashboard = "/registerFamily";
+  static const MedicineListView = "/medicineView";
+  static const viewMedicine = "/viewMedicine";
 }

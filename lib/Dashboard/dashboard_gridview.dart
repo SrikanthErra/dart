@@ -78,7 +78,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
           color: Colors.white,
         ),
         title: 'View Medicine',
-        navigateApproute: AppRoutes.viewPrescription),
+        navigateApproute: AppRoutes.viewMedicine),
   ];
 
   @override
