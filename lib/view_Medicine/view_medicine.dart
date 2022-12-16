@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:side_menu/modelClasses/view_medicine_model.dart';
 import '../Database/database_helper.dart';
 import '../Reusable/app_input_text.dart';
@@ -27,11 +28,12 @@ class _viewMedicineState extends State<viewMedicine> {
     /* WidgetsBinding.instance.addPostFrameCallback((_) async {
      
     }); */
-     fetchdata();
+    fetchdata();
   }
 
   @override
   Widget build(BuildContext context) {
+    EasyLoading.dismiss();
     //MedList = ModalRoute.of(context)?.settings.arguments as dynamic;
     return Scaffold(
       //resizeToAvoidBottomInset: false,
@@ -163,7 +165,6 @@ class _viewMedicineState extends State<viewMedicine> {
           print(' id ${viewMedList}');
           viewSearchMedList = viewMedList;
         });
-        
       });
     });
   }
@@ -178,17 +179,15 @@ class _viewMedicineState extends State<viewMedicine> {
           .where((element) =>
               element.Symptom!
                   .toLowerCase()
-                  .contains(enteredKeyword.toLowerCase()) 
-                  ||
+                  .contains(enteredKeyword.toLowerCase()) ||
               element.MedicineName!
                   .toLowerCase()
-                  .contains(enteredKeyword.toLowerCase())
-                  )
+                  .contains(enteredKeyword.toLowerCase()))
           .toList();
     }
     setState(() {
-        viewSearchMedList = results;
-        print(viewSearchMedList.length);
-      });
+      viewSearchMedList = results;
+      print(viewSearchMedList.length);
+    });
   }
 }
