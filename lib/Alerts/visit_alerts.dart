@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import '../Database/database_helper.dart';
 import '../modelClasses/database_modelClass/PrescriptionModel.dart';
@@ -11,7 +13,10 @@ class visitAlerts extends StatefulWidget {
   State<visitAlerts> createState() => _visitAlertsState();
 }
 
-class _visitAlertsState extends State<visitAlerts> {
+class _visitAlertsState extends State<visitAlerts>
+    with SingleTickerProviderStateMixin {
+  late Animation<Color?> animation;
+  late AnimationController controller;
   List<PrescriptionModel> nextvisitList = [];
   List<MedicineModel> expiryList = [];
   String? hospitalName;
@@ -20,10 +25,9 @@ class _visitAlertsState extends State<visitAlerts> {
   String? _expiryMedicineName;
   String? _expiryDate;
   Widget build(BuildContext context) {
+    EasyLoading.dismiss();
     return Scaffold(
       backgroundColor: Colors.transparent,
-
-      //resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Text('Alerts'), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
@@ -97,31 +101,75 @@ class _visitAlertsState extends State<visitAlerts> {
                   final expirylist = expiryList[index];
                   _expiryMedicineName = expirylist.MedicineName;
                   _expiryDate = expirylist.ExpiryDate;
-                  print("the name is $hospitalName");
-                  return Container(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Colors.black87, width: 1),
-                      ),
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Column(
-                          children: [
-                            RowComponent(
-                              "Medicine Name",
-                              _expiryMedicineName,
+                  print(_expiryDate);
+                  DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+                  final Exp = dateFormat.parse(_expiryDate!);
+                  return ((Exp).isBefore(DateTime.now()))
+                      ? AnimatedBuilder(
+                          animation: animation,
+                          builder: (BuildContext context, Widget? child) {
+                            return Container(
+                              color: animation.value,
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                onTap: () {
+                                  // Start the animation or do something else on click
+                                  // controller.forward();
+                                  print('button does something!');
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: BorderSide(
+                                        color: Colors.black87, width: 1),
+                                  ),
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    child: Column(
+                                      children: [
+                                        RowComponent(
+                                          "Medicine Name",
+                                          expirylist.MedicineName,
+                                        ),
+                                        RowComponent(
+                                          "Expiry Date",
+                                          expirylist.ExpiryDate,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      : Container(
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(color: Colors.black87, width: 1),
                             ),
-                            RowComponent(
-                              "Expiry Date",
-                              _expiryDate,
+                            color: Colors.white,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Column(
+                                children: [
+                                  RowComponent(
+                                    "Medicine Name",
+                                    _expiryMedicineName,
+                                  ),
+                                  RowComponent(
+                                    "Expiry Date",
+                                    expirylist.ExpiryDate,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                          ),
+                        );
                 },
               ),
             ],
@@ -161,6 +209,26 @@ class _visitAlertsState extends State<visitAlerts> {
 
   void initState() {
     super.initState();
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    final CurvedAnimation curve =
+        CurvedAnimation(parent: controller, curve: Curves.linear);
+    animation =
+        ColorTween(begin: Colors.white, end: Colors.blue).animate(curve);
+    // Keep the animation going forever once it is started
+    animation.addStatusListener((status) {
+      // Reverse the animation after it has been completed
+      if (status == AnimationStatus.completed) {
+        controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        controller.forward();
+      }
+      setState(() {});
+    });
+    // Remove this line if you want to start the animation later
+    controller.forward();
     DatabaseHelper.instance.queryAllRows("Symptoms").then((value) {
       setState(() {
         value.forEach((element) {

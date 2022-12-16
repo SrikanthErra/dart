@@ -55,6 +55,7 @@ class _addPrescriptionState extends State<addPrescription> {
   //File? _image;
   @override
   Widget build(BuildContext context) {
+    EasyLoading.dismiss();
     //fetchNextVisitData();
     final familyNamesStateProvider =
         Provider.of<FamilyListNamesProvider>(context);
