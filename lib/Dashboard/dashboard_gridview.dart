@@ -17,6 +17,7 @@ class dashboardGridview extends StatefulWidget {
 }
 
 class _dashboardGridviewState extends State<dashboardGridview> {
+  int counter = 0;
   List<gridListView> dashboardList = [
     gridListView(
         image: Image.asset(
@@ -47,7 +48,7 @@ class _dashboardGridviewState extends State<dashboardGridview> {
         color: Colors.white,
       ),
       title: 'Reports',
-      //navigateApproute: AppRoutes.
+      navigateApproute: AppRoutes.viewReports,
     ),
     gridListView(
         image: Image.asset(

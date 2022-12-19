@@ -7,8 +7,10 @@ import 'Routes/App_pages.dart';
 import 'Routes/App_routes.dart';
 import 'appColor.dart';
 import 'modelClasses/medicine_list_provider.dart';
+import 'notifier/alert_count_notifier.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => MedicineListProvider()),
           ChangeNotifierProvider(create: (_) => FamilyListNamesProvider()),
+          ChangeNotifierProvider(create: (_) => AlertsCountProvider()),
         ],
         child: MaterialApp(
           title: 'Medicine Home Inventory',

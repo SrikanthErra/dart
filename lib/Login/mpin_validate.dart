@@ -28,7 +28,7 @@ class _mpinValidateState extends State<mpinValidate> {
   Widget build(BuildContext context) {
     final arg = ModalRoute.of(context)?.settings.arguments as ScreenArguments;
     return Scaffold(
-    // resizeToAvoidBottomInset: true,
+      // resizeToAvoidBottomInset: true,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -62,6 +62,7 @@ class _mpinValidateState extends State<mpinValidate> {
               ),
               PinCodeFields(
                 length: 4,
+                obscureText: true,
                 fieldBorderStyle: FieldBorderStyle.square,
                 controller: _mpin,
                 responsive: false,
@@ -72,10 +73,11 @@ class _mpinValidateState extends State<mpinValidate> {
                 activeBackgroundColor: Colors.blue[100],
                 borderRadius: BorderRadius.circular(10.0),
                 keyboardType: TextInputType.number,
-                autoHideKeyboard: false,
+                autoHideKeyboard: true,
                 fieldBackgroundColor: Colors.black12,
-                borderColor: Colors.black38,
+                borderColor: Colors.grey,
                 textStyle: TextStyle(
+                  color: Colors.white,
                   fontSize: 30.0,
                   fontWeight: FontWeight.bold,
                 ),

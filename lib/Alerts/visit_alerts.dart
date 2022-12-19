@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
+import 'package:side_menu/notifier/alert_count_notifier.dart';
 import '../Database/database_helper.dart';
 import '../modelClasses/database_modelClass/PrescriptionModel.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
@@ -15,6 +17,7 @@ class visitAlerts extends StatefulWidget {
 
 class _visitAlertsState extends State<visitAlerts>
     with SingleTickerProviderStateMixin {
+  int count = 0;
   late Animation<Color?> animation;
   late AnimationController controller;
   List<PrescriptionModel> nextvisitList = [];
@@ -101,44 +104,35 @@ class _visitAlertsState extends State<visitAlerts>
                   final expirylist = expiryList[index];
                   _expiryMedicineName = expirylist.MedicineName;
                   _expiryDate = expirylist.ExpiryDate;
-                  print(_expiryDate);
                   DateFormat dateFormat = DateFormat("dd-MM-yyyy");
                   final Exp = dateFormat.parse(_expiryDate!);
                   return ((Exp).isBefore(DateTime.now()))
                       ? AnimatedBuilder(
                           animation: animation,
                           builder: (BuildContext context, Widget? child) {
-                            return Container(
+                            return Card(
                               color: animation.value,
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                onTap: () {
-                                  // Start the animation or do something else on click
-                                  // controller.forward();
-                                  print('button does something!');
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
-                                        color: Colors.black87, width: 1),
-                                  ),
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10.0),
-                                    child: Column(
-                                      children: [
-                                        RowComponent(
-                                          "Medicine Name",
-                                          expirylist.MedicineName,
-                                        ),
-                                        RowComponent(
-                                          "Expiry Date",
-                                          expirylist.ExpiryDate,
-                                        ),
-                                      ],
-                                    ),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(
+                                      color: Colors.black87, width: 1),
+                                ),
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: Column(
+                                    children: [
+                                      RowComponent(
+                                        "Medicine Name",
+                                        expirylist.MedicineName,
+                                      ),
+                                      RowComponent(
+                                        "Expiry Date",
+                                        expirylist.ExpiryDate,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -214,9 +208,9 @@ class _visitAlertsState extends State<visitAlerts>
       vsync: this,
     );
     final CurvedAnimation curve =
-        CurvedAnimation(parent: controller, curve: Curves.linear);
+        CurvedAnimation(parent: controller, curve: Curves.bounceInOut);
     animation =
-        ColorTween(begin: Colors.white, end: Colors.blue).animate(curve);
+        ColorTween(begin: Colors.red, end: Colors.purple).animate(curve);
     // Keep the animation going forever once it is started
     animation.addStatusListener((status) {
       // Reverse the animation after it has been completed
@@ -261,5 +255,28 @@ class _visitAlertsState extends State<visitAlerts>
     }).catchError((error) {
       print(error);
     });
+    /* WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final CountProvider =
+          Provider.of<AlertsCountProvider>(context, listen: false);
+      countAlerts(CountProvider);
+    }); */
+  }
+
+  /* void countAlerts(AlertsCountProvider countProvider) {
+    expiryList.forEach((element) {
+      final Expiry = element.ExpiryDate;
+      DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+      final Exp = dateFormat.parse(Expiry!);
+      print(Exp);
+      if ((Exp).isBefore(DateTime.now())) {
+        final CounterAlert = countProvider.CountIncrementer();
+        print(CounterAlert);
+      }
+    });
+  } */
+
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
