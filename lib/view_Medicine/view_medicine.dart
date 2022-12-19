@@ -65,7 +65,7 @@ class _viewMedicineState extends State<viewMedicine> {
                   onChanged: (value) => _runFilter(value),
                   decoration: InputDecoration(
                       labelStyle: TextStyle(color: Colors.white),
-                      labelText: "Enter Symptom/Medicine name",
+                      labelText: "Search Symptom/MedicineName",
                       suffixIcon: Icon(
                         Icons.search,
                         color: Colors.white,
