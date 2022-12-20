@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Alerts/alert_for_medicineData.dart';
+import 'package:side_menu/Dashboard/dashboard_gridview.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
@@ -376,7 +377,8 @@ class _addPrescriptionState extends State<addPrescription> {
                           if (validateField()) {
                             SaveData(medicineStateProvider);
                             showToast("Prescription added Successfully");
-                            Navigator.pop(context);
+                            Navigator.pushReplacementNamed(
+                                context, AppRoutes.dashboardGridview);
                           }
                         },
                         buttonText: 'Submit'),
