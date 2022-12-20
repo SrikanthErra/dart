@@ -35,114 +35,112 @@ class _LoginPageState extends State<LoginPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                      radius: 60,
-                      backgroundImage: AssetImage("assets/appLogo.png")),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AppInputText(
-                        text: 'Login',
-                        colors: Colors.white,
-                        size: 20,
-                        weight: FontWeight.bold),
-                  ),
-                  AppInputTextfield(
-                    length: 10,
-                    hintText: 'Mobile Number',
-                    nameController: _mobile,
-                    errorMessage: 'Please Enter Mobile Number',
-                    input_type: TextInputType.number,
-                    obsecuretext: false,
-                    node: _node,
-                    action: TextInputAction.next,
-                    onEditingComplete: () {
-                      _node.nextFocus();
+        child: Form(
+          key: _formKey,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage("assets/appLogo.png")),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AppInputText(
+                      text: 'Login',
+                      colors: Colors.white,
+                      size: 20,
+                      weight: FontWeight.bold),
+                ),
+                AppInputTextfield(
+                  length: 10,
+                  hintText: 'Mobile Number',
+                  nameController: _mobile,
+                  errorMessage: 'Please Enter Mobile Number',
+                  input_type: TextInputType.number,
+                  obsecuretext: false,
+                  node: _node,
+                  action: TextInputAction.next,
+                  onEditingComplete: () {
+                    _node.nextFocus();
+                  },
+                  //lengthRequired: 10,
+                  globalKey: _formkey1,
+                ),
+                /* AppInputTextfield(
+                  hintText: 'Password',
+                  nameController: _password,
+                  errorMessage: 'Please Enter Mobile Number',
+                  input_type: TextInputType.number,
+                  obsecuretext: !_isPasswordVisible,
+                  node: _node,
+                  action: TextInputAction.next,
+                  onEditingComplete: () {
+                    _node.nextFocus();
+                  },
+                  globalKey: _formkey2,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
                     },
-                    //lengthRequired: 10,
-                    globalKey: _formkey1,
+                    icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.grey),
                   ),
-                  /* AppInputTextfield(
-                    hintText: 'Password',
-                    nameController: _password,
-                    errorMessage: 'Please Enter Mobile Number',
-                    input_type: TextInputType.number,
-                    obsecuretext: !_isPasswordVisible,
-                    node: _node,
-                    action: TextInputAction.next,
-                    onEditingComplete: () {
-                      _node.nextFocus();
+                ), */
+                /* Center(
+                    child: TextButton(
+                        onPressed: () {}, child: Text('Forgot Password'))), */
+                ButtonComponent(
+                    onPressed: () {
+                      if (_formkey1.currentState!
+                              .validate() /* &&
+                          _formkey2.currentState!.validate() */
+                          ) {}
+                      if (validateInputs()) {
+                        /*  for (var j = 0; j < mobileList.length; j++) {
+                          print('number is ${mobileList[j]}');
+                          print('number2 is ${_username.text}');
+                          if (mobileList[j] == _username.text) {
+                            print('true');
+                            Navigator.pushNamed(
+                                context, AppRoutes.mpinValidate);
+                          } else {
+                            showAlert('Please enter valid mobile number');
+                          }
+                        } */
+                        LoginCall(_mobile.text);
+                        /* if (flag == 1) {
+                          showAlert('No data found.... Please SignUp');
+                        } */
+                      }
                     },
-                    globalKey: _formkey2,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
-                        });
-                      },
-                      icon: Icon(
-                          _isPasswordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Colors.grey),
-                    ),
-                  ), */
-                  /* Center(
-                      child: TextButton(
-                          onPressed: () {}, child: Text('Forgot Password'))), */
-                  ButtonComponent(
-                      onPressed: () {
-                        if (_formkey1.currentState!
-                                .validate() /* &&
-                            _formkey2.currentState!.validate() */
-                            ) {}
-                        if (validateInputs()) {
-                          /*  for (var j = 0; j < mobileList.length; j++) {
-                            print('number is ${mobileList[j]}');
-                            print('number2 is ${_username.text}');
-                            if (mobileList[j] == _username.text) {
-                              print('true');
-                              Navigator.pushNamed(
-                                  context, AppRoutes.mpinValidate);
-                            } else {
-                              showAlert('Please enter valid mobile number');
-                            }
-                          } */
-                          LoginCall(_mobile.text);
-                          /* if (flag == 1) {
-                            showAlert('No data found.... Please SignUp');
-                          } */
-                        }
-                      },
-                      buttonText: 'Login'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AppInputText(
-                          text: 'Didnt have any account?',
-                          colors: Colors.black,
-                          size: 15,
-                          weight: FontWeight.w300),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, AppRoutes.registraion);
-                          },
-                          child: Text(
-                            'Sign Up here',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ))
-                    ],
-                  )
-                ],
-              ),
+                    buttonText: 'Login'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppInputText(
+                        text: 'Didnt have any account?',
+                        colors: Colors.black,
+                        size: 15,
+                        weight: FontWeight.w300),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.registraion);
+                        },
+                        child: Text(
+                          'Sign Up here',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ))
+                  ],
+                )
+              ],
             ),
           ),
         ),

@@ -373,10 +373,13 @@ class _addPrescriptionState extends State<addPrescription> {
                       },
                     ),
                     ButtonComponent(
-                        onPressed: () {
+                        onPressed: () async {
                           if (validateField()) {
                             SaveData(medicineStateProvider);
                             showToast("Prescription added Successfully");
+                            await EasyLoading.show(
+                                status: "Loading...",
+                                maskType: EasyLoadingMaskType.black);
                             Navigator.pushReplacementNamed(
                                 context, AppRoutes.dashboardGridview);
                           }
