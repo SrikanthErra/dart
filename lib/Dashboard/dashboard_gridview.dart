@@ -1,5 +1,6 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -93,7 +94,7 @@ class _dashboardGridviewState extends State<dashboardGridview>
   Widget build(BuildContext context) {
     EasyLoading.dismiss();
     return new WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: _onBackPressed,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         drawer: SidemenuDashboard(),
@@ -334,5 +335,27 @@ class _dashboardGridviewState extends State<dashboardGridview>
     }).catchError((error) {
       print(error);
     });
+  }
+
+  Future<bool> _onBackPressed() async {
+    return await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit the Application'),
+            actions: <Widget>[
+              ElevatedButton(
+                onPressed: () => SystemNavigator.pop(),
+                child: Text("Yes"),
+              ),
+              SizedBox(height: 16),
+              new ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text("No"),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 }
