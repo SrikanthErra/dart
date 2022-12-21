@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/notifier/alert_count_notifier.dart';
 import '../Database/database_helper.dart';
+import '../Routes/App_routes.dart';
 import '../modelClasses/database_modelClass/PrescriptionModel.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
 
@@ -29,101 +30,153 @@ class _visitAlertsState extends State<visitAlerts>
   String? _expiryDate;
   Widget build(BuildContext context) {
     EasyLoading.dismiss();
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(title: Text('Alerts'), centerTitle: true),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
-            fit: BoxFit.cover,
-          ),
+    return new WillPopScope(
+      onWillPop: () async {
+        await EasyLoading.show(
+            status: "Loading...", maskType: EasyLoadingMaskType.black);
+        Navigator.pushNamed(context, AppRoutes.dashboardGridview);
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text('Alerts'),
+          centerTitle: true,
+          leading: IconButton(
+              onPressed: () async {
+                await EasyLoading.show(
+                    status: "Loading...", maskType: EasyLoadingMaskType.black);
+                Navigator.pushNamed(context, AppRoutes.dashboardGridview);
+              },
+              icon: Icon(Icons.arrow_back)),
         ),
-        //margin: EdgeInsets.symmetric(vertical: 20),
-        //  width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          physics: ScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              AppInputText(
-                  text: 'Next Visit Alerts',
-                  colors: Colors.white,
-                  size: 15,
-                  weight: FontWeight.bold),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: nextvisitList.length,
-                itemBuilder: (context, index) {
-                  final nextvisit = nextvisitList[index];
-                  hospitalName = nextvisit.HospitalName;
-                  nextvisitdate = nextvisit.NextAppointmentDate;
-                  reason = nextvisit.ReasonForAppointment;
-                  return Container(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Colors.black87, width: 1),
-                      ),
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Column(
-                          children: [
-                            RowComponent(
-                              "Hospital Name",
-                              hospitalName,
-                            ),
-                            RowComponent(
-                              "Next Visit Date",
-                              nextvisitdate,
-                            ),
-                            RowComponent(
-                              "Reason for Appointment",
-                              reason,
-                            ),
-                          ],
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/background_bg.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          //margin: EdgeInsets.symmetric(vertical: 20),
+          //  width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                AppInputText(
+                    text: 'Next Visit Alerts',
+                    colors: Colors.white,
+                    size: 15,
+                    weight: FontWeight.bold),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: nextvisitList.length,
+                  itemBuilder: (context, index) {
+                    final nextvisit = nextvisitList[index];
+                    hospitalName = nextvisit.HospitalName;
+                    nextvisitdate = nextvisit.NextAppointmentDate;
+                    reason = nextvisit.ReasonForAppointment;
+                    return Container(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: Colors.black87, width: 1),
+                        ),
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Column(
+                            children: [
+                              RowComponent(
+                                "Hospital Name",
+                                hospitalName,
+                              ),
+                              RowComponent(
+                                "Next Visit Date",
+                                nextvisitdate,
+                              ),
+                              RowComponent(
+                                "Reason for Appointment",
+                                reason,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
-              AppInputText(
-                  text: 'Expiry Alerts',
-                  colors: Colors.white,
-                  size: 15,
-                  weight: FontWeight.bold),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: expiryList.length,
-                itemBuilder: (context, index) {
-                  final expirylist = expiryList[index];
-                  _expiryMedicineName = expirylist.MedicineName;
-                  _expiryDate = expirylist.ExpiryDate;
-                  DateFormat dateFormat = DateFormat("dd-MM-yyyy");
-                  final Exp = dateFormat.parse(_expiryDate!);
-                  return ((Exp).isBefore(DateTime.now()))
-                      ? AnimatedBuilder(
-                          animation: animation,
-                          builder: (BuildContext context, Widget? child) {
-                            return Card(
-                              color: animation.value,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  side: BorderSide(
-                                      color: Colors.black87, width: 1),
-                                ),
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
+                    );
+                  },
+                ),
+                AppInputText(
+                    text: 'Expiry Alerts',
+                    colors: Colors.white,
+                    size: 15,
+                    weight: FontWeight.bold),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: expiryList.length,
+                  itemBuilder: (context, index) {
+                    final expirylist = expiryList[index];
+                    _expiryMedicineName = expirylist.MedicineName;
+                    _expiryDate = expirylist.ExpiryDate;
+                    DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+                    final Exp = dateFormat.parse(_expiryDate!);
+                    return ((Exp).isBefore(DateTime.now()))
+                        ? AnimatedBuilder(
+                            animation: animation,
+                            builder: (BuildContext context, Widget? child) {
+                              return Card(
+                                color: animation.value,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: BorderSide(
+                                        color: Colors.black87, width: 1),
+                                  ),
+                                  color: Colors.white,
                                   child: Column(
                                     children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Expired Medicine",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                          AnimatedBuilder(
+                                              animation: animation,
+                                              builder: (BuildContext context,
+                                                  Widget? child) {
+                                                return IconButton(
+                                                  onPressed: () async {
+                                                    DatabaseHelper.instance
+                                                        .delete(expirylist
+                                                            .MedicineId!);
+                                                    await EasyLoading.show(
+                                                        status: "Loading...",
+                                                        maskType:
+                                                            EasyLoadingMaskType
+                                                                .black);
+                                                    Navigator
+                                                        .pushReplacementNamed(
+                                                            context,
+                                                            AppRoutes
+                                                                .visitAlerts);
+                                                  },
+                                                  icon: Icon(Icons.delete,
+                                                      color: Colors.red),
+                                                  iconSize: 14,
+                                                );
+                                              }),
+                                        ],
+                                      ),
                                       RowComponent(
                                         "Medicine Name",
                                         expirylist.MedicineName,
@@ -135,38 +188,39 @@ class _visitAlertsState extends State<visitAlerts>
                                     ],
                                   ),
                                 ),
+                              );
+                            },
+                          )
+                        : Container(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side:
+                                    BorderSide(color: Colors.black87, width: 1),
                               ),
-                            );
-                          },
-                        )
-                      : Container(
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: BorderSide(color: Colors.black87, width: 1),
-                            ),
-                            color: Colors.white,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              child: Column(
-                                children: [
-                                  RowComponent(
-                                    "Medicine Name",
-                                    _expiryMedicineName,
-                                  ),
-                                  RowComponent(
-                                    "Expiry Date",
-                                    expirylist.ExpiryDate,
-                                  ),
-                                ],
+                              color: Colors.white,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Column(
+                                  children: [
+                                    RowComponent(
+                                      "Medicine Name",
+                                      _expiryMedicineName,
+                                    ),
+                                    RowComponent(
+                                      "Expiry Date",
+                                      expirylist.ExpiryDate,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                },
-              ),
-            ],
+                          );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -175,7 +229,7 @@ class _visitAlertsState extends State<visitAlerts>
 
   RowComponent(var data, var value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
       child: Row(
         children: [
           Expanded(
@@ -188,14 +242,14 @@ class _visitAlertsState extends State<visitAlerts>
             ),
           ),
           SizedBox(
-            width: 10,
+            width: 30,
           ),
           Expanded(
             child: Text(
               value.toString(),
               style: TextStyle(color: Colors.black, fontSize: 14),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -246,6 +300,7 @@ class _visitAlertsState extends State<visitAlerts>
         value.forEach((element) {
           expiryList.add(
             MedicineModel(
+              MedicineId: element["MedicineId"],
               MedicineName: element["MedicineName"],
               ExpiryDate: element["ExpiryDate"],
             ),
@@ -260,7 +315,7 @@ class _visitAlertsState extends State<visitAlerts>
           count++;
         }
       });
-       print(count);
+      print(count);
     }).catchError((error) {
       print(error);
     });

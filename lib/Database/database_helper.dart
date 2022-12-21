@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
+import 'package:side_menu/modelClasses/database_modelClass/medicationModel.dart';
 
 import 'package:side_menu/modelClasses/family_list_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -21,6 +22,7 @@ class DatabaseHelper {
   static final mpin = 'mpin';
 
   static final medicineTable = 'MedicineList';
+  static final columnId = "MedicineId";
   // static final tableContact = 'contact';
 
   // make this a singleton class
@@ -237,12 +239,24 @@ SymptomId varchar(255)
   //   return await db.update(table, row, where: '$columnId = ?', whereArgs: [id]);
   // }
 
+//DELETE//
   // // Deletes the row specified by the id. The number of affected rows is
   // // returned. This should be 1 as long as the row exists.
-  Future<int> delete(String name) async {
+/*   Future<int> delete(String name) async {
     Database db = await instance.database;
     return await db.delete(table, where: '$name = ?', whereArgs: [name]);
+  } */
+  Future<int> delete(int id) async {
+    Database db = await instance.database;
+    return await db.delete(table3, where: '$columnId = ?', whereArgs: [id]);
   }
+
+  //UPDATE//
+  // Future<int> update(MedicineModel data, id) async {
+  //   Database db = await instance.database;
+  //   return await db
+  //       .update(table3, data.toJson(), where: '$columnId = ?', whereArgs: [id]);
+  // }
 
   /*  Future<User> checkLogin(String userName, String password) async {
     final dbClient = await db;
