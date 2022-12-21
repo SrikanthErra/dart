@@ -252,6 +252,15 @@ class _visitAlertsState extends State<visitAlerts>
           );
         });
       });
+      expiryList.forEach((element) {
+        final expiry = element.ExpiryDate;
+        DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+        final Exp = dateFormat.parse(expiry!);
+        if (Exp.isBefore(DateTime.now())) {
+          count++;
+        }
+      });
+       print(count);
     }).catchError((error) {
       print(error);
     });
