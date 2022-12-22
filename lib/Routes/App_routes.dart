@@ -25,4 +25,5 @@ class AppRoutes {
   static const MedicineListView = "/medicineView";
   static const viewMedicine = "/viewMedicine";
   static const viewReports = "/reports.dart";
+  static const viewAllMedicines = "/allMedicinesView.dart";
 }

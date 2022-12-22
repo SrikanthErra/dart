@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:side_menu/AddPrescription/add_prescription.dart';
 import 'package:side_menu/AddPrescription/pdf_viewer.dart';
+import 'package:side_menu/Dashboard/allMedicinesView.dart';
 import 'package:side_menu/Dashboard/dashboard_gridview.dart';
 import 'package:side_menu/FamilyList/reports.dart';
 import 'package:side_menu/Login/mpin.dart';
@@ -44,6 +45,7 @@ class AppPages {
       AppRoutes.MedicineListView: ((context) => MedicineList()),
       AppRoutes.viewMedicine: ((context) => viewMedicine()),
       AppRoutes.viewReports: ((context) => ReportsPage()),
+      AppRoutes.viewAllMedicines: ((context) => AllMedicineList()),
     };
   }
 }
