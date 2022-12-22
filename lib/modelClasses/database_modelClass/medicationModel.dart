@@ -3,6 +3,7 @@ class MedicineModel {
   String? MedicineName;
   String? ExpiryDate;
   String? MedicinePhoto;
+  int? TabletsCount;
   int? SymptomId;
 
   MedicineModel({
@@ -11,6 +12,7 @@ class MedicineModel {
     this.ExpiryDate,
     this.MedicinePhoto,
     this.SymptomId,
+    this.TabletsCount,
   });
 
   MedicineModel.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class MedicineModel {
     ExpiryDate = json['ExpiryDate'];
     MedicinePhoto = json['MedicinePhoto'];
     SymptomId = json['SymptomId'];
+    TabletsCount = json['TabletsCount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +31,7 @@ class MedicineModel {
     data['ExpiryDate'] = this.ExpiryDate;
     data['MedicinePhoto'] = this.MedicinePhoto;
     data['SymptomId'] = this.SymptomId;
+    data['TabletsCount'] = this.TabletsCount;
     return data;
   }
 }

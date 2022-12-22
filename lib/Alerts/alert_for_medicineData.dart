@@ -2,26 +2,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
-import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/app_input_textfield.dart';
-import 'package:side_menu/Reusable/date_picker.dart';
-import 'package:side_menu/Reusable/toast.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-
 import 'package:universal_io/io.dart';
-
-import '../Database/database_helper.dart';
-
 import '../modelClasses/medicine_data_model.dart';
 import '../modelClasses/medicine_list_provider.dart';
-import '../Reusable/alertInputTextfield.dart';
 import '../Reusable/alert_date_picker.dart';
 import '../Reusable/alert_textformfield.dart';
 
@@ -33,6 +19,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
     required this.errorMessage,
     required this.MedicinenameController,
     required this.ExpiryDateController,
+    required this.TabletCountController,
     required this.input_type,
     required this.obsecuretext,
     // required this.node,
@@ -41,11 +28,20 @@ class AppShowAlertMedicineData extends StatelessWidget {
     this.globalKey,
     required this.hintText1,
     required this.errorMessage1,
+    required this.errorMessage2,
+    required this.hintText2,
     //required this.MedicinenameControllerText,
   });
   final String message;
-  final String hintText, hintText1, errorMessage, errorMessage1;
-  final TextEditingController MedicinenameController, ExpiryDateController;
+  final String hintText,
+      hintText1,
+      hintText2,
+      errorMessage,
+      errorMessage1,
+      errorMessage2;
+  final TextEditingController MedicinenameController,
+      ExpiryDateController,
+      TabletCountController;
   final TextInputType input_type;
   final bool obsecuretext;
   // final FocusScopeNode node;
@@ -58,11 +54,14 @@ class AppShowAlertMedicineData extends StatelessWidget {
   Widget build(BuildContext context) {
     final _formkey1 = GlobalKey<FormState>();
     final _formkey2 = GlobalKey<FormState>();
+    final _formkey3 = GlobalKey<FormState>();
     List<File> fileIs = [];
     final studentsStateProvider = Provider.of<MedicineListProvider>(context);
     MedicinenameController.text = "";
     ExpiryDateController.text = "";
+    TabletCountController.text = "";
     String? MedicinenameControllerText;
+    int? TabletCountControllerText;
     return SingleChildScrollView(
       child: new Center(child: (() {
         print('OS: ${Platform.operatingSystem}');
@@ -99,6 +98,19 @@ class AppShowAlertMedicineData extends StatelessWidget {
                       action: action,
                       onEditingComplete: onEditingComplete,
                       globalKey: _formkey2),
+                  AlertTextFormField(
+                      hintText: hintText2,
+                      nameController: TabletCountController,
+                      onChanged: (value) {
+                        TabletCountControllerText = value as int?;
+                      },
+                      errorMessage: errorMessage2,
+                      input_type: input_type,
+                      obsecuretext: obsecuretext,
+                      node: node,
+                      action: action,
+                      onEditingComplete: onEditingComplete,
+                      globalKey: _formkey3),
                   TextButton(
                     onPressed: () async {
                       final result = await FilePicker.platform
@@ -124,11 +136,13 @@ class AppShowAlertMedicineData extends StatelessWidget {
                 TextButton(
                     onPressed: (() {
                       if (_formkey1.currentState!.validate() &&
-                          _formkey2.currentState!.validate()) {
+                          _formkey2.currentState!.validate() &&
+                          _formkey3.currentState!.validate()) {
                         studentsStateProvider.addMedicineData(medicineDataModel(
                             medicineName: MedicinenameController.text,
                             ExpiryDate: ExpiryDateController.text,
-                            medicineFiles: fileIs));
+                            medicineFiles: fileIs,
+                            TabletCount: TabletCountController.text));
                         //MedicinesDataTable();
                         print('files are $fileIs');
                         print("data added successfully" +
@@ -163,16 +177,26 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     node: node,
                     action: action,
                     onEditingComplete: onEditingComplete),
-                     TextButton(
-                    onPressed: () async {
-                      final result = await FilePicker.platform
-                          .pickFiles(withReadStream: true, allowMultiple: true);
-                      if (result == null) return;
-                      fileIs = result.paths.map((path) => File(path!)).toList();
-                      print('files length is ${fileIs.length}');
-                    },
-                    child: Text('Upload File'),
-                  )
+                AlertTextFormField(
+                    hintText: hintText2,
+                    nameController: TabletCountController,
+                    errorMessage: errorMessage2,
+                    input_type: input_type,
+                    obsecuretext: obsecuretext,
+                    node: node,
+                    action: action,
+                    onEditingComplete: onEditingComplete,
+                    globalKey: _formkey3),
+                TextButton(
+                  onPressed: () async {
+                    final result = await FilePicker.platform
+                        .pickFiles(withReadStream: true, allowMultiple: true);
+                    if (result == null) return;
+                    fileIs = result.paths.map((path) => File(path!)).toList();
+                    print('files length is ${fileIs.length}');
+                  },
+                  child: Text('Upload File'),
+                )
               ]),
               actions: [
                 TextButton(
@@ -184,19 +208,16 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         colors: Colors.blue,
                         size: 20,
                         weight: FontWeight.bold)),
-                TextButton(onPressed: (() {
-                      if (_formkey1.currentState!.validate() &&
-                          _formkey2.currentState!.validate()) {
-                        studentsStateProvider.addMedicineData(medicineDataModel(
-                            medicineName: MedicinenameController.text,
-                            ExpiryDate: ExpiryDateController.text,
-                            medicineFiles: fileIs));
-                        //MedicinesDataTable();
-                        print('files are $fileIs');
-                        print("data added successfully" +
-                            studentsStateProvider.Medicines.length.toString());
-                        Navigator.pop(context);
-                      }
+                TextButton(
+                    onPressed: (() {
+                      studentsStateProvider.addMedicineData(medicineDataModel(
+                          medicineName: MedicinenameController.text,
+                          ExpiryDate: ExpiryDateController.text,
+                          medicineFiles: fileIs,
+                          TabletCount: TabletCountController.text));
+                      print("data added successfully" +
+                          studentsStateProvider.Medicines.length.toString());
+                      Navigator.pop(context);
                     }),
                     child: AppInputText(
                         text: 'OK',

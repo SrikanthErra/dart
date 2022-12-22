@@ -40,6 +40,7 @@ class _addPrescriptionState extends State<addPrescription> {
   TextEditingController _reason = TextEditingController();
   TextEditingController MedicinenameController = TextEditingController();
   TextEditingController ExpiryDateController = TextEditingController();
+  TextEditingController TabletCountController = TextEditingController();
   FocusScopeNode _node = FocusScopeNode();
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
@@ -355,14 +356,19 @@ class _addPrescriptionState extends State<addPrescription> {
                                           message: 'Please enter Medicine data',
                                           hintText: 'Enter Medicine Name',
                                           hintText1: 'Enter Expiry Date',
+                                          hintText2: 'Enter Tablets Count',
                                           errorMessage:
                                               'Please enter medicine name',
                                           errorMessage1:
                                               'Please enter expiry date',
+                                          errorMessage2:
+                                              'Please Enter the Tablets Count',
                                           MedicinenameController:
                                               MedicinenameController,
                                           ExpiryDateController:
                                               ExpiryDateController,
+                                          TabletCountController:
+                                              TabletCountController,
                                           input_type: TextInputType.text,
                                           obsecuretext: false,
                                           //node: _node,
@@ -438,6 +444,22 @@ class _addPrescriptionState extends State<addPrescription> {
                                             weight: FontWeight.normal),
                                         AppInputText(
                                             text: details.ExpiryDate,
+                                            colors: Colors.black,
+                                            size: 16,
+                                            weight: FontWeight.normal),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        AppInputText(
+                                            text: "Tablets Count: ",
+                                            colors: Colors.black,
+                                            size: 16,
+                                            weight: FontWeight.normal),
+                                        AppInputText(
+                                            text: details.TabletCount,
                                             colors: Colors.black,
                                             size: 16,
                                             weight: FontWeight.normal),
@@ -714,7 +736,8 @@ class _addPrescriptionState extends State<addPrescription> {
           MedicineName: medicine.medicineName,
           ExpiryDate: medicine.ExpiryDate,
           MedicinePhoto: medicine.medicineFiles.toString(),
-          SymptomId: count);
+          SymptomId: count,
+          TabletsCount: int.tryParse(medicine.TabletCount));
       final saved = await _databaseService.insertInto(
           MedicineTableData.toJson(), DatabaseHelper.table3);
       print("data saved $saved");
