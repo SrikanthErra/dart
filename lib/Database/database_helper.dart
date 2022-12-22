@@ -24,6 +24,7 @@ class DatabaseHelper {
 
   static final medicineTable = 'MedicineList';
   static final columnId = "MedicineId";
+  static final TabletsCount = "TabletsCount";
   // static final tableContact = 'contact';
 
   // make this a singleton class
@@ -84,6 +85,7 @@ MedicineId INTEGER PRIMARY KEY AUTOINCREMENT,
 MedicineName varchar(255),
 ExpiryDate varchar(255),
 MedicinePhoto varchar(255),
+TabletsCount INTEGER,
 SymptomId varchar(255)
 );
           ''');
@@ -290,11 +292,20 @@ VALUES( value1,	value2 ,...); */
   }
 
   //UPDATE//
-  // Future<int> update(MedicineModel data, id) async {
-  //   Database db = await instance.database;
-  //   return await db
-  //       .update(table3, data.toJson(), where: '$columnId = ?', whereArgs: [id]);
-  // }
+  Future<int> update(MedicineModel data, id) async {
+    Database db = await instance.database;
+    return await db.update(table3, data as Map<String, Object?>,
+        where: '$columnId = ?', whereArgs: [id]);
+  }
+
+  Future<int> UpdateTabletCount(MedTabCount, id) async {
+    Database db = await instance.database;
+    return await db.rawUpdate('''
+    UPDATE Medicines
+    SET TabletsCount = ?
+    WHERE MedicineId = ?
+    ''', [MedTabCount, id]);
+  }
 
   /*  Future<User> checkLogin(String userName, String password) async {
     final dbClient = await db;

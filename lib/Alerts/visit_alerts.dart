@@ -242,7 +242,7 @@ class _visitAlertsState extends State<visitAlerts>
             ),
           ),
           SizedBox(
-            width: 30,
+            width: 10,
           ),
           Expanded(
             child: Text(

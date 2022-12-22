@@ -82,7 +82,7 @@ class _prescriptionListState extends State<prescriptionList> {
                               print(
                                   'symptom id is ${prescriptionlist.SymptomId}');
                               fetchdata(prescriptionlist.SymptomId ?? 0);
-                             
+
                               /* Navigator.pushNamed(
                                   context, AppRoutes.MedicineListView); */
                             },
@@ -152,36 +152,34 @@ class _prescriptionListState extends State<prescriptionList> {
       ),
     );
   }
-  
 
   fetchdata(int id) async {
     print('selected id is $id');
-   await DatabaseHelper.instance.medicineList('Medicines', id).then((value) {
+    await DatabaseHelper.instance.medicineList('Medicines', id).then((value) {
       setState(() {
-       MedList = [];
+        MedList = [];
         value.forEach((element) {
           print('element is $element');
           MedList.add(MedicineModel(
-            ExpiryDate: element["ExpiryDate"],
-            MedicineName: element["MedicineName"],
-            MedicinePhoto: element["MedicinePhoto"],
-          ));
+              MedicineId: element["MedicineId"],
+              ExpiryDate: element["ExpiryDate"],
+              MedicineName: element["MedicineName"],
+              MedicinePhoto: element["MedicinePhoto"],
+              TabletsCount: element["TabletsCount"]));
           print(' id ${id}');
         });
-        if(id != 0)
-        {
-           Navigator.pushNamed(context, AppRoutes.MedicineListView,
-        arguments: MedList);
+        if (id != 0) {
+          Navigator.pushNamed(context, AppRoutes.MedicineListView,
+              arguments: MedList);
         }
       });
     });
-    
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
   }
 }
   /* void initState() {
