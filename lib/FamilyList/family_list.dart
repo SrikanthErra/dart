@@ -69,6 +69,7 @@ class _familyListState extends State<familyList> {
                       onTap: () {
                         print('name clicked is ${familylist.Name}');
                         getId(familylist.Name ?? '');
+                        
                         // fetchdata();
                         // AppConstants.passFamilyMemberName = familylist.Name ?? '';
                       },
@@ -175,8 +176,8 @@ class _familyListState extends State<familyList> {
   }
 
   fetchdata(int id) async {
-    print('selected id is $id');
-   await DatabaseHelper.instance.prescList('Symptoms', id).then((value) {
+   // print('selected id is $id');
+   await DatabaseHelper.instance.prescList('Symptoms',id).then((value) {
       setState(() {
         prescList = [];
         value.forEach((element) {
