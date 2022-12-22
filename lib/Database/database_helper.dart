@@ -111,11 +111,6 @@ VALUES( value1,	value2 ,...); */
 
 
   Future<int> insert(Map<String, dynamic> row) async {
-
-  Future<int> insert(
-    Map<String, dynamic> row,
-  ) async {
-
     Database? db = await instance.database;
     return await db.insert(table, row);
   }
@@ -234,7 +229,7 @@ VALUES( value1,	value2 ,...); */
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
     return res; */
 
-        .rawQuery('SELECT * FROM $table2 WHERE familyMemberId = ?', [id]);
+        //.rawQuery('SELECT * FROM $table2 WHERE familyMemberId = ?', [id]);
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
     return res; */
 /* 
