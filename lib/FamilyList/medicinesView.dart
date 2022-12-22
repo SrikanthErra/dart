@@ -106,8 +106,7 @@ class _MedicineListState extends State<MedicineList> {
                                               insetPadding:
                                                   EdgeInsets.symmetric(
                                                       horizontal: 50,
-                                                      vertical: 15
-                                                      0),
+                                                      vertical: 150),
                                               title: Text("Enter Tablet Count"),
                                               content: Column(children: [
                                                 Form(
