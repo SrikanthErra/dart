@@ -184,16 +184,19 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         colors: Colors.blue,
                         size: 20,
                         weight: FontWeight.bold)),
-                TextButton(
-                    onPressed: (() {
-                      studentsStateProvider.addMedicineData(medicineDataModel(
-                          medicineName: MedicinenameController.text,
-                          ExpiryDate: ExpiryDateController.text,
-                          medicineFiles: fileIs));
-                      print("data added successfully" +
-                          studentsStateProvider.Medicines.length.toString());
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                TextButton(onPressed: (() {
+                      if (_formkey1.currentState!.validate() &&
+                          _formkey2.currentState!.validate()) {
+                        studentsStateProvider.addMedicineData(medicineDataModel(
+                            medicineName: MedicinenameController.text,
+                            ExpiryDate: ExpiryDateController.text,
+                            medicineFiles: fileIs));
+                        //MedicinesDataTable();
+                        print('files are $fileIs');
+                        print("data added successfully" +
+                            studentsStateProvider.Medicines.length.toString());
+                        Navigator.pop(context);
+                      }
                     }),
                     child: AppInputText(
                         text: 'OK',

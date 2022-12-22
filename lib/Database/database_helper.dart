@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/animation.dart';
 import 'package:path/path.dart';
 import 'package:side_menu/modelClasses/database_modelClass/medicationModel.dart';
 
@@ -66,8 +67,8 @@ mpin varchar(255)
 );
           ''');
     await db.execute('''CREATE TABLE Symptoms(
-      SymptomId INTEGER PRIMARY KEY AUTOINCREMENT,
-      FamilyMemberId varchar(255),
+      SymptomId INTEGER,
+      FamilyMemberId INTEGER,
       Symptom varchar(255),
       DoctorName varchar(255),
       HospitalName varchar(255),
@@ -86,6 +87,18 @@ MedicinePhoto varchar(255),
 SymptomId varchar(255)
 );
           ''');
+    await db.execute('''
+          CREATE TABLE SymptomMaster
+(
+MasterSymptomId INTEGER PRIMARY KEY AUTOINCREMENT,
+MasterSymptom varchar(255)
+);
+
+
+          ''');
+    /*  INSERT INTO table (column1,column2 ,..)
+VALUES( value1,	value2 ,...); */
+
     // await db.execute(
     //     "CREATE TABLE user (username TEXT NOT NULL,phone TEXT NOT NULL,email TEXT NOT NULL)");
   }
@@ -96,9 +109,13 @@ SymptomId varchar(255)
   // and the value is the column value. The return value is the id of the
   // inserted row.
 
+
+  Future<int> insert(Map<String, dynamic> row) async {
+
   Future<int> insert(
     Map<String, dynamic> row,
   ) async {
+
     Database? db = await instance.database;
     return await db.insert(table, row);
   }
@@ -107,6 +124,12 @@ SymptomId varchar(255)
     Database? db = await instance.database;
     return await db.insert(tableName, row);
   }
+
+  Future<void> symptomData() async {
+    Database? db = await instance.database;
+    await db.rawInsert(
+        'INSERT INTO SymptomMaster(MasterSymptom) VALUES ("Fever"),("Cold"),("Cough"),("Fever,Cold"),("Fever,Cough"),("Cold,Cough"),("Fever,Cold,Cough")');
+  }
   // Future<int> insertContact(Map<String, dynamic> row) async {
   //   Database? db = await instance.database;
   //   return await db.insert(tableContact, row);
@@ -114,8 +137,10 @@ SymptomId varchar(255)
 
   // All of the rows are returned as a list of maps, where each map is
   // a key-value list of columns.
+
   Future<List<Map<String, dynamic>>> queryAllRows(String table) async {
     Database db = await instance.database;
+
     return await db.query(table);
   }
 
@@ -183,6 +208,12 @@ SymptomId varchar(255)
             'SELECT $id FROM $table WHERE $name = ?', [selectedValue])) ??
         0;
   }
+  Future<int> symptomId(String table, String selectedValue) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery(
+            'SELECT MasterSymptomId FROM SymptomMaster WHERE MasterSymptom = ?', [selectedValue])) ??
+        0;
+  }
 
 /* 
   Future<List<Map<String, dynamic>>> getUser(
@@ -197,17 +228,24 @@ SymptomId varchar(255)
   Future<List<Map>> prescList(String table, int id) async {
     Database db = await instance.database;
     return await db
+
+        .rawQuery('SELECT * FROM $table WHERE FamilyMemberId = ?', [id]);
+
+    /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
+    return res; */
+
         .rawQuery('SELECT * FROM $table2 WHERE familyMemberId = ?', [id]);
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
     return res; */
 /* 
     return await db.rawQuery(
         'SELECT * FROM $table2 WHERE familyMemberId = ?', [id]); */
+
   }
 
   Future<List<Map>> medicineList(String table, int id) async {
     Database db = await instance.database;
-    return await db.rawQuery('SELECT * FROM $table3 WHERE SymptomId = ?', [id]);
+    return await db.rawQuery('SELECT * FROM $table WHERE SymptomId = ?', [id]);
 
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
     return res; */
