@@ -6,6 +6,9 @@ import 'package:side_menu/Login/mpin.dart';
 import 'package:side_menu/Login/mpin_validate.dart';
 import 'package:side_menu/Login/otp.dart';
 import 'package:side_menu/Login/registration.dart';
+import 'package:side_menu/autocomplete_dropdown.dart';
+import 'package:side_menu/combined_dropdown.dart';
+import 'package:side_menu/multi_select_dropdown.dart';
 import 'package:side_menu/view_Medicine/prescription_view.dart';
 import 'package:side_menu/view_Medicine/view_medicine.dart';
 
@@ -21,6 +24,9 @@ class AppPages {
   static Map<String, WidgetBuilder> get routes {
     return {
       AppRoutes.mpinPage: ((context) => mpinPage()),
+      AppRoutes.autocomplete: ((context) => autocomplete()),
+      AppRoutes.MultiselectDropdown: ((context) => MultiselectDropdown()),
+      AppRoutes.combinedDropdown: ((context) => combinedDropdown()),
       AppRoutes.dashboardGridview: ((context) => dashboardGridview()),
       AppRoutes.familyList: ((context) => familyList()),
       AppRoutes.prescriptionList: ((context) => prescriptionList()),

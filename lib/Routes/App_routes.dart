@@ -1,10 +1,14 @@
 import 'package:side_menu/Login/registration.dart';
+import 'package:side_menu/autocomplete_dropdown.dart';
 import 'package:side_menu/view_Medicine/view_medicine.dart';
 
 class AppRoutes {
   AppRoutes._();
   static const initial = login;
   static const SideMenu = "/SideMenu";
+  static const autocomplete = "/autocomplete";
+  static const combinedDropdown = "/combinedDropdown";
+  static const MultiselectDropdown = "/MultiselectDropdown";
   static const familyList = "/familyList";
   static const prescriptionList = "/prescriptionList";
   static const addPrescription = "/addPrescription";

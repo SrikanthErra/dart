@@ -19,6 +19,7 @@ import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
 import '../app_constants.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
+import '../modelClasses/symptoms_model.dart';
 
 class addPrescription extends StatefulWidget {
   const addPrescription({super.key});
@@ -53,6 +54,16 @@ class _addPrescriptionState extends State<addPrescription> {
       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg');
 
   //File? _image;
+  //MasterSymptomTable required parameters
+  late TextEditingController textEditingController;
+  String? selectedSymptomValue;
+  int? selectedSymptomId;
+  bool? flag;
+  bool stag = false;
+
+  //static List<SymptomsModelClass> symptomsTableData = [];
+  // List<Map<String, dynamic>> SymptomsDataList = [{}];
+  List<String> SymptomsDataList = [];
   @override
   Widget build(BuildContext context) {
     //fetchNextVisitData();
@@ -80,8 +91,7 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -126,7 +136,7 @@ class _addPrescriptionState extends State<addPrescription> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        AppInputTextfield(
+                        /* AppInputTextfield(
                             hintText: 'symptom ',
                             nameController: _symptom,
                             errorMessage: 'please enter symptom',
@@ -137,7 +147,188 @@ class _addPrescriptionState extends State<addPrescription> {
                             onEditingComplete: () {
                               _node.nextFocus();
                             },
-                            globalKey: _formkey2),
+                            globalKey: _formkey2), */
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Container(
+                            //color: Colors.amber,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              border: Border.all(width: 2, color: Colors.white),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Autocomplete<String>(
+                              onSelected: (String selectedItem) {
+                                selectedSymptomValue = selectedItem;
+                                if (selectedSymptomValue == 'Others') {
+                                  print('Hello');
+                                  setState(() {
+                                    flag = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    flag = false;
+                                    getMasterSymptomId(
+                                        selectedSymptomValue ?? '');
+                                    print(selectedSymptomId);
+                                  });
+                                }
+                                
+                              },
+                              fieldViewBuilder: (BuildContext context,
+                                 TextEditingController fieldTextEditingController,
+                                  FocusNode focusNode,
+                                  VoidCallback onFieldSubmitted) {
+                                    textEditingController = fieldTextEditingController;
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: TextFormField(
+                                    controller: fieldTextEditingController,
+                                    cursorColor: Colors.white,
+                                    decoration: InputDecoration(
+                                        hintText: "Select Symptom",
+                                        hintStyle:
+                                            TextStyle(color: Colors.white)),
+                                    focusNode: focusNode,
+                                    style: TextStyle(color: Colors.white),
+                                    onFieldSubmitted: (String value) {
+                                      onFieldSubmitted();
+                                      print(
+                                          'text is ${textEditingController.text}');
+                                      print(
+                                          'You just typed a new entry  $value');
+                                    },
+                                  ),
+                                );
+                              },
+                              optionsBuilder:
+                                  (TextEditingValue textEditingValue) {
+                                if (textEditingValue.text.isEmpty) {
+                                  return Iterable<String>.empty();
+                                } else {
+                                  return SymptomsDataList.where((String item) {
+                                    final result = item
+                                        .toLowerCase()
+                                        .startsWith(textEditingValue.text
+                                            .toLowerCase());
+                                    return result;
+                                  });
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: flag ?? false,
+                          child:
+                              //AppInputTextfield(hintText: 'Please enter Symptoms', nameController: nameController, errorMessage: errorMessage, input_type: input_type, obsecuretext: obsecuretext, node: node, action: action, onEditingComplete: onEditingComplete)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10, bottom: 8),
+                                child: Row(
+                                  
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.8,
+                                        height: MediaQuery.of(context).size.height * 0.05,
+                                        child: TextFormField(
+                                          
+                                          controller: _symptom,
+                                          cursorColor: Colors.white,
+                                          style: TextStyle(color: Colors.white,fontSize: 20),
+                                          decoration: InputDecoration(
+                                            hintText:  'Enter Symptoms',
+                                            hintStyle: TextStyle(color: Colors.white)
+                                              /* labelText: 'Enter Symptoms',
+                                              labelStyle:
+                                                   */),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: GestureDetector(
+                                  onTap: () async{
+                                  
+                                            if (flag == true) {
+                                              final result = SymptomsModelClass(
+                                                  MasterSymptom: _symptom.text);
+                                              print('object ${result.MasterSymptom}');
+                                              final DatabaseHelper _databaseService =
+                                                  DatabaseHelper.instance;
+                                              final saved =
+                                                  await _databaseService.insertInto(
+                                                result.toJson(),
+                                                "SymptomMaster",
+                                              );
+                                            }
+                                            print(selectedSymptomValue);
+                                            getMasterSymptomId(
+                                                selectedSymptomValue ?? '');
+                                            _symptom.text = '';
+                                
+                                            print('list is $SymptomsDataList');
+                                            setState(() {
+                                              flag = false;
+                                              textEditingController.text = '';
+                                            });
+                                            fetchData();
+                                   
+                                  },
+                                  child: SvgPicture.asset(
+                                      'assets/plus.svg',
+                                      height: 30,
+                                      width: 30,
+                                      color: Colors.white,
+                                  ),
+                                ),
+                                    ),
+                                    /* TextButton(
+                                        onPressed: () async {
+                                          int index = SymptomsDataList.length;
+                                          if (flag == true) {
+                                            final result = SymptomsModelClass(
+                                                MasterSymptom: _symptom.text);
+                                            print('object ${result.MasterSymptom}');
+                                            final DatabaseHelper _databaseService =
+                                                DatabaseHelper.instance;
+                                            final saved =
+                                                await _databaseService.insertInto(
+                                              result.toJson(),
+                                              "SymptomMaster",
+                                            );
+                                          }
+                                          print(selectedSymptomValue);
+                                          getMasterSymptomId(
+                                              selectedSymptomValue ?? '');
+                                          _symptom.text = '';
+                                
+                                          print('list is $SymptomsDataList');
+                                          setState(() {
+                                            flag = false;
+                                            textEditingController.text = '';
+                                          });
+                                          // selectedItem = '';
+                                          /* setState(() {
+                                            selectedSymptomValue = '';
+                                          }); */
+                                          fetchData();
+                                        },
+                                        child: Container(
+                                            child: Text(
+                                          'Submit',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ))), */
+                                  ],
+                                ),
+                              ),
+                        ),
                       ]),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -371,12 +562,11 @@ class _addPrescriptionState extends State<addPrescription> {
                       },
                     ),
                     ButtonComponent(
-                        onPressed: () {
-                          if (validateField()) {
-                            SaveData(medicineStateProvider);
-                            showToast("Prescription added Successfully");
-                            Navigator.pop(context);
-                          }
+                        onPressed: () async {
+                          // masterSympomDataInsert();
+                          SaveData(medicineStateProvider);
+                          showToast("Prescription added Successfully");
+                          Navigator.pop(context);
                         },
                         buttonText: 'Submit'),
                   ],
@@ -391,7 +581,9 @@ class _addPrescriptionState extends State<addPrescription> {
 
   void initState() {
     super.initState();
+    // masterSympomDataInsert();
     getId(getIdName ?? '');
+    fetchData();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
 // your code goes here
       fetchNextVisitData();
@@ -444,9 +636,12 @@ class _addPrescriptionState extends State<addPrescription> {
   }
 
   Future<int> SaveData(MedicineListProvider medicineStateProvider) async {
+    /* int result = 0;
+    if (flag == true) { */
     final PrescriptionAdded = PrescriptionModel(
         FamilyMemberId: selectedId,
-        Symptom: _symptom.text,
+        Symptom: selectedSymptomValue,
+        SymptomId: selectedSymptomId,
         DoctorName: _doctorName.text,
         HospitalName: _hospitalName.text,
         DateOfAppointment: _appointment.text,
@@ -464,6 +659,30 @@ class _addPrescriptionState extends State<addPrescription> {
     print("""last Symptoms ID is  $count""");
     MedicinesDataTable(count, medicineStateProvider);
     return saved;
+    /* } else {
+      final PrescriptionAdded = PrescriptionModel(
+          FamilyMemberId: selectedId,
+          Symptom: selectedSymptomValue,
+          SymptomId: selectedSymptomId,
+          DoctorName: _doctorName.text,
+          HospitalName: _hospitalName.text,
+          DateOfAppointment: _appointment.text,
+          ReasonForAppointment: _reason.text,
+          NextAppointmentDate: _NextAppointmentDate.text);
+      final DatabaseHelper _databaseService = DatabaseHelper.instance;
+      final saved = await _databaseService.insertInto(
+          PrescriptionAdded.toJson(), DatabaseHelper.table2);
+      print("data saved $saved");
+      final SymptomEntries =
+          await _databaseService.queryAllRows(DatabaseHelper.table2);
+      print("Entries in Symptoms Table $SymptomEntries");
+      //dynamic symptomID = GetSymptomId();
+      final count = await _databaseService.queryRowLast("Symptoms");
+      print("""last Symptoms ID is  $count""");
+      MedicinesDataTable(count, medicineStateProvider);
+      result = saved;
+      return saved;
+    } */
   }
 
   MedicinesDataTable(
@@ -506,11 +725,6 @@ class _addPrescriptionState extends State<addPrescription> {
     }
   }
 
-  /* getId(String name) async {
-    final DatabaseHelper _databaseService = DatabaseHelper.instance;
-    final saved = await _databaseService.userId(DatabaseHelper.table, name);
-    print("data saved ${saved}");
-  } */
   getId(String name) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
     final saved = await _databaseService.userId(DatabaseHelper.table, name);
@@ -518,15 +732,69 @@ class _addPrescriptionState extends State<addPrescription> {
     selectedId = saved;
     print('Id selected is $selectedId');
   }
-  /*  LoginCall(String phoneNumber, String mpin) async {
+
+  getMasterSymptomId(String name) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
-    final saved = await _databaseService.queryRowCountforMpinValidate(
-        DatabaseHelper.table, phoneNumber);
+    final saved = await _databaseService.symptomId("SymptomMaster", name);
     print("data saved ${saved}");
-    mpin_value = saved[0];
-    if (mpin_value['mpin'] == mpin) {
-      Navigator.pushReplacementNamed(context, AppRoutes.dashboardGridview);
+    selectedSymptomId = saved;
+    print('Id selected is $selectedSymptomId');
+  }
+
+  insertData() async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+    await _databaseService.symptomData();
+  }
+
+  /* masterSympomDataInsert() async {
+    int index = SymptomsDataList.length;
+    if (flag == true) {
+      final result = SymptomsModelClass(MasterSymptom: _symptom.text);
+      print('object ${result.MasterSymptom}');
+      final DatabaseHelper _databaseService = DatabaseHelper.instance;
+      final saved = await _databaseService.insertInto(
+        result.toJson(),
+        "SymptomMaster",
+      );
+    }
+
+    print(selectedSymptomValue);
+
+    _symptom.text = '';
+    print('list is $SymptomsDataList');
+  } */
+
+  fetchData() async {
+    final DatabaseHelper _databaseService = DatabaseHelper.instance;
+
+    final res = await _databaseService.queryAllRows("SymptomMaster");
+    res.forEach((element) {
+      element.entries.forEach((e) {
+        SymptomsDataList.add(e.value.toString());
+      });
+    });
+
+    print('object ${SymptomsDataList}');
+    if (SymptomsDataList.length == 0) {
+      insertData();
+      print('entered');
+      final res = await _databaseService.queryAllRows("SymptomMaster");
+      res.forEach((element) {
+        element.entries.forEach((e) {
+          SymptomsDataList.add(e.value.toString());
+        });
+      });
+      int index = SymptomsDataList.length;
+      print(index);
+      SymptomsDataList.add('Others');
+      // SymptomsDataList.insert((index), 'Others');
+      print('Hello');
+      print('list is $SymptomsDataList');
+      return SymptomsDataList;
     } else {
-      showAlert('Please Enter Valid MPIN');
-    } */
+      print('Feed me more');
+      SymptomsDataList.add('Others');
+      return SymptomsDataList;
+    }
+  }
 }
