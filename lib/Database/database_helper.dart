@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/animation.dart';
 import 'package:path/path.dart';
+import 'package:side_menu/modelClasses/database_modelClass/medicationModel.dart';
 
 import 'package:side_menu/modelClasses/family_list_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -22,6 +23,7 @@ class DatabaseHelper {
   static final mpin = 'mpin';
 
   static final medicineTable = 'MedicineList';
+  static final columnId = "MedicineId";
   // static final tableContact = 'contact';
 
   // make this a singleton class
@@ -107,7 +109,13 @@ VALUES( value1,	value2 ,...); */
   // and the value is the column value. The return value is the id of the
   // inserted row.
 
+
   Future<int> insert(Map<String, dynamic> row) async {
+
+  Future<int> insert(
+    Map<String, dynamic> row,
+  ) async {
+
     Database? db = await instance.database;
     return await db.insert(table, row);
   }
@@ -219,12 +227,20 @@ VALUES( value1,	value2 ,...); */
   } */
   Future<List<Map>> prescList(String table, int id) async {
     Database db = await instance.database;
-
     return await db
+
         .rawQuery('SELECT * FROM $table WHERE FamilyMemberId = ?', [id]);
 
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
     return res; */
+
+        .rawQuery('SELECT * FROM $table2 WHERE familyMemberId = ?', [id]);
+    /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
+    return res; */
+/* 
+    return await db.rawQuery(
+        'SELECT * FROM $table2 WHERE familyMemberId = ?', [id]); */
+
   }
 
   Future<List<Map>> medicineList(String table, int id) async {
@@ -261,12 +277,24 @@ VALUES( value1,	value2 ,...); */
   //   return await db.update(table, row, where: '$columnId = ?', whereArgs: [id]);
   // }
 
+//DELETE//
   // // Deletes the row specified by the id. The number of affected rows is
   // // returned. This should be 1 as long as the row exists.
-  Future<int> delete(String name) async {
+/*   Future<int> delete(String name) async {
     Database db = await instance.database;
     return await db.delete(table, where: '$name = ?', whereArgs: [name]);
+  } */
+  Future<int> delete(int id) async {
+    Database db = await instance.database;
+    return await db.delete(table3, where: '$columnId = ?', whereArgs: [id]);
   }
+
+  //UPDATE//
+  // Future<int> update(MedicineModel data, id) async {
+  //   Database db = await instance.database;
+  //   return await db
+  //       .update(table3, data.toJson(), where: '$columnId = ?', whereArgs: [id]);
+  // }
 
   /*  Future<User> checkLogin(String userName, String password) async {
     final dbClient = await db;

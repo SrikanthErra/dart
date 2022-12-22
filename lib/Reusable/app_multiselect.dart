@@ -171,7 +171,11 @@ class _AppMultiSelectState extends State<AppMultiSelect> {
                     if (value == null) return;
                     setState(() {
                       _myActivities = value;
+
                       AppConstants.multiselect_formfield = _myActivities ?? [];
+
+                      AppConstants.symptomsList = _myActivities ?? [];
+
                     });
                   },
                 ),

@@ -37,10 +37,16 @@ class _registerFamilyFromDashboardState
 
   @override
   Widget build(BuildContext context) {
-    //EasyLoading.dismiss();
+    EasyLoading.dismiss();
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: Center(child: Text('Register a Family'))),
+      appBar: AppBar(
+        title: Center(
+            child: Text(
+          'Register a Family',
+          style: TextStyle(fontSize: 14),
+        )),
+      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(

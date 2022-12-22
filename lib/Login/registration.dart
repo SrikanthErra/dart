@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_group_button/flutter_group_button.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/app_multiselect.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Routes/App_routes.dart';
+import 'package:side_menu/app_constants.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Database/database_helper.dart';
@@ -19,6 +22,15 @@ class registerFamily extends StatefulWidget {
   @override
   State<registerFamily> createState() => _registerFamilyState();
 }
+/* class Animal {
+  final int? id;
+  final String? name;
+
+  Animal({
+    this.id,
+    this.name,
+  });
+} */
 
 class _registerFamilyState extends State<registerFamily> {
   TextEditingController _family_name = TextEditingController();
@@ -39,6 +51,22 @@ class _registerFamilyState extends State<registerFamily> {
       holder = selectedValue ?? "";
     });
   } */
+  /* static List<Animal> _animals = [
+    Animal(id: 1, name: "Lion"),
+    Animal(id: 2, name: "Flamingo"),
+    Animal(id: 3, name: "Hippo"),
+    Animal(id: 4, name: "Horse"),
+    Animal(id: 5, name: "Tiger"),
+    Animal(id: 6, name: "Penguin"),
+    Animal(id: 7, name: "Spider"),
+    Animal(id: 8, name: "Snake"),
+    Animal(id: 9, name: "Bear"),
+    Animal(id: 10, name: "Others"),
+   
+  ];
+  final _items = _animals
+      .map((animal) => MultiSelectItem<Animal>(animal, animal.name ?? ''))
+      .toList(); */
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +108,35 @@ class _registerFamilyState extends State<registerFamily> {
                 },
                 globalKey: _formkey1,
               ),
+              //AppMultiSelect(node: _node),
+              /* MultiSelectDialogField(
+               // searchHint: 
+                items: _items,
+                title: Text("Animals",),
+                selectedColor: Colors.blue,
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.1),
+                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                  border: Border.all(
+                    color: Colors.blue,
+                    width: 2,
+                  ),
+                ),
+                buttonIcon: Icon(
+                  Icons.pets,
+                  color: Colors.blue,
+                ),
+                buttonText: Text(
+                  "Favorite Animals",
+                  style: TextStyle(
+                    color: Colors.blue[800],
+                    fontSize: 16,
+                  ),
+                ),
+                onConfirm: (results) {
+                  //_selectedAnimals = results;
+                },
+              ), */
               AppInputTextfield(
                 hintText: 'Age',
                 nameController: _age,
@@ -93,8 +150,25 @@ class _registerFamilyState extends State<registerFamily> {
                 },
                 globalKey: _formkey2,
               ),
+
               //AppMultiSelect(node: _node),
               //MultiselectDropdown(),
+
+              AppInputTextfield(
+                hintText: 'Mobile Number',
+                nameController: _mobileNumber,
+                errorMessage: 'please enter Mobile number',
+                input_type: TextInputType.number,
+                obsecuretext: false,
+                action: TextInputAction.next,
+                node: _node,
+                onEditingComplete: () {
+                  _node.nextFocus();
+                },
+                length: 10,
+                globalKey: _formkey3,
+              ),
+
               /* RadioGroup(
                   children: [
                     AppInputText(
@@ -173,20 +247,6 @@ class _registerFamilyState extends State<registerFamily> {
                   });
                 },
               ),
-              AppInputTextfield(
-                hintText: 'Mobile Number',
-                nameController: _mobileNumber,
-                errorMessage: 'please enter Mobile number',
-                input_type: TextInputType.number,
-                obsecuretext: false,
-                action: TextInputAction.next,
-                node: _node,
-                onEditingComplete: () {
-                  _node.nextFocus();
-                },
-                length: 10,
-                globalKey: _formkey3,
-              ),
               ButtonComponent(
                   onPressed: () async {
                     if (_formkey1.currentState!.validate() &&
@@ -201,6 +261,7 @@ class _registerFamilyState extends State<registerFamily> {
                               gender: gender));
                       //getDropDownItem();
                     }
+                    print(AppConstants.symptomsList);
                   },
                   buttonText: 'Submit'),
             ],
@@ -208,6 +269,12 @@ class _registerFamilyState extends State<registerFamily> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
