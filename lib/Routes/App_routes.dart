@@ -5,6 +5,7 @@ import 'package:side_menu/view_Medicine/view_medicine.dart';
 class AppRoutes {
   AppRoutes._();
   static const initial = login;
+ 
   static const SideMenu = "/SideMenu";
   static const autocomplete = "/autocomplete";
   static const combinedDropdown = "/combinedDropdown";

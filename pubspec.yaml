@@ -60,6 +60,9 @@ dependencies:
   get: ^4.6.5
   textfield_search: ^0.10.0
   file_picker: ^5.2.4
+  
+  contained_tab_bar_view: ^0.8.0
+  webview_flutter: ^3.0.4
 
   
 
