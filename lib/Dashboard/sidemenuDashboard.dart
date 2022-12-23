@@ -10,8 +10,7 @@ class SidemenuDashboard extends StatefulWidget {
   State<SidemenuDashboard> createState() => _SidemenuDashboardState();
 }
 
-class _SidemenuDashboardState
-    extends State<SidemenuDashboard> {
+class _SidemenuDashboardState extends State<SidemenuDashboard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -95,7 +94,7 @@ class _SidemenuDashboardState
                     leading: Icon(Icons.grid_view_rounded),
                     title: Text("Medcinies"),
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.viewMedicine);
+                      Navigator.pushNamed(context, AppRoutes.viewAllMedicines);
                     },
                   ),
                   ListTile(
@@ -223,7 +222,9 @@ class _SidemenuDashboardState
                   ListTile(
                     leading: Icon(Icons.admin_panel_settings_outlined),
                     title: Text("Privacy Policy"),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.viewPrivacyPolicy);
+                    },
                   ),
                   ListTile(
                     leading: Icon(Icons.info_outlined),

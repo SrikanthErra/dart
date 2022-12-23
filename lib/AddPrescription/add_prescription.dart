@@ -83,18 +83,20 @@ class _addPrescriptionState extends State<addPrescription> {
         centerTitle: true,
         //backgroundColor: Color.fromARGB(0, 21, 91, 110),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/background_bg.png"),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_bg.png"),
+            fit: BoxFit.cover,
           ),
+        ),
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -176,13 +178,14 @@ class _addPrescriptionState extends State<addPrescription> {
                                     print(selectedSymptomId);
                                   });
                                 }
-                                
                               },
                               fieldViewBuilder: (BuildContext context,
-                                 TextEditingController fieldTextEditingController,
+                                  TextEditingController
+                                      fieldTextEditingController,
                                   FocusNode focusNode,
                                   VoidCallback onFieldSubmitted) {
-                                    textEditingController = fieldTextEditingController;
+                                textEditingController =
+                                    fieldTextEditingController;
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
@@ -227,70 +230,76 @@ class _addPrescriptionState extends State<addPrescription> {
                           child:
                               //AppInputTextfield(hintText: 'Please enter Symptoms', nameController: nameController, errorMessage: errorMessage, input_type: input_type, obsecuretext: obsecuretext, node: node, action: action, onEditingComplete: onEditingComplete)
                               Padding(
-                                padding: const EdgeInsets.only(top: 10, bottom: 8),
-                                child: Row(
-                                  
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width: MediaQuery.of(context).size.width * 0.8,
-                                        height: MediaQuery.of(context).size.height * 0.05,
-                                        child: TextFormField(
-                                          
-                                          controller: _symptom,
-                                          cursorColor: Colors.white,
-                                          style: TextStyle(color: Colors.white,fontSize: 20),
-                                          decoration: InputDecoration(
-                                            hintText:  'Enter Symptoms',
-                                            hintStyle: TextStyle(color: Colors.white)
-                                              /* labelText: 'Enter Symptoms',
+                            padding: const EdgeInsets.only(top: 10, bottom: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.05,
+                                    child: TextFormField(
+                                      controller: _symptom,
+                                      cursorColor: Colors.white,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                      decoration: InputDecoration(
+                                          hintText: 'Enter Symptoms',
+                                          hintStyle:
+                                              TextStyle(color: Colors.white)
+                                          /* labelText: 'Enter Symptoms',
                                               labelStyle:
-                                                   */),
-                                        ),
-                                      ),
+                                                   */
+                                          ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: GestureDetector(
-                                  onTap: () async{
-                                  
-                                            if (flag == true) {
-                                              final result = SymptomsModelClass(
-                                                  MasterSymptom: _symptom.text);
-                                              print('object ${result.MasterSymptom}');
-                                              final DatabaseHelper _databaseService =
-                                                  DatabaseHelper.instance;
-                                              final saved =
-                                                  await _databaseService.insertInto(
-                                                result.toJson(),
-                                                "SymptomMaster",
-                                              );
-                                            }
-                                            print(selectedSymptomValue);
-                                            getMasterSymptomId(
-                                                selectedSymptomValue ?? '');
-                                            _symptom.text = '';
-                                
-                                            print('list is $SymptomsDataList');
-                                            setState(() {
-                                              flag = false;
-                                              textEditingController.text = '';
-                                            });
-                                            fetchData();
-                                   
-                                  },
-                                  child: SvgPicture.asset(
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      if (flag == true) {
+                                        final result = SymptomsModelClass(
+                                            MasterSymptom: _symptom.text);
+                                        print('object ${result.MasterSymptom}');
+                                        final DatabaseHelper _databaseService =
+                                            DatabaseHelper.instance;
+                                        final saved =
+                                            await _databaseService.insertInto(
+                                          result.toJson(),
+                                          "SymptomMaster",
+                                        );
+                                      }
+                                      print(selectedSymptomValue);
+                                      getMasterSymptomId(
+                                          selectedSymptomValue ?? '');
+                                      _symptom.text = '';
+
+                                      print('list is $SymptomsDataList');
+                                      setState(() {
+                                        flag = false;
+                                        textEditingController.text = '';
+                                      });
+                                      SymptomsDataList = [];
+                                      fetchData();
+                                      /* await EasyLoading.show(
+                              status: "Loading...",
+                              maskType: EasyLoadingMaskType.black);
+                          Navigator.pushReplacementNamed(
+                              context, AppRoutes.addPrescription); */
+                                    },
+                                    child: SvgPicture.asset(
                                       'assets/plus.svg',
                                       height: 30,
                                       width: 30,
                                       color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                                    ),
-                                    /* TextButton(
+                                /* TextButton(
                                         onPressed: () async {
                                           int index = SymptomsDataList.length;
                                           if (flag == true) {
@@ -328,9 +337,9 @@ class _addPrescriptionState extends State<addPrescription> {
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
                                         ))), */
-                                  ],
-                                ),
-                              ),
+                              ],
+                            ),
+                          ),
                         ),
                       ]),
                       Row(
@@ -587,22 +596,13 @@ class _addPrescriptionState extends State<addPrescription> {
                     ),
                     ButtonComponent(
                         onPressed: () async {
-
-                          // masterSympomDataInsert();
                           SaveData(medicineStateProvider);
                           showToast("Prescription added Successfully");
-                          Navigator.pop(context);
-
-                          if (validateField()) {
-                            SaveData(medicineStateProvider);
-                            showToast("Prescription added Successfully");
-                            await EasyLoading.show(
-                                status: "Loading...",
-                                maskType: EasyLoadingMaskType.black);
-                            Navigator.pushReplacementNamed(
-                                context, AppRoutes.dashboardGridview);
-                          }
-
+                          await EasyLoading.show(
+                              status: "Loading...",
+                              maskType: EasyLoadingMaskType.black);
+                          Navigator.pushReplacementNamed(
+                              context, AppRoutes.dashboardGridview);
                         },
                         buttonText: 'Submit'),
                   ],
@@ -754,13 +754,13 @@ class _addPrescriptionState extends State<addPrescription> {
     } */
   }
 
-  bool validateField() {
+  /*  bool validateField() {
     if (_formkey2.currentState!.validate()) {
       return true;
     } else {
       return false;
     }
-  }
+  } */
 
   getId(String name) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
