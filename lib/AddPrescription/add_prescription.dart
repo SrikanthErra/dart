@@ -83,18 +83,20 @@ class _addPrescriptionState extends State<addPrescription> {
         centerTitle: true,
         //backgroundColor: Color.fromARGB(0, 21, 91, 110),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/background_bg.png"),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_bg.png"),
+            fit: BoxFit.cover,
           ),
+        ),
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -166,6 +168,8 @@ class _addPrescriptionState extends State<addPrescription> {
                                 }
                               },
                               fieldViewBuilder: (BuildContext context,
+                                  TextEditingController
+                                      fieldTextEditingController,
                                   TextEditingController
                                       fieldTextEditingController,
                                   FocusNode focusNode,
@@ -250,8 +254,9 @@ class _addPrescriptionState extends State<addPrescription> {
                                       if (flag == true) {
                                         final result = SymptomsModelClass(
                                             MasterSymptom: _symptom.text);
-                                        print(
-                                            'object is ${result.MasterSymptom}');
+
+                                        print('object ${result.MasterSymptom}');
+
                                         final DatabaseHelper _databaseService =
                                             DatabaseHelper.instance;
                                         final saved =
@@ -273,10 +278,13 @@ class _addPrescriptionState extends State<addPrescription> {
                                       SymptomsDataList = [];
                                       fetchData();
                                       /* await EasyLoading.show(
+
                                 status: "Loading...",
                                 maskType: EasyLoadingMaskType.black);
                             Navigator.pushReplacementNamed(
                                 context, AppRoutes.addPrescription); */
+
+
                                     },
                                     child: SvgPicture.asset(
                                       'assets/plus.svg',
@@ -700,13 +708,13 @@ class _addPrescriptionState extends State<addPrescription> {
     } */
   }
 
-  bool validateField() {
+  /*  bool validateField() {
     if (_formkey2.currentState!.validate()) {
       return true;
     } else {
       return false;
     }
-  }
+  } */
 
   getId(String name) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
