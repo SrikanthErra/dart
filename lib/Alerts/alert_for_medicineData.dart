@@ -105,7 +105,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         TabletCountControllerText = value as int?;
                       },
                       errorMessage: errorMessage2,
-                      input_type: input_type,
+                      input_type: TextInputType.number,
                       obsecuretext: obsecuretext,
                       node: node,
                       action: action,

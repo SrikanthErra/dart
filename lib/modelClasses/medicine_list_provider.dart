@@ -15,6 +15,11 @@ class MedicineListProvider with ChangeNotifier {
     return _items;
 
   }
+  void clearMedicineData(medicineDataModel MedicineData) {
+    _items.clear();
+    notifyListeners();
+  }
+
   @override
   void notifyListeners() {
     // TODO: implement notifyListeners
