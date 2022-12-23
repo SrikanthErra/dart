@@ -15,6 +15,7 @@ import 'package:side_menu/view_Medicine/prescription_view.dart';
 import 'package:side_menu/view_Medicine/view_medicine.dart';
 
 import '../Alerts/visit_alerts.dart';
+import '../Dashboard/privacypolicy.dart';
 import '../FamilyList/family_list.dart';
 import '../FamilyList/medicinesView.dart';
 import '../FamilyList/prescription_list.dart';
@@ -46,6 +47,7 @@ class AppPages {
       AppRoutes.viewMedicine: ((context) => viewMedicine()),
       AppRoutes.viewReports: ((context) => ReportsPage()),
       AppRoutes.viewAllMedicines: ((context) => AllMedicineList()),
+      AppRoutes.viewPrivacyPolicy: ((context) => privacyPolicy()),
     };
   }
 }

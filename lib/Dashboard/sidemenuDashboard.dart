@@ -222,7 +222,9 @@ class _SidemenuDashboardState extends State<SidemenuDashboard> {
                   ListTile(
                     leading: Icon(Icons.admin_panel_settings_outlined),
                     title: Text("Privacy Policy"),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.viewPrivacyPolicy);
+                    },
                   ),
                   ListTile(
                     leading: Icon(Icons.info_outlined),
