@@ -352,134 +352,131 @@ class _addPrescriptionState extends State<addPrescription> {
                       ),
                     ]),
               ),
-              Card(
-                color: AppColors.PRIMARY_COLOR_DARK,
-                child: Container(
-                  // color: AppColors.PRIMARY_COLOR_DARK,
-                  child: Column(
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: medicineStateProvider.Medicines.length,
-                        itemBuilder: ((context, index) {
-                          final details =
-                              medicineStateProvider.Medicines[index];
-                          //final details2 = medicineStateProvider.Medicines[index].medicineFiles[index];
-                          return Card(
-                            // color: AppColors.PRIMARY_COLOR_DARK,
-                            child: Container(
-                                // color: AppColors.PRIMARY_COLOR,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      AppInputText(
-                                          text: "Medicine Name: ",
-                                          colors: Colors.black,
-                                          size: 16,
-                                          weight: FontWeight.normal),
-                                      AppInputText(
-                                          text: details.medicineName,
-                                          colors: Colors.black,
-                                          size: 16,
-                                          weight: FontWeight.normal),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      AppInputText(
-                                          text: "Expiry Date: ",
-                                          colors: Colors.black,
-                                          size: 16,
-                                          weight: FontWeight.normal),
-                                      AppInputText(
-                                          text: details.ExpiryDate,
-                                          colors: Colors.black,
-                                          size: 16,
-                                          weight: FontWeight.normal),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      AppInputText(
-                                          text: "Tablets Count: ",
-                                          colors: Colors.black,
-                                          size: 16,
-                                          weight: FontWeight.normal),
-                                      AppInputText(
-                                          text: details.TabletCount,
-                                          colors: Colors.black,
-                                          size: 16,
-                                          weight: FontWeight.normal),
-                                    ],
-                                  ),
-                                  ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: details.medicineFiles.length,
-                                      itemBuilder: ((context, index) {
-                                        final details2 =
-                                            details.medicineFiles[index];
-                                        return ListTile(
-                                            leading: ConstrainedBox(
-                                              constraints: BoxConstraints(
-                                                minWidth: 100,
-                                                minHeight: 260,
-                                                maxWidth: 104,
-                                                maxHeight: 264,
-                                              ),
-                                              child: (details2.path
-                                                              .split('.')
-                                                              .last ==
-                                                          'jpg' ||
-                                                      details2.path
-                                                              .split('.')
-                                                              .last ==
-                                                          'png')
-                                                  ? Image.file(
-                                                      File(details2.path
-                                                          .toString()),
-                                                      /* width: 80,
-                                                    height: 80, */
-                                                    )
-                                                  : SvgPicture.asset(
-                                                      'assets/pdf.svg',
-                                                      /* height: 30,
-                                                    width: 30, */
-                                                      //  color: Colors.white,
-                                                    ),
+              Container(
+                // color: AppColors.PRIMARY_COLOR_DARK,
+                child: Column(
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: medicineStateProvider.Medicines.length,
+                      itemBuilder: ((context, index) {
+                        final details =
+                            medicineStateProvider.Medicines[index];
+                        //final details2 = medicineStateProvider.Medicines[index].medicineFiles[index];
+                        return Card(
+                          // color: AppColors.PRIMARY_COLOR_DARK,
+                          child: Container(
+                              // color: AppColors.PRIMARY_COLOR,
+                              child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    AppInputText(
+                                        text: "Medicine Name: ",
+                                        colors: Colors.black,
+                                        size: 16,
+                                        weight: FontWeight.normal),
+                                    AppInputText(
+                                        text: details.medicineName,
+                                        colors: Colors.black,
+                                        size: 16,
+                                        weight: FontWeight.normal),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    AppInputText(
+                                        text: "Expiry Date: ",
+                                        colors: Colors.black,
+                                        size: 16,
+                                        weight: FontWeight.normal),
+                                    AppInputText(
+                                        text: details.ExpiryDate,
+                                        colors: Colors.black,
+                                        size: 16,
+                                        weight: FontWeight.normal),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    AppInputText(
+                                        text: "Tablets Count: ",
+                                        colors: Colors.black,
+                                        size: 16,
+                                        weight: FontWeight.normal),
+                                    AppInputText(
+                                        text: details.TabletCount,
+                                        colors: Colors.black,
+                                        size: 16,
+                                        weight: FontWeight.normal),
+                                  ],
+                                ),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: details.medicineFiles.length,
+                                    itemBuilder: ((context, index) {
+                                      final details2 =
+                                          details.medicineFiles[index];
+                                      return ListTile(
+                                          leading: ConstrainedBox(
+                                            constraints: BoxConstraints(
+                                              minWidth: 100,
+                                              minHeight: 260,
+                                              maxWidth: 104,
+                                              maxHeight: 264,
                                             ),
-                                            onTap: () {
-                                              AppConstants.filePath =
-                                                  details2.path.toString();
-                                              print(AppConstants.filePath);
-                                              Navigator.pushNamed(context,
-                                                  AppRoutes.pdfViewer);
-                                            }
-                                            //  child: PdfView(path: fileName.path),
+                                            child: (details2.path
+                                                            .split('.')
+                                                            .last ==
+                                                        'jpg' ||
+                                                    details2.path
+                                                            .split('.')
+                                                            .last ==
+                                                        'png')
+                                                ? Image.file(
+                                                    File(details2.path
+                                                        .toString()),
+                                                    /* width: 80,
+                                                  height: 80, */
+                                                  )
+                                                : SvgPicture.asset(
+                                                    'assets/pdf.svg',
+                                                    /* height: 30,
+                                                  width: 30, */
+                                                    //  color: Colors.white,
+                                                  ),
+                                          ),
+                                          onTap: () {
+                                            AppConstants.filePath =
+                                                details2.path.toString();
+                                            print(AppConstants.filePath);
+                                            Navigator.pushNamed(context,
+                                                AppRoutes.pdfViewer);
+                                          }
+                                          //  child: PdfView(path: fileName.path),
 
-                                            //       SfPdfViewer.file(
-                                            // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
+                                          //       SfPdfViewer.file(
+                                          // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
 
-                                            );
-                                      }))
-                                ])),
-                          );
-                        }),
-                      ),
-                    ],
-                  ),
+                                          );
+                                    }))
+                              ])),
+                        );
+                      }),
+                    ),
+                  ],
                 ),
               ),
               Container(
