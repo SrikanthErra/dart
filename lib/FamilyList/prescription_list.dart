@@ -169,6 +169,7 @@ class _prescriptionListState extends State<prescriptionList> {
           print(' id ${id}');
         });
         if (id != 0) {
+          print('list od med is $MedList');
           Navigator.pushNamed(context, AppRoutes.MedicineListView,
               arguments: MedList);
         }
