@@ -22,6 +22,7 @@ import '../FamilyList/medicinesView.dart';
 import '../FamilyList/prescription_list.dart';
 import '../FamilyList/registerFamily.dart';
 import '../Login/login.dart';
+import '../image_picker.dart';
 import 'App_routes.dart';
 
 class AppPages {
@@ -29,7 +30,7 @@ class AppPages {
     return {
       AppRoutes.mpinPage: ((context) => mpinPage()),
       AppRoutes.autocomplete: ((context) => autocomplete()),
-  
+      //AppRoutes.ImgPickerCamera: ((context) => ImgPickerCamera()),
       AppRoutes.MultiselectDropdown: ((context) => MultiselectDropdown()),
       AppRoutes.combinedDropdown: ((context) => combinedDropdown()),
       AppRoutes.dashboardGridview: ((context) => dashboardGridview()),
