@@ -2,9 +2,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
+import 'package:side_menu/Reusable/toast.dart';
 import 'package:universal_io/io.dart';
 import '../modelClasses/medicine_data_model.dart';
 import '../modelClasses/medicine_list_provider.dart';
@@ -55,7 +58,8 @@ class AppShowAlertMedicineData extends StatelessWidget {
     final _formkey1 = GlobalKey<FormState>();
     final _formkey2 = GlobalKey<FormState>();
     final _formkey3 = GlobalKey<FormState>();
-    List<File> fileIs = [];
+    //XFile? fileIs;
+    File? fileIs;
     final studentsStateProvider = Provider.of<MedicineListProvider>(context);
     MedicinenameController.text = "";
     ExpiryDateController.text = "";
@@ -113,12 +117,22 @@ class AppShowAlertMedicineData extends StatelessWidget {
                       globalKey: _formkey3),
                   TextButton(
                     onPressed: () async {
-                      final result = await FilePicker.platform
-                          .pickFiles(withReadStream: true, allowMultiple: true);
+                      final result = await ImagePicker()
+                          .pickImage(source: ImageSource.camera);
                       if (result == null) return;
-                      fileIs = result.paths.map((path) => File(path!)).toList();
-                      print('files length is ${fileIs.length}');
+                      fileIs = File(result.path);
+
+                      print('files length is ${fileIs.toString()}');
                     },
+                    /*
+                    Future getImage(ImageSource type) async {
+    final XFile? img = await ImagePicker().pickImage(source: type);
+    setState(() {
+      _image = File(img!.path);
+      this.widget.callbackValue(img);
+    });
+  }
+                    */
                     child: Text('Upload File'),
                   )
                 ],
@@ -133,22 +147,32 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         colors: Colors.blue,
                         size: 20,
                         weight: FontWeight.bold)),
+                        
                 TextButton(
-                    onPressed: (() {
+                    onPressed: (() async {
                       if (_formkey1.currentState!.validate() &&
                           _formkey2.currentState!.validate() &&
-                          _formkey3.currentState!.validate()) {
-                        studentsStateProvider.addMedicineData(medicineDataModel(
-                            medicineName: MedicinenameController.text,
-                            ExpiryDate: ExpiryDateController.text,
-                            medicineFiles: fileIs,
-                            TabletCount: TabletCountController.text));
-                        //MedicinesDataTable();
-                        print('files are $fileIs');
-                        print("data added successfully" +
-                            studentsStateProvider.Medicines.length.toString());
-                        Navigator.pop(context);
+                          _formkey3.currentState!.validate() && fileIs!=null
+                          ) {
+                            studentsStateProvider.addMedicineData(
+                              medicineDataModel(
+                                  medicineName: MedicinenameController.text,
+                                  ExpiryDate: ExpiryDateController.text,
+                                  medicineFiles: fileIs,
+                                  TabletsCount: TabletCountController.text));
+                          print('files are $fileIs');
+                          print("data added successfully" +
+                              studentsStateProvider.Medicines.length
+                                  .toString());
+                          await EasyLoading.show(
+                              status: "Loading...",
+                              maskType: EasyLoadingMaskType.black);
+                          Navigator.pop(context);
+                          EasyLoading.dismiss();
                       }
+                      else{
+                          showToast('Please upload Image');
+                        }
                     }),
                     child: AppInputText(
                         text: 'OK',
@@ -192,8 +216,8 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     final result = await FilePicker.platform
                         .pickFiles(withReadStream: true, allowMultiple: true);
                     if (result == null) return;
-                    fileIs = result.paths.map((path) => File(path!)).toList();
-                    print('files length is ${fileIs.length}');
+                    /* fileIs = result.paths.map((path) => File(path!)).toList();
+                    print('files length is ${fileIs.length}'); */
                   },
                   child: Text('Upload File'),
                 )
@@ -214,7 +238,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
                           medicineName: MedicinenameController.text,
                           ExpiryDate: ExpiryDateController.text,
                           medicineFiles: fileIs,
-                          TabletCount: TabletCountController.text));
+                          TabletsCount: TabletCountController.text));
                       print("data added successfully" +
                           studentsStateProvider.Medicines.length.toString());
                       Navigator.pop(context);

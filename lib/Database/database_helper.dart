@@ -75,7 +75,8 @@ mpin varchar(255)
       HospitalName varchar(255),
       DateOfAppointment varchar(255),
       ReasonForAppointment varchar(255),
-      NextAppointmentDate varchar(255)
+      NextAppointmentDate varchar(255),
+      PrescFiles varchar(255)
           );
                     ''');
     await db.execute('''

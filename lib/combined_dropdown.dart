@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'image_picker.dart';
 
 class combinedDropdown extends StatefulWidget {
   const combinedDropdown({super.key});
@@ -22,6 +25,9 @@ class _combinedDropdownState extends State<combinedDropdown> {
     'Fever,Cold,Cough',
     'Others'
   ];
+   XFile imageData1 = XFile("");
+  XFile imageData2 = XFile("");
+  XFile imageData3 = XFile("");
   bool? flag;
   @override
   Widget build(BuildContext context) {
@@ -109,6 +115,11 @@ class _combinedDropdownState extends State<combinedDropdown> {
                 print(CombineddropdownList);
               },
               child: Text('Submit')),
+              ImgPickerCamera(callbackValue: (imageData) {
+                              imageData1 = imageData;
+                              // print("path1:${imageData1.path}");
+                            },)
+
         ],
       ),
     );

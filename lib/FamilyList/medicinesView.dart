@@ -25,8 +25,9 @@ class _MedicineListState extends State<MedicineList> {
   @override
   Widget build(BuildContext context) {
     MedList = ModalRoute.of(context)?.settings.arguments as dynamic;
+    print('medlist is $MedList');
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
       body: Container(
@@ -95,20 +96,21 @@ class _MedicineListState extends State<MedicineList> {
                                         color: Colors.black, fontSize: 14),
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 1,
-                                  child: IconButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              insetPadding:
-                                                  EdgeInsets.symmetric(
-                                                      horizontal: 50,
-                                                      vertical: 150),
-                                              title: Text("Enter Tablet Count"),
-                                              content: Column(children: [
+                                IconButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            insetPadding:
+                                                EdgeInsets.symmetric(
+                                                    horizontal: 50.0,
+                                                    vertical: 50.0),
+                                            title: Text("Enter Tablet Count"),
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
                                                 Form(
                                                   key: _formkey,
                                                   child: TextFormField(
@@ -174,12 +176,12 @@ class _MedicineListState extends State<MedicineList> {
                                                   child: Text("Submit"),
                                                 )
                                               ]),
-                                            );
-                                          },
-                                        );
-                                      },
-                                      icon: Icon(Icons.edit)),
-                                )
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    icon: Icon(Icons.edit))
                               ],
                             ),
                           )
