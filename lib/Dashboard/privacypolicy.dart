@@ -16,6 +16,12 @@ class _privacyPolicyState extends State<privacyPolicy> {
   /* final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
   Factory(() => EagerGestureRecognizer())
 }; */
+final pageUrl1 = "https://www.cgg.gov.in/mgov-privacy-policy/?depot_name=" +
+                        "Centre for Good Governance (CGG), Govt. of Telangana";
+final pageUrl2 = "https://www.cgg.gov.in/mgov-terms-conditions/?depot_name=" +
+                        "Centre for Good Governance (CGG), Govt. of Telangana&depot_email=info@cgg.gov.in";
+final pageUrl3 = "https://www.cgg.gov.in/mgov-copyright-policy/?depot_name=" +
+                        "Centre for Good Governance (CGG), Govt. of Telangana&capital=Hyderabad, Telangana";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +52,7 @@ class _privacyPolicyState extends State<privacyPolicy> {
             Container(
               child: WebView(
                 initialUrl:
-                    "https://www.cgg.gov.in/mgov-privacy-policy/?depot_name=" +
-                        "Centre for Good Governance (CGG), Govt. of Telangana",
+                    Uri.parse(pageUrl1).toString(),
                 javascriptMode: JavascriptMode.unrestricted,
                 // gestureRecognizers: gestureRecognizers,
                 gestureRecognizers: Set()
@@ -61,8 +66,7 @@ class _privacyPolicyState extends State<privacyPolicy> {
             Container(
               child: WebView(
                 initialUrl:
-                    "https://www.cgg.gov.in/mgov-terms-conditions/?depot_name=" +
-                        "Centre for Good Governance (CGG), Govt. of Telangana&depot_email=info@cgg.gov.in",
+                     Uri.parse(pageUrl2).toString(),
                 javascriptMode: JavascriptMode.unrestricted,
                //  gestureRecognizers: gestureRecognizers,
                gestureRecognizers: Set()
@@ -76,8 +80,7 @@ class _privacyPolicyState extends State<privacyPolicy> {
             Container(
               child: WebView(
                 initialUrl:
-                    "https://www.cgg.gov.in/mgov-copyright-policy/?depot_name=" +
-                        "Centre for Good Governance (CGG), Govt. of Telangana&capital=Hyderabad, Telangana",
+                     Uri.parse(pageUrl3).toString(),
                 javascriptMode: JavascriptMode.unrestricted,
                 // gestureRecognizers: gestureRecognizers,
                 gestureRecognizers: Set()

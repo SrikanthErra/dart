@@ -196,6 +196,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _mobile.text = '1111111111';
+   // _mobile.text = '1111111111';
   }
 }
