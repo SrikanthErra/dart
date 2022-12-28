@@ -430,7 +430,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                         weight: FontWeight.normal),
                                     AppInputText(
 
-                                        text: details.TabletCount,
+                                        text: details.TabletsCount,
 
                                         colors: Colors.black,
                                         size: 16,
@@ -438,56 +438,56 @@ class _addPrescriptionState extends State<addPrescription> {
                                   ],
                                 ),
 
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: details.medicineFiles.length,
-                                    itemBuilder: ((context, index) {
-                                      final details2 =
-                                          details.medicineFiles[index];
-                                      return ListTile(
-                                          leading: ConstrainedBox(
-                                            constraints: BoxConstraints(
-                                              minWidth: 100,
-                                              minHeight: 260,
-                                              maxWidth: 104,
-                                              maxHeight: 264,
-                                            ),
-                                            child: (details2.path
-                                                            .split('.')
-                                                            .last ==
-                                                        'jpg' ||
-                                                    details2.path
-                                                            .split('.')
-                                                            .last ==
-                                                        'png')
-                                                ? Image.file(
-                                                    File(details2.path
-                                                        .toString()),
-                                                    /* width: 80,
-                                                  height: 80, */
-                                                  )
-                                                : SvgPicture.asset(
-                                                    'assets/pdf.svg',
-                                                    /* height: 30,
-                                                  width: 30, */
-                                                    //  color: Colors.white,
-                                                  ),
-                                          ),
-                                          onTap: () {
-                                            AppConstants.filePath =
-                                                details2.path.toString();
-                                            print(AppConstants.filePath);
-                                            Navigator.pushNamed(context,
-                                                AppRoutes.pdfViewer);
-                                          }
-                                          //  child: PdfView(path: fileName.path),
+                                // ListView.builder(
+                                //     shrinkWrap: true,
+                                //     physics: NeverScrollableScrollPhysics(),
+                                //     itemCount: details.medicineFiles.length,
+                                //     itemBuilder: ((context, index) {
+                                //       final details2 =
+                                //           details.medicineFiles[index];
+                                //       return ListTile(
+                                //           leading: ConstrainedBox(
+                                //             constraints: BoxConstraints(
+                                //               minWidth: 100,
+                                //               minHeight: 260,
+                                //               maxWidth: 104,
+                                //               maxHeight: 264,
+                                //             ),
+                                //             child: (details2.path
+                                //                             .split('.')
+                                //                             .last ==
+                                //                         'jpg' ||
+                                //                     details2.path
+                                //                             .split('.')
+                                //                             .last ==
+                                //                         'png')
+                                //                 ? Image.file(
+                                //                     File(details2.path
+                                //                         .toString()),
+                                //                     /* width: 80,
+                                //                   height: 80, */
+                                //                   )
+                                //                 : SvgPicture.asset(
+                                //                     'assets/pdf.svg',
+                                //                     /* height: 30,
+                                //                   width: 30, */
+                                //                     //  color: Colors.white,
+                                //                   ),
+                                //           ),
+                                //           onTap: () {
+                                //             AppConstants.filePath =
+                                //                 details2.path.toString();
+                                //             print(AppConstants.filePath);
+                                //             Navigator.pushNamed(context,
+                                //                 AppRoutes.pdfViewer);
+                                //           }
+                                //           //  child: PdfView(path: fileName.path),
 
-                                          //       SfPdfViewer.file(
-                                          // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
+                                //           //       SfPdfViewer.file(
+                                //           // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
 
-                                          );
-                                    }))
+                                //           );
+                                //     }))
 
                                 Image.file(
                                   details.medicineFiles!,
