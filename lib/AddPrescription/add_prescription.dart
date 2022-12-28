@@ -61,7 +61,7 @@ class _addPrescriptionState extends State<addPrescription> {
   //MasterSymptomTable required parameters
   late TextEditingController textEditingController;
   String? selectedSymptomValue;
-  int? selectedSymptomId;
+  int selectedSymptomId = 0;
   bool? flag;
   bool stag = false;
   bool? vis;
@@ -70,6 +70,7 @@ class _addPrescriptionState extends State<addPrescription> {
   List<String> SymptomsDataList = [];
 
   List<File> Uploadedfiles = [];
+  File? selectedImage;
   @override
   Widget build(BuildContext context) {
     EasyLoading.dismiss();
@@ -77,7 +78,7 @@ class _addPrescriptionState extends State<addPrescription> {
     final familyNamesStateProvider =
         Provider.of<FamilyListNamesProvider>(context);
     final medicineStateProvider = Provider.of<MedicineListProvider>(context);
-    
+
     /* final PrescriptionStateProvider =
         Provider.of<PrescriptionListProvider>(context); */
     // medicineStateProvider.Medicines.length = 0;
@@ -171,7 +172,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                     flag = false;
                                     getMasterSymptomId(
                                         selectedSymptomValue ?? '');
-                                    print(selectedSymptomId);
+                                    print('id selected $selectedSymptomId');
                                   });
                                 }
                               },
@@ -370,9 +371,7 @@ class _addPrescriptionState extends State<addPrescription> {
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: medicineStateProvider.Medicines.length,
                       itemBuilder: ((context, index) {
-
-                        final details =
-                            medicineStateProvider.Medicines[index];
+                        final details = medicineStateProvider.Medicines[index];
 
                         //final details2 = medicineStateProvider.Medicines[index].medicineFiles[index];
                         return Card(
@@ -380,12 +379,8 @@ class _addPrescriptionState extends State<addPrescription> {
                           child: Container(
                               // color: AppColors.PRIMARY_COLOR,
                               child: Column(
-
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                 Row(
                                   mainAxisAlignment:
@@ -429,9 +424,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                         size: 16,
                                         weight: FontWeight.normal),
                                     AppInputText(
-
                                         text: details.TabletsCount,
-
                                         colors: Colors.black,
                                         size: 16,
                                         weight: FontWeight.normal),
@@ -494,7 +487,6 @@ class _addPrescriptionState extends State<addPrescription> {
                                   width: 100,
                                   height: 100,
                                 )
-
                               ])),
                         );
                       }),
@@ -566,6 +558,7 @@ class _addPrescriptionState extends State<addPrescription> {
                     Visibility(
                       visible: vis ?? false,
                       child: Card(
+                        color: Colors.transparent,
                         child: ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
@@ -612,20 +605,49 @@ class _addPrescriptionState extends State<addPrescription> {
                             })),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () async {
-                        final result = await FilePicker.platform.pickFiles(
-                            withReadStream: true, allowMultiple: true);
-                        if (result == null) return;
-                        setState(() {
-                          Uploadedfiles =
-                              result.paths.map((path) => File(path!)).toList();
-                          vis = true;
-                        });
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextButton(
+                            onPressed: () async {
+                              final result = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              if (result == null) return;
+                              selectedImage = File(result.path);
+                              setState(() {
+                                Uploadedfiles.add(selectedImage!);
+                                vis = true;
+                              });
+                              print(
+                                  'files length is ${selectedImage.toString()}');
+                            },
+                            child: Text('Upload from Camera'),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextButton(
+                            onPressed: () async {
+                              final result = await FilePicker.platform
+                                  .pickFiles(
+                                      withReadStream: true,
+                                      allowMultiple: true);
+                              if (result == null) return;
+                              setState(() {
+                                Uploadedfiles = result.paths
+                                    .map((path) => File(path!))
+                                    .toList();
+                                vis = true;
+                              });
 
-                        print('files length is ${Uploadedfiles.length}');
-                      },
-                      child: Text("Upload Files"),
+                              print('files length is ${Uploadedfiles.length}');
+                            },
+                            child: Text("Upload from Gallery"),
+                          ),
+                        ),
+                      ],
                     ),
                     ButtonComponent(
                         onPressed: () async {
@@ -687,8 +709,11 @@ class _addPrescriptionState extends State<addPrescription> {
   Future<int> SaveData(MedicineListProvider medicineStateProvider) async {
     int result = 0;
     print('len of uploaded files is ${Uploadedfiles.length}');
+    print(' confirm id $selectedSymptomId');
+    print('symptom $selectedSymptomValue');
     if (Uploadedfiles.length == 0) {
       print('entered in if');
+
       final PrescriptionAdded = PrescriptionModel(
         FamilyMemberId: selectedId,
         Symptom: selectedSymptomValue,
@@ -708,8 +733,11 @@ class _addPrescriptionState extends State<addPrescription> {
           await _databaseService.queryAllRows(DatabaseHelper.table2);
       print("Entries in Symptoms Table $SymptomEntries");
       //dynamic symptomID = GetSymptomId();
-      final count = await _databaseService.queryRowLast("Symptoms");
-      print("""last Symptoms ID is  $count""");
+      /* final count = await _databaseService.queryRowLast("Symptoms");
+      print("""last Symptoms ID is  $count"""); */
+      final count =
+          await _databaseService.selectId("Symptoms", selectedSymptomValue ?? '');
+      print('last symptomId is $count');
       MedicinesDataTable(count, medicineStateProvider);
       result = saved;
       return saved;
@@ -735,8 +763,11 @@ class _addPrescriptionState extends State<addPrescription> {
             await _databaseService.queryAllRows(DatabaseHelper.table2);
         print("Entries in Symptoms Table $SymptomEntries");
         //dynamic symptomID = GetSymptomId();
-        final count = await _databaseService.queryRowLast("Symptoms");
-        print("""last Symptoms ID is  $count""");
+       /*  final count = await _databaseService.queryRowLast("Symptoms");
+        print("""last Symptoms ID is  $count"""); */
+        final count =
+          await _databaseService.selectId("Symptoms", selectedSymptomValue ?? '');
+      print('last symptomId is $count');
         MedicinesDataTable(count, medicineStateProvider);
         result = saved;
         return saved;
