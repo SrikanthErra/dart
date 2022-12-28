@@ -164,6 +164,14 @@ VALUES( value1,	value2 ,...); */
         0;
   }
 
+  Future<int> selectId(String table, String selectedValue) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(await db.rawQuery(
+            'SELECT SymptomId FROM $table2 WHERE Symptom = ?', [selectedValue])) ??
+        0;
+  }
+
+
   // Future<String> queryLogin(String username, String pwd, String table) async {
   //   Database db = await instance.database;
   //   return await db

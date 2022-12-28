@@ -124,16 +124,18 @@ class AppShowAlertMedicineData extends StatelessWidget {
 
                       print('files length is ${fileIs.toString()}');
                     },
-                    /*
-                    Future getImage(ImageSource type) async {
-    final XFile? img = await ImagePicker().pickImage(source: type);
-    setState(() {
-      _image = File(img!.path);
-      this.widget.callbackValue(img);
-    });
-  }
-                    */
-                    child: Text('Upload File'),
+                    child: Text('Upload from Camera'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      final result = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                      if (result == null) return;
+                      fileIs = File(result.path);
+
+                      print('files length is ${fileIs.toString()}');
+                    },
+                    child: Text('Upload from Gallery'),
                   )
                 ],
               ),
@@ -212,15 +214,27 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     onEditingComplete: onEditingComplete,
                     globalKey: _formkey3),
                 TextButton(
-                  onPressed: () async {
-                    final result = await FilePicker.platform
-                        .pickFiles(withReadStream: true, allowMultiple: true);
-                    if (result == null) return;
-                    /* fileIs = result.paths.map((path) => File(path!)).toList();
-                    print('files length is ${fileIs.length}'); */
-                  },
-                  child: Text('Upload File'),
-                )
+                    onPressed: () async {
+                      final result = await ImagePicker()
+                          .pickImage(source: ImageSource.camera);
+                      if (result == null) return;
+                      fileIs = File(result.path);
+
+                      print('files length is ${fileIs.toString()}');
+                    },
+                    child: Text('Upload from Camera'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      final result = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                      if (result == null) return;
+                      fileIs = File(result.path);
+
+                      print('files length is ${fileIs.toString()}');
+                    },
+                    child: Text('Upload from Gallery'),
+                  )
               ]),
               actions: [
                 TextButton(
@@ -232,16 +246,31 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         colors: Colors.blue,
                         size: 20,
                         weight: FontWeight.bold)),
-                TextButton(
-                    onPressed: (() {
-                      studentsStateProvider.addMedicineData(medicineDataModel(
-                          medicineName: MedicinenameController.text,
-                          ExpiryDate: ExpiryDateController.text,
-                          medicineFiles: fileIs,
-                          TabletsCount: TabletCountController.text));
-                      print("data added successfully" +
-                          studentsStateProvider.Medicines.length.toString());
-                      Navigator.pop(context);
+               TextButton(
+                    onPressed: (() async {
+                      if (_formkey1.currentState!.validate() &&
+                          _formkey2.currentState!.validate() &&
+                          _formkey3.currentState!.validate() && fileIs!=null
+                          ) {
+                            studentsStateProvider.addMedicineData(
+                              medicineDataModel(
+                                  medicineName: MedicinenameController.text,
+                                  ExpiryDate: ExpiryDateController.text,
+                                  medicineFiles: fileIs,
+                                  TabletsCount: TabletCountController.text));
+                          print('files are $fileIs');
+                          print("data added successfully" +
+                              studentsStateProvider.Medicines.length
+                                  .toString());
+                          await EasyLoading.show(
+                              status: "Loading...",
+                              maskType: EasyLoadingMaskType.black);
+                          Navigator.pop(context);
+                          EasyLoading.dismiss();
+                      }
+                      else{
+                          showToast('Please upload Image');
+                        }
                     }),
                     child: AppInputText(
                         text: 'OK',
