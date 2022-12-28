@@ -13,7 +13,7 @@ class DatabaseHelper {
   static final _databaseVersion = 1;
 
   static final table = 'FamilyList';
-  static final table2 = 'Symptoms';
+  static final table2 = 'Prescription';
   static final table3 = 'Medicines';
   static final name = 'name';
   static final age = 'age';
@@ -67,7 +67,8 @@ mobileNumber varchar(255),
 mpin varchar(255)
 );
           ''');
-    await db.execute('''CREATE TABLE Symptoms(
+    await db.execute('''CREATE TABLE Prescription(
+      SId INTEGER PRIMARY KEY AUTOINCREMENT,
       SymptomId INTEGER,
       FamilyMemberId INTEGER,
       Symptom varchar(255),
@@ -87,7 +88,7 @@ MedicineName varchar(255),
 ExpiryDate varchar(255),
 MedicinePhoto varchar(255),
 TabletsCount INTEGER,
-SymptomId varchar(255)
+SId varchar(255)
 );
           ''');
     await db.execute('''
@@ -160,7 +161,7 @@ VALUES( value1,	value2 ,...); */
   Future<int> queryRowLast(String tablename) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery(
-            'SELECT SymptomId FROM $table2 ORDER BY SymptomId DESC LIMIT 1')) ??
+            'SELECT SId FROM $table2 ORDER BY SId DESC LIMIT 1')) ??
         0;
   }
 
@@ -251,7 +252,7 @@ VALUES( value1,	value2 ,...); */
 
   Future<List<Map>> medicineList(String table, int id) async {
     Database db = await instance.database;
-    return await db.rawQuery('SELECT * FROM $table WHERE SymptomId = ?', [id]);
+    return await db.rawQuery('SELECT * FROM $table WHERE SId = ?', [id]);
 
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
     return res; */
@@ -260,7 +261,7 @@ VALUES( value1,	value2 ,...); */
   Future<List<Map>> viewMed() async {
     Database db = await instance.database;
     return await db.rawQuery(
-        'SELECT Symptom,MedicineName,ExpiryDate FROM $table2 INNER JOIN $table3 ON $table3.SymptomId = $table2.SymptomId ');
+        'SELECT Symptom,MedicineName,ExpiryDate FROM $table2 INNER JOIN $table3 ON $table3.SId = $table2.SId ');
     // Medicines   Symptoms  SymptomId
   }
   /*  Future<List<Map>> queryRowCountforMpinValidate(
@@ -347,7 +348,7 @@ VALUES( value1,	value2 ,...); */
   Future<int> queryPresCount(String table, int FamilyMemberId) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery(
-            'SELECT COUNT(*) FROM Symptoms WHERE familyMemberId = ?',
+            'SELECT COUNT(*) FROM Prescription WHERE familyMemberId = ?',
             [FamilyMemberId])) ??
         0;
   }

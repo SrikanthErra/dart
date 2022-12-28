@@ -4,14 +4,14 @@ class MedicineModel {
   String? ExpiryDate;
   String? MedicinePhoto;
   int? TabletsCount;
-  int? SymptomId;
+  int? SId;
 
   MedicineModel({
     this.MedicineId,
     this.MedicineName,
     this.ExpiryDate,
     this.MedicinePhoto,
-    this.SymptomId,
+    this.SId,
     this.TabletsCount,
   });
 
@@ -20,7 +20,7 @@ class MedicineModel {
     MedicineName = json['MedicineName'];
     ExpiryDate = json['ExpiryDate'];
     MedicinePhoto = json['MedicinePhoto'];
-    SymptomId = json['SymptomId'];
+    SId = json['SId'];
     TabletsCount = json['TabletsCount'];
   }
 
@@ -30,7 +30,7 @@ class MedicineModel {
     data['MedicineName'] = this.MedicineName;
     data['ExpiryDate'] = this.ExpiryDate;
     data['MedicinePhoto'] = this.MedicinePhoto;
-    data['SymptomId'] = this.SymptomId;
+    data['SId'] = this.SId;
     data['TabletsCount'] = this.TabletsCount;
     return data;
   }
