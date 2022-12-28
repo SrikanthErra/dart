@@ -81,7 +81,7 @@ class _prescriptionListState extends State<prescriptionList> {
                             onTap: () {
                               print(
                                   'symptom id is ${prescriptionlist.SymptomId}');
-                              fetchdata(prescriptionlist.SymptomId ?? 0);
+                              fetchdata(prescriptionlist.SId ?? 0);
 
                               /* Navigator.pushNamed(
                                   context, AppRoutes.MedicineListView); */

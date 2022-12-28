@@ -152,7 +152,7 @@ class _familyListState extends State<familyList> {
     int i = 0;
     while (i < famList.length) {
       final PresCount =
-          await _dbInstance.queryPresCount('Symptoms', famList[i].id ?? 0);
+          await _dbInstance.queryPresCount('Prescription', famList[i].id ?? 0);
       presCount.add(PresCount);
       i++;
     }
@@ -177,13 +177,14 @@ class _familyListState extends State<familyList> {
 
   fetchdata(int id) async {
    // print('selected id is $id');
-   await DatabaseHelper.instance.prescList('Symptoms',id).then((value) {
+   await DatabaseHelper.instance.prescList('Prescription',id).then((value) {
       setState(() {
         prescList = [];
         value.forEach((element) {
           print('element is $element');
           prescList.add(
             PrescriptionModel(
+              SId: element["SId"],
               Symptom: element["Symptom"],
               DoctorName: element["DoctorName"],
               HospitalName: element["HospitalName"],
