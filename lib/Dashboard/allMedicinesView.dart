@@ -245,5 +245,40 @@ class _AllMedicineListState extends State<AllMedicineList> {
         });
       });
     });
+    MedList.forEach((element) {
+      if (element.TabletsCount == 0) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                  "No tablets for Medicine: ${element.MedicineName}...! Do you want to Delete?"),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        DatabaseHelper.instance.delete(element.MedicineId!);
+                        Navigator.pushNamed(
+                            context, AppRoutes.dashboardGridview);
+                        await EasyLoading.show(
+                            status: "Loading...",
+                            maskType: EasyLoadingMaskType.black);
+                      },
+                      child: const Text('YES'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('NO'),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
   }
 }

@@ -155,20 +155,55 @@ class _visitAlertsState extends State<visitAlerts>
                                               builder: (BuildContext context,
                                                   Widget? child) {
                                                 return IconButton(
-                                                  onPressed: () async {
-                                                    DatabaseHelper.instance
-                                                        .delete(expirylist
-                                                            .MedicineId!);
-                                                    await EasyLoading.show(
-                                                        status: "Loading...",
-                                                        maskType:
-                                                            EasyLoadingMaskType
-                                                                .black);
-                                                    Navigator
-                                                        .pushReplacementNamed(
-                                                            context,
-                                                            AppRoutes
-                                                                .visitAlerts);
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              "Do you want to delete the Medicine from the table?"),
+                                                          actions: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceAround,
+                                                              children: [
+                                                                ElevatedButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    DatabaseHelper
+                                                                        .instance
+                                                                        .delete(
+                                                                            expirylist.MedicineId!);
+                                                                    await EasyLoading.show(
+                                                                        status:
+                                                                            "Loading...",
+                                                                        maskType:
+                                                                            EasyLoadingMaskType.black);
+                                                                    Navigator.pushReplacementNamed(
+                                                                        context,
+                                                                        AppRoutes
+                                                                            .visitAlerts);
+                                                                  },
+                                                                  child:
+                                                                      const Text(
+                                                                          'YES'),
+                                                                ),
+                                                                ElevatedButton(
+                                                                  onPressed: () =>
+                                                                      Navigator.pop(
+                                                                          context),
+                                                                  child:
+                                                                      const Text(
+                                                                          'NO'),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   icon: Icon(Icons.delete,
                                                       color: Colors.red),
