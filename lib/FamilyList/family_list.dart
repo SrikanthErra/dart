@@ -69,7 +69,7 @@ class _familyListState extends State<familyList> {
                       onTap: () {
                         print('name clicked is ${familylist.Name}');
                         getId(familylist.Name ?? '');
-                        
+
                         // fetchdata();
                         // AppConstants.passFamilyMemberName = familylist.Name ?? '';
                       },
@@ -172,12 +172,12 @@ class _familyListState extends State<familyList> {
     print("data saved ${saved}");
     selectedId = saved;
     print('Id selected is $selectedId');
-    fetchdata(selectedId ?? 0);
+    fetchdata(selectedId ?? 0, name);
   }
 
-  fetchdata(int id) async {
-   // print('selected id is $id');
-   await DatabaseHelper.instance.prescList('Prescription',id).then((value) {
+  fetchdata(int id, String name) async {
+    // print('selected id is $id');
+    await DatabaseHelper.instance.prescList('Prescription', id).then((value) {
       setState(() {
         prescList = [];
         value.forEach((element) {
@@ -198,7 +198,7 @@ class _familyListState extends State<familyList> {
         });
         if (prescList.length != 0) {
           Navigator.pushNamed(context, AppRoutes.prescriptionList,
-              arguments: prescList
+              arguments: FamilyArguments(prescList, name)
               // arguments:tappedNames(FamilyMemberName: familylist.Name!)
               );
         } else {
@@ -212,4 +212,11 @@ class _familyListState extends State<familyList> {
       //  print('data saved is ${saved}');
     });
   }
+}
+
+class FamilyArguments {
+  final List<PrescriptionModel> prescList;
+  final String name;
+
+  FamilyArguments(this.prescList, this.name);
 }
