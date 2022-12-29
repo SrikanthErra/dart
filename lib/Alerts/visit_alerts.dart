@@ -312,7 +312,7 @@ class _visitAlertsState extends State<visitAlerts>
     });
     // Remove this line if you want to start the animation later
     controller.forward();
-    DatabaseHelper.instance.queryAllRows("Symptoms").then((value) {
+    DatabaseHelper.instance.queryAllRows("Prescription").then((value) {
       setState(() {
         value.forEach((element) {
           nextvisitList.add(

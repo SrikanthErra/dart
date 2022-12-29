@@ -1,5 +1,6 @@
 class PrescriptionModel {
   int? SymptomId;
+  int? SId;
   int? FamilyMemberId;
   String? Symptom;
   String? DoctorName;
@@ -11,6 +12,7 @@ class PrescriptionModel {
 
   PrescriptionModel(
       {this.SymptomId,
+      this.SId,
       this.FamilyMemberId,
       this.Symptom,
       this.DoctorName,
@@ -23,6 +25,7 @@ class PrescriptionModel {
   PrescriptionModel.fromJson(Map<String, dynamic> json) {
     SymptomId = json['SymptomId'];
     Symptom = json['Symptom'];
+    SId = json['SId'];
     FamilyMemberId = json['FamilyMemberId'];
     DoctorName = json['DoctorName'];
     HospitalName = json['HospitalName'];
@@ -35,6 +38,7 @@ class PrescriptionModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['SymptomId'] = this.SymptomId;
+    data['SId'] = this.SId;
     data['FamilyMemberId'] = this.FamilyMemberId;
     data['Symptom'] = this.Symptom;
     data['DoctorName'] = this.DoctorName;
