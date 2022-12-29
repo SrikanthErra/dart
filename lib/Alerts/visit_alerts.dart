@@ -162,7 +162,7 @@ class _visitAlertsState extends State<visitAlerts>
                                                           context) {
                                                         return AlertDialog(
                                                           title: Text(
-                                                              "Do you want to delete the Medicine from the table?"),
+                                                              "Do you want to delete the {${expirylist.MedicineName}} Medicine from the table?"),
                                                           actions: [
                                                             Row(
                                                               mainAxisAlignment:

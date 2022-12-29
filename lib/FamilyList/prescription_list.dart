@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/pass_name_from_famlist_to_prescriptionview.dart';
@@ -81,10 +82,9 @@ class _prescriptionListState extends State<prescriptionList> {
                             onTap: () {
                               print(
                                   'symptom id is ${prescriptionlist.SymptomId}');
+
                               fetchdata(prescriptionlist.SId ?? 0);
 
-                              /* Navigator.pushNamed(
-                                  context, AppRoutes.MedicineListView); */
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(
