@@ -113,9 +113,7 @@ VALUES( value1,	value2 ,...); */
   // and the value is the column value. The return value is the id of the
   // inserted row.
 
-
   Future<int> insert(Map<String, dynamic> row) async {
-
     Database? db = await instance.database;
     return await db.insert(table, row);
   }
@@ -160,18 +158,18 @@ VALUES( value1,	value2 ,...); */
 
   Future<int> queryRowLast(String tablename) async {
     Database db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery(
-            'SELECT SId FROM $table2 ORDER BY SId DESC LIMIT 1')) ??
+    return Sqflite.firstIntValue(await db
+            .rawQuery('SELECT SId FROM $table2 ORDER BY SId DESC LIMIT 1')) ??
         0;
   }
 
   Future<int> selectId(String table, String selectedValue) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery(
-            'SELECT SymptomId FROM $table2 WHERE Symptom = ?', [selectedValue])) ??
+            'SELECT SymptomId FROM $table2 WHERE Symptom = ?',
+            [selectedValue])) ??
         0;
   }
-
 
   // Future<String> queryLogin(String username, String pwd, String table) async {
   //   Database db = await instance.database;
@@ -216,10 +214,12 @@ VALUES( value1,	value2 ,...); */
             'SELECT $id FROM $table WHERE $name = ?', [selectedValue])) ??
         0;
   }
+
   Future<int> symptomId(String table, String selectedValue) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery(
-            'SELECT MasterSymptomId FROM SymptomMaster WHERE MasterSymptom = ?', [selectedValue])) ??
+            'SELECT MasterSymptomId FROM SymptomMaster WHERE MasterSymptom = ?',
+            [selectedValue])) ??
         0;
   }
 
@@ -236,7 +236,6 @@ VALUES( value1,	value2 ,...); */
   Future<List<Map>> prescList(String table, int id) async {
     Database db = await instance.database;
     return await db
-
         .rawQuery('SELECT * FROM $table WHERE FamilyMemberId = ?', [id]);
 
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
@@ -247,7 +246,6 @@ VALUES( value1,	value2 ,...); */
 /* 
     return await db.rawQuery(
         'SELECT * FROM $table2 WHERE familyMemberId = ?', [id]); */
-
   }
 
   Future<List<Map>> medicineList(String table, int id) async {
@@ -263,6 +261,18 @@ VALUES( value1,	value2 ,...); */
     return await db.rawQuery(
         'SELECT Symptom,MedicineName,ExpiryDate FROM $table2 INNER JOIN $table3 ON $table3.SId = $table2.SId ');
     // Medicines   Symptoms  SymptomId
+  }
+
+  Future<List<Map>> viewTotalPres(int id,int SId) async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+      //'SELECT * FROM $table INNER JOIN $table2 ON $table2.FamilyMemberId = $id INNER JOIN $table3 ON $SId = $table3.SId '
+      //"SELECT * FROM FamilyList INNER JOIN Prescription ON Prescription.FamilyMemberId = $id INNER JOIN Medicines ON $SId = Medicines.SId "
+    //SELECT * FROM FamilyList  a join Prescription b on a.id=b.FamilyMemberId where b.SId Like 1
+    //SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on a.id=b.FamilyMemberId and b.SId=c.SId where b.SId Like 1
+      // "SELECT * FROM FamilyList a join Prescription b on a.id=b.FamilyMemberId where b.SId Like $SId"
+      "SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on $id=b.FamilyMemberId and b.SId=c.SId where b.SId Like $SId"
+    );
   }
   /*  Future<List<Map>> queryRowCountforMpinValidate(
       String table, String mobile) async {
