@@ -1,3 +1,4 @@
+import 'package:side_menu/FamilyList/total_presc_view.dart';
 import 'package:side_menu/Login/registration.dart';
 import 'package:side_menu/autocomplete_dropdown.dart';
 import 'package:side_menu/view_Medicine/view_medicine.dart';
@@ -7,7 +8,7 @@ class AppRoutes {
   static const initial = login;
   static const autocomplete = "/autocomplete";
   static const SideMenu = "/SideMenu";
-  //static const ImgPickerCamera = "/ImgPickerCamera";
+  static const totalPrescView = "/totalPrescView";
   static const combinedDropdown = "/combinedDropdown";
   static const MultiselectDropdown = "/MultiselectDropdown";
   static const familyList = "/familyList";

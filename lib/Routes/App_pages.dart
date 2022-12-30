@@ -5,6 +5,7 @@ import 'package:side_menu/Dashboard/allMedicinesView.dart';
 import 'package:side_menu/Dashboard/dashboard_gridview.dart';
 
 import 'package:side_menu/FamilyList/reports.dart';
+import 'package:side_menu/FamilyList/total_presc_view.dart';
 import 'package:side_menu/Login/mpin.dart';
 import 'package:side_menu/Login/mpin_validate.dart';
 import 'package:side_menu/Login/otp.dart';
@@ -30,7 +31,7 @@ class AppPages {
     return {
       AppRoutes.mpinPage: ((context) => mpinPage()),
       AppRoutes.autocomplete: ((context) => autocomplete()),
-      //AppRoutes.ImgPickerCamera: ((context) => ImgPickerCamera()),
+      AppRoutes.totalPrescView: ((context) => totalPrescView()),
       AppRoutes.MultiselectDropdown: ((context) => MultiselectDropdown()),
       AppRoutes.combinedDropdown: ((context) => combinedDropdown()),
       AppRoutes.dashboardGridview: ((context) => dashboardGridview()),

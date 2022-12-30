@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:side_menu/FamilyList/total_presc_view.dart';
 import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/Database/database_helper.dart';
@@ -10,6 +11,7 @@ import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dar
 import 'package:side_menu/modelClasses/family_list_model.dart';
 import 'package:side_menu/modelClasses/pass_name_from_famlist_to_prescriptionview.dart';
 import 'package:side_menu/modelClasses/prescription_list_model.dart';
+import 'package:side_menu/modelClasses/total_presc_view_model.dart';
 
 import '../Reusable/app_input_text.dart';
 import '../modelClasses/familyNamesModel.dart';
@@ -25,6 +27,7 @@ class _familyListState extends State<familyList> {
   List<familyListModel> famList = [];
   List<int> presCount = [];
   List<PrescriptionModel> prescList = [];
+  List<totalPrescViewModel> totalPresc = [];
   int? selectedId;
   //int PrescriptionCount = 0;
   String? FamilyMemeber = "";
@@ -172,10 +175,62 @@ class _familyListState extends State<familyList> {
     print("data saved ${saved}");
     selectedId = saved;
     print('Id selected is $selectedId');
-    fetchdata(selectedId ?? 0, name);
+
+    AppConstants.famMemId = selectedId ?? 0;
+    print('app const is ${AppConstants.famMemId}');
+    fetchdata(selectedId ?? 0);
+   // fetchAllPresData(selectedId ?? 0);
   }
 
-  fetchdata(int id, String name) async {
+  /* fetchAllPresData(int id) async {
+    await DatabaseHelper.instance.viewTotalPres(id).then((value) {
+      setState(() {
+        totalPresc = [];
+        value.forEach((element) {
+          print('data is $element');
+          totalPresc.add(totalPrescViewModel(
+            name: element['name'],
+            DoctorName: element['DoctorName'],
+            DateOfAppointment: element['DateOfAppointment'],
+            ExpiryDate: element['ExpiryDate'],
+            HospitalName: element['HospitalName'],
+            MedicineName: element['MedicineName'],
+            MedicinePhoto: element['MedicinePhoto'],
+            NextAppointmentDate: element['NextAppointmentDate'],
+            PrescFiles: element['PrescFiles'],
+            ReasonForAppointment: element['ReasonForAppointment'],
+            Symptom: element['Symptom'],
+            TabletsCount: element['TabletsCount'],
+          ));
+        });
+      });
+    });
+  } */
+
+  /*
+     fetchdata() async {
+    await DatabaseHelper.instance.viewMed().then((value) {
+      setState(() {
+        viewMedList = [];
+        value.forEach((element) {
+          print('element is $element');
+          viewMedList.add(viewMedicineModel(
+            Symptom: element["Symptom"],
+            MedicineName: element["MedicineName"],
+            ExpiryDate: element["ExpiryDate"],
+            /*  ExpiryDate: element["ExpiryDate"],
+            MedicineName: element["MedicineName"],
+            MedicinePhoto: element["MedicinePhoto"], */
+          ));
+          print(' id ${viewMedList}');
+          viewSearchMedList = viewMedList;
+        });
+      });
+    });
+  }
+  */
+  fetchdata(int id) async {
+
     // print('selected id is $id');
     await DatabaseHelper.instance.prescList('Prescription', id).then((value) {
       setState(() {

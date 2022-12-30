@@ -3,15 +3,19 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:side_menu/Routes/App_routes.dart';
+import 'package:side_menu/app_constants.dart';
 import 'package:side_menu/modelClasses/pass_name_from_famlist_to_prescriptionview.dart';
 import 'package:side_menu/modelClasses/prescription_list_model.dart';
 
 import '../Database/database_helper.dart';
+import '../Reusable/alert.dart';
 import '../Reusable/app_input_text.dart';
 import '../modelClasses/database_modelClass/PrescriptionModel.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
+import '../modelClasses/total_presc_view_model.dart';
 import '../modelClasses/family_list_model.dart';
 import 'family_list.dart';
+
 
 class prescriptionList extends StatefulWidget {
   const prescriptionList({super.key});
@@ -31,6 +35,7 @@ class _prescriptionListState extends State<prescriptionList> {
   String? getIdUsingName;
   String? FamilyMemberName;
   List<PrescriptionModel> prescList = [];
+  List<totalPrescViewModel> totalPresc = [];
   List<MedicineModel> MedList = [];
   List<familyListModel> famList = [];
   @override
@@ -88,7 +93,7 @@ class _prescriptionListState extends State<prescriptionList> {
                             onTap: () {
                               print(
                                   'symptom id is ${prescriptionlist.SymptomId}');
-
+                              print('sid is ${prescriptionlist.SId}');
                               fetchdata(prescriptionlist.SId ?? 0);
                             },
                             child: Card(
@@ -111,10 +116,89 @@ class _prescriptionListState extends State<prescriptionList> {
                                       "Prescription Date",
                                       PrescriptionDate,
                                     ),
-                                    RowComponent(
-                                      "Symptoms",
-                                      Symptoms,
-                                    ),
+                                    /* RowComponent("Symptoms", Symptoms,
+                                        Icons.remove_red_eye), */
+                                    
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 10.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              "Symptoms",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 80,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              Symptoms ?? '',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                          IconButton(
+                                        onPressed: () {
+                                          print(
+                                              'Famid  ${AppConstants.famMemId}');
+                                          print('sid  ${prescriptionlist.SId}');
+                                          fetchAllPresData(
+                                              AppConstants.famMemId ?? 0,
+                                              prescriptionlist.SId ?? 0);
+                                          /*  Navigator.pushNamed(context,
+                                              AppRoutes.totalPrescView); */
+                                        },
+                                        iconSize: 30,
+                                        icon: Icon(Icons.remove_red_eye_outlined)),
+
+                                          // Expanded(child: Widget?)
+                                          /* IconButton(
+              onPressed: () {
+               // print('sid is ${prescriptionlist.SId}');
+                Navigator.pushNamed(context, AppRoutes.totalPrescView);
+              },
+              iconSize: 30,
+              icon: Icon(icon)) */
+                                          /* Expanded(
+              child: GestureDetector(
+                  onTap: () {
+                    print('hello');
+                  },
+                  child: Icon(icon))) */
+                                        ],
+                                      ),
+                                    )
+                                    /* Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 10.0),
+                                      child: Row(
+                                         mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                              "View Total Prescription",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                          /* SizedBox(
+                                            width: 10,
+                                          ), */
+                                          Expanded(flex: 1,
+                                            child: Icon(Icons.remove_red_eye))
+                                        ],
+                                      ),
+                                    ) */
                                   ],
                                 ),
                               ),
@@ -130,7 +214,7 @@ class _prescriptionListState extends State<prescriptionList> {
     );
   }
 
-  RowComponent(var data, var value) {
+  RowComponent(var data, var value, [var icon]) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
       child: Row(
@@ -145,14 +229,29 @@ class _prescriptionListState extends State<prescriptionList> {
             ),
           ),
           SizedBox(
-            width: 10,
+            width: 30,
           ),
           Expanded(
             child: Text(
               value.toString(),
               style: TextStyle(color: Colors.black, fontSize: 14),
             ),
-          )
+          ),
+
+          // Expanded(child: Widget?)
+          /* IconButton(
+              onPressed: () {
+               // print('sid is ${prescriptionlist.SId}');
+                Navigator.pushNamed(context, AppRoutes.totalPrescView);
+              },
+              iconSize: 30,
+              icon: Icon(icon)) */
+          /* Expanded(
+              child: GestureDetector(
+                  onTap: () {
+                    print('hello');
+                  },
+                  child: Icon(icon))) */
         ],
       ),
     );
@@ -182,6 +281,46 @@ class _prescriptionListState extends State<prescriptionList> {
     });
   }
 
+  fetchAllPresData(int id, int sid) async {
+    await DatabaseHelper.instance.viewTotalPres(id, sid).then((value) {
+      setState(() {
+        totalPresc = [];
+        print(value.length);
+
+        value.forEach((element) {
+          print('data is $element');
+          totalPresc.add(totalPrescViewModel(
+            name: element['name'],
+            DoctorName: element['DoctorName'],
+            DateOfAppointment: element['DateOfAppointment'],
+            ExpiryDate: element['ExpiryDate'],
+            HospitalName: element['HospitalName'],
+            MedicineName: element['MedicineName'],
+            MedicinePhoto: element['MedicinePhoto'],
+            NextAppointmentDate: element['NextAppointmentDate'],
+            PrescFiles: element['PrescFiles'],
+            ReasonForAppointment: element['ReasonForAppointment'],
+            Symptom: element['Symptom'],
+            TabletsCount: element['TabletsCount'],
+          ));
+        });
+         if (totalPresc.length != 0) {
+          Navigator.pushNamed(context, AppRoutes.totalPrescView,
+              arguments: totalPresc
+              // arguments:tappedNames(FamilyMemberName: familylist.Name!)
+              );
+        } else {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AppShowAlert(message: 'No Medicine Presciption data found');
+              });
+        }
+        // print(totalPresc[0].name);
+      });
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -189,6 +328,13 @@ class _prescriptionListState extends State<prescriptionList> {
   }
 }
 
+
+  /* void initState() {
+    super.initState();
+    // getId(getIdUsingName ?? '');
+    print('hello world');
+    fetchdata();
+  } */
   /*
   LoginCall(String phoneNumber, String mpin) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
