@@ -18,6 +18,7 @@ class _viewMedicineState extends State<viewMedicine> {
   String? MedName;
   String? ExpDate;
   String? symptom;
+  int? TabletsCount;
   @override
   void initState() {
     // TODO: implement initState
@@ -91,6 +92,7 @@ class _viewMedicineState extends State<viewMedicine> {
                   MedName = MedicineList.MedicineName;
                   ExpDate = MedicineList.ExpiryDate;
                   symptom = MedicineList.Symptom;
+                  TabletsCount = MedicineList.TabletsCount;
                   //  SymId = MedicineList.SymptomId;
                   return Container(
                     child: Card(
@@ -105,6 +107,10 @@ class _viewMedicineState extends State<viewMedicine> {
                           RowComponent(
                             "Medicine Name",
                             MedName,
+                          ),
+                          RowComponent(
+                            "Tablets Count",
+                            TabletsCount,
                           ),
                           RowComponent("Expiry Date", ExpDate),
                         ],
@@ -157,6 +163,7 @@ class _viewMedicineState extends State<viewMedicine> {
           viewMedList.add(viewMedicineModel(
             Symptom: element["Symptom"],
             MedicineName: element["MedicineName"],
+            TabletsCount: element["TabletsCount"],
             ExpiryDate: element["ExpiryDate"],
             /*  ExpiryDate: element["ExpiryDate"],
             MedicineName: element["MedicineName"],
