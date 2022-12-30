@@ -175,6 +175,7 @@ class _familyListState extends State<familyList> {
     print("data saved ${saved}");
     selectedId = saved;
     print('Id selected is $selectedId');
+
     AppConstants.famMemId = selectedId ?? 0;
     print('app const is ${AppConstants.famMemId}');
     fetchdata(selectedId ?? 0);
@@ -229,6 +230,7 @@ class _familyListState extends State<familyList> {
   }
   */
   fetchdata(int id) async {
+
     // print('selected id is $id');
     await DatabaseHelper.instance.prescList('Prescription', id).then((value) {
       setState(() {
@@ -251,7 +253,7 @@ class _familyListState extends State<familyList> {
         });
         if (prescList.length != 0) {
           Navigator.pushNamed(context, AppRoutes.prescriptionList,
-              arguments: prescList
+              arguments: FamilyArguments(prescList, name)
               // arguments:tappedNames(FamilyMemberName: familylist.Name!)
               );
         } else {
@@ -265,4 +267,11 @@ class _familyListState extends State<familyList> {
       //  print('data saved is ${saved}');
     });
   }
+}
+
+class FamilyArguments {
+  final List<PrescriptionModel> prescList;
+  final String name;
+
+  FamilyArguments(this.prescList, this.name);
 }

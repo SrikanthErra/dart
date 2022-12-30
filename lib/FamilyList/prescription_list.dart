@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/app_constants.dart';
@@ -14,6 +13,9 @@ import '../Reusable/app_input_text.dart';
 import '../modelClasses/database_modelClass/PrescriptionModel.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
 import '../modelClasses/total_presc_view_model.dart';
+import '../modelClasses/family_list_model.dart';
+import 'family_list.dart';
+
 
 class prescriptionList extends StatefulWidget {
   const prescriptionList({super.key});
@@ -31,13 +33,17 @@ class _prescriptionListState extends State<prescriptionList> {
   int? symptomId;
   int? selectedId;
   String? getIdUsingName;
+  String? FamilyMemberName;
   List<PrescriptionModel> prescList = [];
   List<totalPrescViewModel> totalPresc = [];
   List<MedicineModel> MedList = [];
+  List<familyListModel> famList = [];
   @override
   Widget build(BuildContext context) {
-    prescList = ModalRoute.of(context)?.settings.arguments as dynamic;
-
+    FamilyArguments argument =
+        ModalRoute.of(context)?.settings.arguments as dynamic;
+    prescList = argument.prescList;
+    FamilyMemberName = argument.name;
     return Scaffold(
       appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
       body: Container(
@@ -68,7 +74,7 @@ class _prescriptionListState extends State<prescriptionList> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     AppInputText(
-                        text: 'Family Member Name',
+                        text: "${FamilyMemberName}'s Prescriptions",
                         colors: Colors.white,
                         size: 15,
                         weight: FontWeight.bold),
@@ -322,13 +328,13 @@ class _prescriptionListState extends State<prescriptionList> {
   }
 }
 
+
   /* void initState() {
     super.initState();
     // getId(getIdUsingName ?? '');
     print('hello world');
     fetchdata();
   } */
-
   /*
   LoginCall(String phoneNumber, String mpin) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;

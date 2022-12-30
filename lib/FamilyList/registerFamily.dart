@@ -172,7 +172,8 @@ class _registerFamilyFromDashboardState
                   onPressed: () async {
                     if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
-                        _formkey3.currentState!.validate()) {
+                        _formkey3.currentState!.validate() && 
+                        mobileNumber.text.length == 10) {
                       // EasyLoading.show();
                       final registered_famList = registrationFamilyModel(
                           mpin: "-",
@@ -188,6 +189,30 @@ class _registerFamilyFromDashboardState
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.dashboardGridview);
                       showToast("Family Member Added");
+                    } else if (_formkey1.currentState!.validate() &&
+                        _formkey2.currentState!.validate() &&
+                        _formkey3.currentState!.validate() &&
+                        (mobileNumber.text.length < 10 ||
+                            mobileNumber.text.length > 10)) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Please Enter a valid Mobile Number"),
+                            actions: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                   },
                   buttonText: 'Submit'),

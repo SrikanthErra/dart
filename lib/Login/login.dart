@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:side_menu/Database/database_helper.dart';
 import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
@@ -26,48 +29,50 @@ class _LoginPageState extends State<LoginPage> {
   bool _isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //resizeToAvoidBottomInset: false,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
-            fit: BoxFit.cover,
+    return WillPopScope(
+      onWillPop: () => _backPressed(),
+      child: Scaffold(
+        //resizeToAvoidBottomInset: false,
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/background_bg.png"),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Form(
-          key: _formKey,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                    radius: 60,
-                    backgroundImage: AssetImage("assets/appLogo.png")),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: AppInputText(
-                      text: 'Login',
-                      colors: Colors.white,
-                      size: 20,
-                      weight: FontWeight.bold),
-                ),
-                AppInputTextfield(
-                  length: 10,
-                  hintText: 'Mobile Number',
-                  nameController: _mobile,
-                  errorMessage: 'Please Enter Mobile Number',
-                  input_type: TextInputType.number,
-                  obsecuretext: false,
-                  node: _node,
-                  action: TextInputAction.next,
-                  onEditingComplete: () {
-                    _node.nextFocus();
-                  },
-                  //lengthRequired: 10,
-                  globalKey: _formkey1,
-                ),
-                /* AppInputTextfield(
+          child: Form(
+            key: _formKey,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                      radius: 60,
+                      backgroundImage: AssetImage("assets/appLogo.png")),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppInputText(
+                        text: 'Login',
+                        colors: Colors.white,
+                        size: 20,
+                        weight: FontWeight.bold),
+                  ),
+                  AppInputTextfield(
+                    length: 10,
+                    hintText: 'Mobile Number',
+                    nameController: _mobile,
+                    errorMessage: 'Please Enter Mobile Number',
+                    input_type: TextInputType.number,
+                    obsecuretext: false,
+                    node: _node,
+                    action: TextInputAction.next,
+                    onEditingComplete: () {
+                      _node.nextFocus();
+                    },
+                    //lengthRequired: 10,
+                    globalKey: _formkey1,
+                  ),
+                  /* AppInputTextfield(
                   hintText: 'Password',
                   nameController: _password,
                   errorMessage: 'Please Enter Mobile Number',
@@ -92,17 +97,17 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.grey),
                   ),
                 ), */
-                /* Center(
+                  /* Center(
                     child: TextButton(
                         onPressed: () {}, child: Text('Forgot Password'))), */
-                ButtonComponent(
-                    onPressed: () {
-                      if (_formkey1.currentState!
-                              .validate() /* &&
+                  ButtonComponent(
+                      onPressed: () {
+                        if (_formkey1.currentState!
+                                .validate() /* &&
                           _formkey2.currentState!.validate() */
-                          ) {}
-                      if (validateInputs()) {
-                        /*  for (var j = 0; j < mobileList.length; j++) {
+                            ) {}
+                        if (validateInputs()) {
+                          /*  for (var j = 0; j < mobileList.length; j++) {
                           print('number is ${mobileList[j]}');
                           print('number2 is ${_username.text}');
                           if (mobileList[j] == _username.text) {
@@ -113,34 +118,35 @@ class _LoginPageState extends State<LoginPage> {
                             showAlert('Please enter valid mobile number');
                           }
                         } */
-                        LoginCall(_mobile.text);
-                        /* if (flag == 1) {
+                          LoginCall(_mobile.text);
+                          /* if (flag == 1) {
                           showAlert('No data found.... Please SignUp');
                         } */
-                      }
-                    },
-                    buttonText: 'Login'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppInputText(
-                        text: 'Didnt have any account?',
-                        colors: Colors.black,
-                        size: 15,
-                        weight: FontWeight.w300),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.registraion);
-                        },
-                        child: Text(
-                          'Sign Up here',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ))
-                  ],
-                )
-              ],
+                        }
+                      },
+                      buttonText: 'Login'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AppInputText(
+                          text: 'Didnt have any account?',
+                          colors: Colors.black,
+                          size: 15,
+                          weight: FontWeight.w300),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoutes.registraion);
+                          },
+                          child: Text(
+                            'Sign Up here',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ))
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -151,9 +157,9 @@ class _LoginPageState extends State<LoginPage> {
   validateInputs() {
     if (_mobile.text.isEmpty) {
       showAlert("Please enter Mobie Number");
-    } /* else if (_password.text.isEmpty) {
-      showAlert("Please enter Mobile Number");
-    } else if (!RegExp(
+    } else if (_mobile.text.length < 10) {
+      showAlert("Mobile Number Invalid.. Plese Check!!!");
+    } /* else if (!RegExp(
             r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
         .hasMatch(_password.text)) {
       showAlert("Please Enter a Valid Password");
@@ -171,10 +177,10 @@ class _LoginPageState extends State<LoginPage> {
         });
   }
 
-  LoginCall(String username) async {
+  LoginCall(String mobileNumber) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
     final saved = await _databaseService.queryRowCountforuser(
-        DatabaseHelper.table, username);
+        DatabaseHelper.table, mobileNumber);
     print("data saved ${saved}");
     flag = saved;
     print('flag is $flag');
@@ -196,6 +202,11 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-   // _mobile.text = '1111111111';
+    // _mobile.text = '1111111111';
+  }
+
+  Future<bool> _backPressed() async {
+    SystemNavigator.pop();
+    return true;
   }
 }

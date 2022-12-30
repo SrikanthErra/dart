@@ -259,7 +259,7 @@ VALUES( value1,	value2 ,...); */
   Future<List<Map>> viewMed() async {
     Database db = await instance.database;
     return await db.rawQuery(
-        'SELECT Symptom,MedicineName,ExpiryDate FROM $table2 INNER JOIN $table3 ON $table3.SId = $table2.SId ');
+        'SELECT Symptom,MedicineName,TabletsCount,ExpiryDate FROM $table2 INNER JOIN $table3 ON $table3.SId = $table2.SId ');
     // Medicines   Symptoms  SymptomId
   }
 

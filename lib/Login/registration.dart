@@ -108,35 +108,6 @@ class _registerFamilyState extends State<registerFamily> {
                 },
                 globalKey: _formkey1,
               ),
-              //AppMultiSelect(node: _node),
-              /* MultiSelectDialogField(
-               // searchHint: 
-                items: _items,
-                title: Text("Animals",),
-                selectedColor: Colors.blue,
-                decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
-                  borderRadius: BorderRadius.all(Radius.circular(40)),
-                  border: Border.all(
-                    color: Colors.blue,
-                    width: 2,
-                  ),
-                ),
-                buttonIcon: Icon(
-                  Icons.pets,
-                  color: Colors.blue,
-                ),
-                buttonText: Text(
-                  "Favorite Animals",
-                  style: TextStyle(
-                    color: Colors.blue[800],
-                    fontSize: 16,
-                  ),
-                ),
-                onConfirm: (results) {
-                  //_selectedAnimals = results;
-                },
-              ), */
               AppInputTextfield(
                 hintText: 'Age',
                 nameController: _age,
@@ -251,7 +222,8 @@ class _registerFamilyState extends State<registerFamily> {
                   onPressed: () async {
                     if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
-                        _formkey3.currentState!.validate()) {
+                        _formkey3.currentState!.validate() &&
+                        (_mobileNumber.text.length == 10)) {
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.mpinPage,
                           arguments: registrationFamilyModel(
@@ -260,6 +232,30 @@ class _registerFamilyState extends State<registerFamily> {
                               mobile: _mobileNumber.text,
                               gender: gender));
                       //getDropDownItem();
+                    } else if (_formkey1.currentState!.validate() &&
+                        _formkey2.currentState!.validate() &&
+                        _formkey3.currentState!.validate() &&
+                        (_mobileNumber.text.length < 10 ||
+                            _mobileNumber.text.length > 10)) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Please Enter a valid Mobile Number"),
+                            actions: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                     print(AppConstants.symptomsList);
                   },
