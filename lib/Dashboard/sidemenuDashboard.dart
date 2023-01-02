@@ -65,7 +65,7 @@ class _SidemenuDashboardState extends State<SidemenuDashboard> {
                     leading: Icon(Icons.person_pin_rounded),
                     title: Text("View Profile"),
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.familyList);
+                      Navigator.pushNamed(context, AppRoutes.viewProfile);
                     },
                   ),
                   ListTile(

@@ -73,73 +73,76 @@ class _totalPrescViewState extends State<totalPrescView> {
                       ),
                       color: Colors.white,
                       child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            RowComponent("Name", totalPrescList.name),
-                            RowComponent("Symptom", totalPrescList.Symptom),
-                            RowComponent(
-                                "Medicine Name", totalPrescList.MedicineName),
-                            RowComponent(
-                                "Expiry Date", totalPrescList.ExpiryDate),
-                            RowComponent(
-                                "DoctorName", totalPrescList.DoctorName),
-                            RowComponent(
-                                "HospitalName", totalPrescList.HospitalName),
-                            RowComponent("DateOfAppointment",
-                                totalPrescList.DateOfAppointment),
-                            RowComponent("ReasonForAppointment",
-                                totalPrescList.ReasonForAppointment),
-                            RowComponent("NextAppointmentDate",
-                                totalPrescList.NextAppointmentDate),
-                            RowComponent(
-                                "MedicinePhoto", totalPrescList.MedicinePhoto),
-                            RowComponent(
-                                "PrescFiles", totalPrescList.PrescFiles),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Column(
+                            children: [
+                              RowComponent("Name", totalPrescList.name),
+                              RowComponent("Symptom", totalPrescList.Symptom),
+                              RowComponent(
+                                  "Medicine Name", totalPrescList.MedicineName),
+                              RowComponent(
+                                  "Expiry Date", totalPrescList.ExpiryDate),
+                              RowComponent(
+                                  "DoctorName", totalPrescList.DoctorName),
+                              RowComponent(
+                                  "HospitalName", totalPrescList.HospitalName),
+                              RowComponent("DateOfAppointment",
+                                  totalPrescList.DateOfAppointment),
+                              RowComponent("ReasonForAppointment",
+                                  totalPrescList.ReasonForAppointment),
+                              RowComponent("NextAppointmentDate",
+                                  totalPrescList.NextAppointmentDate),
+                              RowImageComponent("MedicinePhoto",
+                                  totalPrescList.MedicinePhoto ?? ''),
+                              RowImageComponent("Prescription Files",
+                                  totalPrescList.PrescFiles ?? ""),
 
-                            //print(""+totalPrescList.MedicinePhoto);
+                              //print(""+totalPrescList.MedicinePhoto);
 
-                            /*  Image.file(
-                              File.fromUri(
-                                  Uri.parse(totalPrescList.MedicinePhoto!)),
-                              width: 100,
-                              height: 100,
-                            ), */
+                              /*  Image.file(
+                                File.fromUri(
+                                    Uri.parse(totalPrescList.MedicinePhoto!)),
+                                width: 100,
+                                height: 100,
+                              ), */
 
-                            /*  Image.file(
-                        File(wrestler.image ?? ""),
-                        width: 100,
-                        height: 100,
-                      ), */
-                            Image.file(File(totalPrescList.MedicinePhoto ?? ''),
-                                width: MediaQuery.of(context).size.width * 0.6,
-                                height: MediaQuery.of(context).size.height * 0.2
-                                /* width: 100,
-                              height: 100, */
-                                ),
-
-                               /* Image.file(File(totalPrescList.PrescFiles ?? ''),
-                                width: MediaQuery.of(context).size.width * 0.6,
-                                height: MediaQuery.of(context).size.height * 0.2
-                                /* width: 100,
-                              height: 100, */
-                                ), */ 
-                            // FileImage(File(totalPrescList.MedicinePhoto ?? ''))
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Image.file(File(totalPrescList.MedicinePhoto!),
-                            //   width: 100,
-                            //   height: 100,),
-                            // ),
-                            /*  Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.file(totalPrescList.MedicinePhoto!
+                              /*  Image.file(
+                          File(wrestler.image ?? ""),
+                          width: 100,
+                          height: 100,
+                                              ), */
+                              /*        Image.file(File(totalPrescList.MedicinePhoto ?? ''),
+                                  width: MediaQuery.of(context).size.width * 0.6,
+                                  height: MediaQuery.of(context).size.height * 0.2
                                   /* width: 100,
-                                  height: 100, */),
-                                ), */
-                            /* Image.network(
-                                'https://www.gstatic.com/webp/gallery/1.jpg') */
-                            //  new Io.File.fromUri(imageFile.uri)
-                          ],
+                                height: 100, */
+                                  ), */
+
+                              /* Image.file(File(totalPrescList.PrescFiles ?? ''),
+                                  width: MediaQuery.of(context).size.width * 0.6,
+                                  height: MediaQuery.of(context).size.height * 0.2
+                                  /* width: 100,
+                                height: 100, */
+                                  ), */
+                              // FileImage(File(totalPrescList.MedicinePhoto ?? ''))
+                              // Padding(
+                              //   padding: const EdgeInsets.all(8.0),
+                              //   child: Image.file(File(totalPrescList.MedicinePhoto!),
+                              //   width: 100,
+                              //   height: 100,),
+                              // ),
+                              /*  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.file(totalPrescList.MedicinePhoto!
+                                    /* width: 100,
+                                    height: 100, */),
+                                  ), */
+                              /* Image.network(
+                                  'https://www.gstatic.com/webp/gallery/1.jpg') */
+                              //  new Io.File.fromUri(imageFile.uri)
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -176,6 +179,34 @@ class _totalPrescViewState extends State<totalPrescView> {
               style: TextStyle(color: Colors.black, fontSize: 14),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  RowImageComponent(String title, String MedicinePhotoPath) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.0),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            ),
+          ),
+          Expanded(
+            child: Image.file(File(MedicinePhotoPath),
+                width: MediaQuery.of(context).size.width * 0.6,
+                height: MediaQuery.of(context).size.height * 0.2
+                /* width: 100,
+                              height: 100, */
+                ),
+          ),
         ],
       ),
     );
