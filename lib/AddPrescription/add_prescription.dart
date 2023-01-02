@@ -430,8 +430,8 @@ class _addPrescriptionState extends State<addPrescription> {
                                         weight: FontWeight.normal),
                                   ],
                                 ),
-                                Image.file(
-                                  details.medicineFiles!,
+                                Image.file(File(details.medicineFiles ?? '')
+                                  ,
                                   width: 100,
                                   height: 100,
                                 )

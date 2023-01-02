@@ -178,7 +178,9 @@ class _familyListState extends State<familyList> {
 
     AppConstants.famMemId = selectedId ?? 0;
     print('app const is ${AppConstants.famMemId}');
-    fetchdata(selectedId ?? 0,name);
+
+    fetchdata(selectedId ?? 0, name);
+r
    // fetchAllPresData(selectedId ?? 0);
   }
 
@@ -229,7 +231,9 @@ class _familyListState extends State<familyList> {
     });
   }
   */
+
   fetchdata(int id, String name) async {
+
 
     // print('selected id is $id');
     await DatabaseHelper.instance.prescList('Prescription', id).then((value) {
