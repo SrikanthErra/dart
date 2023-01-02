@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 class medicineDataModel {
   final String medicineName;
   final String ExpiryDate;
-  final File? medicineFiles;
+  final String? medicineFiles;
   final String TabletsCount;
   medicineDataModel(
       {required this.medicineFiles,

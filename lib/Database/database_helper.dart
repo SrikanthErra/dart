@@ -271,7 +271,7 @@ VALUES( value1,	value2 ,...); */
     //SELECT * FROM FamilyList  a join Prescription b on a.id=b.FamilyMemberId where b.SId Like 1
     //SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on a.id=b.FamilyMemberId and b.SId=c.SId where b.SId Like 1
       // "SELECT * FROM FamilyList a join Prescription b on a.id=b.FamilyMemberId where b.SId Like $SId"
-      "SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on $id=b.FamilyMemberId and b.SId=c.SId where b.SId Like $SId"
+      "SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on a.id=$id and b.SId=c.SId where b.SId Like $SId"
     );
   }
   /*  Future<List<Map>> queryRowCountforMpinValidate(
