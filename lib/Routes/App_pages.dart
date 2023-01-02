@@ -18,13 +18,14 @@ import 'package:side_menu/view_Medicine/view_medicine.dart';
 
 import '../Alerts/visit_alerts.dart';
 import '../Dashboard/privacypolicy.dart';
+import '../Dashboard/viewProfile.dart';
 import '../FamilyList/family_list.dart';
 import '../FamilyList/medicinesView.dart';
 import '../FamilyList/prescription_list.dart';
 import '../FamilyList/registerFamily.dart';
 import '../Login/login.dart';
-import '../image_picker.dart';
 import 'App_routes.dart';
+import '';
 
 class AppPages {
   static Map<String, WidgetBuilder> get routes {
@@ -52,6 +53,7 @@ class AppPages {
       AppRoutes.viewReports: ((context) => ReportsPage()),
       AppRoutes.viewAllMedicines: ((context) => AllMedicineList()),
       AppRoutes.viewPrivacyPolicy: ((context) => privacyPolicy()),
+      AppRoutes.viewProfile: ((context) => ViewProfile()),
     };
   }
 }
