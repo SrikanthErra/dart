@@ -69,8 +69,8 @@ class _addPrescriptionState extends State<addPrescription> {
   // List<Map<String, dynamic>> SymptomsDataList = [{}];
   List<String> SymptomsDataList = [];
 
-  List<File> Uploadedfiles = [];
-  File? selectedImage;
+  List<XFile> Uploadedfiles = [];
+  XFile? selectedImage;
   @override
   Widget build(BuildContext context) {
     EasyLoading.dismiss();
@@ -430,8 +430,8 @@ class _addPrescriptionState extends State<addPrescription> {
                                         weight: FontWeight.normal),
                                   ],
                                 ),
-                                Image.file(File(details.medicineFiles ?? '')
-                                  ,
+                                Image.file(
+                                  File(details.medicineFiles ?? ''),
                                   width: 100,
                                   height: 100,
                                 )
@@ -563,7 +563,7 @@ class _addPrescriptionState extends State<addPrescription> {
                               final result = await ImagePicker()
                                   .pickImage(source: ImageSource.camera);
                               if (result == null) return;
-                              selectedImage = File(result.path);
+                              selectedImage = result;
                               setState(() {
                                 Uploadedfiles.add(selectedImage!);
                                 vis = true;
@@ -585,7 +585,7 @@ class _addPrescriptionState extends State<addPrescription> {
                               if (result == null) return;
                               setState(() {
                                 Uploadedfiles = result.paths
-                                    .map((path) => File(path!))
+                                    .map((path) => XFile(path!))
                                     .toList();
                                 vis = true;
                               });
@@ -691,7 +691,7 @@ class _addPrescriptionState extends State<addPrescription> {
       return saved;
     } else {
       print('entered in else');
-      for (final pres in Uploadedfiles) {
+      for (int i = 0; i < Uploadedfiles.length;i++) {
         final PrescriptionAdded = PrescriptionModel(
           FamilyMemberId: selectedId,
           Symptom: selectedSymptomValue,
@@ -701,7 +701,8 @@ class _addPrescriptionState extends State<addPrescription> {
           DateOfAppointment: _appointment.text,
           ReasonForAppointment: _reason.text,
           NextAppointmentDate: _NextAppointmentDate.text,
-          PrescFiles: pres.toString(),
+          //PrescFiles: pres.path.toString(),
+          PrescFiles: Uploadedfiles[i].path
         );
         final DatabaseHelper _databaseService = DatabaseHelper.instance;
         final saved = await _databaseService.insertInto(
@@ -780,7 +781,6 @@ class _addPrescriptionState extends State<addPrescription> {
     print("data saved ${saved}");
     selectedSymptomId = saved;
     print('Id selected is $selectedSymptomId');
-
   }
 
   insertData() async {
