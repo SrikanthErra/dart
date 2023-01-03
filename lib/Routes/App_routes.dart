@@ -29,4 +29,5 @@ class AppRoutes {
   static const viewReports = "/reports.dart";
   static const viewAllMedicines = "/allMedicinesView.dart";
   static const viewPrivacyPolicy = "/privacypolicy.dart";
+  static const viewProfile = "/viewProfile.dart";
 }

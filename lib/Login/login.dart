@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:side_menu/Database/database_helper.dart';
 import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
@@ -9,6 +10,8 @@ import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
+
+import '../notifier/mobile_notifier.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -29,6 +32,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
+    MobileProvider mobileProvider =
+        Provider.of<MobileProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: () => _backPressed(),
       child: Scaffold(
@@ -118,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                             showAlert('Please enter valid mobile number');
                           }
                         } */
+                          mobileProvider.saveName(_mobile.text);
                           LoginCall(_mobile.text);
                           /* if (flag == 1) {
                           showAlert('No data found.... Please SignUp');
