@@ -177,54 +177,12 @@ class _totalPrescViewState extends State<totalPrescView> {
                                                     ),
                                             );
                                           }))
-                                      /* Image.file(File(MedicinePhotoPath),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.6,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.2
-                                        /* width: 100,
-                              height: 100, */
-                                        ), */
+                                      
                                       ),
                                 ],
                               ),
 
-                              /* ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: result?.length,
-                                  itemBuilder: ((context, index) {
-                                    print('Presc files ${result?.length}');
-                                    final res = result?[index];
-                                    final array = res?.trim();
-                                    return Container(
-                                      child: (array?.split('.').last == 'jpg' ||
-                                              array?.split('.').last == 'png')
-                                          ? Image.file(
-                                              File(array?.toString() ?? ''),
-                                              width: 100,
-                                              height: 100,
-                                            )
-                                          : GestureDetector(
-                                              onTap: () {
-                                                AppConstants.filePath =
-                                                    array?.toString() ?? '';
-                                                print(AppConstants.filePath);
-                                                Navigator.pushNamed(context,
-                                                    AppRoutes.pdfViewer);
-                                              },
-                                              child: SvgPicture.asset(
-                                                'assets/pdf.svg',
-                                                /* height: 30,
-                                                          width: 30, */
-                                                //  color: Colors.white,
-                                              ),
-                                            ),
-                                    );
-                                   
-                                  })) */
+                              
                             ],
                           ),
                         ),
