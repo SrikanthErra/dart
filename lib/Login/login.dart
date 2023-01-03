@@ -140,15 +140,17 @@ class _LoginPageState extends State<LoginPage> {
                           size: 15,
                           weight: FontWeight.w300),
                       TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, AppRoutes.registraion);
-                          },
-                          child: Text(
-                            'Sign Up here',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ))
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.registraion);
+                        },
+                        child: Text(
+                          'Sign Up here',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
                     ],
                   )
                 ],
