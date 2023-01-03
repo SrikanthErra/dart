@@ -70,6 +70,7 @@ class _addPrescriptionState extends State<addPrescription> {
   List<String> SymptomsDataList = [];
 
   List<File> Uploadedfiles = [];
+  List<String> _filespicked = [];
   File? selectedImage;
   @override
   Widget build(BuildContext context) {
@@ -430,8 +431,8 @@ class _addPrescriptionState extends State<addPrescription> {
                                         weight: FontWeight.normal),
                                   ],
                                 ),
-                                Image.file(File(details.medicineFiles ?? '')
-                                  ,
+                                Image.file(
+                                  File(details.medicineFiles ?? ''),
                                   width: 100,
                                   height: 100,
                                 )
@@ -517,39 +518,42 @@ class _addPrescriptionState extends State<addPrescription> {
                               /*  final details3 = PrescriptionStateProvider
                                   .prescFiles[index].PrescFilesList!; */
                               return ListTile(
-                                  leading: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      minWidth: 100,
-                                      minHeight: 260,
-                                      maxWidth: 104,
-                                      maxHeight: 264,
-                                    ),
-                                    child: (res.path.split('.').last == 'jpg' ||
-                                            res.path.split('.').last == 'png')
-                                        ? Image.file(
-                                            File(res.path.toString()),
-                                            width: 100,
-                                            height: 100,
-                                          )
-                                        : SvgPicture.asset(
+                                leading: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minWidth: 100,
+                                    minHeight: 260,
+                                    maxWidth: 104,
+                                    maxHeight: 264,
+                                  ),
+                                  child: (res.path.split('.').last == 'jpg' ||
+                                          res.path.split('.').last == 'png')
+                                      ? Image.file(
+                                          File(res.path.toString()),
+                                          width: 100,
+                                          height: 100,
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            AppConstants.filePath =
+                                                res.path.toString();
+                                            print(AppConstants.filePath);
+                                            Navigator.pushNamed(
+                                                context, AppRoutes.pdfViewer);
+                                          },
+                                          child: SvgPicture.asset(
                                             'assets/pdf.svg',
                                             /* height: 30,
-                                                        width: 30, */
+                                                          width: 30, */
                                             //  color: Colors.white,
                                           ),
-                                  ),
-                                  onTap: () {
-                                    AppConstants.filePath = res.path.toString();
-                                    print(AppConstants.filePath);
-                                    Navigator.pushNamed(
-                                        context, AppRoutes.pdfViewer);
-                                  }
-                                  //  child: PdfView(path: fileName.path),
+                                        ),
+                                ),
 
-                                  //       SfPdfViewer.file(
-                                  // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
+                                //  child: PdfView(path: fileName.path),
 
-                                  );
+                                //       SfPdfViewer.file(
+                                // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
+                              );
                             })),
                       ),
                     ),
@@ -691,8 +695,12 @@ class _addPrescriptionState extends State<addPrescription> {
       return saved;
     } else {
       print('entered in else');
-      for (final pres in Uploadedfiles) {
-        final PrescriptionAdded = PrescriptionModel(
+      Uploadedfiles.forEach((element) {
+        _filespicked.add(element.path.toString());
+      });
+      // for (int i = 0; i < Uploadedfiles.length; i++) {
+      print('files picked are $_filespicked');
+      final PrescriptionAdded = PrescriptionModel(
           FamilyMemberId: selectedId,
           Symptom: selectedSymptomValue,
           SymptomId: selectedSymptomId,
@@ -701,25 +709,26 @@ class _addPrescriptionState extends State<addPrescription> {
           DateOfAppointment: _appointment.text,
           ReasonForAppointment: _reason.text,
           NextAppointmentDate: _NextAppointmentDate.text,
-          PrescFiles: pres.toString(),
-        );
-        final DatabaseHelper _databaseService = DatabaseHelper.instance;
-        final saved = await _databaseService.insertInto(
-            PrescriptionAdded.toJson(), DatabaseHelper.table2);
-        print("data saved $saved");
-        final SymptomEntries =
-            await _databaseService.queryAllRows(DatabaseHelper.table2);
-        print("Entries in Symptoms Table $SymptomEntries");
-        //dynamic symptomID = GetSymptomId();
-        final count = await _databaseService.queryRowLast("Prescription");
-        print("""last Symptoms ID is  $count""");
-        /* final count =
+          //PrescFiles: pres.path,
+          PrescFiles: _filespicked.toString());
+      final DatabaseHelper _databaseService = DatabaseHelper.instance;
+      final saved = await _databaseService.insertInto(
+          PrescriptionAdded.toJson(), DatabaseHelper.table2);
+      print("data saved $saved");
+      final SymptomEntries =
+          await _databaseService.queryAllRows(DatabaseHelper.table2);
+      print("Entries in Symptoms Table $SymptomEntries");
+      //dynamic symptomID = GetSymptomId();
+      final count = await _databaseService.queryRowLast("Prescription");
+      print("""last Symptoms ID is  $count""");
+      print('path is ${Uploadedfiles}');
+      /* final count =
           await _databaseService.selectId("Symptoms", selectedSymptomValue ?? '');
       print('last symptomId is $count'); */
-        MedicinesDataTable(count, medicineStateProvider);
-        result = saved;
-        return saved;
-      }
+      MedicinesDataTable(count, medicineStateProvider);
+      result = saved;
+      return saved;
+      //}
     }
     return result;
   }
@@ -780,7 +789,6 @@ class _addPrescriptionState extends State<addPrescription> {
     print("data saved ${saved}");
     selectedSymptomId = saved;
     print('Id selected is $selectedSymptomId');
-
   }
 
   insertData() async {

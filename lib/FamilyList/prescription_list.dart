@@ -16,7 +16,6 @@ import '../modelClasses/total_presc_view_model.dart';
 import '../modelClasses/family_list_model.dart';
 import 'family_list.dart';
 
-
 class prescriptionList extends StatefulWidget {
   const prescriptionList({super.key});
 
@@ -53,8 +52,6 @@ class _prescriptionListState extends State<prescriptionList> {
             fit: BoxFit.cover,
           ),
         ),
-        //margin: EdgeInsets.symmetric(vertical: 20),
-
         height: MediaQuery.of(context).size.height,
         child: prescList.isEmpty
             ? Container(
@@ -108,25 +105,14 @@ class _prescriptionListState extends State<prescriptionList> {
                                     const EdgeInsets.symmetric(vertical: 10.0),
                                 child: Column(
                                   children: [
-                                    RowComponent(
-                                      "Doctor Name",
-                                      DoctorName,
-                                    ),
-                                    RowComponent(
-                                      "Prescription Date",
-                                      PrescriptionDate,
-                                    ),
-                                    /* RowComponent("Symptoms", Symptoms,
-                                        Icons.remove_red_eye), */
-                                    
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0, horizontal: 10.0),
+                                          horizontal: 8),
                                       child: Row(
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              "Symptoms",
+                                              "Doctor Name",
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
@@ -138,67 +124,36 @@ class _prescriptionListState extends State<prescriptionList> {
                                           ),
                                           Expanded(
                                             child: Text(
-                                              Symptoms ?? '',
+                                              DoctorName ?? '',
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 14),
                                             ),
                                           ),
                                           IconButton(
-                                        onPressed: () {
-                                          print(
-                                              'Famid  ${AppConstants.famMemId}');
-                                          print('sid  ${prescriptionlist.SId}');
-                                          fetchAllPresData(
-                                              AppConstants.famMemId ?? 0,
-                                              prescriptionlist.SId ?? 0);
-                                          /*  Navigator.pushNamed(context,
-                                              AppRoutes.totalPrescView); */
-                                        },
-                                        iconSize: 30,
-                                        icon: Icon(Icons.remove_red_eye_outlined)),
-
-                                          // Expanded(child: Widget?)
-                                          /* IconButton(
-              onPressed: () {
-               // print('sid is ${prescriptionlist.SId}');
-                Navigator.pushNamed(context, AppRoutes.totalPrescView);
-              },
-              iconSize: 30,
-              icon: Icon(icon)) */
-                                          /* Expanded(
-              child: GestureDetector(
-                  onTap: () {
-                    print('hello');
-                  },
-                  child: Icon(icon))) */
-                                        ],
-                                      ),
-                                    )
-                                    /* Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0, horizontal: 10.0),
-                                      child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                              "View Total Prescription",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14),
-                                            ),
+                                            onPressed: () {
+                                              print(
+                                                  'Famid  ${AppConstants.famMemId}');
+                                              print(
+                                                  'sid  ${prescriptionlist.SId}');
+                                              fetchAllPresData(
+                                                  AppConstants.famMemId ?? 0,
+                                                  prescriptionlist.SId ?? 0);
+                                              /*  Navigator.pushNamed(context,
+                                                AppRoutes.totalPrescView); */
+                                            },
+                                            iconSize: 20,
+                                            icon: Icon(
+                                                Icons.remove_red_eye_outlined),
                                           ),
-                                          /* SizedBox(
-                                            width: 10,
-                                          ), */
-                                          Expanded(flex: 1,
-                                            child: Icon(Icons.remove_red_eye))
                                         ],
                                       ),
-                                    ) */
+                                    ),
+                                    RowComponent(
+                                      "Prescription Date",
+                                      PrescriptionDate,
+                                    ),
+                                    RowComponent("Symptoms", Symptoms)
                                   ],
                                 ),
                               ),
@@ -237,21 +192,6 @@ class _prescriptionListState extends State<prescriptionList> {
               style: TextStyle(color: Colors.black, fontSize: 14),
             ),
           ),
-
-          // Expanded(child: Widget?)
-          /* IconButton(
-              onPressed: () {
-               // print('sid is ${prescriptionlist.SId}');
-                Navigator.pushNamed(context, AppRoutes.totalPrescView);
-              },
-              iconSize: 30,
-              icon: Icon(icon)) */
-          /* Expanded(
-              child: GestureDetector(
-                  onTap: () {
-                    print('hello');
-                  },
-                  child: Icon(icon))) */
         ],
       ),
     );
@@ -304,7 +244,7 @@ class _prescriptionListState extends State<prescriptionList> {
             TabletsCount: element['TabletsCount'],
           ));
         });
-         if (totalPresc.length != 0) {
+        if (totalPresc.length != 0) {
           Navigator.pushNamed(context, AppRoutes.totalPrescView,
               arguments: totalPresc
               // arguments:tappedNames(FamilyMemberName: familylist.Name!)
@@ -313,7 +253,8 @@ class _prescriptionListState extends State<prescriptionList> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AppShowAlert(message: 'No Medicine Presciption data found');
+                return AppShowAlert(
+                    message: 'No Medicine Presciption data found');
               });
         }
         // print(totalPresc[0].name);

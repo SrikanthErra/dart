@@ -180,8 +180,8 @@ VALUES( value1,	value2 ,...); */
   // }SELECT COUNT(*) FROM sqlite_schema WHERE type = 'table
   queryLogin(String table, String mobile) async {
     Database? db = await instance.database;
-    dynamic list = await db.rawQuery(
-        'SELECT COUNT(*) FROM $table2 WHERE $mobileNumber = ?', ['mobile']);
+    dynamic list = await db
+        .rawQuery('SELECT * FROM $table WHERE $mobileNumber = ?', [mobile]);
     return list;
     /*  var res = await db.rawQuery("SELECT * FROM $table WHERE $mobileNumber LIKE '%?%'", ['mobile']);
     return res; */
@@ -263,16 +263,15 @@ VALUES( value1,	value2 ,...); */
     // Medicines   Symptoms  SymptomId
   }
 
-  Future<List<Map>> viewTotalPres(int id,int SId) async {
+  Future<List<Map>> viewTotalPres(int id, int SId) async {
     Database db = await instance.database;
     return await db.rawQuery(
-      //'SELECT * FROM $table INNER JOIN $table2 ON $table2.FamilyMemberId = $id INNER JOIN $table3 ON $SId = $table3.SId '
-      //"SELECT * FROM FamilyList INNER JOIN Prescription ON Prescription.FamilyMemberId = $id INNER JOIN Medicines ON $SId = Medicines.SId "
-    //SELECT * FROM FamilyList  a join Prescription b on a.id=b.FamilyMemberId where b.SId Like 1
-    //SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on a.id=b.FamilyMemberId and b.SId=c.SId where b.SId Like 1
-      // "SELECT * FROM FamilyList a join Prescription b on a.id=b.FamilyMemberId where b.SId Like $SId"
-      "SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on a.id=$id and b.SId=c.SId where b.SId Like $SId"
-    );
+        //'SELECT * FROM $table INNER JOIN $table2 ON $table2.FamilyMemberId = $id INNER JOIN $table3 ON $SId = $table3.SId '
+        //"SELECT * FROM FamilyList INNER JOIN Prescription ON Prescription.FamilyMemberId = $id INNER JOIN Medicines ON $SId = Medicines.SId "
+        //SELECT * FROM FamilyList  a join Prescription b on a.id=b.FamilyMemberId where b.SId Like 1
+        //SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on a.id=b.FamilyMemberId and b.SId=c.SId where b.SId Like 1
+        // "SELECT * FROM FamilyList a join Prescription b on a.id=b.FamilyMemberId where b.SId Like $SId"
+        "SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on a.id=$id and b.SId=c.SId where b.SId Like $SId");
   }
   /*  Future<List<Map>> queryRowCountforMpinValidate(
       String table, String mobile) async {
