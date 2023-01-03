@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Alerts/alert_for_medicineData.dart';
 import 'package:side_menu/Dashboard/dashboard_gridview.dart';
@@ -70,8 +69,9 @@ class _addPrescriptionState extends State<addPrescription> {
   // List<Map<String, dynamic>> SymptomsDataList = [{}];
   List<String> SymptomsDataList = [];
 
-  List<XFile> Uploadedfiles = [];
-  XFile? selectedImage;
+  List<File> Uploadedfiles = [];
+  List<String> _filespicked = [];
+  File? selectedImage;
   @override
   Widget build(BuildContext context) {
     EasyLoading.dismiss();
@@ -518,39 +518,42 @@ class _addPrescriptionState extends State<addPrescription> {
                               /*  final details3 = PrescriptionStateProvider
                                   .prescFiles[index].PrescFilesList!; */
                               return ListTile(
-                                  leading: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      minWidth: 100,
-                                      minHeight: 260,
-                                      maxWidth: 104,
-                                      maxHeight: 264,
-                                    ),
-                                    child: (res.path.split('.').last == 'jpg' ||
-                                            res.path.split('.').last == 'png')
-                                        ? Image.file(
-                                            File(res.path.toString()),
-                                            width: 100,
-                                            height: 100,
-                                          )
-                                        : SvgPicture.asset(
+                                leading: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minWidth: 100,
+                                    minHeight: 260,
+                                    maxWidth: 104,
+                                    maxHeight: 264,
+                                  ),
+                                  child: (res.path.split('.').last == 'jpg' ||
+                                          res.path.split('.').last == 'png')
+                                      ? Image.file(
+                                          File(res.path.toString()),
+                                          width: 100,
+                                          height: 100,
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            AppConstants.filePath =
+                                                res.path.toString();
+                                            print(AppConstants.filePath);
+                                            Navigator.pushNamed(
+                                                context, AppRoutes.pdfViewer);
+                                          },
+                                          child: SvgPicture.asset(
                                             'assets/pdf.svg',
                                             /* height: 30,
-                                                        width: 30, */
+                                                          width: 30, */
                                             //  color: Colors.white,
                                           ),
-                                  ),
-                                  onTap: () {
-                                    AppConstants.filePath = res.path.toString();
-                                    print(AppConstants.filePath);
-                                    Navigator.pushNamed(
-                                        context, AppRoutes.pdfViewer);
-                                  }
-                                  //  child: PdfView(path: fileName.path),
+                                        ),
+                                ),
 
-                                  //       SfPdfViewer.file(
-                                  // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
+                                //  child: PdfView(path: fileName.path),
 
-                                  );
+                                //       SfPdfViewer.file(
+                                // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
+                              );
                             })),
                       ),
                     ),
@@ -564,7 +567,7 @@ class _addPrescriptionState extends State<addPrescription> {
                               final result = await ImagePicker()
                                   .pickImage(source: ImageSource.camera);
                               if (result == null) return;
-                              selectedImage = result;
+                              selectedImage = File(result.path);
                               setState(() {
                                 Uploadedfiles.add(selectedImage!);
                                 vis = true;
@@ -586,7 +589,7 @@ class _addPrescriptionState extends State<addPrescription> {
                               if (result == null) return;
                               setState(() {
                                 Uploadedfiles = result.paths
-                                    .map((path) => XFile(path ?? ""))
+                                    .map((path) => File(path!))
                                     .toList();
                                 vis = true;
                               });
@@ -601,7 +604,6 @@ class _addPrescriptionState extends State<addPrescription> {
                     ButtonComponent(
                         onPressed: () async {
                           SaveData(medicineStateProvider);
-                          saveFiles();
                           showToast("Prescription added Successfully");
                           await EasyLoading.show(
                               status: "Loading...",
@@ -656,27 +658,6 @@ class _addPrescriptionState extends State<addPrescription> {
     }
   }
 
-  List<File>? _imageFileList;
-
-  _write(XFile media, String mediaIndex) async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/media$mediaIndex.jpg');
-    await file.writeAsBytes(await media.readAsBytes());
-    print('object $file');
-    _imageFileList?.add(file);
-    print(_imageFileList);
-  }
-  
-
-  saveFiles() {
-    int index = 0;
-    Uploadedfiles.forEach((x) {
-      _write(x, index.toString());
-      index++;
-      print(index);
-    });
-  }
-
   Future<int> SaveData(MedicineListProvider medicineStateProvider) async {
     int result = 0;
     print('len of uploaded files is ${Uploadedfiles.length}');
@@ -684,6 +665,7 @@ class _addPrescriptionState extends State<addPrescription> {
     print('symptom $selectedSymptomValue');
     if (Uploadedfiles.length == 0) {
       print('entered in if');
+
       final PrescriptionAdded = PrescriptionModel(
         FamilyMemberId: selectedId,
         Symptom: selectedSymptomValue,
@@ -713,20 +695,22 @@ class _addPrescriptionState extends State<addPrescription> {
       return saved;
     } else {
       print('entered in else');
-    // for (final pres in Uploadedfiles) {
-      Uploadedfiles.forEach((element) async{ 
+      Uploadedfiles.forEach((element) {
+        _filespicked.add(element.path.toString());
+      });
+      // for (int i = 0; i < Uploadedfiles.length; i++) {
+      print('files picked are $_filespicked');
       final PrescriptionAdded = PrescriptionModel(
-        FamilyMemberId: selectedId,
-        Symptom: selectedSymptomValue,
-        SymptomId: selectedSymptomId,
-        DoctorName: _doctorName.text,
-        HospitalName: _hospitalName.text,
-        DateOfAppointment: _appointment.text,
-        ReasonForAppointment: _reason.text,
-        NextAppointmentDate: _NextAppointmentDate.text,
-        //PrescFiles: Uploadedfiles.toList().toString(),
-        PrescFiles: element.path.toString()
-      );
+          FamilyMemberId: selectedId,
+          Symptom: selectedSymptomValue,
+          SymptomId: selectedSymptomId,
+          DoctorName: _doctorName.text,
+          HospitalName: _hospitalName.text,
+          DateOfAppointment: _appointment.text,
+          ReasonForAppointment: _reason.text,
+          NextAppointmentDate: _NextAppointmentDate.text,
+          //PrescFiles: pres.path,
+          PrescFiles: _filespicked.toString());
       final DatabaseHelper _databaseService = DatabaseHelper.instance;
       final saved = await _databaseService.insertInto(
           PrescriptionAdded.toJson(), DatabaseHelper.table2);
@@ -743,8 +727,8 @@ class _addPrescriptionState extends State<addPrescription> {
       print('last symptomId is $count'); */
       MedicinesDataTable(count, medicineStateProvider);
       result = saved;
-    //  return saved;
-       });
+      return saved;
+      //}
     }
     return result;
   }
