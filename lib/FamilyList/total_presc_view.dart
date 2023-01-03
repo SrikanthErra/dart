@@ -117,13 +117,29 @@ class _totalPrescViewState extends State<totalPrescView> {
                               height: 100, */
                                 ),
 
-                                Image.file(File(totalPrescList.PrescFiles ?? ''),
+                            Image.file(File(totalPrescList.PrescFiles ?? ''),
                                 width: MediaQuery.of(context).size.width * 0.6,
                                 height: MediaQuery.of(context).size.height * 0.2
                                 /* width: 100,
                               height: 100, */
-                                ), 
-                                /*
+                                ),
+
+                            /* ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: totalPrescList.PrescFiles?.length,
+                                itemBuilder: ((context, index) {
+                                  print(
+                                      'Presc files ${totalPrescList.PrescFiles?.length}');
+                                  final result =
+                                      totalPrescList.PrescFiles?[index];
+                                  return ListTile(
+                                    leading: Image.file(File(result ?? ''),
+                                    width: MediaQuery.of(context).size.width * 0.6,
+                                height: MediaQuery.of(context).size.height * 0.2),
+                                  );
+                                })) */
+                            /*
                                 Visibility(
                       visible: vis ?? false,
                       child: Card(
