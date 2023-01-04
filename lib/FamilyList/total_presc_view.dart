@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -28,7 +29,7 @@ class _totalPrescViewState extends State<totalPrescView> {
     EasyLoading.dismiss();
     totalPresc = ModalRoute.of(context)?.settings.arguments as dynamic;
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.transparent,
       appBar: AppBar(title: Text('Total Prescription List'), centerTitle: true),
       body: Container(
@@ -74,12 +75,9 @@ class _totalPrescViewState extends State<totalPrescView> {
                   // final input = '[name 1, name2, name3, ...]';
                   final removedBrackets = totalPrescList.PrescFiles?.substring(
                       1, totalPrescList.PrescFiles!.length - 1);
-                  /*  final parts = removedBrackets?.split(', ');
-                  
 
-                  var joined = parts?.map((part) => "'$part'").join(', '); */
+                  print('remove $removedBrackets');
 
-                  //print(joined);
                   result = removedBrackets?.split(',');
                   print('Result is $result');
                   /*  final files = totalPrescList.PrescFiles?.replaceAll(
@@ -95,6 +93,42 @@ class _totalPrescViewState extends State<totalPrescView> {
                       ),
                       color: Colors.white,
                       child: SingleChildScrollView(
+
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Column(
+                            children: [
+                              RowComponent("Name", totalPrescList.name),
+                              RowComponent("Symptom", totalPrescList.Symptom),
+                              RowComponent(
+                                  "Medicine Name", totalPrescList.MedicineName),
+                              RowComponent(
+                                  "Expiry Date", totalPrescList.ExpiryDate),
+                              RowComponent(
+                                  "DoctorName", totalPrescList.DoctorName),
+                              RowComponent(
+                                  "HospitalName", totalPrescList.HospitalName),
+                              RowComponent("DateOfAppointment",
+                                  totalPrescList.DateOfAppointment),
+                              RowComponent("ReasonForAppointment",
+                                  totalPrescList.ReasonForAppointment),
+                              RowComponent("NextAppointmentDate",
+                                  totalPrescList.NextAppointmentDate),
+                              RowImageComponent("MedicinePhoto",
+                                  totalPrescList.MedicinePhoto ?? ''),
+                              /* RowImageComponent("Prescription Files",
+                                  totalPrescList.PrescFiles ?? ""), */
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: Text(
+                                      "Prescription Files",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+
                         child: Column(
                           children: [
                             RowComponent("Name", totalPrescList.name),
@@ -188,21 +222,68 @@ class _totalPrescViewState extends State<totalPrescView> {
                                       minHeight: 260,
                                       maxWidth: 104,
                                       maxHeight: 264,
+
                                     ),
-                                    child: (res?.path.split('.').last == 'jpg' ||
-                                            res?.path.split('.').last == 'png')
-                                        ? Image.file(
-                                            File(res?.path.toString() ?? ''),
-                                            width: 100,
-                                            height: 100,
-                                          )
-                                        : SvgPicture.asset(
-                                            'assets/pdf.svg',
-                                            /* height: 30,
-                                                        width: 30, */
-                                            //  color: Colors.white,
-                                          ),
                                   ),
+
+                                  Expanded(
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: result?.length,
+                                          itemBuilder: ((context, index) {
+                                            print(
+                                                'Presc files ${result?.length}');
+                                            final res = result?[index];
+                                            final array = res?.trim();
+                                            return Container(
+                                              child: (array?.split('.').last ==
+                                                          'jpg' ||
+                                                      array?.split('.').last ==
+                                                          'png')
+                                                  ? GestureDetector(
+                                                      onTap: () {
+                                                        showImageViewer(
+                                                            context,
+                                                            Image.file(File(
+                                                                    array!))
+                                                                .image);
+                                                      },
+                                                      child: Image.file(
+                                                        File(
+                                                            array?.toString() ??
+                                                                ''),
+                                                        width: 100,
+                                                        height: 100,
+                                                      ),
+                                                    )
+                                                  : GestureDetector(
+                                                      onTap: () {
+                                                        AppConstants.filePath =
+                                                            array?.toString() ??
+                                                                '';
+                                                        print(AppConstants
+                                                            .filePath);
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            AppRoutes
+                                                                .pdfViewer);
+                                                      },
+                                                      child: SvgPicture.asset(
+                                                          'assets/pdf.svg',
+                                                          width: 100,
+                                                          height: 100
+                                                          //  color: Colors.white,
+                                                          ),
+                                                    ),
+                                            );
+                                          }))),
+                                ],
+                              ),
+                            ],
+                          ),
+
                                   onTap: () {
                                     AppConstants.filePath = res?.path.toString() ?? '';
                                     print(AppConstants.filePath);
@@ -236,6 +317,7 @@ class _totalPrescViewState extends State<totalPrescView> {
                                 'https://www.gstatic.com/webp/gallery/1.jpg') */
                             //  new Io.File.fromUri(imageFile.uri)
                           ],
+
                         ),
                       ),
                     ),
@@ -276,4 +358,39 @@ class _totalPrescViewState extends State<totalPrescView> {
       ),
     );
   }
+
+
+  RowImageComponent(String title, String MedicinePhotoPath) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.0),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                showImageViewer(
+                    context, Image.file(File(MedicinePhotoPath)).image);
+              },
+              child: Image.file(
+                File(MedicinePhotoPath),
+                width: 80,
+                height: 80,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
