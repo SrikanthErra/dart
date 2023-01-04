@@ -70,16 +70,16 @@ class _totalPrescViewState extends State<totalPrescView> {
                   final totalPrescList = totalPresc[index];
                   //final myString = 'abc=';
                   final files = totalPrescList.PrescFiles?.replaceAll(
-                      new RegExp(r'[^\w\s]+'), '');
+                      new RegExp(r'[^\w\s]+'),'');
                   print('files $files');
                   // final input = '[name 1, name2, name3, ...]';
                   final removedBrackets = totalPrescList.PrescFiles?.substring(
                       1, totalPrescList.PrescFiles!.length - 1);
 
                   print('remove $removedBrackets');
+
                   result = removedBrackets?.split(',');
                   print('Result is $result');
-                  print('len ${result?.length}');
                   /*  final files = totalPrescList.PrescFiles?.replaceAll(
                     RegExp(''),
                   ); */
@@ -93,6 +93,7 @@ class _totalPrescViewState extends State<totalPrescView> {
                       ),
                       color: Colors.white,
                       child: SingleChildScrollView(
+
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: Column(
@@ -127,8 +128,104 @@ class _totalPrescViewState extends State<totalPrescView> {
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14),
+
+                        child: Column(
+                          children: [
+                            RowComponent("Name", totalPrescList.name),
+                            RowComponent("Symptom", totalPrescList.Symptom),
+                            RowComponent(
+                                "Medicine Name", totalPrescList.MedicineName),
+                            RowComponent(
+                                "Expiry Date", totalPrescList.ExpiryDate),
+                            RowComponent(
+                                "DoctorName", totalPrescList.DoctorName),
+                            RowComponent(
+                                "HospitalName", totalPrescList.HospitalName),
+                            RowComponent("DateOfAppointment",
+                                totalPrescList.DateOfAppointment),
+                            RowComponent("ReasonForAppointment",
+                                totalPrescList.ReasonForAppointment),
+                            RowComponent("NextAppointmentDate",
+                                totalPrescList.NextAppointmentDate),
+                            RowComponent(
+                                "MedicinePhoto", totalPrescList.MedicinePhoto),
+                            RowComponent(
+                                "PrescFiles", totalPrescList.PrescFiles),
+
+                            //print(""+totalPrescList.MedicinePhoto);
+
+                            /*  Image.file(
+                              File.fromUri(
+                                  Uri.parse(totalPrescList.MedicinePhoto!)),
+                              width: 100,
+                              height: 100,
+                            ), */
+
+                            /*  Image.file(
+                        File(wrestler.image ?? ""),
+                        width: 100,
+                        height: 100,
+                      ), */
+                            Image.file(File(totalPrescList.MedicinePhoto ?? ''),
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                height: MediaQuery.of(context).size.height * 0.2
+                                /* width: 100,
+                              height: 100, */
+                                ),
+                            //  Text(totalPrescList.PrescFiles ?? '')
+
+                            /* Image.file(File(totalPrescList.PrescFiles?[0] ?? ''),
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                height: MediaQuery.of(context).size.height * 0.2
+                                /* width: 100,
+                              height: 100, */
+                                ),
+ */
+                            /* ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: result?.length,
+                                itemBuilder: ((context, index) {
+                                  print('Presc files ${result?.length}');
+                                  final res = result?[index];
+                                  return Container(child: Image.file(File(res ?? '')));
+                                })) */
+                            ListView(
+                              shrinkWrap: true,
+                              children: <Widget>[
+                                for (final path in result ?? [])
+                                  Image.file(File(path),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.6,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2)
+                              ],
+                            )
+                            /* Visibility(
+                      visible: vis ?? false,
+                      child: Card(
+                        color: Colors.transparent,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: Uploadedfiles.length,
+                            itemBuilder: ((context, index) {
+                              print('Hello world');
+                              final res = Uploadedfiles[index];
+                              /*  final details3 = PrescriptionStateProvider
+                                  .prescFiles[index].PrescFilesList!; */
+                              return ListTile(
+                                  leading: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      minWidth: 100,
+                                      minHeight: 260,
+                                      maxWidth: 104,
+                                      maxHeight: 264,
+
                                     ),
                                   ),
+
                                   Expanded(
                                       child: ListView.builder(
                                           shrinkWrap: true,
@@ -186,6 +283,41 @@ class _totalPrescViewState extends State<totalPrescView> {
                               ),
                             ],
                           ),
+
+                                  onTap: () {
+                                    AppConstants.filePath = res?.path.toString() ?? '';
+                                    print(AppConstants.filePath);
+                                    Navigator.pushNamed(
+                                        context, AppRoutes.pdfViewer);
+                                  }
+                                  //  child: PdfView(path: fileName.path),
+
+                                  //       SfPdfViewer.file(
+                                  // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
+
+                                  );
+                            })),
+                      ),
+                    ), */
+
+                            // FileImage(File(totalPrescList.MedicinePhoto ?? ''))
+                            // Padding(
+                            //   padding: const EdgeInsets.all(8.0),
+                            //   child: Image.file(File(totalPrescList.MedicinePhoto!),
+                            //   width: 100,
+                            //   height: 100,),
+                            // ),
+                            /*  Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.file(totalPrescList.MedicinePhoto!
+                                  /* width: 100,
+                                  height: 100, */),
+                                ), */
+                            /* Image.network(
+                                'https://www.gstatic.com/webp/gallery/1.jpg') */
+                            //  new Io.File.fromUri(imageFile.uri)
+                          ],
+
                         ),
                       ),
                     ),
@@ -227,6 +359,7 @@ class _totalPrescViewState extends State<totalPrescView> {
     );
   }
 
+
   RowImageComponent(String title, String MedicinePhotoPath) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.0),
@@ -259,4 +392,5 @@ class _totalPrescViewState extends State<totalPrescView> {
       ),
     );
   }
+
 }
