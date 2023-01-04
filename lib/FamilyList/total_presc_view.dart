@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -122,7 +123,6 @@ class _totalPrescViewState extends State<totalPrescView> {
                               /* RowImageComponent("Prescription Files",
                                   totalPrescList.PrescFiles ?? ""), */
                               Row(
-                                
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
@@ -150,11 +150,21 @@ class _totalPrescViewState extends State<totalPrescView> {
                                                           'jpg' ||
                                                       array?.split('.').last ==
                                                           'png')
-                                                  ? Image.file(
-                                                      File(array?.toString() ??
-                                                          ''),
-                                                      width: 100,
-                                                      height: 100,
+                                                  ? GestureDetector(
+                                                      onTap: () {
+                                                        showImageViewer(
+                                                            context,
+                                                            Image.file(File(
+                                                                    array!))
+                                                                .image);
+                                                      },
+                                                      child: Image.file(
+                                                        File(
+                                                            array?.toString() ??
+                                                                ''),
+                                                        width: 100,
+                                                        height: 100,
+                                                      ),
                                                     )
                                                   : GestureDetector(
                                                       onTap: () {
@@ -284,12 +294,19 @@ class _totalPrescViewState extends State<totalPrescView> {
             ),
           ),
           Expanded(
-            child: Image.file(File(MedicinePhotoPath),
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.2
-                /* width: 100,
-                              height: 100, */
-                ),
+            child: GestureDetector(
+              onTap: () {
+                showImageViewer(
+                    context, Image.file(File(MedicinePhotoPath)).image);
+              },
+              child: Image.file(
+                File(MedicinePhotoPath),
+                /* width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.2 */
+                width: 80,
+                height: 80,
+              ),
+            ),
           ),
         ],
       ),
