@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -28,7 +29,7 @@ class _totalPrescViewState extends State<totalPrescView> {
     EasyLoading.dismiss();
     totalPresc = ModalRoute.of(context)?.settings.arguments as dynamic;
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.transparent,
       appBar: AppBar(title: Text('Total Prescription List'), centerTitle: true),
       body: Container(
@@ -74,12 +75,7 @@ class _totalPrescViewState extends State<totalPrescView> {
                   // final input = '[name 1, name2, name3, ...]';
                   final removedBrackets = totalPrescList.PrescFiles?.substring(
                       1, totalPrescList.PrescFiles!.length - 1);
-                  /*  final parts = removedBrackets?.split(', ');
-                  
 
-                  var joined = parts?.map((part) => "'$part'").join(', '); */
-
-                  //print(joined);
                   print('remove $removedBrackets');
                   result = removedBrackets?.split(',');
                   print('Result is $result');
@@ -122,7 +118,6 @@ class _totalPrescViewState extends State<totalPrescView> {
                               /* RowImageComponent("Prescription Files",
                                   totalPrescList.PrescFiles ?? ""), */
                               Row(
-                                
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
@@ -150,11 +145,21 @@ class _totalPrescViewState extends State<totalPrescView> {
                                                           'jpg' ||
                                                       array?.split('.').last ==
                                                           'png')
-                                                  ? Image.file(
-                                                      File(array?.toString() ??
-                                                          ''),
-                                                      width: 100,
-                                                      height: 100,
+                                                  ? GestureDetector(
+                                                      onTap: () {
+                                                        showImageViewer(
+                                                            context,
+                                                            Image.file(File(
+                                                                    array!))
+                                                                .image);
+                                                      },
+                                                      child: Image.file(
+                                                        File(
+                                                            array?.toString() ??
+                                                                ''),
+                                                        width: 100,
+                                                        height: 100,
+                                                      ),
                                                     )
                                                   : GestureDetector(
                                                       onTap: () {
@@ -176,13 +181,9 @@ class _totalPrescViewState extends State<totalPrescView> {
                                                           ),
                                                     ),
                                             );
-                                          }))
-                                      
-                                      ),
+                                          }))),
                                 ],
                               ),
-
-                              
                             ],
                           ),
                         ),
@@ -242,12 +243,17 @@ class _totalPrescViewState extends State<totalPrescView> {
             ),
           ),
           Expanded(
-            child: Image.file(File(MedicinePhotoPath),
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.2
-                /* width: 100,
-                              height: 100, */
-                ),
+            child: GestureDetector(
+              onTap: () {
+                showImageViewer(
+                    context, Image.file(File(MedicinePhotoPath)).image);
+              },
+              child: Image.file(
+                File(MedicinePhotoPath),
+                width: 80,
+                height: 80,
+              ),
+            ),
           ),
         ],
       ),
