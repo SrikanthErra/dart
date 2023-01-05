@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class totalPrescViewModel {
   String? MedicineName;
   String? ExpiryDate;

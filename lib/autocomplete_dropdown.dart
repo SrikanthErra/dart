@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
+import 'package:side_menu/Constants/StringConstants.dart';
 import 'Database/database_helper.dart';
 import 'modelClasses/symptoms_model.dart';
 
@@ -27,7 +25,7 @@ class _autocompleteState extends State<autocomplete> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Combined Multi Select DropDown"),
+          title: const Text(strings.MultiDropDown),
         ),
         body: Column(children: [
           Padding(
@@ -45,7 +43,7 @@ class _autocompleteState extends State<autocomplete> {
               child: Autocomplete<String>(
                 onSelected: (String selectedItem) {
                   selectedSymptomValue = selectedItem;
-                  if (selectedSymptomValue == 'Others') {
+                  if (selectedSymptomValue == strings.Presc_OtherSymp) {
                     print('Hello');
                     setState(() {
                       flag = true;
@@ -62,7 +60,8 @@ class _autocompleteState extends State<autocomplete> {
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: TextFormField(
                       controller: textEditingController,
-                      decoration: InputDecoration(hintText: "Select Symptom"),
+                      decoration:
+                          InputDecoration(hintText: strings.Presc_Hint_Symp),
                       focusNode: focusNode,
                       onFieldSubmitted: (String value) {
                         onFieldSubmitted();
@@ -96,7 +95,7 @@ class _autocompleteState extends State<autocomplete> {
               child: TextFormField(
                 controller: _symptom,
                 decoration: InputDecoration(
-                  labelText: 'Enter Symptoms',
+                  labelText: strings.MultiDropDown_EnterSym,
                 ),
               ),
             ),
@@ -105,22 +104,23 @@ class _autocompleteState extends State<autocomplete> {
               onPressed: () async {
                 int index = SymptomsDataList.length;
                 if (flag == true) {
-                  final result = SymptomsModelClass(MasterSymptom: _symptom.text);
+                  final result =
+                      SymptomsModelClass(MasterSymptom: _symptom.text);
                   print('object ${result.MasterSymptom}');
                   final DatabaseHelper _databaseService =
                       DatabaseHelper.instance;
                   final saved = await _databaseService.insertInto(
                     result.toJson(),
-                    "SymptomMaster",
+                    strings.Db_SymptomsMaster,
                   );
                 }
-                
+
                 print(selectedSymptomValue);
                 getMasterSymptomId(selectedSymptomValue ?? '');
                 _symptom.text = '';
                 print('list is $SymptomsDataList');
               },
-              child: Text('Submit')),
+              child: Text(strings.ButtonSubmit)),
         ]));
   }
 
@@ -133,7 +133,7 @@ class _autocompleteState extends State<autocomplete> {
 
   getMasterSymptomId(String name) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
-    final saved = await _databaseService.symptomId("SymptomMaster", name);
+    final saved = await _databaseService.symptomId(strings.Db_SymptomsMaster, name);
     print("data saved ${saved}");
     selectedSymptomId = saved;
     print('Id selected is $selectedSymptomId');
@@ -147,7 +147,7 @@ class _autocompleteState extends State<autocomplete> {
   fetchData() async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
 
-    final res = await _databaseService.queryAllRows("SymptomMaster");
+    final res = await _databaseService.queryAllRows(strings.Db_SymptomsMaster);
     res.forEach((element) {
       element.entries.forEach((e) {
         SymptomsDataList.add(e.value.toString());
@@ -158,7 +158,7 @@ class _autocompleteState extends State<autocomplete> {
     if (SymptomsDataList.length == 0) {
       insertData();
       print('entered');
-      final res = await _databaseService.queryAllRows("SymptomMaster");
+      final res = await _databaseService.queryAllRows(strings.Db_SymptomsMaster);
       res.forEach((element) {
         element.entries.forEach((e) {
           SymptomsDataList.add(e.value.toString());
@@ -166,7 +166,7 @@ class _autocompleteState extends State<autocomplete> {
       });
       int index = SymptomsDataList.length;
       print(index);
-      SymptomsDataList.add('Others');
+      SymptomsDataList.add(strings.Presc_OtherSymp);
       // SymptomsDataList.insert((index), 'Others');
       print('Hello');
       print('list is $SymptomsDataList');

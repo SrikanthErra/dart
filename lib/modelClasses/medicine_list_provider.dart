@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-
 import 'medicine_data_model.dart';
 
 class MedicineListProvider with ChangeNotifier {

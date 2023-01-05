@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_launcher_icons/utils.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/app_constants.dart';
-import 'package:side_menu/modelClasses/pass_name_from_famlist_to_prescriptionview.dart';
-import 'package:side_menu/modelClasses/prescription_list_model.dart';
-
+import 'package:side_menu/Constants/app_constants.dart';
 import '../Database/database_helper.dart';
 import '../Reusable/alert.dart';
 import '../Reusable/app_input_text.dart';
@@ -44,11 +40,11 @@ class _prescriptionListState extends State<prescriptionList> {
     prescList = argument.prescList;
     FamilyMemberName = argument.name;
     return Scaffold(
-      appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
+      appBar: AppBar(title: Text(strings.familyList_Title), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -112,7 +108,7 @@ class _prescriptionListState extends State<prescriptionList> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              "Doctor Name",
+                                              strings.Presc_Hint_DrName,
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
@@ -150,10 +146,10 @@ class _prescriptionListState extends State<prescriptionList> {
                                       ),
                                     ),
                                     RowComponent(
-                                      "Prescription Date",
+                                      strings.Prescription_Date,
                                       PrescriptionDate,
                                     ),
-                                    RowComponent("Symptoms", Symptoms)
+                                    RowComponent(strings.Symptoms, Symptoms)
                                   ],
                                 ),
                               ),
@@ -199,7 +195,9 @@ class _prescriptionListState extends State<prescriptionList> {
 
   fetchdata(int id) async {
     print('selected id is $id');
-    await DatabaseHelper.instance.medicineList('Medicines', id).then((value) {
+    await DatabaseHelper.instance
+        .medicineList(strings.Db_MedTable, id)
+        .then((value) {
       setState(() {
         MedList = [];
         value.forEach((element) {
@@ -253,8 +251,7 @@ class _prescriptionListState extends State<prescriptionList> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AppShowAlert(
-                    message: 'No Medicine Presciption data found');
+                return AppShowAlert(message: strings.PrescAlert);
               });
         }
         // print(totalPresc[0].name);

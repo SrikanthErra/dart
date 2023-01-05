@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-
-import '../app_constants.dart';
+import '../Constants/app_constants.dart';
 
 class PdfViewer extends StatefulWidget {
   const PdfViewer({super.key});
@@ -19,7 +17,7 @@ class _PdfViewerState extends State<PdfViewer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("PDF Viwer")),
+        appBar: AppBar(title: Text(strings.PdfViewTitle)),
         body: SfPdfViewer.file(File(AppConstants.filePath)));
 
     // return SfPdfViewer.network(

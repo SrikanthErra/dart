@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:universal_io/io.dart';
 
@@ -23,7 +20,7 @@ class AppShowAlert extends StatelessWidget {
                 Navigator.pop(context);
               }),
               child: AppInputText(
-                  text: 'OK',
+                  text: strings.Presc_Ok,
                   colors: Colors.blue,
                   size: 20,
                   weight: FontWeight.bold))
@@ -35,7 +32,7 @@ class AppShowAlert extends StatelessWidget {
                 Navigator.pop(context);
               }),
               child: AppInputText(
-                  text: 'OK',
+                  text: strings.Presc_Ok,
                   colors: Colors.blue,
                   size: 20,
                   weight: FontWeight.bold))

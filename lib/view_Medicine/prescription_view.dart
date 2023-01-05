@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
-
+import '../Constants/urlConstant.dart';
 
 class viewPrescription extends StatefulWidget {
   const viewPrescription({super.key});
@@ -32,10 +30,8 @@ class _viewPrescriptionState extends State<viewPrescription> {
   final _formkey4 = GlobalKey<FormState>();
   List<PlatformFile> files_list = [];
   FilePickerResult? result;
-  String textt = 'Hello World';
 
-  dynamic placeholder = NetworkImage(
-      'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg');
+  dynamic placeholder = NetworkImage(UrlConstants.PlaceHolderUrl);
 
   //File? _image;
   @override
@@ -44,13 +40,13 @@ class _viewPrescriptionState extends State<viewPrescription> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text('Family Member Name'),
+        title: Text(strings.PrescView_FamName),
         centerTitle: true,
       ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -61,9 +57,9 @@ class _viewPrescriptionState extends State<viewPrescription> {
             Column(
               children: [
                 AppInputTextfield(
-                    hintText: 'symptom ',
+                    hintText: strings.Symptoms,
                     nameController: _symptom,
-                    errorMessage: 'please enter symptom',
+                    errorMessage: strings.CombinedDropDown_Hint,
                     input_type: TextInputType.text,
                     obsecuretext: false,
                     node: _node,
@@ -73,9 +69,9 @@ class _viewPrescriptionState extends State<viewPrescription> {
                     },
                     globalKey: _formkey1),
                 AppInputTextfield(
-                    hintText: 'Medicine Name',
+                    hintText: strings.Med_MedName,
                     nameController: _medicineName,
-                    errorMessage: 'please enter medicine name',
+                    errorMessage: strings.MedAlert_errorMedName,
                     input_type: TextInputType.text,
                     obsecuretext: false,
                     node: _node,
@@ -85,9 +81,9 @@ class _viewPrescriptionState extends State<viewPrescription> {
                     },
                     globalKey: _formkey2),
                 datePickerComponent(
-                    hintText: 'Expiry date',
+                    hintText: strings.Med_ExpDate,
                     nameController: _expiryDate,
-                    errorMessage: 'Please enter expiry date',
+                    errorMessage: strings.MedAlert_errorExpDate,
                     obsecuretext: false,
                     node: _node,
                     action: TextInputAction.next,
@@ -98,9 +94,9 @@ class _viewPrescriptionState extends State<viewPrescription> {
               ],
             ),
             AppInputTextfield(
-              hintText: 'Hospital Name',
+              hintText: strings.Presc_Hint_hospName,
               nameController: _hospitalName,
-              errorMessage: 'please enter hospital name',
+              errorMessage: strings.Presc_error_hospName,
               input_type: TextInputType.text,
               obsecuretext: false,
               node: _node,
@@ -110,9 +106,9 @@ class _viewPrescriptionState extends State<viewPrescription> {
               },
             ),
             datePickerComponent(
-              hintText: 'Date of Appointment',
+              hintText: strings.Presc_Hint_AppointmentDate,
               nameController: _appointment,
-              errorMessage: 'Please enter appointment date',
+              errorMessage: strings.Presc_error_AppointmentDate,
               obsecuretext: false,
               node: _node,
               action: TextInputAction.next,
@@ -121,9 +117,9 @@ class _viewPrescriptionState extends State<viewPrescription> {
               },
             ),
             AppInputTextfield(
-              hintText: 'Doctor Name',
+              hintText: strings.Presc_Hint_DrName,
               nameController: _doctorName,
-              errorMessage: 'please enter doctor name',
+              errorMessage: strings.Presc_error_DrName,
               input_type: TextInputType.text,
               obsecuretext: false,
               node: _node,
@@ -133,9 +129,9 @@ class _viewPrescriptionState extends State<viewPrescription> {
               },
             ),
             AppInputTextfield(
-              hintText: 'Reason for Appointment',
+              hintText: strings.Presc_Hint_AppointmentReason,
               nameController: _reason,
-              errorMessage: 'please enter reason for appointment',
+              errorMessage: strings.Presc_error_AppointmentReason,
               input_type: TextInputType.text,
               obsecuretext: false,
               node: _node,
@@ -145,9 +141,9 @@ class _viewPrescriptionState extends State<viewPrescription> {
               },
             ),
             datePickerComponent(
-              hintText: 'Next Appointment Date',
+              hintText: strings.Presc_Hint_NextAppointmentDate,
               nameController: _expiryDate,
-              errorMessage: 'Please enter next Appointment date',
+              errorMessage: strings.Presc_error_NextAppointmentDate,
               obsecuretext: false,
               node: _node,
               action: TextInputAction.next,

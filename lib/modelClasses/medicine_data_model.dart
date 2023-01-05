@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:image_picker/image_picker.dart';
-
 class medicineDataModel {
   final String medicineName;
   final String ExpiryDate;

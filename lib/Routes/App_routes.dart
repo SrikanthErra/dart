@@ -1,8 +1,3 @@
-import 'package:side_menu/FamilyList/total_presc_view.dart';
-import 'package:side_menu/Login/registration.dart';
-import 'package:side_menu/autocomplete_dropdown.dart';
-import 'package:side_menu/view_Medicine/view_medicine.dart';
-
 class AppRoutes {
   AppRoutes._();
   static const initial = login;
@@ -30,4 +25,6 @@ class AppRoutes {
   static const viewAllMedicines = "/allMedicinesView.dart";
   static const viewPrivacyPolicy = "/privacypolicy.dart";
   static const viewProfile = "/viewProfile.dart";
+  static const AppInfo = "/appInfo.dart";
+  static const AppRating = "/appRating.dart";
 }

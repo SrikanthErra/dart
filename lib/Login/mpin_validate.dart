@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
-
 import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Database/database_helper.dart';
@@ -32,7 +32,7 @@ class _mpinValidateState extends State<mpinValidate> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -42,12 +42,11 @@ class _mpinValidateState extends State<mpinValidate> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                  radius: 60,
-                  backgroundImage: AssetImage("assets/appLogo.png")),
+                  radius: 60, backgroundImage: AssetImage(AssetPath.AppLogo)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppInputText(
-                    text: 'Validate MPIN',
+                    text: strings.Mpin_validate,
                     colors: Colors.white,
                     size: 30,
                     weight: FontWeight.bold),
@@ -55,7 +54,7 @@ class _mpinValidateState extends State<mpinValidate> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppInputText(
-                    text: 'Enter 4 digit MPIN',
+                    text: strings.Mpin_Hint,
                     colors: Colors.white,
                     size: 15,
                     weight: FontWeight.bold),
@@ -95,12 +94,11 @@ class _mpinValidateState extends State<mpinValidate> {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AppShowAlert(
-                                message: 'Please enter 4 digit MPIN');
+                            return AppShowAlert(message: strings.Mpin_Alert);
                           });
                     }
                   },
-                  buttonText: 'Validate'),
+                  buttonText: strings.ButtonValidate),
             ],
           ),
         ),
@@ -124,10 +122,10 @@ class _mpinValidateState extends State<mpinValidate> {
     mpin_value = saved[0];
     if (mpin_value['mpin'] == mpin) {
       await EasyLoading.show(
-          status: "Loading...", maskType: EasyLoadingMaskType.black);
+          status: strings.Loader, maskType: EasyLoadingMaskType.black);
       Navigator.pushReplacementNamed(context, AppRoutes.dashboardGridview);
     } else {
-      showAlert('Please Enter Valid MPIN');
+      showAlert(strings.Mpin_validation);
     }
     /* flag = saved;
     print('flag is $flag');

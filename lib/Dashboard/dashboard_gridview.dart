@@ -1,14 +1,13 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:side_menu/Dashboard/sidemenuDashboard.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/appColor.dart';
+import 'package:side_menu/Constants/appColor.dart';
+import '../Constants/StringConstants.dart';
+import '../Constants/assetsPath.dart';
 import '../Database/database_helper.dart';
 import '../modelClasses/dashboard_gridview_model.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
@@ -29,64 +28,64 @@ class _dashboardGridviewState extends State<dashboardGridview>
   List<gridListView> dashboardList = [
     gridListView(
         image: Image.asset(
-          "assets/icons-01.png",
+          AssetPath.addMemberIcon,
           fit: BoxFit.fitWidth,
           height: 60,
           width: 60,
           color: Colors.white,
         ),
-        title: 'Add Family Member',
+        title: strings.DashBoard_AddMember,
         navigateApproute: AppRoutes.registerFamilyDashboard),
     gridListView(
         image: Image.asset(
-          "assets/icons-06.png",
+          AssetPath.familyListIcon,
           fit: BoxFit.fitWidth,
           height: 60,
           width: 60,
           color: Colors.white,
         ),
-        title: ' Family List',
+        title: strings.DashBoard_FamList,
         navigateApproute: AppRoutes.familyList),
     gridListView(
       image: Image.asset(
-        "assets/icons-05.png",
+        AssetPath.reportsIcon,
         fit: BoxFit.fitWidth,
         height: 60,
         width: 60,
         color: Colors.white,
       ),
-      title: 'Reports',
+      title: strings.DashBoard_Reports,
       navigateApproute: AppRoutes.viewReports,
     ),
     gridListView(
         image: Image.asset(
-          "assets/icons-03.png",
+          AssetPath.alertsIcon,
           fit: BoxFit.fitWidth,
           height: 60,
           width: 60,
           color: Colors.white,
         ),
-        title: 'Alerts',
+        title: strings.DashBoard_Alerts,
         navigateApproute: AppRoutes.visitAlerts),
     gridListView(
         image: Image.asset(
-          "assets/icons-02.png",
+          AssetPath.addPrescriptionIcon,
           fit: BoxFit.fitWidth,
           height: 60,
           width: 60,
           color: Colors.white,
         ),
-        title: 'Add Medicine',
+        title: strings.DashBoard_AddMed,
         navigateApproute: AppRoutes.addPrescription),
     gridListView(
         image: Image.asset(
-          "assets/icons-04.png",
+          AssetPath.viewMedicineIcon,
           fit: BoxFit.fitWidth,
           height: 60,
           width: 60,
           color: Colors.white,
         ),
-        title: 'View Medicine',
+        title: strings.DashBoard_ViewMed,
         navigateApproute: AppRoutes.viewMedicine),
   ];
 
@@ -100,14 +99,14 @@ class _dashboardGridviewState extends State<dashboardGridview>
         drawer: SidemenuDashboard(),
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Dashboard'),
+          title: Text(strings.Dashboard),
           centerTitle: true,
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/dashboardBg.png"),
+              image: AssetImage(AssetPath.Background),
               fit: BoxFit.cover,
             ),
           ),
@@ -117,7 +116,7 @@ class _dashboardGridviewState extends State<dashboardGridview>
               Padding(
                 padding: const EdgeInsets.only(top: 40),
                 child: AppInputText(
-                    text: 'DASHBOARD',
+                    text: strings.Dashboard,
                     colors: Colors.white,
                     size: 30,
                     weight: FontWeight.w400),
@@ -133,11 +132,11 @@ class _dashboardGridviewState extends State<dashboardGridview>
                       mainAxisSpacing: 1),
                   itemBuilder: (context, index) {
                     final dashboardData = dashboardList[index];
-                    return (dashboardData.title == "Alerts")
+                    return (dashboardData.title == strings.DashBoard_Alerts)
                         ? GestureDetector(
                             onTap: () async {
                               await EasyLoading.show(
-                                  status: "Loading...",
+                                  status: strings.Loader,
                                   maskType: EasyLoadingMaskType.black);
                               Navigator.pushNamed(context,
                                   dashboardData.navigateApproute ?? "");
@@ -241,7 +240,7 @@ class _dashboardGridviewState extends State<dashboardGridview>
                         : GestureDetector(
                             onTap: () async {
                               await EasyLoading.show(
-                                  status: "Loading...",
+                                  status: strings.Loader,
                                   maskType: EasyLoadingMaskType.black);
                               Navigator.pushNamed(context,
                                   dashboardData.navigateApproute ?? "");
@@ -279,7 +278,7 @@ class _dashboardGridviewState extends State<dashboardGridview>
           ),
         ),
         bottomSheet: Image.asset(
-          "assets/footer.png",
+          AssetPath.footer,
           width: double.infinity,
           height: 40,
         ),
@@ -311,7 +310,7 @@ class _dashboardGridviewState extends State<dashboardGridview>
     });
     // Remove this line if you want to start the animation later
     controller.forward();
-    DatabaseHelper.instance.queryAllRows("Medicines").then((value) {
+    DatabaseHelper.instance.queryAllRows(DatabaseHelper.table3).then((value) {
       setState(() {
         value.forEach((element) {
           expiryList.add(
@@ -324,7 +323,7 @@ class _dashboardGridviewState extends State<dashboardGridview>
       setState(() {
         expiryList.forEach((element) {
           final expiry = element.ExpiryDate;
-          DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+          DateFormat dateFormat = DateFormat(strings.dateFormat);
           final Exp = dateFormat.parse(expiry!);
           if (Exp.isBefore(DateTime.now())) {
             counter++;
@@ -341,17 +340,17 @@ class _dashboardGridviewState extends State<dashboardGridview>
     return await showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit the Application'),
+            title: new Text(strings.Alerts_titleAreYouSure),
+            content: new Text(strings.Alerts_ExitApp),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () => SystemNavigator.pop(),
-                child: Text("Yes"),
+                child: Text(strings.Alerts_Yes),
               ),
               SizedBox(height: 16),
               new ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: Text("No"),
+                child: Text(strings.Alerts_No),
               ),
             ],
           ),

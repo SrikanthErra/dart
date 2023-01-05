@@ -7,21 +7,21 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Alerts/alert_for_medicineData.dart';
-import 'package:side_menu/Dashboard/dashboard_gridview.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/date_picker.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/medicine_list_provider.dart';
 import 'package:side_menu/Reusable/button_component.dart';
-import 'package:side_menu/modelClasses/prescription_list_provider.dart';
+import '../Constants/TextStyles.dart';
 import '../Database/database_helper.dart';
-import '../appColor.dart';
 import 'package:side_menu/modelClasses/familyNamesModel.dart';
 import 'package:side_menu/modelClasses/family_list_names_provider.dart';
 import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
-import '../app_constants.dart';
+import '../Constants/app_constants.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
 import '../modelClasses/symptoms_model.dart';
 
@@ -89,8 +89,8 @@ class _addPrescriptionState extends State<addPrescription> {
 
       appBar: AppBar(
         title: Text(
-          'Add Prescription',
-          style: TextStyle(color: Colors.white),
+          strings.DashBoard_AddPresc,
+          style: subHeaderStyle,
         ),
         centerTitle: true,
         //backgroundColor: Color.fromARGB(0, 21, 91, 110),
@@ -98,7 +98,7 @@ class _addPrescriptionState extends State<addPrescription> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -107,7 +107,8 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -117,9 +118,9 @@ class _addPrescriptionState extends State<addPrescription> {
                             //focusColor: Colors.white,
                             dropdownColor: Colors.blueGrey,
                             decoration: InputDecoration(
-                              labelText: 'Name of a Family member',
+                              labelText: strings.Presc_LabelMemName,
                               labelStyle: TextStyle(color: Colors.white),
-                              hintText: 'Please enter name',
+                              hintText: strings.Presc_MemNameHint,
                               hintStyle: TextStyle(color: Colors.white),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -164,7 +165,8 @@ class _addPrescriptionState extends State<addPrescription> {
                             child: Autocomplete<String>(
                               onSelected: (String selectedItem) {
                                 selectedSymptomValue = selectedItem;
-                                if (selectedSymptomValue == 'Others') {
+                                if (selectedSymptomValue ==
+                                    strings.Presc_OtherSymp) {
                                   print('Hello');
                                   setState(() {
                                     flag = true;
@@ -192,7 +194,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                     controller: fieldTextEditingController,
                                     cursorColor: Colors.white,
                                     decoration: InputDecoration(
-                                        hintText: "Select Symptom",
+                                        hintText: strings.Presc_Hint_Symp,
                                         hintStyle:
                                             TextStyle(color: Colors.white)),
                                     focusNode: focusNode,
@@ -246,7 +248,8 @@ class _addPrescriptionState extends State<addPrescription> {
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 20),
                                       decoration: InputDecoration(
-                                          hintText: 'Enter Symptoms',
+                                          hintText:
+                                              strings.Presc_Hint_EnterSymp,
                                           hintStyle:
                                               TextStyle(color: Colors.white)
                                           /* labelText: 'Enter Symptoms',
@@ -294,7 +297,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                 context, AppRoutes.addPrescription); */
                                     },
                                     child: SvgPicture.asset(
-                                      'assets/plus.svg',
+                                      AssetPath.PlusIcon,
                                       height: 30,
                                       width: 30,
                                       color: Colors.white,
@@ -312,9 +315,9 @@ class _addPrescriptionState extends State<addPrescription> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: AppInputText(
-                                text: "Add Medicine",
+                                text: strings.DashBoard_AddMed,
                                 colors: Colors.white,
-                                size: 20,
+                                size: 18,
                                 weight: FontWeight.bold),
                           ),
                           Padding(
@@ -326,16 +329,19 @@ class _addPrescriptionState extends State<addPrescription> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AppShowAlertMedicineData(
-                                          message: 'Please enter Medicine data',
-                                          hintText: 'Enter Medicine Name',
-                                          hintText1: 'Enter Expiry Date',
-                                          hintText2: 'Enter Tablets Count',
+                                          message: strings.MedAlert_message,
+                                          hintText:
+                                              strings.MedAlert_hintEnterMed,
+                                          hintText1:
+                                              strings.MedAlert_hintExpDate,
+                                          hintText2:
+                                              strings.MedAlert_hintTabletsCount,
                                           errorMessage:
-                                              'Please enter medicine name',
+                                              strings.MedAlert_errorMedName,
                                           errorMessage1:
-                                              'Please enter expiry date',
-                                          errorMessage2:
-                                              'Please Enter the Tablets Count',
+                                              strings.MedAlert_errorExpDate,
+                                          errorMessage2: strings
+                                              .MedAlert_errorTabletsCount,
                                           MedicinenameController:
                                               MedicinenameController,
                                           ExpiryDateController:
@@ -353,7 +359,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                     });
                               },
                               child: SvgPicture.asset(
-                                'assets/plus.svg',
+                                AssetPath.PlusIcon,
                                 height: 30,
                                 width: 30,
                                 color: Colors.white,
@@ -389,7 +395,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     AppInputText(
-                                        text: "Medicine Name: ",
+                                        text: strings.Med_MedName,
                                         colors: Colors.black,
                                         size: 16,
                                         weight: FontWeight.normal),
@@ -405,7 +411,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     AppInputText(
-                                        text: "Expiry Date: ",
+                                        text: strings.Med_ExpDate,
                                         colors: Colors.black,
                                         size: 16,
                                         weight: FontWeight.normal),
@@ -421,7 +427,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     AppInputText(
-                                        text: "Tablets Count: ",
+                                        text: strings.Med_TabletCount,
                                         colors: Colors.black,
                                         size: 16,
                                         weight: FontWeight.normal),
@@ -448,9 +454,9 @@ class _addPrescriptionState extends State<addPrescription> {
                 child: Column(
                   children: [
                     AppInputTextfield(
-                      hintText: 'Hospital Name',
+                      hintText: strings.Presc_Hint_hospName,
                       nameController: _hospitalName,
-                      errorMessage: 'please enter hospital name',
+                      errorMessage: strings.Presc_error_hospName,
                       input_type: TextInputType.text,
                       obsecuretext: false,
                       node: _node,
@@ -460,9 +466,9 @@ class _addPrescriptionState extends State<addPrescription> {
                       },
                     ),
                     datePickerComponent(
-                      hintText: 'Date of Appointment',
+                      hintText: strings.Presc_Hint_AppointmentDate,
                       nameController: _appointment,
-                      errorMessage: 'Please enter appointment date',
+                      errorMessage: strings.Presc_error_AppointmentDate,
                       obsecuretext: false,
                       node: _node,
                       action: TextInputAction.next,
@@ -471,9 +477,9 @@ class _addPrescriptionState extends State<addPrescription> {
                       },
                     ),
                     AppInputTextfield(
-                      hintText: 'Doctor Name',
+                      hintText: strings.Presc_Hint_DrName,
                       nameController: _doctorName,
-                      errorMessage: 'please enter doctor name',
+                      errorMessage: strings.Presc_error_DrName,
                       input_type: TextInputType.text,
                       obsecuretext: false,
                       node: _node,
@@ -483,9 +489,9 @@ class _addPrescriptionState extends State<addPrescription> {
                       },
                     ),
                     AppInputTextfield(
-                      hintText: 'Reason for Appointment',
+                      hintText: strings.Presc_Hint_AppointmentReason,
                       nameController: _reason,
-                      errorMessage: 'please enter reason for appointment',
+                      errorMessage: strings.Presc_error_AppointmentReason,
                       input_type: TextInputType.text,
                       obsecuretext: false,
                       node: _node,
@@ -495,9 +501,9 @@ class _addPrescriptionState extends State<addPrescription> {
                       },
                     ),
                     datePickerComponent(
-                      hintText: 'Next Appointment Date',
+                      hintText: strings.Presc_Hint_NextAppointmentDate,
                       nameController: _NextAppointmentDate,
-                      errorMessage: 'Please enter next Appointment date',
+                      errorMessage: strings.Presc_error_NextAppointmentDate,
                       obsecuretext: false,
                       node: _node,
                       action: TextInputAction.next,
@@ -539,6 +545,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                               height: 80,
                                             ),
                                           )
+
                                         : GestureDetector(
                                             onTap: () {
                                               AppConstants.filePath =
@@ -553,6 +560,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                                 height: 80
                                                 //  color: Colors.white,
                                                 ),
+
                                           ),
                                   ),
                                 );
@@ -578,7 +586,7 @@ class _addPrescriptionState extends State<addPrescription> {
                               print(
                                   'files length is ${selectedImage.toString()}');
                             },
-                            child: Text('Upload from Camera'),
+                            child: Text(strings.Presc_ImgCamUpload),
                           ),
                         ),
                         Padding(
@@ -599,13 +607,14 @@ class _addPrescriptionState extends State<addPrescription> {
 
                               print('files length is ${Uploadedfiles.length}');
                             },
-                            child: Text("Upload from Gallery"),
+                            child: Text(strings.Presc_ImgGalleryUpload),
                           ),
                         ),
                       ],
                     ),
                      ButtonComponent(
                         onPressed: () async {
+
                           print('val is $selectedValue');
                           print('sym val $selectedSymptomValue');
                           print(
@@ -622,8 +631,9 @@ class _addPrescriptionState extends State<addPrescription> {
                             Navigator.pushReplacementNamed(
                                 context, AppRoutes.dashboardGridview);
                           }
+
                         },
-                        buttonText: 'Submit'),
+                        buttonText: strings.ButtonSubmit),
                   ],
                 ),
               ),
@@ -656,7 +666,7 @@ class _addPrescriptionState extends State<addPrescription> {
     familyNamesStateProvider.FamilyNames.length = 0;
     if (familyNamesStateProvider.FamilyNames.length == 0) {
       DatabaseHelper _dbInstance = DatabaseHelper.instance;
-      await _dbInstance.queryAllRows('FamilyList').then((value) {
+      await _dbInstance.queryAllRows(DatabaseHelper.table).then((value) {
         //  familyNamesStateProvider.removeFamilyNamesData;
         value.forEach((element) {
           print(element);
@@ -829,14 +839,14 @@ class _addPrescriptionState extends State<addPrescription> {
       });
       int index = SymptomsDataList.length;
       print(index);
-      SymptomsDataList.add('Others');
+      SymptomsDataList.add(strings.Presc_OtherSymp);
       // SymptomsDataList.insert((index), 'Others');
       print('Hello');
       print('list is $SymptomsDataList');
       return SymptomsDataList;
     } else {
       print('Feed me more');
-      SymptomsDataList.add('Others');
+      SymptomsDataList.add(strings.Presc_OtherSymp);
       return SymptomsDataList;
     }
     

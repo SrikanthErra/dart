@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import '../Reusable/app_input_text.dart';
 
 class ReportsPage extends StatefulWidget {
@@ -14,11 +16,11 @@ class _ReportsPageState extends State<ReportsPage> {
   Widget build(BuildContext context) {
     EasyLoading.dismiss();
     return Scaffold(
-      appBar: AppBar(title: Text('REPORTS'), centerTitle: true),
+      appBar: AppBar(title: Text(strings.ReportsTitle), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -30,7 +32,7 @@ class _ReportsPageState extends State<ReportsPage> {
           child: AppInputText(
             colors: Colors.white,
             size: 12,
-            text: 'No Reports Added.....:(',
+            text: strings.ReportsText,
             weight: FontWeight.bold,
           ),
         ),

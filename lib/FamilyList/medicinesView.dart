@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Database/database_helper.dart';
 import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/Routes/App_routes.dart';
-import 'package:sqflite/sqflite.dart';
 import '../Reusable/app_input_text.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
 
@@ -29,11 +30,11 @@ class _MedicineListState extends State<MedicineList> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
-      appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
+      appBar: AppBar(title: Text(strings.familyList_Title), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -45,7 +46,7 @@ class _MedicineListState extends State<MedicineList> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               AppInputText(
-                  text: 'MedicinesList',
+                  text: strings.familyList_MedList,
                   colors: Colors.white,
                   size: 15,
                   weight: FontWeight.bold),
@@ -72,11 +73,11 @@ class _MedicineListState extends State<MedicineList> {
                               child: Column(
                                 children: [
                                   RowComponent(
-                                    "Medicine Name",
+                                    strings.Med_MedName,
                                     MedName,
                                   ),
-                                  RowComponent("Expiry Date", ExpDate),
-                                  RowComponent("Medicine Count",
+                                  RowComponent(strings.Med_ExpDate, ExpDate),
+                                  RowComponent(strings.Med_TabletCount,
                                       MedicineList.TabletsCount),
                                 ],
                               ),
@@ -102,18 +103,18 @@ class _MedicineListState extends State<MedicineList> {
                                                 context,
                                                 AppRoutes.dashboardGridview);
                                             await EasyLoading.show(
-                                                status: "Loading...",
+                                                status: strings.Loader,
                                                 maskType:
                                                     EasyLoadingMaskType.black);
                                             showToast(
-                                                "Deleted Medicine with 0 Tablet Count");
+                                                strings.ToastMsg_MedDeleted);
                                           },
-                                          child: const Text('YES'),
+                                          child: const Text(strings.Alerts_Yes),
                                         ),
                                         ElevatedButton(
                                           onPressed: () =>
                                               Navigator.pop(context),
-                                          child: const Text('NO'),
+                                          child: const Text(strings.Alerts_No),
                                         ),
                                       ],
                                     ),
@@ -133,10 +134,10 @@ class _MedicineListState extends State<MedicineList> {
                             child: Column(
                               children: [
                                 RowComponent(
-                                  "Medicine Name",
+                                  strings.Med_MedName,
                                   MedName,
                                 ),
-                                RowComponent("Expiry Date", ExpDate),
+                                RowComponent(strings.Med_ExpDate, ExpDate),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10.0),
@@ -145,7 +146,7 @@ class _MedicineListState extends State<MedicineList> {
                                       Expanded(
                                         flex: 6,
                                         child: Text(
-                                          "Tablets Count",
+                                          strings.Med_TabletCount,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -174,8 +175,8 @@ class _MedicineListState extends State<MedicineList> {
                                                         EdgeInsets.symmetric(
                                                             horizontal: 50.0,
                                                             vertical: 50.0),
-                                                    title: Text(
-                                                        "Enter Tablet Count"),
+                                                    title: Text(strings
+                                                        .MedView_AlertMsg),
                                                     content:
                                                         SingleChildScrollView(
                                                       child: Column(
@@ -194,8 +195,8 @@ class _MedicineListState extends State<MedicineList> {
                                                                     TabletsCountController,
                                                                 decoration:
                                                                     InputDecoration(
-                                                                  hintText:
-                                                                      "Enter Tablet Count",
+                                                                  hintText: strings
+                                                                      .MedView_AlertMsg,
                                                                   hintStyle: TextStyle(
                                                                       color: Colors
                                                                           .black),
@@ -212,14 +213,15 @@ class _MedicineListState extends State<MedicineList> {
                                                                         FontWeight
                                                                             .bold,
                                                                   ),
-                                                                  labelText:
-                                                                      "Tablets Count",
+                                                                  labelText: strings
+                                                                      .Med_TabletCount,
                                                                 ),
                                                                 validator:
                                                                     (value) {
                                                                   if (value!
                                                                       .isEmpty) {
-                                                                    return "Enter Tablets Count";
+                                                                    return strings
+                                                                        .MedView_AlertMsg;
                                                                   }
                                                                 },
                                                                 keyboardType:
@@ -244,8 +246,8 @@ class _MedicineListState extends State<MedicineList> {
                                                                           MedicineList
                                                                               .MedicineId);
                                                                   await EasyLoading.show(
-                                                                      status:
-                                                                          "Loading...",
+                                                                      status: strings
+                                                                          .Loader,
                                                                       maskType:
                                                                           EasyLoadingMaskType
                                                                               .black);
@@ -253,12 +255,12 @@ class _MedicineListState extends State<MedicineList> {
                                                                       context,
                                                                       AppRoutes
                                                                           .dashboardGridview);
-                                                                  showToast(
-                                                                      "Tablet Count Updated Successfully");
+                                                                  showToast(strings
+                                                                      .ToastMsg_TabletUpdated);
                                                                 }
                                                               },
-                                                              child: Text(
-                                                                  "Submit"),
+                                                              child: Text(strings
+                                                                  .ButtonSubmit),
                                                             )
                                                           ]),
                                                     ),

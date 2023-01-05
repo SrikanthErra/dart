@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/TextStyles.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/notifier/alert_count_notifier.dart';
 import '../Database/database_helper.dart';
 import '../Routes/App_routes.dart';
 import '../modelClasses/database_modelClass/PrescriptionModel.dart';
@@ -33,19 +34,20 @@ class _visitAlertsState extends State<visitAlerts>
     return new WillPopScope(
       onWillPop: () async {
         await EasyLoading.show(
-            status: "Loading...", maskType: EasyLoadingMaskType.black);
+            status: strings.Loader, maskType: EasyLoadingMaskType.black);
         Navigator.pushNamed(context, AppRoutes.dashboardGridview);
         return true;
       },
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text('Alerts'),
+          title: Text(strings.AlertTitle),
           centerTitle: true,
           leading: IconButton(
               onPressed: () async {
                 await EasyLoading.show(
-                    status: "Loading...", maskType: EasyLoadingMaskType.black);
+                    status: strings.Loader,
+                    maskType: EasyLoadingMaskType.black);
                 Navigator.pushNamed(context, AppRoutes.dashboardGridview);
               },
               icon: Icon(Icons.arrow_back)),
@@ -53,7 +55,7 @@ class _visitAlertsState extends State<visitAlerts>
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/background_bg.png"),
+              image: AssetImage(AssetPath.Background),
               fit: BoxFit.cover,
             ),
           ),
@@ -66,7 +68,7 @@ class _visitAlertsState extends State<visitAlerts>
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 AppInputText(
-                    text: 'Next Visit Alerts',
+                    text: strings.Alert_NextVisit,
                     colors: Colors.white,
                     size: 15,
                     weight: FontWeight.bold),
@@ -91,15 +93,15 @@ class _visitAlertsState extends State<visitAlerts>
                           child: Column(
                             children: [
                               RowComponent(
-                                "Hospital Name",
+                                strings.Presc_Hint_hospName,
                                 hospitalName,
                               ),
                               RowComponent(
-                                "Next Visit Date",
+                                strings.Alert_NextVistDate,
                                 nextvisitdate,
                               ),
                               RowComponent(
-                                "Reason for Appointment",
+                                strings.Presc_Hint_AppointmentReason,
                                 reason,
                               ),
                             ],
@@ -110,7 +112,7 @@ class _visitAlertsState extends State<visitAlerts>
                   },
                 ),
                 AppInputText(
-                    text: 'Expiry Alerts',
+                    text: strings.Alert_Expiry,
                     colors: Colors.white,
                     size: 15,
                     weight: FontWeight.bold),
@@ -122,7 +124,7 @@ class _visitAlertsState extends State<visitAlerts>
                     final expirylist = expiryList[index];
                     _expiryMedicineName = expirylist.MedicineName;
                     _expiryDate = expirylist.ExpiryDate;
-                    DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+                    DateFormat dateFormat = DateFormat(strings.dateFormat);
                     final Exp = dateFormat.parse(_expiryDate!);
                     return ((Exp).isBefore(DateTime.now()))
                         ? AnimatedBuilder(
@@ -141,14 +143,18 @@ class _visitAlertsState extends State<visitAlerts>
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            "Expired Medicine",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10.0),
+                                            child: Text(
+                                              strings.Alert_ExpiryTitle,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
                                           ),
                                           AnimatedBuilder(
                                               animation: animation,
@@ -177,8 +183,8 @@ class _visitAlertsState extends State<visitAlerts>
                                                                         .delete(
                                                                             expirylist.MedicineId!);
                                                                     await EasyLoading.show(
-                                                                        status:
-                                                                            "Loading...",
+                                                                        status: strings
+                                                                            .Loader,
                                                                         maskType:
                                                                             EasyLoadingMaskType.black);
                                                                     Navigator.pushReplacementNamed(
@@ -186,17 +192,17 @@ class _visitAlertsState extends State<visitAlerts>
                                                                         AppRoutes
                                                                             .visitAlerts);
                                                                   },
-                                                                  child:
-                                                                      const Text(
-                                                                          'YES'),
+                                                                  child: const Text(
+                                                                      strings
+                                                                          .Alerts_Yes),
                                                                 ),
                                                                 ElevatedButton(
                                                                   onPressed: () =>
                                                                       Navigator.pop(
                                                                           context),
-                                                                  child:
-                                                                      const Text(
-                                                                          'NO'),
+                                                                  child: const Text(
+                                                                      strings
+                                                                          .Alerts_No),
                                                                 ),
                                                               ],
                                                             ),
@@ -205,19 +211,20 @@ class _visitAlertsState extends State<visitAlerts>
                                                       },
                                                     );
                                                   },
-                                                  icon: Icon(Icons.delete,
+                                                  icon: Icon(
+                                                      Icons.delete_forever,
                                                       color: Colors.red),
-                                                  iconSize: 14,
+                                                  iconSize: 22,
                                                 );
                                               }),
                                         ],
                                       ),
                                       RowComponent(
-                                        "Medicine Name",
+                                        strings.Med_MedName,
                                         expirylist.MedicineName,
                                       ),
                                       RowComponent(
-                                        "Expiry Date",
+                                        strings.Med_ExpDate,
                                         expirylist.ExpiryDate,
                                       ),
                                     ],
@@ -240,11 +247,11 @@ class _visitAlertsState extends State<visitAlerts>
                                 child: Column(
                                   children: [
                                     RowComponent(
-                                      "Medicine Name",
+                                      strings.Med_MedName,
                                       _expiryMedicineName,
                                     ),
                                     RowComponent(
-                                      "Expiry Date",
+                                      strings.Med_ExpDate,
                                       expirylist.ExpiryDate,
                                     ),
                                   ],
@@ -270,10 +277,7 @@ class _visitAlertsState extends State<visitAlerts>
           Expanded(
             child: Text(
               data.toString(),
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14),
+              style: RowComponentHeaderTextStyle,
             ),
           ),
           SizedBox(
@@ -282,7 +286,7 @@ class _visitAlertsState extends State<visitAlerts>
           Expanded(
             child: Text(
               value.toString(),
-              style: TextStyle(color: Colors.black, fontSize: 14),
+              style: RowComponentTextStyle,
             ),
           ),
         ],
@@ -344,7 +348,7 @@ class _visitAlertsState extends State<visitAlerts>
       });
       expiryList.forEach((element) {
         final expiry = element.ExpiryDate;
-        DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+        DateFormat dateFormat = DateFormat(strings.dateFormat);
         final Exp = dateFormat.parse(expiry!);
         if (Exp.isBefore(DateTime.now())) {
           count++;
