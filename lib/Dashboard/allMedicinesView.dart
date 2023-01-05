@@ -5,9 +5,7 @@ import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Database/database_helper.dart';
 import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/Routes/App_routes.dart';
-import 'package:sqflite/sqflite.dart';
 import '../Constants/TextStyles.dart';
-import '../Reusable/app_input_text.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
 
 class AllMedicineList extends StatefulWidget {
@@ -229,7 +227,6 @@ class _AllMedicineListState extends State<AllMedicineList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchMedicinesData();
   }

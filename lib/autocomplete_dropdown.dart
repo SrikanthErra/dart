@@ -126,7 +126,6 @@ class _autocompleteState extends State<autocomplete> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchData();
   }

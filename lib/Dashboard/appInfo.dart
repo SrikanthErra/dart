@@ -88,7 +88,7 @@ class _AppInfoState extends State<AppInfo> {
                               BorderSide(color: AppColors.Navybluish, width: 1),
                         ),
                         //elevation: 10.0,
-                        shadowColor: Color.fromARGB(255, 17, 3, 50),
+                        shadowColor: AppColors.navy,
                         color: Colors.transparent,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),

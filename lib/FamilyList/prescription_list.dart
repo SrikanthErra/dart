@@ -261,7 +261,6 @@ class _prescriptionListState extends State<prescriptionList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 }
