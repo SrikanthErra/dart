@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_app/rate_my_app.dart';
-
 import '../widget/button_widget.dart';
 
 class RateStarsPage extends StatefulWidget {
@@ -21,7 +20,7 @@ class _RateStarsPageState extends State<RateStarsPage> {
         padding: EdgeInsets.all(48),
         child: Center(
           child: ButtonWidget(
-            text: 'Rate App',
+            text: 'In App Rating',
             onClicked: () => widget.rateMyApp.showStarRateDialog(
               context,
               title: 'Rate This App',

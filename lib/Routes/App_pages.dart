@@ -6,6 +6,7 @@ import 'package:side_menu/AppRating/appRating.dart';
 import 'package:side_menu/Dashboard/allMedicinesView.dart';
 import 'package:side_menu/Dashboard/appInfo.dart';
 import 'package:side_menu/Dashboard/dashboard_gridview.dart';
+import 'package:side_menu/Dashboard/userManual.dart';
 
 import 'package:side_menu/FamilyList/reports.dart';
 import 'package:side_menu/FamilyList/total_presc_view.dart';
@@ -61,6 +62,7 @@ class AppPages {
       AppRoutes.AppRating: ((context) => AppRating(
             rateMyApp: RateMyApp(),
           )),
+      AppRoutes.UserManual: ((context) => UserManual()),
     };
   }
 }
