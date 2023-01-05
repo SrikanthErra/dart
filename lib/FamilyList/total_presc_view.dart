@@ -13,10 +13,9 @@ import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 
-
+import '../Constants/app_constants.dart';
 import '../Reusable/app_input_text.dart';
 import '../Routes/App_routes.dart';
-import '../app_constants.dart';
 import '../modelClasses/total_presc_view_model.dart';
 
 class totalPrescView extends StatefulWidget {
@@ -91,39 +90,38 @@ class _totalPrescViewState extends State<totalPrescView> {
                   // final hello = File(totalPrescList.MedicinePhoto ?? '');
                   //  SymId = MedicineList.SymptomId;
                   return Container(
-
                       child: Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                             side: BorderSide(color: Colors.black87, width: 1),
-
                           ),
                           color: Colors.white,
                           child: SingleChildScrollView(
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Column(children: [
+                                RowComponent(strings.Profile_FamName,
+                                    totalPrescList.name),
                                 RowComponent(
-                                  strings.Profile_FamName, totalPrescList.name),
-                              RowComponent(
-                                  strings.Symptoms, totalPrescList.Symptom),
-                              RowComponent(strings.Med_MedName,
-                                  totalPrescList.MedicineName),
-                              RowComponent(strings.Med_ExpDate,
-                                  totalPrescList.ExpiryDate),
-                              RowComponent(strings.Presc_Hint_DrName,
-                                  totalPrescList.DoctorName),
-                              RowComponent(strings.Presc_Hint_hospName,
-                                  totalPrescList.HospitalName),
-                              RowComponent(strings.Presc_Hint_AppointmentDate,
-                                  totalPrescList.DateOfAppointment),
-                              RowComponent(strings.Presc_Hint_AppointmentReason,
-                                  totalPrescList.ReasonForAppointment),
-                              RowComponent(
-                                  strings.Presc_Hint_NextAppointmentDate,
-                                  totalPrescList.NextAppointmentDate),
-                              RowImageComponent(strings.Med_Photo,
-                                  totalPrescList.MedicinePhoto ?? ''),
+                                    strings.Symptoms, totalPrescList.Symptom),
+                                RowComponent(strings.Med_MedName,
+                                    totalPrescList.MedicineName),
+                                RowComponent(strings.Med_ExpDate,
+                                    totalPrescList.ExpiryDate),
+                                RowComponent(strings.Presc_Hint_DrName,
+                                    totalPrescList.DoctorName),
+                                RowComponent(strings.Presc_Hint_hospName,
+                                    totalPrescList.HospitalName),
+                                RowComponent(strings.Presc_Hint_AppointmentDate,
+                                    totalPrescList.DateOfAppointment),
+                                RowComponent(
+                                    strings.Presc_Hint_AppointmentReason,
+                                    totalPrescList.ReasonForAppointment),
+                                RowComponent(
+                                    strings.Presc_Hint_NextAppointmentDate,
+                                    totalPrescList.NextAppointmentDate),
+                                RowImageComponent(strings.Med_Photo,
+                                    totalPrescList.MedicinePhoto ?? ''),
                                 /* RowImageComponent("Prescription Files",
                                   totalPrescList.PrescFiles ?? ""), */
 
