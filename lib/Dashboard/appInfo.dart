@@ -31,6 +31,11 @@ class _AppInfoState extends State<AppInfo> {
       packageInfo.buildNumber;
     });
     return Scaffold(
+      bottomSheet: Image.asset(
+        AssetPath.footer,
+        width: double.infinity,
+        height: 40,
+      ),
       appBar: AppBar(
         title: Text(
           strings.AppInfoTitle,
@@ -65,38 +70,43 @@ class _AppInfoState extends State<AppInfo> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    _infoTile(strings.AppInfo_AppName, _packageInfo.appName),
-                    _infoTile(
-                        strings.AppInfo_PackageName, _packageInfo.packageName),
-                    _infoTile(strings.AppInfo_AppVersion, _packageInfo.version),
-                    _infoTile(
-                        strings.AppInfo_BuildNumber, _packageInfo.buildNumber),
-                    _infoTile(strings.AppInfo_BuildSignature,
-                        _packageInfo.buildSignature),
-                    /*            _infoTile(
-                      'Installer store',
-                      _packageInfo.installerStore ?? 'not available',
-                    ) */
+                    Text(
+                      _packageInfo.appName,
+                      style: TitleStyle,
+                    ),
+                    Text(
+                      _packageInfo.version,
+                      style: headerTextsStyle,
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 30, right: 10, left: 10),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side:
+                              BorderSide(color: AppColors.Navybluish, width: 1),
+                        ),
+                        //elevation: 10.0,
+                        shadowColor: Color.fromARGB(255, 17, 3, 50),
+                        color: Colors.transparent,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            strings.AppDescription,
+                            maxLines: 8,
+                            overflow: TextOverflow.ellipsis,
+                            textDirection: TextDirection.rtl,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _infoTile(String title, String subtitle) {
-    return Card(
-      color: AppColors.navy.withOpacity(0.1),
-      child: ListTile(
-        title: Text(title, style: headerTextsStyle),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            subtitle.isEmpty ? '' : subtitle,
-            style: subHeaderStyle,
           ),
         ),
       ),

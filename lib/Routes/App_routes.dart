@@ -27,4 +27,5 @@ class AppRoutes {
   static const viewProfile = "/viewProfile.dart";
   static const AppInfo = "/appInfo.dart";
   static const AppRating = "/appRating.dart";
+  static const UserManual = "/userManual.dart";
 }

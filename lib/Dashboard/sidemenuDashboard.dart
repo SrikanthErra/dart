@@ -250,7 +250,7 @@ class _SidemenuDashboardState extends State<SidemenuDashboard> {
                     leading: Icon(Icons.blur_linear_sharp),
                     title: Text(strings.Sidemenu_userManual),
                     onTap: () {
-                      //Navigator.of(context).push(MaterialPageRoute(builder: (context) => hello()));
+                      Navigator.pushNamed(context, AppRoutes.UserManual);
                     },
                   ),
                   ListTile(
