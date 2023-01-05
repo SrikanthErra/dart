@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -70,6 +71,7 @@ class _addPrescriptionState extends State<addPrescription> {
   List<String> SymptomsDataList = [];
 
   List<File> Uploadedfiles = [];
+  List<String> _filespicked = [];
   File? selectedImage;
   @override
   Widget build(BuildContext context) {
@@ -509,54 +511,61 @@ class _addPrescriptionState extends State<addPrescription> {
                         _node.nextFocus();
                       },
                     ),
-                    Visibility(
-                      visible: vis ?? false,
-                      child: Card(
-                        color: Colors.transparent,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: Uploadedfiles.length,
-                            itemBuilder: ((context, index) {
-                              print('Hello world');
-                              final res = Uploadedfiles[index];
-                              /*  final details3 = PrescriptionStateProvider
-                                  .prescFiles[index].PrescFilesList!; */
-                              return ListTile(
-                                  leading: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      minWidth: 100,
-                                      minHeight: 260,
-                                      maxWidth: 104,
-                                      maxHeight: 264,
-                                    ),
+                     Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Visibility(
+                        visible: vis ?? false,
+                        child: SizedBox(
+                          height: 80,
+                          // width: 80,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              // physics: NeverScrollableScrollPhysics(),
+                              itemCount: Uploadedfiles.length,
+                              itemBuilder: ((context, index) {
+                                print('Hello world');
+                                final res = Uploadedfiles[index];
+                                /*  final details3 = PrescriptionStateProvider
+                                    .prescFiles[index].PrescFilesList!; */
+                                return SingleChildScrollView(
+                                  child: Container(
                                     child: (res.path.split('.').last == 'jpg' ||
                                             res.path.split('.').last == 'png')
-                                        ? Image.file(
-                                            File(res.path.toString()),
-                                            width: 100,
-                                            height: 100,
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              showImageViewer(
+                                                  context,
+                                                  Image.file(File(res.path))
+                                                      .image);
+                                            },
+                                            child: Image.file(
+                                              File(res.path.toString()),
+                                              width: 80,
+                                              height: 80,
+                                            ),
                                           )
-                                        : SvgPicture.asset(
-                                            AssetPath.Pdf_Svg,
-                                            /* height: 30,
-                                                        width: 30, */
-                                            //  color: Colors.white,
+
+                                        : GestureDetector(
+                                            onTap: () {
+                                              AppConstants.filePath =
+                                                  res.path.toString();
+                                              print(AppConstants.filePath);
+                                              Navigator.pushNamed(
+                                                  context, AppRoutes.pdfViewer);
+                                            },
+                                            child: SvgPicture.asset(
+                                                'assets/pdf.svg',
+                                                width: 80,
+                                                height: 80
+                                                //  color: Colors.white,
+                                                ),
+
                                           ),
                                   ),
-                                  onTap: () {
-                                    AppConstants.filePath = res.path.toString();
-                                    print(AppConstants.filePath);
-                                    Navigator.pushNamed(
-                                        context, AppRoutes.pdfViewer);
-                                  }
-                                  //  child: PdfView(path: fileName.path),
-
-                                  //       SfPdfViewer.file(
-                                  // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
-
-                                  );
-                            })),
+                                );
+                              })),
+                        ),
                       ),
                     ),
                     Row(
@@ -603,15 +612,26 @@ class _addPrescriptionState extends State<addPrescription> {
                         ),
                       ],
                     ),
-                    ButtonComponent(
+                     ButtonComponent(
                         onPressed: () async {
-                          SaveData(medicineStateProvider);
-                          showToast(strings.ToastMsg_Presc);
-                          await EasyLoading.show(
-                              status: strings.Loader,
-                              maskType: EasyLoadingMaskType.black);
-                          Navigator.pushReplacementNamed(
-                              context, AppRoutes.dashboardGridview);
+
+                          print('val is $selectedValue');
+                          print('sym val $selectedSymptomValue');
+                          print(
+                              'med details ${medicineStateProvider.Medicines}');
+                          if (validateInputs(
+                                  medicineStateProvider.Medicines.length) !=
+                              true) {
+                          } else {
+                            SaveData(medicineStateProvider);
+                            showToast("Prescription added Successfully");
+                            await EasyLoading.show(
+                                status: "Loading...",
+                                maskType: EasyLoadingMaskType.black);
+                            Navigator.pushReplacementNamed(
+                                context, AppRoutes.dashboardGridview);
+                          }
+
                         },
                         buttonText: strings.ButtonSubmit),
                   ],
@@ -697,8 +717,12 @@ class _addPrescriptionState extends State<addPrescription> {
       return saved;
     } else {
       print('entered in else');
-      for (final pres in Uploadedfiles) {
-        final PrescriptionAdded = PrescriptionModel(
+      Uploadedfiles.forEach((element) {
+        _filespicked.add(element.path.toString());
+      });
+      // for (int i = 0; i < Uploadedfiles.length; i++) {
+      print('files picked are $_filespicked');
+      final PrescriptionAdded = PrescriptionModel(
           FamilyMemberId: selectedId,
           Symptom: selectedSymptomValue,
           SymptomId: selectedSymptomId,
@@ -707,25 +731,26 @@ class _addPrescriptionState extends State<addPrescription> {
           DateOfAppointment: _appointment.text,
           ReasonForAppointment: _reason.text,
           NextAppointmentDate: _NextAppointmentDate.text,
-          PrescFiles: pres.toString(),
-        );
-        final DatabaseHelper _databaseService = DatabaseHelper.instance;
-        final saved = await _databaseService.insertInto(
-            PrescriptionAdded.toJson(), DatabaseHelper.table2);
-        print("data saved $saved");
-        final SymptomEntries =
-            await _databaseService.queryAllRows(DatabaseHelper.table2);
-        print("Entries in Symptoms Table $SymptomEntries");
-        //dynamic symptomID = GetSymptomId();
-        final count = await _databaseService.queryRowLast("Prescription");
-        print("""last Symptoms ID is  $count""");
-        /* final count =
+          //PrescFiles: pres.path,
+          PrescFiles: _filespicked.toString());
+      final DatabaseHelper _databaseService = DatabaseHelper.instance;
+      final saved = await _databaseService.insertInto(
+          PrescriptionAdded.toJson(), DatabaseHelper.table2);
+      print("data saved $saved");
+      final SymptomEntries =
+          await _databaseService.queryAllRows(DatabaseHelper.table2);
+      print("Entries in Symptoms Table $SymptomEntries");
+      //dynamic symptomID = GetSymptomId();
+      final count = await _databaseService.queryRowLast("Prescription");
+      print("""last Symptoms ID is  $count""");
+      print('path is ${Uploadedfiles}');
+      /* final count =
           await _databaseService.selectId("Symptoms", selectedSymptomValue ?? '');
       print('last symptomId is $count'); */
-        MedicinesDataTable(count, medicineStateProvider);
-        result = saved;
-        return saved;
-      }
+      MedicinesDataTable(count, medicineStateProvider);
+      result = saved;
+      return saved;
+      //}
     }
     return result;
   }
@@ -823,6 +848,18 @@ class _addPrescriptionState extends State<addPrescription> {
       print('Feed me more');
       SymptomsDataList.add(strings.Presc_OtherSymp);
       return SymptomsDataList;
+    }
+    
+  }
+  validateInputs(int res) {
+    if (selectedValue == null) {
+      showToast("Please select Family member Name");
+    } else if (selectedSymptomValue == null) {
+      showToast("Please select Symptom");
+    } else if (res == 0) {
+      showToast("Please enter Medicine Details");
+    } else {
+      return true;
     }
   }
 }

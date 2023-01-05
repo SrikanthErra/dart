@@ -1,3 +1,5 @@
+import 'package:image_picker/image_picker.dart';
+
 class PrescriptionModel {
   int? SymptomId;
   int? SId;

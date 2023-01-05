@@ -146,8 +146,10 @@ class _LoginPageState extends State<LoginPage> {
                             strings.SignUp,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ))
+                                color: Colors.white
+                                ),
+                          ),
+                          ),
                     ],
                   )
                 ],
