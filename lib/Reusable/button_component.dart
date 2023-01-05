@@ -17,7 +17,7 @@ class ButtonComponent extends StatelessWidget {
           child: Text(buttonText,style: TextStyle(color: Colors.white),),
         ),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 15.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
       margin: EdgeInsets.symmetric(vertical: 12.0),
     );
   }

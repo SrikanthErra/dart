@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -504,57 +505,59 @@ class _addPrescriptionState extends State<addPrescription> {
                         _node.nextFocus();
                       },
                     ),
-                    Visibility(
-                      visible: vis ?? false,
-                      child: Card(
-                        color: Colors.transparent,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: Uploadedfiles.length,
-                            itemBuilder: ((context, index) {
-                              print('Hello world');
-                              final res = Uploadedfiles[index];
-                              /*  final details3 = PrescriptionStateProvider
-                                  .prescFiles[index].PrescFilesList!; */
-                              return ListTile(
-                                leading: ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    minWidth: 100,
-                                    minHeight: 260,
-                                    maxWidth: 104,
-                                    maxHeight: 264,
-                                  ),
-                                  child: (res.path.split('.').last == 'jpg' ||
-                                          res.path.split('.').last == 'png')
-                                      ? Image.file(
-                                          File(res.path.toString()),
-                                          width: 100,
-                                          height: 100,
-                                        )
-                                      : GestureDetector(
-                                          onTap: () {
-                                            AppConstants.filePath =
-                                                res.path.toString();
-                                            print(AppConstants.filePath);
-                                            Navigator.pushNamed(
-                                                context, AppRoutes.pdfViewer);
-                                          },
-                                          child: SvgPicture.asset(
-                                            'assets/pdf.svg',
-                                            /* height: 30,
-                                                          width: 30, */
-                                            //  color: Colors.white,
+                     Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Visibility(
+                        visible: vis ?? false,
+                        child: SizedBox(
+                          height: 80,
+                          // width: 80,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              // physics: NeverScrollableScrollPhysics(),
+                              itemCount: Uploadedfiles.length,
+                              itemBuilder: ((context, index) {
+                                print('Hello world');
+                                final res = Uploadedfiles[index];
+                                /*  final details3 = PrescriptionStateProvider
+                                    .prescFiles[index].PrescFilesList!; */
+                                return SingleChildScrollView(
+                                  child: Container(
+                                    child: (res.path.split('.').last == 'jpg' ||
+                                            res.path.split('.').last == 'png')
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              showImageViewer(
+                                                  context,
+                                                  Image.file(File(res.path))
+                                                      .image);
+                                            },
+                                            child: Image.file(
+                                              File(res.path.toString()),
+                                              width: 80,
+                                              height: 80,
+                                            ),
+                                          )
+                                        : GestureDetector(
+                                            onTap: () {
+                                              AppConstants.filePath =
+                                                  res.path.toString();
+                                              print(AppConstants.filePath);
+                                              Navigator.pushNamed(
+                                                  context, AppRoutes.pdfViewer);
+                                            },
+                                            child: SvgPicture.asset(
+                                                'assets/pdf.svg',
+                                                width: 80,
+                                                height: 80
+                                                //  color: Colors.white,
+                                                ),
                                           ),
-                                        ),
-                                ),
-
-                                //  child: PdfView(path: fileName.path),
-
-                                //       SfPdfViewer.file(
-                                // File('storage/emulated/0/Download/flutter-succinctly.pdf')));
-                              );
-                            })),
+                                  ),
+                                );
+                              })),
+                        ),
                       ),
                     ),
                     Row(
@@ -601,15 +604,24 @@ class _addPrescriptionState extends State<addPrescription> {
                         ),
                       ],
                     ),
-                    ButtonComponent(
+                     ButtonComponent(
                         onPressed: () async {
-                          SaveData(medicineStateProvider);
-                          showToast("Prescription added Successfully");
-                          await EasyLoading.show(
-                              status: "Loading...",
-                              maskType: EasyLoadingMaskType.black);
-                          Navigator.pushReplacementNamed(
-                              context, AppRoutes.dashboardGridview);
+                          print('val is $selectedValue');
+                          print('sym val $selectedSymptomValue');
+                          print(
+                              'med details ${medicineStateProvider.Medicines}');
+                          if (validateInputs(
+                                  medicineStateProvider.Medicines.length) !=
+                              true) {
+                          } else {
+                            SaveData(medicineStateProvider);
+                            showToast("Prescription added Successfully");
+                            await EasyLoading.show(
+                                status: "Loading...",
+                                maskType: EasyLoadingMaskType.black);
+                            Navigator.pushReplacementNamed(
+                                context, AppRoutes.dashboardGridview);
+                          }
                         },
                         buttonText: 'Submit'),
                   ],
@@ -826,6 +838,18 @@ class _addPrescriptionState extends State<addPrescription> {
       print('Feed me more');
       SymptomsDataList.add('Others');
       return SymptomsDataList;
+    }
+    
+  }
+  validateInputs(int res) {
+    if (selectedValue == null) {
+      showToast("Please select Family member Name");
+    } else if (selectedSymptomValue == null) {
+      showToast("Please select Symptom");
+    } else if (res == 0) {
+      showToast("Please enter Medicine Details");
+    } else {
+      return true;
     }
   }
 }
