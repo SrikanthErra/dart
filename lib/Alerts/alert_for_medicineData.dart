@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/toast.dart';
 import 'package:universal_io/io.dart';
+import '../appColor.dart';
 import '../modelClasses/medicine_data_model.dart';
 import '../modelClasses/medicine_list_provider.dart';
 import '../Reusable/alert_date_picker.dart';
@@ -115,27 +116,53 @@ class AppShowAlertMedicineData extends StatelessWidget {
                       action: action,
                       onEditingComplete: onEditingComplete,
                       globalKey: _formkey3),
-                  TextButton(
-                    onPressed: () async {
-                      final result = await ImagePicker()
-                          .pickImage(source: ImageSource.camera);
-                      if (result == null) return;
-                      // fileIs = File(result.path);
-                      fileIs = result;
-                      print('files length is ${fileIs.toString()}');
-                    },
-                    child: Text('Upload from Camera'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: TextButton(
+                      onPressed: () async {
+                        final result = await ImagePicker()
+                            .pickImage(source: ImageSource.camera);
+                        if (result == null) return;
+                        // fileIs = File(result.path);
+                        fileIs = result;
+                        print('files length is ${fileIs.toString()}');
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              color: AppColors.navy),
+                          child: Center(
+                            child: Text('Upload from Camera',
+                                style: TextStyle(color: Colors.white)),
+                          )),
+                    ),
                   ),
-                  TextButton(
-                    onPressed: () async {
-                      final result = await ImagePicker()
-                          .pickImage(source: ImageSource.gallery);
-                      if (result == null) return;
-                      //fileIs = File(result.path);
-                      fileIs = result;
-                      print('files length is ${fileIs.toString()}');
-                    },
-                    child: Text('Upload from Gallery'),
+                  Padding(
+                    padding: const EdgeInsets.only(),
+                    child: TextButton(
+                      onPressed: () async {
+                        final result = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                        if (result == null) return;
+                        //fileIs = File(result.path);
+                        fileIs = result;
+                        print('files length is ${fileIs.toString()}');
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            color: AppColors.navy),
+                        child: Center(
+                          child: Text('Upload from Gallery',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -209,28 +236,54 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     action: action,
                     onEditingComplete: onEditingComplete,
                     globalKey: _formkey3),
-                TextButton(
-                  onPressed: () async {
-                    final result = await ImagePicker()
-                        .pickImage(source: ImageSource.camera);
-                    if (result == null) return;
-                    fileIs = result;
-
-                    print('files length is ${fileIs.toString()}');
-                  },
-                  child: Text('Upload from Camera'),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    final result = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
-                    if (result == null) return;
-                    fileIs = result;
-
-                    print('files length is ${fileIs.toString()}');
-                  },
-                  child: Text('Upload from Gallery'),
-                )
+               Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: TextButton(
+                      onPressed: () async {
+                        final result = await ImagePicker()
+                            .pickImage(source: ImageSource.camera);
+                        if (result == null) return;
+                        // fileIs = File(result.path);
+                        fileIs = result;
+                        print('files length is ${fileIs.toString()}');
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              color: AppColors.navy),
+                          child: Center(
+                            child: Text('Upload from Camera',
+                                style: TextStyle(color: Colors.white)),
+                          )),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(),
+                    child: TextButton(
+                      onPressed: () async {
+                        final result = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                        if (result == null) return;
+                        //fileIs = File(result.path);
+                        fileIs = result;
+                        print('files length is ${fileIs.toString()}');
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            color: AppColors.navy),
+                        child: Center(
+                          child: Text('Upload from Gallery',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ),
+                  )
               ]),
               actions: [
                 TextButton(
@@ -251,8 +304,8 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         studentsStateProvider.addMedicineData(medicineDataModel(
                             medicineName: MedicinenameController.text,
                             ExpiryDate: ExpiryDateController.text,
-                           // medicineFiles: fileIs,
-                           medicineFiles: '',
+                            // medicineFiles: fileIs,
+                            medicineFiles: '',
                             TabletsCount: TabletCountController.text));
                         print('files are $fileIs');
                         print("data added successfully" +

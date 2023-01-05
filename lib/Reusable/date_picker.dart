@@ -55,8 +55,9 @@ class datePickerComponent extends StatelessWidget {
               prefixIcon: prefixIcon,
               //suffixIcon: null == suffixIcon ? null : Icon(suffixIcon),
               suffixIcon: suffixIcon,
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              enabledBorder:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10),
+                   borderSide: BorderSide(color: Colors.white)),
               labelStyle: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
