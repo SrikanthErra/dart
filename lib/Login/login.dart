@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Database/database_helper.dart';
 import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
@@ -10,7 +10,6 @@ import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
-
 import '../notifier/mobile_notifier.dart';
 
 class LoginPage extends StatefulWidget {
@@ -41,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/background_bg.png"),
+              image: AssetImage(AssetPath.Background),
               fit: BoxFit.cover,
             ),
           ),
@@ -53,20 +52,20 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   CircleAvatar(
                       radius: 60,
-                      backgroundImage: AssetImage("assets/appLogo.png")),
+                      backgroundImage: AssetImage(AssetPath.AppLogo)),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: AppInputText(
-                        text: 'Login',
+                        text: strings.LoginText,
                         colors: Colors.white,
                         size: 20,
                         weight: FontWeight.bold),
                   ),
                   AppInputTextfield(
                     length: 10,
-                    hintText: 'Mobile Number',
+                    hintText: strings.RegFam_Hint_Mobile,
                     nameController: _mobile,
-                    errorMessage: 'Please Enter Mobile Number',
+                    errorMessage: strings.RegFam_ErrorMsg_Mobile,
                     input_type: TextInputType.number,
                     obsecuretext: false,
                     node: _node,
@@ -130,12 +129,12 @@ class _LoginPageState extends State<LoginPage> {
                         } */
                         }
                       },
-                      buttonText: 'Login'),
+                      buttonText: strings.LoginText),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AppInputText(
-                          text: 'Didnt have any account?',
+                          text: strings.AccountCheck,
                           colors: Colors.black,
                           size: 15,
                           weight: FontWeight.w300),
@@ -144,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushNamed(context, AppRoutes.registraion);
                           },
                           child: Text(
-                            'Sign Up here',
+                            strings.SignUp,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
@@ -162,9 +161,9 @@ class _LoginPageState extends State<LoginPage> {
 
   validateInputs() {
     if (_mobile.text.isEmpty) {
-      showAlert("Please enter Mobie Number");
+      showAlert(strings.LoginAlert_enterMobile);
     } else if (_mobile.text.length < 10) {
-      showAlert("Mobile Number Invalid.. Plese Check!!!");
+      showAlert(strings.LoginAlert_Invalid);
     } /* else if (!RegExp(
             r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
         .hasMatch(_password.text)) {
@@ -191,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
     flag = saved;
     print('flag is $flag');
     if (flag == 0) {
-      showAlert('Please Sign Up');
+      showAlert(strings.LoginAlert_signUp);
     } else {
       Navigator.pushNamed(context, AppRoutes.mpinValidate,
           arguments: ScreenArguments(_mobile.text));

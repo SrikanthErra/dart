@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/button_component.dart';
-
 
 class otp extends StatefulWidget {
   const otp({super.key});
@@ -12,7 +12,7 @@ class otp extends StatefulWidget {
 }
 
 class _otpState extends State<otp> {
-  TextEditingController _mpin = TextEditingController();
+  TextEditingController _Otp = TextEditingController();
   TextEditingController _confirm_mpin = TextEditingController();
   FocusScopeNode _node = FocusScopeNode();
   final _formkey1 = GlobalKey<FormState>();
@@ -27,7 +27,7 @@ class _otpState extends State<otp> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppInputText(
-                  text: 'OTP',
+                  text: strings.Otp,
                   colors: Colors.black,
                   size: 30,
                   weight: FontWeight.bold),
@@ -35,29 +35,28 @@ class _otpState extends State<otp> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppInputText(
-                  text: 'Enter 4 digit OTP',
+                  text: strings.Otp_Hint,
                   colors: Colors.black,
                   size: 15,
                   weight: FontWeight.bold),
             ),
             AppInputTextfield(
-                hintText: 'Enter OTP',
-                nameController: _mpin,
-                errorMessage: 'please enter OTP',
+                hintText: strings.Otp_HintEnterOtp,
+                nameController: _Otp,
+                errorMessage: strings.Otp_errorMsg,
                 input_type: TextInputType.number,
                 obsecuretext: false,
                 node: _node,
                 action: TextInputAction.next,
                 onEditingComplete: () {
-                        _node.nextFocus();
-                      },
+                  _node.nextFocus();
+                },
                 globalKey: _formkey1),
-                    ButtonComponent(
-                        onPressed: () {
-                          if (_formkey1.currentState!.validate()) {}
-                          
-                        },
-                        buttonText: 'Submit'),
+            ButtonComponent(
+                onPressed: () {
+                  if (_formkey1.currentState!.validate()) {}
+                },
+                buttonText: strings.ButtonSubmit),
           ],
         ),
       ),

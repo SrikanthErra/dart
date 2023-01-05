@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
 
 class AlertdatePickerComponent extends StatelessWidget {
   const AlertdatePickerComponent(
@@ -64,18 +63,18 @@ class AlertdatePickerComponent extends StatelessWidget {
               labelText: hintText,
             ),
             onTap: () async {
-    await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2015),
-      lastDate: DateTime(2025),
-    ).then((selectedDate) {
-      if (selectedDate != null) {
-        nameController.text =
-            DateFormat('dd-MM-yyyy').format(selectedDate);
-      }
-    });
-  },
+              await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2015),
+                lastDate: DateTime(2025),
+              ).then((selectedDate) {
+                if (selectedDate != null) {
+                  nameController.text =
+                      DateFormat(strings.dateFormat).format(selectedDate);
+                }
+              });
+            },
             validator: (value) {
               if (value!.isEmpty) {
                 return errorMessage;

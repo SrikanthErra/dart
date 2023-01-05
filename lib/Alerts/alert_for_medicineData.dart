@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/toast.dart';
 import 'package:universal_io/io.dart';
@@ -124,7 +124,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
                       fileIs = result;
                       print('files length is ${fileIs.toString()}');
                     },
-                    child: Text('Upload from Camera'),
+                    child: Text(strings.Presc_ImgCamUpload),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -135,7 +135,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
                       fileIs = result;
                       print('files length is ${fileIs.toString()}');
                     },
-                    child: Text('Upload from Gallery'),
+                    child: Text(strings.Presc_ImgGalleryUpload),
                   )
                 ],
               ),
@@ -164,16 +164,16 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         print("data added successfully" +
                             studentsStateProvider.Medicines.length.toString());
                         await EasyLoading.show(
-                            status: "Loading...",
+                            status: strings.Loader,
                             maskType: EasyLoadingMaskType.black);
                         Navigator.pop(context);
                         EasyLoading.dismiss();
                       } else {
-                        showToast('Please upload Image');
+                        showToast(strings.ToastMsg_uploadImg);
                       }
                     }),
                     child: AppInputText(
-                        text: 'OK',
+                        text: strings.Presc_Ok,
                         colors: Colors.blue,
                         size: 20,
                         weight: FontWeight.bold))
@@ -218,7 +218,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
 
                     print('files length is ${fileIs.toString()}');
                   },
-                  child: Text('Upload from Camera'),
+                  child: Text(strings.Presc_ImgCamUpload),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -229,7 +229,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
 
                     print('files length is ${fileIs.toString()}');
                   },
-                  child: Text('Upload from Gallery'),
+                  child: Text(strings.Presc_ImgGalleryUpload),
                 )
               ]),
               actions: [
@@ -238,7 +238,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
                       Navigator.pop(context);
                     }),
                     child: AppInputText(
-                        text: 'Cancel',
+                        text: strings.Presc_Cancel,
                         colors: Colors.blue,
                         size: 20,
                         weight: FontWeight.bold)),
@@ -251,23 +251,23 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         studentsStateProvider.addMedicineData(medicineDataModel(
                             medicineName: MedicinenameController.text,
                             ExpiryDate: ExpiryDateController.text,
-                           // medicineFiles: fileIs,
-                           medicineFiles: '',
+                            // medicineFiles: fileIs,
+                            medicineFiles: '',
                             TabletsCount: TabletCountController.text));
                         print('files are $fileIs');
                         print("data added successfully" +
                             studentsStateProvider.Medicines.length.toString());
                         await EasyLoading.show(
-                            status: "Loading...",
+                            status: strings.Loader,
                             maskType: EasyLoadingMaskType.black);
                         Navigator.pop(context);
                         EasyLoading.dismiss();
                       } else {
-                        showToast('Please upload Image');
+                        showToast(strings.ToastMsg_uploadImg);
                       }
                     }),
                     child: AppInputText(
-                        text: 'OK',
+                        text: strings.Presc_Ok,
                         colors: Colors.blue,
                         size: 20,
                         weight: FontWeight.bold))

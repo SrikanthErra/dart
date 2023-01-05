@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 import 'package:side_menu/AddPrescription/add_prescription.dart';
 import 'package:side_menu/AddPrescription/pdf_viewer.dart';
+import 'package:side_menu/AppRating/appRating.dart';
 import 'package:side_menu/Dashboard/allMedicinesView.dart';
+import 'package:side_menu/Dashboard/appInfo.dart';
 import 'package:side_menu/Dashboard/dashboard_gridview.dart';
 
 import 'package:side_menu/FamilyList/reports.dart';
@@ -54,6 +57,10 @@ class AppPages {
       AppRoutes.viewAllMedicines: ((context) => AllMedicineList()),
       AppRoutes.viewPrivacyPolicy: ((context) => privacyPolicy()),
       AppRoutes.viewProfile: ((context) => ViewProfile()),
+      AppRoutes.AppInfo: ((context) => AppInfo()),
+      AppRoutes.AppRating: ((context) => AppRating(
+            rateMyApp: RateMyApp(),
+          )),
     };
   }
 }

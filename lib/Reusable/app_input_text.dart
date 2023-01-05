@@ -1,17 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class AppInputText extends StatelessWidget {
-  const AppInputText({
-    super.key,
-    required this.text,
-    required this.colors,
-    required this. size,
-    required this.weight
-   // required this.fontsize
-  });
+  const AppInputText(
+      {super.key,
+      required this.text,
+      required this.colors,
+      required this.size,
+      required this.weight
+      // required this.fontsize
+      });
   final String text;
   final Color colors;
   final double size;
@@ -20,9 +18,10 @@ class AppInputText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(8.0),
       child: Text(
-        text, style: TextStyle(color: colors,fontSize: size,fontWeight: weight),
+        text,
+        style: TextStyle(color: colors, fontSize: size, fontWeight: weight),
       ),
     );
   }

@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:side_menu/FamilyList/total_presc_view.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/Database/database_helper.dart';
-import 'package:side_menu/app_constants.dart';
+import 'package:side_menu/Constants/app_constants.dart';
 import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
 import 'package:side_menu/modelClasses/family_list_model.dart';
-import 'package:side_menu/modelClasses/pass_name_from_famlist_to_prescriptionview.dart';
-import 'package:side_menu/modelClasses/prescription_list_model.dart';
 import 'package:side_menu/modelClasses/total_presc_view_model.dart';
-
+import '../Constants/TextStyles.dart';
 import '../Reusable/app_input_text.dart';
-import '../modelClasses/familyNamesModel.dart';
 
 class familyList extends StatefulWidget {
   const familyList({super.key});
@@ -37,11 +33,11 @@ class _familyListState extends State<familyList> {
     return Scaffold(
       //resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
-      appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
+      appBar: AppBar(title: Text(strings.familyList_Title), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -53,7 +49,7 @@ class _familyListState extends State<familyList> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               AppInputText(
-                  text: 'Family List',
+                  text: strings.DashBoard_FamList,
                   colors: Colors.white,
                   size: 15,
                   weight: FontWeight.bold),
@@ -87,11 +83,11 @@ class _familyListState extends State<familyList> {
                           child: Column(
                             children: [
                               RowComponent(
-                                "Name of the family Member",
+                                strings.familyList_HeaderFamName,
                                 FamilyMemeber,
                               ),
                               RowComponent(
-                                "Prescription Count",
+                                strings.familyList_HeaderPrescCount,
                                 PrescriptionCount,
                               ),
                             ],
@@ -117,10 +113,7 @@ class _familyListState extends State<familyList> {
           Expanded(
             child: Text(
               data.toString(),
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14),
+              style: RowComponentHeaderTextStyle,
             ),
           ),
           SizedBox(
@@ -129,7 +122,7 @@ class _familyListState extends State<familyList> {
           Expanded(
             child: Text(
               value.toString(),
-              style: TextStyle(color: Colors.black, fontSize: 14),
+              style: RowComponentTextStyle,
             ),
           )
         ],
@@ -144,7 +137,7 @@ class _familyListState extends State<familyList> {
 
   fetchNextVisitData() async {
     DatabaseHelper _dbInstance = DatabaseHelper.instance;
-    await _dbInstance.queryAllRows('FamilyList').then((value) {
+    await _dbInstance.queryAllRows(strings.Db_FamTable).then((value) {
       setState(() {
         value.forEach((element) {
           famList
@@ -154,8 +147,8 @@ class _familyListState extends State<familyList> {
     });
     int i = 0;
     while (i < famList.length) {
-      final PresCount =
-          await _dbInstance.queryPresCount('Prescription', famList[i].id ?? 0);
+      final PresCount = await _dbInstance.queryPresCount(
+          strings.Db_PrescTable, famList[i].id ?? 0);
       presCount.add(PresCount);
       i++;
     }
@@ -180,7 +173,7 @@ class _familyListState extends State<familyList> {
     print('app const is ${AppConstants.famMemId}');
 
     fetchdata(selectedId ?? 0, name);
-   // fetchAllPresData(selectedId ?? 0);
+    // fetchAllPresData(selectedId ?? 0);
   }
 
   /* fetchAllPresData(int id) async {
@@ -232,8 +225,6 @@ class _familyListState extends State<familyList> {
   */
 
   fetchdata(int id, String name) async {
-
-
     // print('selected id is $id');
     await DatabaseHelper.instance.prescList('Prescription', id).then((value) {
       setState(() {
@@ -263,7 +254,7 @@ class _familyListState extends State<familyList> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AppShowAlert(message: 'No Prescription data found');
+                return AppShowAlert(message: strings.familyList_AlertPresc);
               });
         }
       });

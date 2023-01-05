@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/TextStyles.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/modelClasses/view_medicine_model.dart';
 import '../Database/database_helper.dart';
 import '../Reusable/app_input_text.dart';
-import '../modelClasses/database_modelClass/medicationModel.dart';
 
 class viewMedicine extends StatefulWidget {
   const viewMedicine({super.key});
@@ -39,11 +41,11 @@ class _viewMedicineState extends State<viewMedicine> {
     return Scaffold(
       //resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
-      appBar: AppBar(title: Text('Prescription List'), centerTitle: true),
+      appBar: AppBar(title: Text(strings.familyList_Title), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -68,7 +70,7 @@ class _viewMedicineState extends State<viewMedicine> {
                   onChanged: (value) => _runFilter(value),
                   decoration: InputDecoration(
                       labelStyle: TextStyle(color: Colors.white),
-                      labelText: "Search Symptom/MedicineName",
+                      labelText: strings.SearchText,
                       suffixIcon: Icon(
                         Icons.search,
                         color: Colors.white,
@@ -78,7 +80,7 @@ class _viewMedicineState extends State<viewMedicine> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: AppInputText(
-                    text: 'MedicinesList',
+                    text: strings.familyList_MedList,
                     colors: Colors.white,
                     size: 15,
                     weight: FontWeight.bold),
@@ -103,16 +105,16 @@ class _viewMedicineState extends State<viewMedicine> {
                       color: Colors.white,
                       child: Column(
                         children: [
-                          RowComponent("Symptom", symptom),
+                          RowComponent(strings.Symptoms, symptom),
                           RowComponent(
-                            "Medicine Name",
+                            strings.Med_MedName,
                             MedName,
                           ),
                           RowComponent(
-                            "Tablets Count",
+                            strings.Med_TabletCount,
                             TabletsCount,
                           ),
-                          RowComponent("Expiry Date", ExpDate),
+                          RowComponent(strings.Med_ExpDate, ExpDate),
                         ],
                       ),
                     ),
@@ -134,10 +136,7 @@ class _viewMedicineState extends State<viewMedicine> {
           Expanded(
             child: Text(
               data.toString(),
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14),
+              style: RowComponentHeaderTextStyle,
             ),
           ),
           SizedBox(
@@ -146,7 +145,7 @@ class _viewMedicineState extends State<viewMedicine> {
           Expanded(
             child: Text(
               value.toString(),
-              style: TextStyle(color: Colors.black, fontSize: 14),
+              style: RowComponentTextStyle,
             ),
           )
         ],

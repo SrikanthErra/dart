@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/TextStyles.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import '../Database/database_helper.dart';
 import '../modelClasses/registration_familyList_model.dart';
 import '../notifier/mobile_notifier.dart';
@@ -19,11 +21,11 @@ class _ViewProfileState extends State<ViewProfile> {
     String mobile_number = Provider.of<MobileProvider>(context).getMobile;
     fetchAllData(mobile_number);
     return Scaffold(
-      appBar: AppBar(title: Text('Profile'), centerTitle: true),
+      appBar: AppBar(title: Text(strings.ProfileTitle), centerTitle: true),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -56,10 +58,12 @@ class _ViewProfileState extends State<ViewProfile> {
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: Column(
                           children: [
-                            RowComponent("Name", MemberName),
-                            RowComponent("Gender", MemberGender),
-                            RowComponent("Age", MemberAge),
-                            RowComponent("Mobile Number", MemberMobile),
+                            RowComponent(strings.Profile_FamName, MemberName),
+                            RowComponent(
+                                strings.Profile_FamGender, MemberGender),
+                            RowComponent(strings.Profile_FamAge, MemberAge),
+                            RowComponent(
+                                strings.Profile_FamMobile, MemberMobile),
                           ],
                         ),
                       ),
@@ -82,10 +86,7 @@ class _ViewProfileState extends State<ViewProfile> {
           Expanded(
             child: Text(
               data.toString(),
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14),
+              style: RowComponentHeaderTextStyle,
             ),
           ),
           SizedBox(
@@ -94,7 +95,7 @@ class _ViewProfileState extends State<ViewProfile> {
           Expanded(
             child: Text(
               value.toString(),
-              style: TextStyle(color: Colors.black, fontSize: 14),
+              style: RowComponentTextStyle,
             ),
           )
         ],

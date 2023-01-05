@@ -5,12 +5,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_group_button/flutter_group_button.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/app_multiselect.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/app_constants.dart';
+import 'package:side_menu/Constants/app_constants.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Database/database_helper.dart';
@@ -72,12 +74,12 @@ class _registerFamilyState extends State<registerFamily> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: Center(child: Text('Register a Family'))),
+      appBar: AppBar(title: Center(child: Text(strings.RegFamMem))),
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/background_bg.png"),
+            image: AssetImage(AssetPath.Background),
             fit: BoxFit.cover,
           ),
         ),
@@ -87,18 +89,17 @@ class _registerFamilyState extends State<registerFamily> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage("assets/appLogo.png")),
+                  radius: 50, backgroundImage: AssetImage(AssetPath.AppLogo)),
               AppInputText(
-                text: 'Registration',
+                text: strings.Registration,
                 colors: Colors.white,
                 size: 30,
                 weight: FontWeight.w600,
               ),
               AppInputTextfield(
-                hintText: 'Name of family Member',
+                hintText: strings.RegFam_Hint_FamMemName,
                 nameController: _family_name,
-                errorMessage: 'please enter name',
+                errorMessage: strings.RegFam_ErrorMsg_Name,
                 input_type: TextInputType.text,
                 obsecuretext: false,
                 action: TextInputAction.next,
@@ -109,9 +110,9 @@ class _registerFamilyState extends State<registerFamily> {
                 globalKey: _formkey1,
               ),
               AppInputTextfield(
-                hintText: 'Age',
+                hintText: strings.RegFam_Hint_Age,
                 nameController: _age,
-                errorMessage: 'please enter age',
+                errorMessage: strings.RegFam_ErrorMsg_Age,
                 input_type: TextInputType.number,
                 obsecuretext: false,
                 action: TextInputAction.next,
@@ -126,9 +127,9 @@ class _registerFamilyState extends State<registerFamily> {
               //MultiselectDropdown(),
 
               AppInputTextfield(
-                hintText: 'Mobile Number',
+                hintText: strings.RegFam_Hint_Mobile,
                 nameController: _mobileNumber,
-                errorMessage: 'please enter Mobile number',
+                errorMessage: strings.RegFam_ErrorMsg_Mobile,
                 input_type: TextInputType.number,
                 obsecuretext: false,
                 action: TextInputAction.next,
@@ -169,7 +170,7 @@ class _registerFamilyState extends State<registerFamily> {
                     print(selection);
                   }), */
               Text(
-                "Select Gender:",
+                strings.Gender_SelectHeader,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                     color: Colors.white,
@@ -179,10 +180,10 @@ class _registerFamilyState extends State<registerFamily> {
               RadioListTile(
                 // contentPadding: EdgeInsets.zero,
                 title: Text(
-                  "Male",
+                  strings.Gender_Male,
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
-                value: "male",
+                value: strings.Gender_Male,
                 groupValue: gender,
                 onChanged: (value) {
                   setState(() {
@@ -193,10 +194,10 @@ class _registerFamilyState extends State<registerFamily> {
               RadioListTile(
                 //contentPadding: EdgeInsets.zero,
                 title: Text(
-                  "Female",
+                  strings.Gender_Female,
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
-                value: "female",
+                value: strings.Gender_Female,
                 groupValue: gender,
                 onChanged: (value) {
                   setState(() {
@@ -207,10 +208,10 @@ class _registerFamilyState extends State<registerFamily> {
               RadioListTile(
                 //contentPadding: EdgeInsets.zero,
                 title: Text(
-                  "Other",
+                  strings.Gender_Other,
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
-                value: "other",
+                value: strings.Gender_Other,
                 groupValue: gender,
                 onChanged: (value) {
                   setState(() {
@@ -241,14 +242,14 @@ class _registerFamilyState extends State<registerFamily> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Please Enter a valid Mobile Number"),
+                            title: Text(strings.MobileAlert),
                             actions: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   ElevatedButton(
                                     onPressed: () => Navigator.pop(context),
-                                    child: const Text('OK'),
+                                    child: const Text(strings.Presc_Ok),
                                   ),
                                 ],
                               ),
@@ -259,7 +260,7 @@ class _registerFamilyState extends State<registerFamily> {
                     }
                     print(AppConstants.symptomsList);
                   },
-                  buttonText: 'Submit'),
+                  buttonText: strings.ButtonSubmit),
             ],
           ),
         ),

@@ -2,8 +2,11 @@ import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-//mport 'package:webview_flutter/webview_flutter.dart';
+import '../Constants/TextStyles.dart';
+import '../Constants/urlConstant.dart';
+//import 'package:webview_flutter/webview_flutter.dart';
 
 class privacyPolicy extends StatefulWidget {
   const privacyPolicy({super.key});
@@ -16,79 +19,78 @@ class _privacyPolicyState extends State<privacyPolicy> {
   /* final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
   Factory(() => EagerGestureRecognizer())
 }; */
-final pageUrl1 = "https://www.cgg.gov.in/mgov-privacy-policy/?depot_name=" +
-                        "Centre for Good Governance (CGG), Govt. of Telangana";
-final pageUrl2 = "https://www.cgg.gov.in/mgov-terms-conditions/?depot_name=" +
-                        "Centre for Good Governance (CGG), Govt. of Telangana&depot_email=info@cgg.gov.in";
-final pageUrl3 = "https://www.cgg.gov.in/mgov-copyright-policy/?depot_name=" +
-                        "Centre for Good Governance (CGG), Govt. of Telangana&capital=Hyderabad, Telangana";
+  final pageUrl1 =
+      UrlConstants.baseUrlPrivacyPolicy + UrlConstants.PrivacyPolicyExtension;
+  final pageUrl2 = UrlConstants.baseUrlTermsAndConditions +
+      UrlConstants.TermsAndConditionsExtension;
+  final pageUrl3 =
+      UrlConstants.baseUrlCopyRights + UrlConstants.CopyRightsExtension;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("UAT-MedicineHomeInv"),
+        title: Text(
+          strings.PrivacyPolicyTitle,
+          style: subHeaderStyle,
+        ),
         centerTitle: true,
-       //backgroundColor: Colors.green[900],
+        //backgroundColor: Colors.green[900],
       ),
       body: Container(
         color: Colors.transparent,
         child: ContainedTabBarView(
           tabs: [
             Text(
-              "Privacy Policy",
-              
-              style: TextStyle(fontSize: 17,color: Colors.black),
+              strings.Sidemenu_privacyPolicy,
+              style: WhitePageText,
             ),
             Text(
-              "Terms and Conditions",
-              style: TextStyle(fontSize: 17,color: Colors.black),
+              strings.privacyPolicy_TandC,
+              style: WhitePageText,
             ),
             Text(
-              "Copyright Policy",
-              style: TextStyle(fontSize: 17,color: Colors.black),
+              strings.privacyPolicy_CopyRight,
+              style: WhitePageText,
             )
           ],
           views: [
             Container(
               child: WebView(
-                initialUrl:
-                    Uri.parse(pageUrl1).toString(),
+                initialUrl: Uri.parse(pageUrl1).toString(),
                 javascriptMode: JavascriptMode.unrestricted,
                 // gestureRecognizers: gestureRecognizers,
                 gestureRecognizers: Set()
-            ..add(
-              Factory<VerticalDragGestureRecognizer>(
-                  () => VerticalDragGestureRecognizer(),
-              ), // or null
-            ),
+                  ..add(
+                    Factory<VerticalDragGestureRecognizer>(
+                      () => VerticalDragGestureRecognizer(),
+                    ), // or null
+                  ),
               ),
             ),
             Container(
               child: WebView(
-                initialUrl:
-                     Uri.parse(pageUrl2).toString(),
+                initialUrl: Uri.parse(pageUrl2).toString(),
                 javascriptMode: JavascriptMode.unrestricted,
-               //  gestureRecognizers: gestureRecognizers,
-               gestureRecognizers: Set()
-            ..add(
-              Factory<VerticalDragGestureRecognizer>(
-                  () => VerticalDragGestureRecognizer(),
-              ), // or null
-            ),
+                //  gestureRecognizers: gestureRecognizers,
+                gestureRecognizers: Set()
+                  ..add(
+                    Factory<VerticalDragGestureRecognizer>(
+                      () => VerticalDragGestureRecognizer(),
+                    ), // or null
+                  ),
               ),
             ),
             Container(
               child: WebView(
-                initialUrl:
-                     Uri.parse(pageUrl3).toString(),
+                initialUrl: Uri.parse(pageUrl3).toString(),
                 javascriptMode: JavascriptMode.unrestricted,
                 // gestureRecognizers: gestureRecognizers,
                 gestureRecognizers: Set()
-            ..add(
-              Factory<VerticalDragGestureRecognizer>(
-                  () => VerticalDragGestureRecognizer(),
-              ), // or null
-            ),
+                  ..add(
+                    Factory<VerticalDragGestureRecognizer>(
+                      () => VerticalDragGestureRecognizer(),
+                    ), // or null
+                  ),
               ),
             ),
           ],

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:side_menu/Constants/StringConstants.dart';
 import 'image_picker.dart';
 
 class combinedDropdown extends StatefulWidget {
@@ -25,7 +23,7 @@ class _combinedDropdownState extends State<combinedDropdown> {
     'Fever,Cold,Cough',
     'Others'
   ];
-   XFile imageData1 = XFile("");
+  XFile imageData1 = XFile("");
   XFile imageData2 = XFile("");
   XFile imageData3 = XFile("");
   bool? flag;
@@ -34,7 +32,7 @@ class _combinedDropdownState extends State<combinedDropdown> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Combined Multi Select DropDown"),
+        title: const Text(strings.MultiDropDown),
       ),
       body: Column(
         children: [
@@ -44,9 +42,9 @@ class _combinedDropdownState extends State<combinedDropdown> {
               //focusColor: Colors.white,
               dropdownColor: Colors.blueGrey,
               decoration: InputDecoration(
-                labelText: 'Symptoms',
+                labelText: strings.Symptoms,
                 labelStyle: TextStyle(color: Colors.black),
-                hintText: 'Please enter Symptoms',
+                hintText: strings.CombinedDropDown_Hint,
                 hintStyle: TextStyle(color: Colors.black),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -70,7 +68,7 @@ class _combinedDropdownState extends State<combinedDropdown> {
               onChanged: (value) {
                 setState(() {
                   selectedValue = value as String;
-                  if (selectedValue == 'Others') {
+                  if (selectedValue == strings.Presc_OtherSymp) {
                     print('Hello');
                     setState(() {
                       flag = true;
@@ -98,7 +96,7 @@ class _combinedDropdownState extends State<combinedDropdown> {
               child: TextFormField(
                 controller: _symptom,
                 decoration: InputDecoration(
-                  labelText: 'Enter Symptoms',
+                  labelText: strings.MultiDropDown_EnterSym,
                 ),
               ),
             ),
@@ -114,12 +112,13 @@ class _combinedDropdownState extends State<combinedDropdown> {
 
                 print(CombineddropdownList);
               },
-              child: Text('Submit')),
-              ImgPickerCamera(callbackValue: (imageData) {
-                              imageData1 = imageData;
-                              // print("path1:${imageData1.path}");
-                            },)
-
+              child: Text(strings.ButtonSubmit)),
+          ImgPickerCamera(
+            callbackValue: (imageData) {
+              imageData1 = imageData;
+              // print("path1:${imageData1.path}");
+            },
+          )
         ],
       ),
     );

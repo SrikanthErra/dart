@@ -1,10 +1,7 @@
 import 'dart:io';
-
-import 'package:flutter/animation.dart';
 import 'package:path/path.dart';
+import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:side_menu/modelClasses/database_modelClass/medicationModel.dart';
-
-import 'package:side_menu/modelClasses/family_list_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -12,9 +9,9 @@ class DatabaseHelper {
   static final _databaseName = "MedicineTracker.db";
   static final _databaseVersion = 1;
 
-  static final table = 'FamilyList';
-  static final table2 = 'Prescription';
-  static final table3 = 'Medicines';
+  static final table = strings.Db_FamTable;
+  static final table2 = strings.Db_PrescTable;
+  static final table3 = strings.Db_MedTable;
   static final name = 'name';
   static final age = 'age';
   static final gender = 'gender';
