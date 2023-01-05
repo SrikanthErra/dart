@@ -151,9 +151,7 @@ class _registerFamilyFromDashboardState
                 ButtonComponent(
                     onPressed: () async {
                       if (_formkey1.currentState!.validate() &&
-                          _formkey2.currentState!.validate() &&
-                          _formkey3.currentState!.validate() &&
-                          mobileNumber.text.length == 10) {
+                          _formkey2.currentState!.validate()) {
                         // EasyLoading.show();
                         final registered_famList = registrationFamilyModel(
                             mpin: "-",

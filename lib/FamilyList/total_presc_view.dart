@@ -177,6 +177,7 @@ class _totalPrescViewState extends State<totalPrescView> {
                                                                   ''),
                                                               width: 80,
                                                               height: 80,
+                                                              fit: BoxFit.fill
                                                             ),
                                                           )
                                                         : GestureDetector(
@@ -195,7 +196,8 @@ class _totalPrescViewState extends State<totalPrescView> {
                                                             child: SvgPicture.asset(
                                                                 'assets/pdf.svg',
                                                                 width: 80,
-                                                                height: 80
+                                                                height: 80,
+                                                                fit: BoxFit.fill
                                                                 //  color: Colors.white,
                                                                 ),
                                                           ),
@@ -277,6 +279,7 @@ class _totalPrescViewState extends State<totalPrescView> {
 
                 width: 80,
                 height: 80,
+                fit: BoxFit.fill
               ),
             ),
           ),

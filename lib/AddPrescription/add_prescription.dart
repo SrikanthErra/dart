@@ -71,6 +71,8 @@ class _addPrescriptionState extends State<addPrescription> {
   List<String> SymptomsDataList = [];
 
   List<File> Uploadedfiles = [];
+  /* List<File> UploadedImagefiles = [];
+  List<File> UploadedGalleryfiles = []; */
   List<String> _filespicked = [];
   File? selectedImage;
   @override
@@ -80,7 +82,7 @@ class _addPrescriptionState extends State<addPrescription> {
     final familyNamesStateProvider =
         Provider.of<FamilyListNamesProvider>(context);
     final medicineStateProvider = Provider.of<MedicineListProvider>(context);
-
+    // Uploadedfiles = UploadedImagefiles + UploadedGalleryfiles;
     /* final PrescriptionStateProvider =
         Provider.of<PrescriptionListProvider>(context); */
     // medicineStateProvider.Medicines.length = 0;
@@ -107,8 +109,7 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -511,7 +512,7 @@ class _addPrescriptionState extends State<addPrescription> {
                         _node.nextFocus();
                       },
                     ),
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Visibility(
                         visible: vis ?? false,
@@ -529,40 +530,83 @@ class _addPrescriptionState extends State<addPrescription> {
                                 /*  final details3 = PrescriptionStateProvider
                                     .prescFiles[index].PrescFilesList!; */
                                 return SingleChildScrollView(
-                                  child: Container(
-                                    child: (res.path.split('.').last == 'jpg' ||
-                                            res.path.split('.').last == 'png')
-                                        ? GestureDetector(
-                                            onTap: () {
-                                              showImageViewer(
-                                                  context,
-                                                  Image.file(File(res.path))
-                                                      .image);
-                                            },
-                                            child: Image.file(
-                                              File(res.path.toString()),
-                                              width: 80,
-                                              height: 80,
+                                  child: Stack(children: [
+                                    Container(
+                                      child: (res.path.split('.').last ==
+                                                  'jpg' ||
+                                              res.path.split('.').last == 'png')
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                showImageViewer(
+                                                    context,
+                                                    Image.file(
+                                                      File(res.path),
+                                                    ).image);
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Image.file(
+                                                    File(res.path.toString()),
+                                                    width: 80,
+                                                    height: 80,
+                                                    fit: BoxFit.fill),
+                                              ),
+                                            )
+                                          : GestureDetector(
+                                              onTap: () {
+                                                AppConstants.filePath =
+                                                    res.path.toString();
+                                                print(AppConstants.filePath);
+                                                Navigator.pushNamed(context,
+                                                    AppRoutes.pdfViewer);
+                                              },
+                                              child: SvgPicture.asset(
+                                                  'assets/pdf.svg',
+                                                  width: 80,
+                                                  height: 80,
+                                                  fit: BoxFit.fill
+                                                  //  color: Colors.white,
+                                                  ),
                                             ),
-                                          )
-
-                                        : GestureDetector(
-                                            onTap: () {
-                                              AppConstants.filePath =
-                                                  res.path.toString();
-                                              print(AppConstants.filePath);
-                                              Navigator.pushNamed(
-                                                  context, AppRoutes.pdfViewer);
-                                            },
-                                            child: SvgPicture.asset(
-                                                'assets/pdf.svg',
-                                                width: 80,
-                                                height: 80
-                                                //  color: Colors.white,
-                                                ),
-
+                                    ),
+                                    Positioned(
+                                      //  top: 50,
+                                      bottom: 75,
+                                      left:
+                                          70, //give the values according to your requirement
+                                      child: CircleAvatar(
+                                        radius: 10,
+                                        backgroundColor: Colors.white,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            print(
+                                                'hello ${Uploadedfiles[index]}');
+                                            setState(() {
+                                              Uploadedfiles.removeAt(index);
+                                              print(Uploadedfiles);
+                                              //Uploadedfiles = UploadedImagefiles + UploadedGalleryfiles;
+                                            });
+                                          },
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.close,
+                                              color: Colors.red,
+                                            ),
                                           ),
-                                  ),
+                                        ),
+                                        /* onPressed: () {
+                                              setState(() {
+                                                Uploadedfiles.removeAt(index);
+                                              });
+                                            }, */
+                                      ),
+                                    ),
+                                    /* Align(
+                                      alignment: Alignment.topRight,
+                                      child: Icon(Icons.close,color: Colors.red,),
+                                    ) */
+                                  ]),
                                 );
                               })),
                         ),
@@ -599,9 +643,13 @@ class _addPrescriptionState extends State<addPrescription> {
                                       allowMultiple: true);
                               if (result == null) return;
                               setState(() {
-                                Uploadedfiles = result.paths
+                                var parse = result.paths
                                     .map((path) => File(path!))
                                     .toList();
+                                parse.forEach((element) {
+                                  Uploadedfiles.add(element);
+                                });
+                                // Uploadedfiles.add(parse)
                                 vis = true;
                               });
 
@@ -612,9 +660,8 @@ class _addPrescriptionState extends State<addPrescription> {
                         ),
                       ],
                     ),
-                     ButtonComponent(
+                    ButtonComponent(
                         onPressed: () async {
-
                           print('val is $selectedValue');
                           print('sym val $selectedSymptomValue');
                           print(
@@ -631,7 +678,6 @@ class _addPrescriptionState extends State<addPrescription> {
                             Navigator.pushReplacementNamed(
                                 context, AppRoutes.dashboardGridview);
                           }
-
                         },
                         buttonText: strings.ButtonSubmit),
                   ],
@@ -752,7 +798,6 @@ class _addPrescriptionState extends State<addPrescription> {
       return saved;
       //}
     }
-    return result;
   }
 
   MedicinesDataTable(
@@ -849,8 +894,8 @@ class _addPrescriptionState extends State<addPrescription> {
       SymptomsDataList.add(strings.Presc_OtherSymp);
       return SymptomsDataList;
     }
-    
   }
+
   validateInputs(int res) {
     if (selectedValue == null) {
       showToast("Please select Family member Name");
