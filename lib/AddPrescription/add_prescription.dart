@@ -128,13 +128,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(color: Colors.white)),
                             ),
-                            /* validator: (String? value) {
-                              
-                              if (value?.isEmpty ?? true) {
-                                return 'Please select Family Member Name';
-                              }
-                              return null;
-                            }, */
+
                             value: selectedValue,
                             items: familyNamesStateProvider.FamilyNames.map(
                                 (item) => DropdownMenuItem<String>(
@@ -155,12 +149,6 @@ class _addPrescriptionState extends State<addPrescription> {
                               print('Result is ${familyNamesStateProvider.FamilyNames.map(
                                   (e) => e.FamilyMemberId)}'); */
                             },
-
-                            /*   validator: (String value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Please enter a valid type of business';
-                      }
-                    }, */
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -517,7 +505,7 @@ class _addPrescriptionState extends State<addPrescription> {
                         _node.nextFocus();
                       },
                     ),
-                    Padding(
+                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Visibility(
                         visible: vis ?? false,
@@ -573,7 +561,7 @@ class _addPrescriptionState extends State<addPrescription> {
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -590,18 +578,7 @@ class _addPrescriptionState extends State<addPrescription> {
                               print(
                                   'files length is ${selectedImage.toString()}');
                             },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                  color: AppColors.navy),
-                              child: Center(
-                                child: Text('Upload from Camera',
-                                    style: TextStyle(color: Colors.white)),
-                              ),
-                            ),
+                            child: Text('Upload from Camera'),
                           ),
                         ),
                         Padding(
@@ -622,25 +599,12 @@ class _addPrescriptionState extends State<addPrescription> {
 
                               print('files length is ${Uploadedfiles.length}');
                             },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                  color: AppColors.navy),
-                              child: Center(
-                                child: Text(
-                                  "Upload from Gallery",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
+                            child: Text("Upload from Gallery"),
                           ),
                         ),
                       ],
                     ),
-                    ButtonComponent(
+                     ButtonComponent(
                         onPressed: () async {
                           print('val is $selectedValue');
                           print('sym val $selectedSymptomValue');
@@ -778,6 +742,7 @@ class _addPrescriptionState extends State<addPrescription> {
       return saved;
       //}
     }
+    return result;
   }
 
   MedicinesDataTable(
@@ -874,8 +839,8 @@ class _addPrescriptionState extends State<addPrescription> {
       SymptomsDataList.add('Others');
       return SymptomsDataList;
     }
+    
   }
-
   validateInputs(int res) {
     if (selectedValue == null) {
       showToast("Please select Family member Name");
