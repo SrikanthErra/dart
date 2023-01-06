@@ -731,9 +731,8 @@ class _addPrescriptionState extends State<addPrescription> {
     print('len of uploaded files is ${Uploadedfiles.length}');
     print(' confirm id $selectedSymptomId');
     print('symptom $selectedSymptomValue');
-    if (Uploadedfiles.length == 0) {
+    if (Uploadedfiles.length == 0 ) {
       print('entered in if');
-
       final PrescriptionAdded = PrescriptionModel(
         FamilyMemberId: selectedId,
         Symptom: selectedSymptomValue,
@@ -743,7 +742,7 @@ class _addPrescriptionState extends State<addPrescription> {
         DateOfAppointment: _appointment.text,
         ReasonForAppointment: _reason.text,
         NextAppointmentDate: _NextAppointmentDate.text,
-        PrescFiles: '',
+        PrescFiles: null,
       );
       final DatabaseHelper _databaseService = DatabaseHelper.instance;
       final saved = await _databaseService.insertInto(

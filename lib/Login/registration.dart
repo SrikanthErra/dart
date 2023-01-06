@@ -11,6 +11,7 @@ import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
 import 'package:side_menu/Reusable/app_multiselect.dart';
 import 'package:side_menu/Reusable/button_component.dart';
+import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/Constants/app_constants.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
@@ -224,6 +225,7 @@ class _registerFamilyState extends State<registerFamily> {
                     if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
                         _formkey3.currentState!.validate() &&
+                        gender != null &&
                         (_mobileNumber.text.length == 10)) {
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.mpinPage,
@@ -257,6 +259,8 @@ class _registerFamilyState extends State<registerFamily> {
                           );
                         },
                       );
+                    } else if (gender == null) {
+                      showToast(strings.GenderText);
                     }
                     print(AppConstants.symptomsList);
                   },

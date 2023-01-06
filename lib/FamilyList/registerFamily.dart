@@ -151,7 +151,8 @@ class _registerFamilyFromDashboardState
                 ButtonComponent(
                     onPressed: () async {
                       if (_formkey1.currentState!.validate() &&
-                          _formkey2.currentState!.validate()) {
+                          _formkey2.currentState!.validate() &&
+                          selectedValue != null) {
                         // EasyLoading.show();
                         final registered_famList = registrationFamilyModel(
                             mpin: "-",
@@ -191,6 +192,8 @@ class _registerFamilyFromDashboardState
                             );
                           },
                         );
+                      } else if (selectedValue == null) {
+                        showToast(strings.GenderText);
                       }
                     },
                     buttonText: strings.ButtonSubmit),
