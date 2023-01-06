@@ -144,88 +144,115 @@ class _dashboardGridviewState extends State<dashboardGridview>
                                   dashboardData.navigateApproute ?? "");
                             },
                             child: Card(
-                                color: AppColors.navy.withOpacity(0.1),
-                                child: counter != 0
-                                    ? AnimatedBuilder(
-                                        animation: animation,
-                                        builder: (BuildContext context,
-                                            Widget? child) {
-                                          return Stack(
-                                            alignment:
-                                                AlignmentDirectional.center,
-                                            children: <Widget>[
-                                              /** Positioned WIdget **/
-                                              Positioned(
-                                                  top: 12.0,
-                                                  child: dashboardData
-                                                      .image!), //Positioned
-                                              /** Positioned WIdget **/
-
-                                              Positioned(
-                                                  top: 0,
-                                                  right: 8,
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(4),
-                                                    decoration:
-                                                        new BoxDecoration(
-                                                      color: animation.value,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                    ),
-                                                    child: Text(
-                                                      '$counter',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 14,
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                  ) //CircularAvatar
-                                                  ), //Positioned
+                              color: AppColors.navy.withOpacity(0.1),
+                              child: counter != 0
+                                  ? Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Expanded(
+                                                flex: 2,
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: dashboardData.image!,
+                                                ),
+                                              ),
                                               Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 10),
-                                                child: Container(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  //padding: EdgeInsets.all(5),
-                                                  child: Text(
-                                                    dashboardData.title ?? "",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
+                                                padding:
+                                                    const EdgeInsets.all(15.0),
+                                                child: Text(
+                                                  textAlign: TextAlign.center,
+                                                  dashboardData.title ?? "",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
                                                   ),
                                                 ),
                                               ),
-                                            ], //<Widget>[]
-                                          );
-                                        },
-                                      )
-                                    : Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: Material(
-                                              color: Colors.transparent,
-                                              child: dashboardData.image!,
-                                            ),
+                                            ],
                                           ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              //padding: EdgeInsets.all(5),
-                                              child: Text(
-                                                dashboardData.title ?? "",
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  AnimatedBuilder(
+                                                    animation: animation,
+                                                    builder:
+                                                        (BuildContext context,
+                                                            Widget? child) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(4),
+                                                          decoration:
+                                                              new BoxDecoration(
+                                                            color:
+                                                                animation.value,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                          ),
+                                                          child: Text(
+                                                            '$counter',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14,
+                                                            ),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: Material(
+                                            color: Colors.transparent,
+                                            child: dashboardData.image!,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            //padding: EdgeInsets.all(5),
+                                            child: Text(
+                                              dashboardData.title ?? "",
+                                              style: TextStyle(
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      )),
+                                        ),
+                                      ],
+                                    ),
+                            ),
                           )
                         : GestureDetector(
                             onTap: () async {
