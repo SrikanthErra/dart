@@ -152,8 +152,7 @@ class _registerFamilyFromDashboardState
                     onPressed: () async {
                       if (_formkey1.currentState!.validate() &&
                           _formkey2.currentState!.validate() &&
-                          _formkey3.currentState!.validate() &&
-                          mobileNumber.text.length == 10) {
+                          selectedValue != null) {
                         // EasyLoading.show();
                         final registered_famList = registrationFamilyModel(
                             mpin: "-",
@@ -193,6 +192,8 @@ class _registerFamilyFromDashboardState
                             );
                           },
                         );
+                      } else if (selectedValue == null) {
+                        showToast(strings.GenderText);
                       }
                     },
                     buttonText: strings.ButtonSubmit),

@@ -126,12 +126,13 @@ class strings {
   static const String TotPrescHeader = "Total Prescription view";
   static const String PrescFileHeader = "Prescription Files";
   static const String LoginText = "Login";
+  static const String GenderText = "Please select Gender";
   static const String AccountCheck = "Don't have an account?";
   static const String SignUp = "Sign Up here";
   static const String LoginAlert_enterMobile = "Please enter Mobie Number";
   static const String LoginAlert_signUp = "Please Sign Up";
   static const String LoginAlert_Invalid =
-      "Mobile Number Invalid.. Plese Check!!!";
+      "Mobile Number Invalid.. Please Check!!!";
   static const String Mpin_validate = "Validate MPIN";
   static const String Mpin_Hint = "Enter 4 digit MPIN";
   static const String Mpin_Alert = "Please enter 4 digit MPIN";
@@ -155,5 +156,5 @@ class strings {
   static const String PrescView_FamName = "Family Member Name";
   static const String SearchText = "Search Symptom/MedicineName";
   static const String AppDescription =
-      "    Medicine Home Inventory is an app which tracks your medicines and indicates us when the medicines are expired by taking the details of the medicines, symptoms.... With a provision where we can store our family members, prescriptions and medicine data  ";
+      "    Medicine Home Inventory is an app which tracks your medicines and indicates us when the medicines are expired by taking the details of the medicines, symptoms.... With a provision where we can store our family members prescriptions and medicine data  ";
 }

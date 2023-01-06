@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Alerts/alert_for_medicineData.dart';
 import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/appColor.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
@@ -71,6 +72,8 @@ class _addPrescriptionState extends State<addPrescription> {
   List<String> SymptomsDataList = [];
 
   List<File> Uploadedfiles = [];
+  /* List<File> UploadedImagefiles = [];
+  List<File> UploadedGalleryfiles = []; */
   List<String> _filespicked = [];
   File? selectedImage;
   @override
@@ -80,7 +83,7 @@ class _addPrescriptionState extends State<addPrescription> {
     final familyNamesStateProvider =
         Provider.of<FamilyListNamesProvider>(context);
     final medicineStateProvider = Provider.of<MedicineListProvider>(context);
-
+    // Uploadedfiles = UploadedImagefiles + UploadedGalleryfiles;
     /* final PrescriptionStateProvider =
         Provider.of<PrescriptionListProvider>(context); */
     // medicineStateProvider.Medicines.length = 0;
@@ -290,7 +293,6 @@ class _addPrescriptionState extends State<addPrescription> {
                                       SymptomsDataList = [];
                                       fetchData();
                                       /* await EasyLoading.show(
-
                                 status: "Loading...",
                                 maskType: EasyLoadingMaskType.black);
                             Navigator.pushReplacementNamed(
@@ -382,68 +384,100 @@ class _addPrescriptionState extends State<addPrescription> {
                         final details = medicineStateProvider.Medicines[index];
 
                         //final details2 = medicineStateProvider.Medicines[index].medicineFiles[index];
-                        return Card(
-                          // color: AppColors.PRIMARY_COLOR_DARK,
-                          child: Container(
-                              // color: AppColors.PRIMARY_COLOR,
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppInputText(
-                                        text: strings.Med_MedName,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                    AppInputText(
-                                        text: details.medicineName,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppInputText(
-                                        text: strings.Med_ExpDate,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                    AppInputText(
-                                        text: details.ExpiryDate,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppInputText(
-                                        text: strings.Med_TabletCount,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                    AppInputText(
-                                        text: details.TabletsCount,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                  ],
-                                ),
-                                Image.file(
-                                  File(details.medicineFiles ?? ''),
-                                  width: 100,
-                                  height: 100,
-                                )
-                              ])),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(color: AppColors.navy, width: 1),
+                            ),
+                            color: Colors.white,
+                            child: Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      width: 120,
+                                      height: 110,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(24),
+                                        child: Image.file(
+                                          File(details.medicineFiles ?? ''),
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 5,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Center(
+                                          child: AppInputText(
+                                            text: details.medicineName,
+                                            colors: AppColors.navy,
+                                            size: 16,
+                                            weight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              flex: 4,
+                                              child: AppInputText(
+                                                  text: strings.Med_ExpDate,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.normal),
+                                            ),
+                                            Expanded(
+                                              flex: 3,
+                                              child: AppInputText(
+                                                  text: details.ExpiryDate,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 4,
+                                              child: AppInputText(
+                                                  text: strings.Med_TabletCount,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.normal),
+                                            ),
+                                            Expanded(
+                                              flex: 3,
+                                              child: AppInputText(
+                                                  text: details.TabletsCount,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         );
                       }),
                     ),
@@ -511,7 +545,7 @@ class _addPrescriptionState extends State<addPrescription> {
                         _node.nextFocus();
                       },
                     ),
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Visibility(
                         visible: vis ?? false,
@@ -529,40 +563,83 @@ class _addPrescriptionState extends State<addPrescription> {
                                 /*  final details3 = PrescriptionStateProvider
                                     .prescFiles[index].PrescFilesList!; */
                                 return SingleChildScrollView(
-                                  child: Container(
-                                    child: (res.path.split('.').last == 'jpg' ||
-                                            res.path.split('.').last == 'png')
-                                        ? GestureDetector(
-                                            onTap: () {
-                                              showImageViewer(
-                                                  context,
-                                                  Image.file(File(res.path))
-                                                      .image);
-                                            },
-                                            child: Image.file(
-                                              File(res.path.toString()),
-                                              width: 80,
-                                              height: 80,
+                                  child: Stack(children: [
+                                    Container(
+                                      child: (res.path.split('.').last ==
+                                                  'jpg' ||
+                                              res.path.split('.').last == 'png')
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                showImageViewer(
+                                                    context,
+                                                    Image.file(
+                                                      File(res.path),
+                                                    ).image);
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Image.file(
+                                                    File(res.path.toString()),
+                                                    width: 80,
+                                                    height: 80,
+                                                    fit: BoxFit.fill),
+                                              ),
+                                            )
+                                          : GestureDetector(
+                                              onTap: () {
+                                                AppConstants.filePath =
+                                                    res.path.toString();
+                                                print(AppConstants.filePath);
+                                                Navigator.pushNamed(context,
+                                                    AppRoutes.pdfViewer);
+                                              },
+                                              child: SvgPicture.asset(
+                                                  'assets/pdf.svg',
+                                                  width: 80,
+                                                  height: 80,
+                                                  fit: BoxFit.fill
+                                                  //  color: Colors.white,
+                                                  ),
                                             ),
-                                          )
-
-                                        : GestureDetector(
-                                            onTap: () {
-                                              AppConstants.filePath =
-                                                  res.path.toString();
-                                              print(AppConstants.filePath);
-                                              Navigator.pushNamed(
-                                                  context, AppRoutes.pdfViewer);
-                                            },
-                                            child: SvgPicture.asset(
-                                                'assets/pdf.svg',
-                                                width: 80,
-                                                height: 80
-                                                //  color: Colors.white,
-                                                ),
-
+                                    ),
+                                    Positioned(
+                                      //  top: 50,
+                                      bottom: 75,
+                                      left:
+                                          70, //give the values according to your requirement
+                                      child: CircleAvatar(
+                                        radius: 10,
+                                        backgroundColor: Colors.white,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            print(
+                                                'hello ${Uploadedfiles[index]}');
+                                            setState(() {
+                                              Uploadedfiles.removeAt(index);
+                                              print(Uploadedfiles);
+                                              //Uploadedfiles = UploadedImagefiles + UploadedGalleryfiles;
+                                            });
+                                          },
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.close,
+                                              color: Colors.red,
+                                            ),
                                           ),
-                                  ),
+                                        ),
+                                        /* onPressed: () {
+                                              setState(() {
+                                                Uploadedfiles.removeAt(index);
+                                              });
+                                            }, */
+                                      ),
+                                    ),
+                                    /* Align(
+                                      alignment: Alignment.topRight,
+                                      child: Icon(Icons.close,color: Colors.red,),
+                                    ) */
+                                  ]),
                                 );
                               })),
                         ),
@@ -599,9 +676,13 @@ class _addPrescriptionState extends State<addPrescription> {
                                       allowMultiple: true);
                               if (result == null) return;
                               setState(() {
-                                Uploadedfiles = result.paths
+                                var parse = result.paths
                                     .map((path) => File(path!))
                                     .toList();
+                                parse.forEach((element) {
+                                  Uploadedfiles.add(element);
+                                });
+                                // Uploadedfiles.add(parse)
                                 vis = true;
                               });
 
@@ -612,9 +693,8 @@ class _addPrescriptionState extends State<addPrescription> {
                         ),
                       ],
                     ),
-                     ButtonComponent(
+                    ButtonComponent(
                         onPressed: () async {
-
                           print('val is $selectedValue');
                           print('sym val $selectedSymptomValue');
                           print(
@@ -631,7 +711,6 @@ class _addPrescriptionState extends State<addPrescription> {
                             Navigator.pushReplacementNamed(
                                 context, AppRoutes.dashboardGridview);
                           }
-
                         },
                         buttonText: strings.ButtonSubmit),
                   ],
@@ -687,7 +766,6 @@ class _addPrescriptionState extends State<addPrescription> {
     print('symptom $selectedSymptomValue');
     if (Uploadedfiles.length == 0) {
       print('entered in if');
-
       final PrescriptionAdded = PrescriptionModel(
         FamilyMemberId: selectedId,
         Symptom: selectedSymptomValue,
@@ -697,7 +775,7 @@ class _addPrescriptionState extends State<addPrescription> {
         DateOfAppointment: _appointment.text,
         ReasonForAppointment: _reason.text,
         NextAppointmentDate: _NextAppointmentDate.text,
-        PrescFiles: '',
+        PrescFiles: null,
       );
       final DatabaseHelper _databaseService = DatabaseHelper.instance;
       final saved = await _databaseService.insertInto(
@@ -752,7 +830,6 @@ class _addPrescriptionState extends State<addPrescription> {
       return saved;
       //}
     }
-    return result;
   }
 
   MedicinesDataTable(
@@ -849,8 +926,8 @@ class _addPrescriptionState extends State<addPrescription> {
       SymptomsDataList.add(strings.Presc_OtherSymp);
       return SymptomsDataList;
     }
-    
   }
+
   validateInputs(int res) {
     if (selectedValue == null) {
       showToast("Please select Family member Name");

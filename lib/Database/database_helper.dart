@@ -94,8 +94,6 @@ SId varchar(255)
 MasterSymptomId INTEGER PRIMARY KEY AUTOINCREMENT,
 MasterSymptom varchar(255)
 );
-
-
           ''');
     /*  INSERT INTO table (column1,column2 ,..)
 VALUES( value1,	value2 ,...); */
@@ -268,7 +266,7 @@ VALUES( value1,	value2 ,...); */
         //SELECT * FROM FamilyList  a join Prescription b on a.id=b.FamilyMemberId where b.SId Like 1
         //SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on a.id=b.FamilyMemberId and b.SId=c.SId where b.SId Like 1
         // "SELECT * FROM FamilyList a join Prescription b on a.id=b.FamilyMemberId where b.SId Like $SId"
-        "SELECT distinct * FROM FamilyList  a join Prescription b join Medicines c on a.id=$id and b.SId=c.SId where b.SId Like $SId");
+        "SELECT distinct * FROM FamilyList a join Prescription b join Medicines c on a.id=$id and b.SId=c.SId where b.SId Like $SId");
   }
   /*  Future<List<Map>> queryRowCountforMpinValidate(
       String table, String mobile) async {
@@ -322,11 +320,9 @@ VALUES( value1,	value2 ,...); */
     final dbClient = await db;
     var res = await dbClient.rawQuery(
         "SELECT * FROM $USER_TABLE WHERE username = '$userName' and password = '$password'");
-
     if (res.length > 0) {
       return new User.fromMap(res.first);
     }
-
     return null;
   } */
 
@@ -334,7 +330,6 @@ VALUES( value1,	value2 ,...); */
     Database db = await instance.database;
     var res = await db.rawQuery(
         "SELECT * FROM $table WHERE mobileNumber = '$mobileNumber'");
-
     if (res.length > 0) {
       return new familyListModel.fromMap(res.first);
     }
