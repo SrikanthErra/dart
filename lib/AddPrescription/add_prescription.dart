@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Alerts/alert_for_medicineData.dart';
 import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/appColor.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/app_input_textfield.dart';
@@ -109,7 +110,8 @@ class _addPrescriptionState extends State<addPrescription> {
           child: Column(
             children: [
               Container(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(children: [
@@ -383,68 +385,100 @@ class _addPrescriptionState extends State<addPrescription> {
                         final details = medicineStateProvider.Medicines[index];
 
                         //final details2 = medicineStateProvider.Medicines[index].medicineFiles[index];
-                        return Card(
-                          // color: AppColors.PRIMARY_COLOR_DARK,
-                          child: Container(
-                              // color: AppColors.PRIMARY_COLOR,
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppInputText(
-                                        text: strings.Med_MedName,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                    AppInputText(
-                                        text: details.medicineName,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppInputText(
-                                        text: strings.Med_ExpDate,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                    AppInputText(
-                                        text: details.ExpiryDate,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppInputText(
-                                        text: strings.Med_TabletCount,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                    AppInputText(
-                                        text: details.TabletsCount,
-                                        colors: Colors.black,
-                                        size: 16,
-                                        weight: FontWeight.normal),
-                                  ],
-                                ),
-                                Image.file(
-                                  File(details.medicineFiles ?? ''),
-                                  width: 100,
-                                  height: 100,
-                                )
-                              ])),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(color: AppColors.navy, width: 1),
+                            ),
+                            color: Colors.white,
+                            child: Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      width: 120,
+                                      height: 110,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(24),
+                                        child: Image.file(
+                                          File(details.medicineFiles ?? ''),
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 5,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Center(
+                                          child: AppInputText(
+                                            text: details.medicineName,
+                                            colors: AppColors.navy,
+                                            size: 16,
+                                            weight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              flex: 4,
+                                              child: AppInputText(
+                                                  text: strings.Med_ExpDate,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.normal),
+                                            ),
+                                            Expanded(
+                                              flex: 3,
+                                              child: AppInputText(
+                                                  text: details.ExpiryDate,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 4,
+                                              child: AppInputText(
+                                                  text: strings.Med_TabletCount,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.normal),
+                                            ),
+                                            Expanded(
+                                              flex: 3,
+                                              child: AppInputText(
+                                                  text: details.TabletsCount,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         );
                       }),
                     ),
