@@ -41,8 +41,9 @@ class AlertTextFormField extends StatelessWidget {
         child: Form(
           key: globalKey,
           child: TextFormField(
+            textInputAction: TextInputAction.done,
             obscureText: obsecuretext,
-            textInputAction: action,
+           // textInputAction: action,
             onEditingComplete: onEditingComplete,
             style: const TextStyle(color: Colors.black),
             controller: nameController,
@@ -79,6 +80,7 @@ class AlertTextFormField extends StatelessWidget {
               }
             },
             keyboardType: input_type,
+            
           ),
         ),
       ),
