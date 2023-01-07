@@ -15,6 +15,7 @@ import '../modelClasses/medicine_data_model.dart';
 import '../modelClasses/medicine_list_provider.dart';
 import '../Reusable/alert_date_picker.dart';
 import '../Reusable/alert_textformfield.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AppShowAlertMedicineData extends StatelessWidget {
   AppShowAlertMedicineData({
@@ -215,8 +216,8 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     globalKey: _formkey3),
                 TextButton(
                   onPressed: () async {
-                    final result = await ImagePicker()
-                        .pickImage(source: ImageSource.camera);
+                    checkallpermission_opencamera();
+                    final result = checkallpermission_opencamera();
                     if (result == null) return;
                     fileIs = result;
 
@@ -226,8 +227,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final result = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
+                    final result = checkallpermission_StoragePermission();
                     if (result == null) return;
                     fileIs = result;
 
@@ -293,4 +293,45 @@ class AppShowAlertMedicineData extends StatelessWidget {
   //     return true;
   //   }
   // }
+}
+
+checkallpermission_opencamera() async {
+  var cameraStatus = await Permission.camera.status;
+  print("Camera sssss: $cameraStatus");
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.camera,
+    Permission.microphone,
+  ].request();
+
+  if (statuses[Permission.camera]!.isGranted) {
+    if (statuses[Permission.microphone]!.isGranted) {
+      final result = await ImagePicker().pickImage(source: ImageSource.camera);
+      return result;
+    } else {
+      showToast(
+        "Camera needs to access your microphone, please provide permission",
+      );
+    }
+  } else {
+    showToast(
+      "Provide Camera permission to use camera.",
+    );
+  }
+}
+
+checkallpermission_StoragePermission() async {
+  var storageStatus = await Permission.storage.status;
+  print("KKKKK Storage: $storageStatus");
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.storage,
+  ].request();
+
+  if (statuses[Permission.storage]!.isGranted) {
+    final result = await ImagePicker().pickImage(source: ImageSource.gallery);
+    return result;
+  } else {
+    showToast(
+      "Provide Storage permission to upload files.",
+    );
+  }
 }

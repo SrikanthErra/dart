@@ -47,8 +47,10 @@ class strings {
       "Please Enter the Tablets Count";
   static const String Med_MedName = "Medicine Name";
   static const String Med_ExpDate = "Expiry Date";
+  static const String Med_ExpDateAddPresc = "Expiry:";
   static const String Med_Photo = "Medicine Photo";
   static const String Med_TabletCount = "Tablets Count";
+  static const String Med_TabletCountAddPresc = "Tablets:";
   static const String Presc_Hint_hospName = "Hospital Name";
   static const String Presc_Hint_Symp = "Select Symptom";
   static const String Presc_Hint_EnterSymp = "Enter Symptom";
