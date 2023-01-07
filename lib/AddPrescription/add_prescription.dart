@@ -411,7 +411,6 @@ class _addPrescriptionState extends State<addPrescription> {
                                       child: Image.file(
                                         File(details.medicineFiles ?? ''),
                                         fit: BoxFit.fill,
-
                                       ),
                                     ),
                                   ),
@@ -644,15 +643,21 @@ class _addPrescriptionState extends State<addPrescription> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
                             onPressed: () async {
-                              final result = checkallpermission_opencamera();
-                              if (result == null) return;
-                              selectedImage = File(result.path);
-                              setState(() {
-                                Uploadedfiles.add(selectedImage!);
-                                vis = true;
-                              });
-                              print(
-                                  'files length is ${selectedImage.toString()}');
+                              if (checkallpermission_opencamera() == false) {
+                                checkallpermission_opencamera();
+                              } else {
+                                final result = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                if (result == null) return;
+                                selectedImage = File(result.path);
+
+                                setState(() {
+                                  Uploadedfiles.add(selectedImage!);
+                                  vis = true;
+                                });
+                                print(
+                                    'files length is ${selectedImage.toString()}');
+                              }
                             },
                             child: Text(strings.Presc_ImgCamUpload),
                           ),
@@ -661,21 +666,29 @@ class _addPrescriptionState extends State<addPrescription> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
                             onPressed: () async {
-                              final result =
-                                  checkallpermission_StoragePermission();
-                              if (result == null) return;
-                              setState(() {
-                                var parse = result.paths
-                                    .map((path) => File(path!))
-                                    .toList();
-                                parse.forEach((element) {
-                                  Uploadedfiles.add(element);
+                              if (checkallpermission_StoragePermission() ==
+                                  false) {
+                                checkallpermission_StoragePermission();
+                              } else {
+                                final result = await FilePicker.platform
+                                    .pickFiles(
+                                        withReadStream: true,
+                                        allowMultiple: true);
+                                if (result == null) return;
+                                setState(() {
+                                  var parse = result.paths
+                                      .map((path) => File(path!))
+                                      .toList();
+                                  parse.forEach((element) {
+                                    Uploadedfiles.add(element);
+                                  });
+                                  // Uploadedfiles.add(parse)
+                                  vis = true;
                                 });
-                                // Uploadedfiles.add(parse)
-                                vis = true;
-                              });
 
-                              print('files length is ${Uploadedfiles.length}');
+                                print(
+                                    'files length is ${Uploadedfiles.length}');
+                              }
                             },
                             child: Text(strings.Presc_ImgGalleryUpload),
                           ),
@@ -930,7 +943,7 @@ class _addPrescriptionState extends State<addPrescription> {
   }
 }
 
-checkallpermission_opencamera() async {
+Future<bool> checkallpermission_opencamera() async {
   var cameraStatus = await Permission.camera.status;
   print("Camera sssss: $cameraStatus");
   Map<Permission, PermissionStatus> statuses = await [
@@ -939,16 +952,17 @@ checkallpermission_opencamera() async {
   ].request();
 
   if (statuses[Permission.camera]!.isGranted) {
-    final result = await ImagePicker().pickImage(source: ImageSource.camera);
-    return result;
+    print("PErmission granted");
+    return true;
   } else {
     showToast(
       "Provide Camera permission to use camera.",
     );
+    return false;
   }
 }
 
-checkallpermission_StoragePermission() async {
+Future<bool> checkallpermission_StoragePermission() async {
   var storageStatus = await Permission.storage.status;
   print("KKKKK Storage: $storageStatus");
   Map<Permission, PermissionStatus> statuses = await [
@@ -956,12 +970,12 @@ checkallpermission_StoragePermission() async {
   ].request();
 
   if (statuses[Permission.storage]!.isGranted) {
-    final result = await FilePicker.platform
-        .pickFiles(withReadStream: true, allowMultiple: true);
-    return result;
+    print("Storage Permissions Granted");
+    return true;
   } else {
     showToast(
       "Provide Storage permission to upload files.",
     );
+    return false;
   }
 }
