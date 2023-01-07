@@ -78,6 +78,10 @@ class _addPrescriptionState extends State<addPrescription> {
   File? selectedImage;
   @override
   Widget build(BuildContext context) {
+    var sizeDevice = MediaQuery.of(context).size;
+
+    final double itemHeight = (sizeDevice.height - kToolbarHeight - 24) / 3;
+    final double itemWidth = sizeDevice.width / 3;
     EasyLoading.dismiss();
     //fetchNextVisitData();
     final familyNamesStateProvider =
@@ -389,28 +393,23 @@ class _addPrescriptionState extends State<addPrescription> {
                           padding: const EdgeInsets.symmetric(horizontal: 6.0),
                           child: Card(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(2),
                               side: BorderSide(color: AppColors.navy, width: 1),
                             ),
                             color: Colors.white,
                             child: Container(
                               child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Expanded(
-                                    flex: 2,
+                                    flex: 1,
                                     child: Container(
                                       padding: EdgeInsets.all(8),
-                                      width: 120,
-                                      height: 110,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(24),
-                                        child: Image.file(
-                                          File(details.medicineFiles ?? ''),
-                                          width: 100,
-                                          height: 100,
-                                          fit: BoxFit.cover,
-                                        ),
+                                      width: 100,
+                                      height: 100,
+                                      child: Image.file(
+                                        File(details.medicineFiles ?? ''),
+                                        fit: BoxFit.fill,
                                       ),
                                     ),
                                   ),
@@ -418,57 +417,50 @@ class _addPrescriptionState extends State<addPrescription> {
                                     flex: 5,
                                     child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Center(
-                                          child: AppInputText(
-                                            text: details.medicineName,
-                                            colors: AppColors.navy,
-                                            size: 16,
-                                            weight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              flex: 4,
-                                              child: AppInputText(
-                                                  text: strings.Med_ExpDate,
-                                                  colors: AppColors.navy,
-                                                  size: 16,
-                                                  weight: FontWeight.normal),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: AppInputText(
-                                                  text: details.ExpiryDate,
-                                                  colors: AppColors.navy,
-                                                  size: 16,
-                                                  weight: FontWeight.bold),
-                                            ),
-                                          ],
+                                        AppInputText(
+                                          text: details.medicineName,
+                                          colors: AppColors.navy,
+                                          size: 18,
+                                          weight: FontWeight.bold,
                                         ),
                                         Row(
                                           children: [
-                                            Expanded(
-                                              flex: 4,
-                                              child: AppInputText(
-                                                  text: strings.Med_TabletCount,
-                                                  colors: AppColors.navy,
-                                                  size: 16,
-                                                  weight: FontWeight.normal),
+                                            Row(
+                                              children: [
+                                                AppInputText(
+                                                    text: strings
+                                                        .Med_ExpDateAddPresc,
+                                                    colors: AppColors.navy,
+                                                    size: 16,
+                                                    weight:
+                                                        FontWeight.normal),
+                                                AppInputText(
+                                                    text: details.ExpiryDate,
+                                                    colors: AppColors.navy,
+                                                    size: 16,
+                                                    weight: FontWeight.bold),
+                                              ],
                                             ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: AppInputText(
-                                                  text: details.TabletsCount,
-                                                  colors: AppColors.navy,
-                                                  size: 16,
-                                                  weight: FontWeight.bold),
+                                            Row(
+                                              children: [
+                                                AppInputText(
+                                                    text: strings
+                                                        .Med_TabletCountAddPresc,
+                                                    colors: AppColors.navy,
+                                                    size: 16,
+                                                    weight:
+                                                        FontWeight.normal),
+                                                AppInputText(
+                                                    text:
+                                                        details.TabletsCount,
+                                                    colors: AppColors.navy,
+                                                    size: 16,
+                                                    weight: FontWeight.bold)
+                                              ],
                                             ),
                                           ],
                                         ),
@@ -765,7 +757,7 @@ class _addPrescriptionState extends State<addPrescription> {
     print('len of uploaded files is ${Uploadedfiles.length}');
     print(' confirm id $selectedSymptomId');
     print('symptom $selectedSymptomValue');
-    if (Uploadedfiles.length == 0 ) {
+    if (Uploadedfiles.length == 0) {
       print('entered in if');
       final PrescriptionAdded = PrescriptionModel(
         FamilyMemberId: selectedId,
