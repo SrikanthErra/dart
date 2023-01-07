@@ -1,14 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+
 import 'package:provider/provider.dart';
 import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Reusable/toast.dart';
-import 'package:universal_io/io.dart';
+
 import '../modelClasses/medicine_data_model.dart';
 import '../modelClasses/medicine_list_provider.dart';
 import '../Reusable/alert_date_picker.dart';
@@ -191,6 +193,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     obsecuretext: obsecuretext,
                     node: node,
                     action: action,
+                    globalKey: _formkey1,
                     onEditingComplete: onEditingComplete),
                 AlertdatePickerComponent(
                     hintText: hintText1,
@@ -199,12 +202,13 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     obsecuretext: obsecuretext,
                     node: node,
                     action: action,
+                    globalKey: _formkey2,
                     onEditingComplete: onEditingComplete),
                 AlertTextFormField(
                     hintText: hintText2,
                     nameController: TabletCountController,
                     errorMessage: errorMessage2,
-                    input_type: input_type,
+                    input_type: TextInputType.number,
                     obsecuretext: obsecuretext,
                     node: node,
                     action: action,
@@ -251,8 +255,8 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         studentsStateProvider.addMedicineData(medicineDataModel(
                             medicineName: MedicinenameController.text,
                             ExpiryDate: ExpiryDateController.text,
-                            // medicineFiles: fileIs,
-                            medicineFiles: '',
+                            medicineFiles: fileIs?.path,
+                            //medicineFiles: '',
                             TabletsCount: TabletCountController.text));
                         print('files are $fileIs');
                         print("data added successfully" +
@@ -276,6 +280,19 @@ class AppShowAlertMedicineData extends StatelessWidget {
       })()),
     );
   }
+
+  // Future<bool> checkAndRequestCameraPermissions() async {
+  //   PermissionStatus permission =
+  //       await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+  //   if (permission != PermissionStatus.granted) {
+  //     Map<PermissionGroup, PermissionStatus> permissions =
+  //         await PermissionHandler()
+  //             .requestPermissions([PermissionGroup.camera]);
+  //     return permissions[PermissionGroup.camera] == PermissionStatus.granted;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 }
 
 checkallpermission_opencamera() async {

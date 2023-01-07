@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -64,7 +66,7 @@ class AppInputTextfield extends StatelessWidget {
             autofocus: autofocus ?? false,
             maxLength: length,
             obscureText: obsecuretext,
-            textInputAction: action,
+            textInputAction: TextInputAction.done,
             onEditingComplete: onEditingComplete,
             style: const TextStyle(color: Colors.white),
             controller: nameController,
@@ -75,17 +77,6 @@ class AppInputTextfield extends StatelessWidget {
               //suffixIcon: null == suffixIcon ? null : Icon(suffixIcon),
               suffixIcon: suffixIcon,
 
-              /* this.isSecured == true
-                  ? GestureDetector(
-                      onTap: () {
-                        this.onTap!();
-                      },
-                      child: Icon(this.isVisible == true
-                          ? Icons.visibility
-                          : Icons.visibility_off),
-                    )
-                  : null, */
-              //prefixIcon: Icon(Icons.people),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(color: Colors.white)),
@@ -105,7 +96,9 @@ class AppInputTextfield extends StatelessWidget {
               }
             },
             keyboardType: input_type,
-            
+             /* Platform.isIOS
+                ? TextInputType.text
+                : input_type, */
           ),
         ),
       ),

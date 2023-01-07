@@ -388,7 +388,7 @@ class _addPrescriptionState extends State<addPrescription> {
                       itemCount: medicineStateProvider.Medicines.length,
                       itemBuilder: ((context, index) {
                         final details = medicineStateProvider.Medicines[index];
-
+                        print('medFile ${details.medicineFiles}');
                         //final details2 = medicineStateProvider.Medicines[index].medicineFiles[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6.0),
@@ -411,6 +411,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                       child: Image.file(
                                         File(details.medicineFiles ?? ''),
                                         fit: BoxFit.fill,
+
                                       ),
                                     ),
                                   ),
