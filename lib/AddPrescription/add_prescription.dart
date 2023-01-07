@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:side_menu/Alerts/alert_for_medicineData.dart';
 import 'package:side_menu/Constants/StringConstants.dart';
@@ -436,8 +437,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                                         .Med_ExpDateAddPresc,
                                                     colors: AppColors.navy,
                                                     size: 16,
-                                                    weight:
-                                                        FontWeight.normal),
+                                                    weight: FontWeight.normal),
                                                 AppInputText(
                                                     text: details.ExpiryDate,
                                                     colors: AppColors.navy,
@@ -452,11 +452,9 @@ class _addPrescriptionState extends State<addPrescription> {
                                                         .Med_TabletCountAddPresc,
                                                     colors: AppColors.navy,
                                                     size: 16,
-                                                    weight:
-                                                        FontWeight.normal),
+                                                    weight: FontWeight.normal),
                                                 AppInputText(
-                                                    text:
-                                                        details.TabletsCount,
+                                                    text: details.TabletsCount,
                                                     colors: AppColors.navy,
                                                     size: 16,
                                                     weight: FontWeight.bold)
@@ -645,8 +643,7 @@ class _addPrescriptionState extends State<addPrescription> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
                             onPressed: () async {
-                              final result = await ImagePicker()
-                                  .pickImage(source: ImageSource.camera);
+                              final result = checkallpermission_opencamera();
                               if (result == null) return;
                               selectedImage = File(result.path);
                               setState(() {
@@ -663,10 +660,8 @@ class _addPrescriptionState extends State<addPrescription> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
                             onPressed: () async {
-                              final result = await FilePicker.platform
-                                  .pickFiles(
-                                      withReadStream: true,
-                                      allowMultiple: true);
+                              final result =
+                                  checkallpermission_StoragePermission();
                               if (result == null) return;
                               setState(() {
                                 var parse = result.paths
@@ -931,5 +926,41 @@ class _addPrescriptionState extends State<addPrescription> {
     } else {
       return true;
     }
+  }
+}
+
+checkallpermission_opencamera() async {
+  var cameraStatus = await Permission.camera.status;
+  print("Camera sssss: $cameraStatus");
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.camera,
+    Permission.microphone,
+  ].request();
+
+  if (statuses[Permission.camera]!.isGranted) {
+    final result = await ImagePicker().pickImage(source: ImageSource.camera);
+    return result;
+  } else {
+    showToast(
+      "Provide Camera permission to use camera.",
+    );
+  }
+}
+
+checkallpermission_StoragePermission() async {
+  var storageStatus = await Permission.storage.status;
+  print("KKKKK Storage: $storageStatus");
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.storage,
+  ].request();
+
+  if (statuses[Permission.storage]!.isGranted) {
+    final result = await FilePicker.platform
+        .pickFiles(withReadStream: true, allowMultiple: true);
+    return result;
+  } else {
+    showToast(
+      "Provide Storage permission to upload files.",
+    );
   }
 }
