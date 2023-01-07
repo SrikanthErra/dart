@@ -216,22 +216,31 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     globalKey: _formkey3),
                 TextButton(
                   onPressed: () async {
-                    checkallpermission_opencamera();
-                    final result = checkallpermission_opencamera();
-                    if (result == null) return;
-                    fileIs = result;
+                    if (checkallpermission_opencamera() == false) {
+                      checkallpermission_opencamera();
+                    } else {
+                      final result = await ImagePicker()
+                          .pickImage(source: ImageSource.camera);
+                      if (result == null) return;
+                      fileIs = result;
 
-                    print('files length is ${fileIs.toString()}');
+                      print('files length is ${fileIs.toString()}');
+                    }
                   },
                   child: Text(strings.Presc_ImgCamUpload),
                 ),
                 TextButton(
                   onPressed: () async {
-                    final result = checkallpermission_StoragePermission();
-                    if (result == null) return;
-                    fileIs = result;
+                    if (checkallpermission_StoragePermission() == false) {
+                      checkallpermission_StoragePermission();
+                    } else {
+                      final result = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                      if (result == null) return;
+                      fileIs = result;
 
-                    print('files length is ${fileIs.toString()}');
+                      print('files length is ${fileIs.toString()}');
+                    }
                   },
                   child: Text(strings.Presc_ImgGalleryUpload),
                 )
@@ -295,7 +304,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
   // }
 }
 
-checkallpermission_opencamera() async {
+Future<bool> checkallpermission_opencamera() async {
   var cameraStatus = await Permission.camera.status;
   print("Camera sssss: $cameraStatus");
   Map<Permission, PermissionStatus> statuses = await [
@@ -304,22 +313,17 @@ checkallpermission_opencamera() async {
   ].request();
 
   if (statuses[Permission.camera]!.isGranted) {
-    if (statuses[Permission.microphone]!.isGranted) {
-      final result = await ImagePicker().pickImage(source: ImageSource.camera);
-      return result;
-    } else {
-      showToast(
-        "Camera needs to access your microphone, please provide permission",
-      );
-    }
+    showToast("Permissions Granted");
+    return true;
   } else {
     showToast(
       "Provide Camera permission to use camera.",
     );
+    return false;
   }
 }
 
-checkallpermission_StoragePermission() async {
+Future<bool> checkallpermission_StoragePermission() async {
   var storageStatus = await Permission.storage.status;
   print("KKKKK Storage: $storageStatus");
   Map<Permission, PermissionStatus> statuses = await [
@@ -327,11 +331,11 @@ checkallpermission_StoragePermission() async {
   ].request();
 
   if (statuses[Permission.storage]!.isGranted) {
-    final result = await ImagePicker().pickImage(source: ImageSource.gallery);
-    return result;
+    return true;
   } else {
     showToast(
       "Provide Storage permission to upload files.",
     );
+    return false;
   }
 }
