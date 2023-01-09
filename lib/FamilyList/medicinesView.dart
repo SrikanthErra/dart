@@ -17,16 +17,23 @@ class MedicineList extends StatefulWidget {
 
 class _MedicineListState extends State<MedicineList> {
   List<MedicineModel> MedList = [];
+  List<MedicineModel> SearchMedList = [];
   String? MedName;
   int? SymId;
+  int? presc_SId;
   String? ExpDate;
   int? MedCount;
   TextEditingController TabletsCountController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    MedList = ModalRoute.of(context)?.settings.arguments as dynamic;
+    presc_SId = ModalRoute.of(context)?.settings.arguments as dynamic;
+    /* setState(() {
+      SearchMedList = MedList;
+    }); */
+    print(presc_SId);
     print('medlist is $MedList');
+    print('search $SearchMedList');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
@@ -50,12 +57,41 @@ class _MedicineListState extends State<MedicineList> {
                   colors: Colors.white,
                   size: 15,
                   weight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 8.0,
+                  left: 8.0,
+                  right: 8.0,
+                ),
+                child: TextField(
+                  style: TextStyle(color: Colors.white),
+                  cursorColor: Colors.white,
+
+                  //cursorHeight: 10,
+                  //  TextStyle(color: Colors.white),
+                  onChanged: (value) => _runFilter(value),
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(color: Colors.white),
+                    labelText: strings.SearchMedicine,
+                    suffixIcon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                    /*  enabledBorder: UnderlineInputBorder(      
+                      borderSide: BorderSide(color: Colors.white),   
+                      ),   */
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: MedList.length,
+                itemCount: SearchMedList.length,
                 itemBuilder: (context, index) {
-                  final MedicineList = MedList[index];
+                  final MedicineList = SearchMedList[index];
                   MedName = MedicineList.MedicineName;
                   ExpDate = MedicineList.ExpiryDate;
                   MedCount = MedicineList.TabletsCount;
@@ -314,12 +350,56 @@ class _MedicineListState extends State<MedicineList> {
     );
   }
 
-/*   @override
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    fetchMedicinesData();
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      fetchMedicinedata(presc_SId ?? 0);
+    });
   }
 
-  void fetchMedicinesData() {} */
+  fetchMedicinedata(int id) async {
+    print('selected id is $id');
+    await DatabaseHelper.instance
+        .medicineList(strings.Db_MedTable, id)
+        .then((value) {
+      setState(() {
+        MedList = [];
+        value.forEach((element) {
+          print('element is $element');
+          MedList.add(MedicineModel(
+              MedicineId: element["MedicineId"],
+              ExpiryDate: element["ExpiryDate"],
+              MedicineName: element["MedicineName"],
+              MedicinePhoto: element["MedicinePhoto"],
+              TabletsCount: element["TabletsCount"]));
+          SearchMedList = MedList;
+          print(' id ${id}');
+        });
+        /* if (id != 0) {
+          print('list od med is $MedList');
+          Navigator.pushNamed(context, AppRoutes.MedicineListView,
+              arguments: MedList);
+        } */
+      });
+    });
+  }
+
+  _runFilter(String enteredKeyword) {
+    List<MedicineModel> results = [];
+    if (enteredKeyword.isEmpty) {
+      results = MedList;
+    } else {
+      print(enteredKeyword);
+      results = MedList.where((element) => element.MedicineName!
+          .toLowerCase()
+          .contains(enteredKeyword.toLowerCase())).toList();
+    }
+    setState(() {
+      SearchMedList = results;
+      print(SearchMedList.length);
+    });
+  }
+
+  //void fetchMedicinesData() {}
 }
