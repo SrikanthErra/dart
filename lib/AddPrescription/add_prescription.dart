@@ -204,7 +204,8 @@ class _addPrescriptionState extends State<addPrescription> {
                                     decoration: InputDecoration(
                                         hintText: strings.Presc_Hint_Symp,
                                         hintStyle:
-                                            TextStyle(color: Colors.white)),
+                                            TextStyle(color: Colors.white),
+                                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
                                     focusNode: focusNode,
                                     style: TextStyle(color: Colors.white),
                                     onFieldSubmitted: (String value) {
