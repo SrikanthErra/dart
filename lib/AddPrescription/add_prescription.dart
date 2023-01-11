@@ -123,54 +123,60 @@ class _addPrescriptionState extends State<addPrescription> {
                       Column(children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: DropdownButtonFormField<String>(
-                            //focusColor: Colors.white,
-                            dropdownColor: Colors.blueGrey,
-                            decoration: InputDecoration(
-                              labelText: strings.Presc_LabelMemName,
-                              labelStyle: TextStyle(color: Colors.white),
-                              hintText: strings.Presc_MemNameHint,
-                              hintStyle: TextStyle(color: Colors.white),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.white)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.white)),
-                            ),
+                          child: SizedBox(
+                            width: 330,
+                            child: DropdownButtonFormField<String>(
+                              //focusColor: Colors.white,
+                              dropdownColor: Colors.blueGrey,
+                              decoration: InputDecoration(
+                                labelText: strings.Presc_LabelMemName,
+                                labelStyle: TextStyle(color: Colors.white),
+                                hintText: strings.Presc_MemNameHint,
+                                hintStyle: TextStyle(color: Colors.white),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                              ),
 
-                            value: selectedValue,
-                            items: familyNamesStateProvider.FamilyNames.map(
-                                (item) => DropdownMenuItem<String>(
-                                    value: item.FamilyMemberName,
-                                    child: Text(
-                                      item.FamilyMemberName,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ),
-                                    ))).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedValue = value as String;
-                                getId(selectedValue ?? "");
-                              });
-                              /* print('Id is $selectedId');
-                              print('Result is ${familyNamesStateProvider.FamilyNames.map(
-                                  (e) => e.FamilyMemberId)}'); */
-                            },
-                            style: TextStyle(color: Colors.white),
+                              value: selectedValue,
+                              items: familyNamesStateProvider.FamilyNames.map(
+                                  (item) => DropdownMenuItem<String>(
+                                      value: item.FamilyMemberName,
+                                      child: Text(
+                                        item.FamilyMemberName,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ))).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedValue = value as String;
+                                  getId(selectedValue ?? "");
+                                });
+                                /* print('Id is $selectedId');
+                                print('Result is ${familyNamesStateProvider.FamilyNames.map(
+                                    (e) => e.FamilyMemberId)}'); */
+                              },
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(6.0),
-                          child: Container(
+                          child: SizedBox(
+                            width: 330,
                             //color: Colors.amber,
-                            decoration: BoxDecoration(
+                            /* decoration: BoxDecoration(
                               color: Colors.transparent,
-                              border: Border.all(width: 2, color: Colors.white),
+                              border: Border.all(color: Colors.white),
                               borderRadius: BorderRadius.circular(12),
-                            ),
+                            ), */
                             child: Autocomplete<String>(
                               onSelected: (String selectedItem) {
                                 selectedSymptomValue = selectedItem;
@@ -196,27 +202,39 @@ class _addPrescriptionState extends State<addPrescription> {
                                   VoidCallback onFieldSubmitted) {
                                 textEditingController =
                                     fieldTextEditingController;
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: TextFormField(
-                                    controller: fieldTextEditingController,
-                                    cursorColor: Colors.white,
-                                    decoration: InputDecoration(
-                                        hintText: strings.Presc_Hint_Symp,
-                                        hintStyle:
-                                            TextStyle(color: Colors.white),
-                                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
-                                    focusNode: focusNode,
-                                    style: TextStyle(color: Colors.white),
-                                    onFieldSubmitted: (String value) {
-                                      onFieldSubmitted();
-                                      print(
-                                          'text is ${textEditingController.text}');
-                                      print(
-                                          'You just typed a new entry  $value');
-                                    },
+                                return TextFormField(
+                                  controller: fieldTextEditingController,
+                                  cursorColor: Colors.white,
+                                  decoration: InputDecoration(
+                                    labelText: 'Symptom',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    hintText: strings.Presc_Hint_Symp,
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide:
+                                            BorderSide(color: Colors.white)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide:
+                                            BorderSide(color: Colors.white)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide:
+                                            BorderSide(color: Colors.white)),
                                   ),
+                                  focusNode: focusNode,
+                                  style: TextStyle(color: Colors.white),
+                                  onFieldSubmitted: (String value) {
+                                    onFieldSubmitted();
+                                    print(
+                                        'text is ${textEditingController.text}');
+                                    print('You just typed a new entry  $value');
+                                  },
                                 );
                               },
                               optionsBuilder:
@@ -243,7 +261,7 @@ class _addPrescriptionState extends State<addPrescription> {
                               Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 8),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -300,11 +318,11 @@ class _addPrescriptionState extends State<addPrescription> {
                                       SymptomsDataList = [];
                                       fetchData();
                                       /* await EasyLoading.show(
-
-                                status: "Loading...",
-                                maskType: EasyLoadingMaskType.black);
-                            Navigator.pushReplacementNamed(
-                                context, AppRoutes.addPrescription); */
+                                                            
+                                                                status: "Loading...",
+                                                                maskType: EasyLoadingMaskType.black);
+                                                            Navigator.pushReplacementNamed(
+                                                                context, AppRoutes.addPrescription); */
                                     },
                                     child: SvgPicture.asset(
                                       AssetPath.PlusIcon,
@@ -319,64 +337,67 @@ class _addPrescriptionState extends State<addPrescription> {
                           ),
                         ),
                       ]),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: AppInputText(
-                                text: strings.DashBoard_AddMed,
-                                colors: Colors.white,
-                                size: 18,
-                                weight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 330,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppInputText(
+                                  text: strings.DashBoard_AddMed,
+                                  colors: Colors.white,
+                                  size: 18,
+                                  weight: FontWeight.bold),
+                              GestureDetector(
+                                onTap: () {
+                                  print('names are $famNamesList');
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AppShowAlertMedicineData(
+                                            message: strings.MedAlert_message,
+                                            hintText:
+                                                strings.MedAlert_hintEnterMed,
+                                            hintText1:
+                                                strings.MedAlert_hintExpDate,
+                                            hintText2: strings
+                                                .MedAlert_hintTabletsCount,
+                                            errorMessage:
+                                                strings.MedAlert_errorMedName,
+                                            errorMessage1:
+                                                strings.MedAlert_errorExpDate,
+                                            errorMessage2: strings
+                                                .MedAlert_errorTabletsCount,
+                                            MedicinenameController:
+                                                MedicinenameController,
+                                            ExpiryDateController:
+                                                ExpiryDateController,
+                                            TabletCountController:
+                                                TabletCountController,
+                                            input_type: TextInputType.text,
+                                            obsecuretext: false,
+                                            //node: _node,
+                                            action: TextInputAction.next,
+                                            onEditingComplete: () {
+                                              _node.nextFocus();
+                                            },
+                                            globalKey: _formkey5);
+                                      });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: SvgPicture.asset(
+                                    AssetPath.PlusIcon,
+                                    height: 30,
+                                    width: 30,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                print('names are $famNamesList');
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AppShowAlertMedicineData(
-                                          message: strings.MedAlert_message,
-                                          hintText:
-                                              strings.MedAlert_hintEnterMed,
-                                          hintText1:
-                                              strings.MedAlert_hintExpDate,
-                                          hintText2:
-                                              strings.MedAlert_hintTabletsCount,
-                                          errorMessage:
-                                              strings.MedAlert_errorMedName,
-                                          errorMessage1:
-                                              strings.MedAlert_errorExpDate,
-                                          errorMessage2: strings
-                                              .MedAlert_errorTabletsCount,
-                                          MedicinenameController:
-                                              MedicinenameController,
-                                          ExpiryDateController:
-                                              ExpiryDateController,
-                                          TabletCountController:
-                                              TabletCountController,
-                                          input_type: TextInputType.text,
-                                          obsecuretext: false,
-                                          //node: _node,
-                                          action: TextInputAction.next,
-                                          onEditingComplete: () {
-                                            _node.nextFocus();
-                                          },
-                                          globalKey: _formkey5);
-                                    });
-                              },
-                              child: SvgPicture.asset(
-                                AssetPath.PlusIcon,
-                                height: 30,
-                                width: 30,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        ],
+                        ),
                       ),
                     ]),
               ),

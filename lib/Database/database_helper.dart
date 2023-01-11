@@ -137,14 +137,14 @@ VALUES( value1,	value2 ,...); */
     Database db = await instance.database;
     return await db.query(table);
   }
-  
-   Future<List<Map>> nextVisit() async {
+
+  Future<List<Map>> nextVisit() async {
     Database db = await instance.database;
     return await db.rawQuery(
         'SELECT HospitalName,NextAppointmentDate,ReasonForAppointment FROM $table2');
     // Medicines   Symptoms  SymptomId DoctorName varchar(255),
-      // HospitalName varchar(255),
-      // DateOfAppointment varchar(255),
+    // HospitalName varchar(255),
+    // DateOfAppointment varchar(255),
   }
   // Future<List<Map<String, dynamic>>> queryAllRowsofContact() async {
   //   Database db = await instance.database;
@@ -272,8 +272,8 @@ VALUES( value1,	value2 ,...); */
     return await db.rawQuery(
         'SELECT Symptom,DoctorName,DateOfAppointment,FamilyMemberId,SId,SymptomId FROM $table2');
     // Medicines   Symptoms  SymptomId DoctorName varchar(255),
-      // HospitalName varchar(255),
-      // DateOfAppointment varchar(255),
+    // HospitalName varchar(255),
+    // DateOfAppointment varchar(255),
   }
 
   Future<List<Map>> viewTotalPres(int id, int SId) async {
@@ -334,6 +334,14 @@ VALUES( value1,	value2 ,...); */
     ''', [MedTabCount, id]);
   }
 
+  Future<int> UpdateMpin(mpin, mobileNumber) async {
+    Database db = await instance.database;
+    return await db.rawUpdate('''
+    UPDATE FamilyList
+    SET mpin = ?
+    WHERE mobileNumber = ?
+    ''', [mpin, mobileNumber]);
+  }
   /*  Future<User> checkLogin(String userName, String password) async {
     final dbClient = await db;
     var res = await dbClient.rawQuery(

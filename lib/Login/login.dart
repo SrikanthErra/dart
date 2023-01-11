@@ -174,6 +174,7 @@ class _LoginPageState extends State<LoginPage> {
               },
             );
           });
+      return false;
     } else if (_mobile.text.length < 10) {
       showDialog(
           context: context,
@@ -188,6 +189,7 @@ class _LoginPageState extends State<LoginPage> {
               },
             );
           });
+      return false;
     } /* else if (!RegExp(
             r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
         .hasMatch(_password.text)) {
