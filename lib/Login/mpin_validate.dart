@@ -8,7 +8,6 @@ import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Database/database_helper.dart';
-import '../CustomAlerts/SuccessCutomAlerts.dart';
 import '../CustomAlerts/customAlerts.dart';
 
 class mpinValidate extends StatefulWidget {
@@ -49,7 +48,7 @@ class _mpinValidateState extends State<mpinValidate> {
                 child: AppInputText(
                     text: strings.Mpin_validate,
                     colors: Colors.white,
-                    size: 30,
+                    size: 25,
                     weight: FontWeight.bold),
               ),
               Padding(
@@ -86,6 +85,22 @@ class _mpinValidateState extends State<mpinValidate> {
                   print(mpinOutput);
                   _mpin.text = mpinOutput;
                 },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, AppRoutes.ResetMpin,
+                            arguments: arg.phoneNumber);
+                      },
+                      child: Text("Forgot Password"),
+                    ),
+                  )
+                ],
               ),
               ButtonComponent(
                   onPressed: () {

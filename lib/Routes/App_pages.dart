@@ -14,6 +14,7 @@ import 'package:side_menu/Login/mpin.dart';
 import 'package:side_menu/Login/mpin_validate.dart';
 import 'package:side_menu/Login/otp.dart';
 import 'package:side_menu/Login/registration.dart';
+import 'package:side_menu/Login/resetMpin.dart';
 import 'package:side_menu/autocomplete_dropdown.dart';
 import 'package:side_menu/combined_dropdown.dart';
 import 'package:side_menu/multi_select_dropdown.dart';
@@ -63,6 +64,7 @@ class AppPages {
             rateMyApp: RateMyApp(),
           )),
       AppRoutes.UserManual: ((context) => UserManual()),
+      AppRoutes.ResetMpin: ((context) => ResetMpin()),
     };
   }
 }

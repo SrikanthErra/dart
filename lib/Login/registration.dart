@@ -73,9 +73,10 @@ class _registerFamilyState extends State<registerFamily> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      //resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Center(child: Text(strings.RegFamMem))),
       body: Container(
+        width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -162,39 +163,45 @@ class _registerFamilyState extends State<registerFamily> {
                   groupItemsAlignment: GroupItemsAlignment.row,
                   mainAxisAlignment: MainAxisAlignment.start,
                   internMainAxisAlignment: MainAxisAlignment.start,
-
+    
                   /// In reality this is not needed
                   // priority: RadioPriority.textBeforeRadio,
                   defaultSelectedItem: -1,
                   onSelectionChanged: (selection) {
                     print(selection);
                   }), */
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text(
-                      strings.Gender_SelectHeader,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+              Container(
+                width: 330,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        strings.Gender_SelectHeader,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0, bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        addRadioButton(0, strings.Gender_Male),
-                        addRadioButton(1, strings.Gender_Female),
-                        addRadioButton(2, strings.Gender_Other),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                      child: Container(
+                        width: 330,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            addRadioButton(0, strings.Gender_Male),
+                            addRadioButton(1, strings.Gender_Female),
+                            addRadioButton(2, strings.Gender_Other),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               ButtonComponent(
                   onPressed: () async {
@@ -246,7 +253,6 @@ class _registerFamilyState extends State<registerFamily> {
 
   Row addRadioButton(int btnValue, String title) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
           activeColor: Colors.white,

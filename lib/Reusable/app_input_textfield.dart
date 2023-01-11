@@ -40,7 +40,7 @@ class AppInputTextfield extends StatelessWidget {
       this.suffixIcon,
       this.onChanged,
       this.length,
-       this.autofocus});
+      this.autofocus});
   final String hintText, errorMessage;
   final TextEditingController nameController;
   final TextInputType input_type;
@@ -62,43 +62,52 @@ class AppInputTextfield extends StatelessWidget {
         node: node,
         child: Form(
           key: globalKey,
-          child: TextFormField(
-            autofocus: autofocus ?? false,
-            maxLength: length,
-            obscureText: obsecuretext,
-            textInputAction: TextInputAction.done,
-            onEditingComplete: onEditingComplete,
-            style: const TextStyle(color: Colors.white),
-            controller: nameController,
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: TextStyle(color: Colors.white),
-              prefixIcon: prefixIcon,
-              //suffixIcon: null == suffixIcon ? null : Icon(suffixIcon),
-              suffixIcon: suffixIcon,
-
-              enabledBorder: OutlineInputBorder(
+          child: SizedBox(
+            width: 330,
+            child: TextFormField(
+              autofocus: autofocus ?? false,
+              maxLength: length,
+              obscureText: obsecuretext,
+              textInputAction: TextInputAction.done,
+              onEditingComplete: onEditingComplete,
+              style: const TextStyle(color: Colors.white),
+              controller: nameController,
+              decoration: InputDecoration(
+                hintText: hintText,
+                hintStyle: TextStyle(color: Colors.white),
+                prefixIcon: prefixIcon,
+                //suffixIcon: null == suffixIcon ? null : Icon(suffixIcon),
+                suffixIcon: suffixIcon,
+                errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.white)),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.white)),
-              labelStyle: TextStyle(
-                color: Colors.white,
-                // color: node.hasFocus?Colors.amber:Colors.blue,
-                fontWeight: FontWeight.bold,
+                  borderSide: BorderSide(color: Colors.red),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)),
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                  // color: node.hasFocus?Colors.amber:Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+                labelText: hintText,
               ),
-              labelText: hintText,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return errorMessage;
+                }
+              },
+              keyboardType: input_type,
+              /* Platform.isIOS
+                  ? TextInputType.text
+                  : input_type, */
             ),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return errorMessage;
-              }
-            },
-            keyboardType: input_type,
-             /* Platform.isIOS
-                ? TextInputType.text
-                : input_type, */
           ),
         ),
       ),

@@ -1,3 +1,5 @@
+import 'package:side_menu/Login/resetMpin.dart';
+
 class AppRoutes {
   AppRoutes._();
   static const initial = login;
@@ -28,4 +30,5 @@ class AppRoutes {
   static const AppInfo = "/appInfo.dart";
   static const AppRating = "/appRating.dart";
   static const UserManual = "/userManual.dart";
+  static const ResetMpin = "/resetMpin.dart";
 }

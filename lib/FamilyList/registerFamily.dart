@@ -57,6 +57,7 @@ class _registerFamilyFromDashboardState
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AssetPath.Background),
@@ -122,32 +123,38 @@ class _registerFamilyFromDashboardState
                   //lengthRequired: 10,
                   globalKey: _formkey3,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Text(
-                        strings.Gender_SelectHeader,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
+                Container(
+                  width: 330,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          strings.Gender_SelectHeader,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0, bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          addRadioButton(0, strings.Gender_Male),
-                          addRadioButton(1, strings.Gender_Female),
-                          addRadioButton(2, strings.Gender_Other),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                        child: Container(
+                          width: 330,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              addRadioButton(0, strings.Gender_Male),
+                              addRadioButton(1, strings.Gender_Female),
+                              addRadioButton(2, strings.Gender_Other),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 ButtonComponent(
                     onPressed: () async {
