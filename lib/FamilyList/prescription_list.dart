@@ -3,6 +3,8 @@ import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/Constants/app_constants.dart';
+import '../Constants/appColor.dart';
+import '../CustomAlerts/customAlerts.dart';
 import '../Database/database_helper.dart';
 import '../Reusable/alert.dart';
 import '../Reusable/app_input_text.dart';
@@ -287,7 +289,15 @@ class _prescriptionListState extends State<prescriptionList> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AppShowAlert(message: strings.PrescAlert);
+                return CustomDialogBox(
+                    title: 'Prescription Data',
+                    descriptions: strings.familyList_AlertPresc,
+                    Buttontext: strings.Presc_Ok,
+                    img: Image.asset(AssetPath.AppLogo),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    bgColor: AppColors.navy);
               });
         }
         // print(totalPresc[0].name);

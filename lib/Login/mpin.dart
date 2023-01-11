@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Database/database_helper.dart';
+import '../CustomAlerts/SuccessCutomAlerts.dart';
+import '../CustomAlerts/customAlerts.dart';
 
 class mpinPage extends StatefulWidget {
   const mpinPage({super.key});
@@ -129,41 +130,78 @@ class _mpinPageState extends State<mpinPage> {
                         if (_confirm_mpin.text.length == 4 &&
                             _confirm_mpin.text.isNotEmpty) {
                           if (_mpin.text == _confirm_mpin.text) {
-                            final registered_famList = registrationFamilyModel(
-                                mpin: _mpin.text,
-                                age: arg.age,
-                                name: arg.name,
-                                gender: arg.gender,
-                                mobile: arg.mobile);
-                            final DatabaseHelper _databaseService =
-                                DatabaseHelper.instance;
-                            final saved = await _databaseService.insertInto(
-                                registered_famList.toJson(),
-                                DatabaseHelper.table);
-                            print("data saved $saved");
-                            Navigator.pushReplacementNamed(
-                                context, AppRoutes.login);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SuccessCustomAlert(
+                                    title: 'MPIN SET SUCCESSFULLY',
+                                    descriptions:
+                                        'Mpin for user is set Successfully',
+                                    Buttontext: 'OK',
+                                    img: Image.asset(AssetPath.SuccessIcon),
+                                    onPressed: () async {
+                                      final registered_famList =
+                                          registrationFamilyModel(
+                                              mpin: _mpin.text,
+                                              age: arg.age,
+                                              name: arg.name,
+                                              gender: arg.gender,
+                                              mobile: arg.mobile);
+                                      final DatabaseHelper _databaseService =
+                                          DatabaseHelper.instance;
+                                      final saved =
+                                          await _databaseService.insertInto(
+                                              registered_famList.toJson(),
+                                              DatabaseHelper.table);
+                                      print("data saved $saved");
+                                      Navigator.pushReplacementNamed(
+                                          context, AppRoutes.login);
+                                    },
+                                  );
+                                });
                           } else {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return AppShowAlert(
-                                      message: strings.Mpin_AlertNoMatch);
+                                  return CustomDialogBox(
+                                    title: 'SET MPIN',
+                                    descriptions: strings.Mpin_AlertNoMatch,
+                                    Buttontext: 'OK',
+                                    img: Image.asset(AssetPath.WarningBlueIcon),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  );
                                 });
                           }
                         } else {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return AppShowAlert(
-                                    message: strings.Mpin_AlertConfirm);
+                                return CustomDialogBox(
+                                  title: 'SET MPIN',
+                                  descriptions: strings.Mpin_AlertConfirm,
+                                  Buttontext: 'OK',
+                                  img: Image.asset(AssetPath.WarningBlueIcon),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                );
                               });
                         }
                       } else {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AppShowAlert(message: strings.Mpin_Alert);
+                              return CustomDialogBox(
+                                title: 'SET MPIN',
+                                descriptions: strings.Mpin_Alert,
+                                Buttontext: 'OK',
+                                img: Image.asset(AssetPath.WarningBlueIcon),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              );
                             });
                       }
                     },

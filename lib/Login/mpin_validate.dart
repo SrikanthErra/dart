@@ -6,9 +6,10 @@ import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
-import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Database/database_helper.dart';
+import '../CustomAlerts/SuccessCutomAlerts.dart';
+import '../CustomAlerts/customAlerts.dart';
 
 class mpinValidate extends StatefulWidget {
   const mpinValidate({super.key});
@@ -94,7 +95,15 @@ class _mpinValidateState extends State<mpinValidate> {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AppShowAlert(message: strings.Mpin_Alert);
+                            return CustomDialogBox(
+                              title: "INVALID MPIN",
+                              descriptions: strings.Mpin_Alert,
+                              Buttontext: strings.Presc_Ok,
+                              img: Image.asset(AssetPath.WarningIcon),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            );
                           });
                     }
                   },
@@ -104,14 +113,6 @@ class _mpinValidateState extends State<mpinValidate> {
         ),
       ),
     );
-  }
-
-  showAlert(String message) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AppShowAlert(message: message);
-        });
   }
 
   LoginCall(String phoneNumber, String mpin) async {
@@ -125,7 +126,20 @@ class _mpinValidateState extends State<mpinValidate> {
           status: strings.Loader, maskType: EasyLoadingMaskType.black);
       Navigator.pushReplacementNamed(context, AppRoutes.dashboardGridview);
     } else {
-      showAlert(strings.Mpin_validation);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: "WRONG MPIN",
+              descriptions: strings.Mpin_validation,
+              Buttontext: strings.Presc_Ok,
+              img: Image.asset(AssetPath.CrossIcon),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              bgColor: Colors.red[900],
+            );
+          });
     }
     /* flag = saved;
     print('flag is $flag');

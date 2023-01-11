@@ -7,6 +7,7 @@ import 'package:side_menu/Reusable/toast.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:sqflite/sqflite.dart';
 import '../Constants/TextStyles.dart';
+import '../CustomAlerts/WarningAlert.dart';
 import '../Reusable/app_input_text.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
 
@@ -254,31 +255,23 @@ class _AllMedicineListState extends State<AllMedicineList> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(
-                  "No tablets for Medicine: ${element.MedicineName}...! Do you want to Delete?"),
-              actions: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        DatabaseHelper.instance.delete(element.MedicineId!);
-                        Navigator.pushNamed(
-                            context, AppRoutes.dashboardGridview);
-                        await EasyLoading.show(
-                            status: strings.Loader,
-                            maskType: EasyLoadingMaskType.black);
-                      },
-                      child: const Text(strings.Alerts_Yes),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(strings.Alerts_No),
-                    ),
-                  ],
-                ),
-              ],
+            return WarningAlert(
+              title: '',
+              descriptions:
+                  "No tablets for Medicine: '${element.MedicineName}'...! Do you want to Delete?",
+              img: Image.asset(AssetPath.WarningBlueIcon),
+              Buttontext2: strings.Alerts_No,
+              onButton2Pressed: () {
+                Navigator.pop(context);
+              },
+              Buttontext1: strings.Alerts_Yes,
+              onButton1Pressed: () async {
+                DatabaseHelper.instance.delete(element.MedicineId!);
+                Navigator.pushNamed(context, AppRoutes.dashboardGridview);
+                await EasyLoading.show(
+                    status: strings.Loader,
+                    maskType: EasyLoadingMaskType.black);
+              },
             );
           },
         );

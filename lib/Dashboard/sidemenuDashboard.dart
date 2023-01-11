@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
 import '../Constants/StringConstants.dart';
+import '../CustomAlerts/WarningAlert.dart';
 import '../Routes/App_routes.dart';
 
 class SidemenuDashboard extends StatefulWidget {
@@ -176,27 +177,20 @@ class _SidemenuDashboardState extends State<SidemenuDashboard> {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(strings.Alerts_exit),
-                            actions: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () => SystemNavigator.pop(),
-                                    child: const Text(strings.Alerts_Yes),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text(strings.Alerts_No),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
-                        },
+                        builder: (context) => WarningAlert(
+                          title: strings.AppTitle,
+                          descriptions: strings.Alerts_titleAreYouSure +
+                              strings.Alerts_ExitApp,
+                          Buttontext2: strings.Alerts_No,
+                          Buttontext1: strings.Alerts_Yes,
+                          img: Image.asset(AssetPath.AppLogo),
+                          onButton2Pressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          onButton1Pressed: () {
+                            SystemNavigator.pop();
+                          },
+                        ),
                       );
                     },
                   ),
@@ -207,29 +201,19 @@ class _SidemenuDashboardState extends State<SidemenuDashboard> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(strings.Alerts_logout),
-                            /* content:
-                                const Text('Do you want to logout from app'), */
-                            actions: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () =>
-                                        Navigator.pushReplacementNamed(
-                                            context, AppRoutes.login),
-                                    child: const Text(strings.Alerts_Yes),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text(strings.Alerts_No),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
+                          return WarningAlert(
+                              title: strings.AppTitle,
+                              descriptions: strings.Alerts_logout,
+                              Buttontext2: strings.Alerts_No,
+                              Buttontext1: strings.Alerts_Yes,
+                              img: Image.asset(AssetPath.WarningBlueIcon),
+                              onButton2Pressed: () {
+                                Navigator.pop(context);
+                              },
+                              onButton1Pressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, AppRoutes.login);
+                              });
                         },
                       );
                     },
