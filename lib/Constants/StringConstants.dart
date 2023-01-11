@@ -132,9 +132,11 @@ class strings {
   static const String AccountCheck = "Don't have an account?";
   static const String SignUp = "Sign Up here";
   static const String LoginAlert_enterMobile = "Please enter Mobie Number";
+  static const String LoginAlert_InvalidMobile =
+      "Please enter valid Mobie Number";
   static const String LoginAlert_signUp = "Please Sign Up";
   static const String LoginAlert_Invalid =
-      "Mobile Number Invalid.. Please Check!!!";
+      "Please Check and Enter a Valid Mobile Number";
   static const String Mpin_validate = "Validate MPIN";
   static const String Mpin_Hint = "Enter 4 digit MPIN";
   static const String Mpin_Alert = "Please enter 4 digit MPIN";

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/appColor.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
+import 'package:side_menu/CustomAlerts/customAlerts.dart';
 import 'package:side_menu/Reusable/alert.dart';
 import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/Database/database_helper.dart';
@@ -173,7 +175,6 @@ class _familyListState extends State<familyList> {
     print('app const is ${AppConstants.famMemId}');
 
     fetchdata(selectedId ?? 0, name);
-
   }
 
   /* fetchAllPresData(int id) async {
@@ -254,7 +255,15 @@ class _familyListState extends State<familyList> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AppShowAlert(message: strings.familyList_AlertPresc);
+                return CustomDialogBox(
+                    title: 'Prescription Data',
+                    descriptions: strings.familyList_AlertPresc,
+                    Buttontext: strings.Presc_Ok,
+                    img: Image.asset(AssetPath.WarningBlueIcon),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    bgColor: AppColors.navy);
               });
         }
       });

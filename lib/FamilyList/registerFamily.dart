@@ -10,6 +10,7 @@ import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 import 'package:side_menu/Database/database_helper.dart';
 import '../Constants/TextStyles.dart';
+import '../CustomAlerts/customAlerts.dart';
 
 class registerFamilyFromDashboard extends StatefulWidget {
   const registerFamilyFromDashboard({super.key});
@@ -176,19 +177,14 @@ class _registerFamilyFromDashboardState
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(strings.MobileAlert),
-                              actions: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text(strings.Presc_Ok),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            return CustomDialogBox(
+                              title: "MOBILE NUMBER INVALID",
+                              descriptions: strings.MobileAlert,
+                              Buttontext: 'OK',
+                              img: Image.asset(AssetPath.WarningBlueIcon),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
                             );
                           },
                         );

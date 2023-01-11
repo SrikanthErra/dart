@@ -5,6 +5,7 @@ import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:side_menu/Constants/TextStyles.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
+import '../CustomAlerts/WarningAlert.dart';
 import '../Database/database_helper.dart';
 import '../Routes/App_routes.dart';
 import '../modelClasses/database_modelClass/PrescriptionModel.dart';
@@ -166,47 +167,39 @@ class _visitAlertsState extends State<visitAlerts>
                                                       context: context,
                                                       builder: (BuildContext
                                                           context) {
-                                                        return AlertDialog(
-                                                          title: Text(
-                                                              "Do you want to delete the {${expirylist.MedicineName}} Medicine from the table?"),
-                                                          actions: [
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceAround,
-                                                              children: [
-                                                                ElevatedButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    DatabaseHelper
-                                                                        .instance
-                                                                        .delete(
-                                                                            expirylist.MedicineId!);
-                                                                    await EasyLoading.show(
-                                                                        status: strings
-                                                                            .Loader,
-                                                                        maskType:
-                                                                            EasyLoadingMaskType.black);
-                                                                    Navigator.pushReplacementNamed(
-                                                                        context,
-                                                                        AppRoutes
-                                                                            .visitAlerts);
-                                                                  },
-                                                                  child: const Text(
-                                                                      strings
-                                                                          .Alerts_Yes),
-                                                                ),
-                                                                ElevatedButton(
-                                                                  onPressed: () =>
-                                                                      Navigator.pop(
-                                                                          context),
-                                                                  child: const Text(
-                                                                      strings
-                                                                          .Alerts_No),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
+                                                        return WarningAlert(
+                                                          title:
+                                                              'Remove Medicine from the Inventory',
+                                                          descriptions:
+                                                              'Do you want to delete "${expirylist.MedicineName}" Medicine from the table?',
+                                                          img: Image.asset(AssetPath
+                                                              .WarningBlueIcon),
+                                                          Buttontext1:
+                                                              strings.Alerts_No,
+                                                          onButton1Pressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          Buttontext2: strings
+                                                              .Alerts_Yes,
+                                                          onButton2Pressed:
+                                                              () async {
+                                                            DatabaseHelper
+                                                                .instance
+                                                                .delete(expirylist
+                                                                    .MedicineId!);
+                                                            await EasyLoading.show(
+                                                                status: strings
+                                                                    .Loader,
+                                                                maskType:
+                                                                    EasyLoadingMaskType
+                                                                        .black);
+                                                            Navigator
+                                                                .pushReplacementNamed(
+                                                                    context,
+                                                                    AppRoutes
+                                                                        .visitAlerts);
+                                                          },
                                                         );
                                                       },
                                                     );

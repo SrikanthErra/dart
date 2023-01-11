@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
+import 'package:side_menu/CustomAlerts/WarningAlert.dart';
 import 'package:side_menu/Dashboard/sidemenuDashboard.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
@@ -355,23 +356,20 @@ class _dashboardGridviewState extends State<dashboardGridview>
 
   Future<bool> _onBackPressed() async {
     return await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text(strings.Alerts_titleAreYouSure),
-            content: new Text(strings.Alerts_ExitApp),
-            actions: <Widget>[
-              ElevatedButton(
-                onPressed: () => SystemNavigator.pop(),
-                child: Text(strings.Alerts_Yes),
-              ),
-              SizedBox(height: 16),
-              new ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(strings.Alerts_No),
-              ),
-            ],
-          ),
-        ) ??
+            context: context,
+            builder: (context) => WarningAlert(
+                title: strings.AppTitle,
+                descriptions:
+                    strings.Alerts_titleAreYouSure + strings.Alerts_ExitApp,
+                Buttontext2: strings.Alerts_No,
+                Buttontext1: strings.Alerts_Yes,
+                img: Image.asset(AssetPath.WarningBlueIcon),
+                onButton2Pressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                onButton1Pressed: () {
+                  SystemNavigator.pop();
+                })) ??
         false;
   }
 }

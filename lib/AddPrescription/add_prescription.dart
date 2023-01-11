@@ -18,6 +18,7 @@ import 'package:side_menu/Routes/App_routes.dart';
 import 'package:side_menu/modelClasses/medicine_list_provider.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import '../Constants/TextStyles.dart';
+import '../CustomAlerts/customAlertsTwoButtons.dart';
 import '../Database/database_helper.dart';
 import 'package:side_menu/modelClasses/familyNamesModel.dart';
 import 'package:side_menu/modelClasses/family_list_names_provider.dart';
@@ -604,13 +605,36 @@ class _addPrescriptionState extends State<addPrescription> {
                                         backgroundColor: Colors.white,
                                         child: GestureDetector(
                                           onTap: () {
-                                            print(
-                                                'hello ${Uploadedfiles[index]}');
-                                            setState(() {
-                                              Uploadedfiles.removeAt(index);
-                                              print(Uploadedfiles);
-                                              //Uploadedfiles = UploadedImagefiles + UploadedGalleryfiles;
-                                            });
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return CustomDialogBoxTwoButtons(
+                                                  title:
+                                                      'Delete Prescription File',
+                                                  descriptions:
+                                                      'Are you sure you want to delete the file?',
+                                                  Buttontext2: 'No',
+                                                  Buttontext1: 'Yes',
+                                                  img: Image.asset(
+                                                      AssetPath.AppLogo),
+                                                  onButton1Pressed: () {
+                                                    print(
+                                                        'hello ${Uploadedfiles[index]}');
+                                                    setState(() {
+                                                      Uploadedfiles.removeAt(
+                                                          index);
+                                                      print(Uploadedfiles);
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      //Uploadedfiles = UploadedImagefiles + UploadedGalleryfiles;
+                                                    });
+                                                  },
+                                                  onButton2Pressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                );
+                                              },
+                                            );
                                           },
                                           child: Center(
                                             child: Icon(
@@ -643,9 +667,7 @@ class _addPrescriptionState extends State<addPrescription> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
                             onPressed: () async {
-                              if (checkallpermission_opencamera() == false) {
-                                checkallpermission_opencamera();
-                              } else {
+                              if (await checkallpermission_opencamera()) {
                                 final result = await ImagePicker()
                                     .pickImage(source: ImageSource.camera);
                                 if (result == null) return;
@@ -668,7 +690,8 @@ class _addPrescriptionState extends State<addPrescription> {
                             onPressed: () async {
                               if (checkallpermission_StoragePermission() ==
                                   false) {
-                                checkallpermission_StoragePermission();
+                                showToast(
+                                    "Provide Storage permission to upload files.");
                               } else {
                                 final result = await FilePicker.platform
                                     .pickFiles(
@@ -944,38 +967,37 @@ class _addPrescriptionState extends State<addPrescription> {
 }
 
 Future<bool> checkallpermission_opencamera() async {
+  await [Permission.camera].request();
   var cameraStatus = await Permission.camera.status;
   print("Camera sssss: $cameraStatus");
-  Map<Permission, PermissionStatus> statuses = await [
-    Permission.camera,
-    Permission.microphone,
-  ].request();
-
-  if (statuses[Permission.camera]!.isGranted) {
+  if (cameraStatus.isGranted) {
     print("PErmission granted");
     return true;
+  } else if (cameraStatus.isPermanentlyDenied) {
+    print("denied");
+    await openAppSettings();
+    return false;
   } else {
     showToast(
       "Provide Camera permission to use camera.",
     );
+    await openAppSettings();
     return false;
   }
 }
 
 Future<bool> checkallpermission_StoragePermission() async {
-  var storageStatus = await Permission.storage.status;
-  print("KKKKK Storage: $storageStatus");
-  Map<Permission, PermissionStatus> statuses = await [
+  await [
     Permission.storage,
   ].request();
-
-  if (statuses[Permission.storage]!.isGranted) {
-    print("Storage Permissions Granted");
+  var storageStatus = await Permission.storage.status;
+  if (storageStatus.isGranted) {
     return true;
   } else {
     showToast(
       "Provide Storage permission to upload files.",
     );
+    await openAppSettings();
     return false;
   }
 }
