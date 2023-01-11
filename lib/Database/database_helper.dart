@@ -135,10 +135,17 @@ VALUES( value1,	value2 ,...); */
 
   Future<List<Map<String, dynamic>>> queryAllRows(String table) async {
     Database db = await instance.database;
-
     return await db.query(table);
   }
-
+  
+   Future<List<Map>> nextVisit() async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+        'SELECT HospitalName,NextAppointmentDate,ReasonForAppointment FROM $table2');
+    // Medicines   Symptoms  SymptomId DoctorName varchar(255),
+      // HospitalName varchar(255),
+      // DateOfAppointment varchar(255),
+  }
   // Future<List<Map<String, dynamic>>> queryAllRowsofContact() async {
   //   Database db = await instance.database;
   //   return await db.query(tableContact);
@@ -258,6 +265,15 @@ VALUES( value1,	value2 ,...); */
     return await db.rawQuery(
         'SELECT Symptom,MedicineName,TabletsCount,ExpiryDate FROM $table2 INNER JOIN $table3 ON $table3.SId = $table2.SId ');
     // Medicines   Symptoms  SymptomId
+  }
+
+  Future<List<Map>> viewSymp() async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+        'SELECT Symptom,DoctorName,DateOfAppointment,FamilyMemberId,SId,SymptomId FROM $table2');
+    // Medicines   Symptoms  SymptomId DoctorName varchar(255),
+      // HospitalName varchar(255),
+      // DateOfAppointment varchar(255),
   }
 
   Future<List<Map>> viewTotalPres(int id, int SId) async {

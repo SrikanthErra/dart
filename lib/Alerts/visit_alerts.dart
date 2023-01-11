@@ -6,6 +6,8 @@ import 'package:side_menu/Constants/TextStyles.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import '../CustomAlerts/WarningAlert.dart';
+import 'package:side_menu/modelClasses/nextVisit_model.dart';
+import 'package:side_menu/modelClasses/next_visit._model.dart';
 import '../Database/database_helper.dart';
 import '../Routes/App_routes.dart';
 import '../modelClasses/database_modelClass/PrescriptionModel.dart';
@@ -23,7 +25,7 @@ class _visitAlertsState extends State<visitAlerts>
   int count = 0;
   late Animation<Color?> animation;
   late AnimationController controller;
-  List<PrescriptionModel> nextvisitList = [];
+  List<NextVisitModel> nextvisitList = [];
   List<MedicineModel> expiryList = [];
   String? hospitalName;
   String? nextvisitdate;
@@ -31,6 +33,8 @@ class _visitAlertsState extends State<visitAlerts>
   String? _expiryMedicineName;
   String? _expiryDate;
   Widget build(BuildContext context) {
+    /* print('len is ${nextvisitList[0].HospitalName}');
+    print(nextvisitList[0].HospitalName == ''); */
     EasyLoading.dismiss();
     return new WillPopScope(
       onWillPop: () async {
@@ -73,6 +77,9 @@ class _visitAlertsState extends State<visitAlerts>
                     colors: Colors.white,
                     size: 15,
                     weight: FontWeight.bold),
+                /* (hospitalName == '' && nextvisitdate == '' && reason == '')
+                      ? Container()
+                      :  */
                 ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -309,19 +316,28 @@ class _visitAlertsState extends State<visitAlerts>
     });
     // Remove this line if you want to start the animation later
     controller.forward();
-    DatabaseHelper.instance.queryAllRows("Prescription").then((value) {
+    DatabaseHelper.instance.nextVisit().then((value) {
       setState(() {
         value.forEach((element) {
-          nextvisitList.add(
-            PrescriptionModel(
-              Symptom: element["Symptom"],
-              DoctorName: element["DoctorName"],
+          print('element is $element');
+          print('hell ${element["HospitalName"]}');
+          print('hell ${element["NextAppointmentDate"]}');
+          print('hell ${element["ReasonForAppointment"]}');
+          final hospName = element["HospitalName"];
+          final nxt = element['NextAppointmentDate'];
+          final reason = element['ReasonForAppointment'];
+          if (hospName.toString() != '' &&
+              nxt.toString() != '' &&
+              reason.toString() != '') {
+            print('jhcvsajdvas');
+            nextvisitList.add(NextVisitModel(
               HospitalName: element["HospitalName"],
-              DateOfAppointment: element["DateOfAppointment"],
+              NextAppointmentDate: element["NextAppointmentDate"],
               ReasonForAppointment: element["ReasonForAppointment"],
-              NextAppointmentDate: element['NextAppointmentDate'],
-            ),
-          );
+            ));
+          } else {
+            print('entered in else');
+          }
         });
       });
     }).catchError((error) {

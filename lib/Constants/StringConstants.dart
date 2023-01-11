@@ -159,6 +159,8 @@ class strings {
   static const String CombinedDropDown_Hint = "Please enter Symptoms";
   static const String PrescView_FamName = "Family Member Name";
   static const String SearchText = "Search Symptom/MedicineName";
+  static const String SearchSymptom = "Search Symptom";
+  static const String SearchMedicine = "Search Medicine";
   static const String AppDescription =
       "    Medicine Home Inventory is an app which tracks your medicines and indicates us when the medicines are expired by taking the details of the medicines, symptoms.... With a provision where we can store our family members prescriptions and medicine data  ";
 }
