@@ -189,7 +189,7 @@ class _registerFamilyState extends State<registerFamily> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 10),
                       child: Container(
-                        width: 330,
+                        width: MediaQuery.of(context).size.width * 0.9,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
@@ -265,9 +265,12 @@ class _registerFamilyState extends State<registerFamily> {
             });
           },
         ),
-        Text(
-          title,
-          style: RadioTextSTyle,
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            title,
+            style: RadioTextSTyle,
+          ),
         )
       ],
     );

@@ -1,5 +1,3 @@
-import 'package:side_menu/Login/resetMpin.dart';
-
 class AppRoutes {
   AppRoutes._();
   static const initial = login;

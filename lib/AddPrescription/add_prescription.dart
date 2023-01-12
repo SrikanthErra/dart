@@ -124,7 +124,7 @@ class _addPrescriptionState extends State<addPrescription> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: SizedBox(
-                            width: 330,
+                            width: MediaQuery.of(context).size.width * 0.95,
                             child: DropdownButtonFormField<String>(
                               //focusColor: Colors.white,
                               dropdownColor: Colors.blueGrey,
@@ -170,7 +170,7 @@ class _addPrescriptionState extends State<addPrescription> {
                         Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: SizedBox(
-                            width: 330,
+                            width: MediaQuery.of(context).size.width * 0.95,
                             //color: Colors.amber,
                             /* decoration: BoxDecoration(
                               color: Colors.transparent,
@@ -254,85 +254,90 @@ class _addPrescriptionState extends State<addPrescription> {
                             ),
                           ),
                         ),
-                        Visibility(
-                          visible: flag ?? false,
-                          child:
-                              //AppInputTextfield(hintText: 'Please enter Symptoms', nameController: nameController, errorMessage: errorMessage, input_type: input_type, obsecuretext: obsecuretext, node: node, action: action, onEditingComplete: onEditingComplete)
-                              Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.8,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.05,
-                                    child: TextFormField(
-                                      controller: _symptom,
-                                      cursorColor: Colors.white,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                      decoration: InputDecoration(
-                                          hintText:
-                                              strings.Presc_Hint_EnterSymp,
-                                          hintStyle:
-                                              TextStyle(color: Colors.white)
-                                          /* labelText: 'Enter Symptoms',
-                                              labelStyle:
-                                                   */
-                                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            child: Visibility(
+                              visible: flag ?? false,
+                              child:
+                                  //AppInputTextfield(hintText: 'Please enter Symptoms', nameController: nameController, errorMessage: errorMessage, input_type: input_type, obsecuretext: obsecuretext, node: node, action: action, onEditingComplete: onEditingComplete)
+                                  Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 8),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.85,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.05,
+                                      child: TextFormField(
+                                        controller: _symptom,
+                                        cursorColor: Colors.white,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                        decoration: InputDecoration(
+                                            hintText:
+                                                strings.Presc_Hint_EnterSymp,
+                                            hintStyle:
+                                                TextStyle(color: Colors.white)
+                                            /* labelText: 'Enter Symptoms',
+                                                labelStyle:
+                                                     */
+                                            ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      if (flag == true) {
-                                        final result = SymptomsModelClass(
-                                            MasterSymptom: _symptom.text);
+                                    GestureDetector(
+                                      onTap: () async {
+                                        if (flag == true) {
+                                          final result = SymptomsModelClass(
+                                              MasterSymptom: _symptom.text);
 
-                                        print('object ${result.MasterSymptom}');
+                                          print(
+                                              'object ${result.MasterSymptom}');
 
-                                        final DatabaseHelper _databaseService =
-                                            DatabaseHelper.instance;
-                                        final saved =
-                                            await _databaseService.insertInto(
-                                          result.toJson(),
-                                          "SymptomMaster",
-                                        );
-                                      }
-                                      print(selectedSymptomValue);
-                                      getMasterSymptomId(
-                                          selectedSymptomValue ?? '');
-                                      _symptom.text = '';
+                                          final DatabaseHelper
+                                              _databaseService =
+                                              DatabaseHelper.instance;
+                                          final saved =
+                                              await _databaseService.insertInto(
+                                            result.toJson(),
+                                            "SymptomMaster",
+                                          );
+                                        }
+                                        print(selectedSymptomValue);
+                                        getMasterSymptomId(
+                                            selectedSymptomValue ?? '');
+                                        _symptom.text = '';
 
-                                      print('list is $SymptomsDataList');
-                                      setState(() {
-                                        flag = false;
-                                        textEditingController.text = '';
-                                      });
-                                      SymptomsDataList = [];
-                                      fetchData();
-                                      /* await EasyLoading.show(
-                                                            
-                                                                status: "Loading...",
-                                                                maskType: EasyLoadingMaskType.black);
-                                                            Navigator.pushReplacementNamed(
-                                                                context, AppRoutes.addPrescription); */
-                                    },
-                                    child: SvgPicture.asset(
-                                      AssetPath.PlusIcon,
-                                      height: 30,
-                                      width: 30,
-                                      color: Colors.white,
+                                        print('list is $SymptomsDataList');
+                                        setState(() {
+                                          flag = false;
+                                          textEditingController.text = '';
+                                        });
+                                        SymptomsDataList = [];
+                                        fetchData();
+                                        /* await EasyLoading.show(
+                                                              
+                                                                  status: "Loading...",
+                                                                  maskType: EasyLoadingMaskType.black);
+                                                              Navigator.pushReplacementNamed(
+                                                                  context, AppRoutes.addPrescription); */
+                                      },
+                                      child: SvgPicture.asset(
+                                        AssetPath.PlusIcon,
+                                        height: 30,
+                                        width: 30,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
@@ -340,7 +345,7 @@ class _addPrescriptionState extends State<addPrescription> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
-                          width: 330,
+                          width: MediaQuery.of(context).size.width * 0.95,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -402,6 +407,7 @@ class _addPrescriptionState extends State<addPrescription> {
                     ]),
               ),
               Container(
+                width: MediaQuery.of(context).size.width * 0.95,
                 // color: AppColors.PRIMARY_COLOR_DARK,
                 child: Column(
                   children: [
@@ -413,83 +419,79 @@ class _addPrescriptionState extends State<addPrescription> {
                         final details = medicineStateProvider.Medicines[index];
                         print('medFile ${details.medicineFiles}');
                         //final details2 = medicineStateProvider.Medicines[index].medicineFiles[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2),
-                              side: BorderSide(color: AppColors.navy, width: 1),
-                            ),
-                            color: Colors.white,
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      width: 100,
-                                      height: 100,
-                                      child: Image.file(
-                                        File(details.medicineFiles ?? ''),
-                                        fit: BoxFit.fill,
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(2),
+                            side: BorderSide(color: AppColors.navy, width: 1),
+                          ),
+                          color: Colors.white,
+                          child: Container(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    width: 100,
+                                    height: 100,
+                                    child: Image.file(
+                                      File(details.medicineFiles ?? ''),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AppInputText(
+                                        text: details.medicineName,
+                                        colors: AppColors.navy,
+                                        size: 18,
+                                        weight: FontWeight.bold,
                                       ),
-                                    ),
+                                      Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              AppInputText(
+                                                  text: strings
+                                                      .Med_ExpDateAddPresc,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.normal),
+                                              AppInputText(
+                                                  text: details.ExpiryDate,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.bold),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              AppInputText(
+                                                  text: strings
+                                                      .Med_TabletCountAddPresc,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.normal),
+                                              AppInputText(
+                                                  text: details.TabletsCount,
+                                                  colors: AppColors.navy,
+                                                  size: 16,
+                                                  weight: FontWeight.bold)
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    flex: 5,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppInputText(
-                                          text: details.medicineName,
-                                          colors: AppColors.navy,
-                                          size: 18,
-                                          weight: FontWeight.bold,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                AppInputText(
-                                                    text: strings
-                                                        .Med_ExpDateAddPresc,
-                                                    colors: AppColors.navy,
-                                                    size: 16,
-                                                    weight: FontWeight.normal),
-                                                AppInputText(
-                                                    text: details.ExpiryDate,
-                                                    colors: AppColors.navy,
-                                                    size: 16,
-                                                    weight: FontWeight.bold),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                AppInputText(
-                                                    text: strings
-                                                        .Med_TabletCountAddPresc,
-                                                    colors: AppColors.navy,
-                                                    size: 16,
-                                                    weight: FontWeight.normal),
-                                                AppInputText(
-                                                    text: details.TabletsCount,
-                                                    colors: AppColors.navy,
-                                                    size: 16,
-                                                    weight: FontWeight.bold)
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         );
@@ -565,7 +567,7 @@ class _addPrescriptionState extends State<addPrescription> {
                         visible: vis ?? false,
                         child: SizedBox(
                           height: 80,
-                          // width: 80,
+                          width: MediaQuery.of(context).size.width * 0.95,
                           child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
@@ -637,8 +639,8 @@ class _addPrescriptionState extends State<addPrescription> {
                                                       'Are you sure you want to delete the file?',
                                                   Buttontext2: 'No',
                                                   Buttontext1: 'Yes',
-                                                  img: Image.asset(
-                                                      AssetPath.AppLogo),
+                                                  img: Image.asset(AssetPath
+                                                      .WarningBlueIcon),
                                                   onButton1Pressed: () {
                                                     print(
                                                         'hello ${Uploadedfiles[index]}');

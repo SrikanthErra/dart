@@ -194,7 +194,8 @@ VALUES( value1,	value2 ,...); */
   Future<int> queryRowCountforuser(String table, String mobile) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery(
-            'SELECT COUNT(*) FROM $table WHERE $mobileNumber = ?', [mobile])) ??
+            'SELECT COUNT(*) FROM $table WHERE $mobileNumber = ? AND $mpin != "-"',
+            [mobile])) ??
         0;
   }
 

@@ -10,7 +10,7 @@ class ButtonComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: SizedBox(
-        width: 326,
+        width: MediaQuery.of(context).size.width * 0.85,
         height: 50,
         child: ElevatedButton(
           onPressed: this.onPressed!,

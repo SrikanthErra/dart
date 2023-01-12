@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:side_menu/Constants/appColor.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
@@ -86,21 +87,32 @@ class _mpinValidateState extends State<mpinValidate> {
                   _mpin.text = mpinOutput;
                 },
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextButton(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, AppRoutes.ResetMpin,
+                        Navigator.pushNamed(context, AppRoutes.ResetMpin,
                             arguments: arg.phoneNumber);
                       },
-                      child: Text("Forgot Password"),
-                    ),
-                  )
-                ],
+                      child: Text(
+                        "Forgot MPIN?",
+                        style: TextStyle(
+                          shadows: [
+                            Shadow(color: Colors.black, offset: Offset(0, -5))
+                          ],
+                          color: Colors.transparent,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.navy,
+                          decorationThickness: 4,
+                          decorationStyle: TextDecorationStyle.solid,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
               ButtonComponent(
                   onPressed: () {

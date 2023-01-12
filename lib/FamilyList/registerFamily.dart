@@ -124,7 +124,7 @@ class _registerFamilyFromDashboardState
                   globalKey: _formkey3,
                 ),
                 Container(
-                  width: 330,
+                  width: MediaQuery.of(context).size.width * 0.95,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -142,7 +142,7 @@ class _registerFamilyFromDashboardState
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 10),
                         child: Container(
-                          width: 330,
+                          width: MediaQuery.of(context).size.width*0.9,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
@@ -210,7 +210,6 @@ class _registerFamilyFromDashboardState
 
   Row addRadioButton(int btnValue, String title) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
           activeColor: Colors.white,
@@ -223,9 +222,12 @@ class _registerFamilyFromDashboardState
             });
           },
         ),
-        Text(
-          title,
-          style: RadioTextSTyle,
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            title,
+            style: RadioTextSTyle,
+          ),
         )
       ],
     );

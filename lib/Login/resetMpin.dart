@@ -4,7 +4,6 @@ import 'package:side_menu/Constants/StringConstants.dart';
 import 'package:side_menu/Constants/assetsPath.dart';
 import 'package:side_menu/Reusable/app_input_text.dart';
 import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/modelClasses/registration_familyList_model.dart';
 import 'package:side_menu/Reusable/button_component.dart';
 import 'package:side_menu/Database/database_helper.dart';
 import '../CustomAlerts/SuccessCutomAlerts.dart';
@@ -137,9 +136,9 @@ class _ResetMpintate extends State<ResetMpin> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return SuccessCustomAlert(
-                                    title: 'MPIN SET SUCCESSFULLY',
+                                    title: 'MPIN RESET SUCCESS',
                                     descriptions:
-                                        'Mpin for user is set Successfully',
+                                        'Mpin for user is Reset Successfully',
                                     Buttontext: 'OK',
                                     img: Image.asset(AssetPath.SuccessIcon),
                                     onPressed: () async {
@@ -155,7 +154,7 @@ class _ResetMpintate extends State<ResetMpin> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return CustomDialogBox(
-                                    title: 'SET MPIN',
+                                    title: 'RESET MPIN',
                                     descriptions: strings.Mpin_AlertNoMatch,
                                     Buttontext: 'OK',
                                     img: Image.asset(AssetPath.WarningBlueIcon),
@@ -170,7 +169,7 @@ class _ResetMpintate extends State<ResetMpin> {
                               context: context,
                               builder: (BuildContext context) {
                                 return CustomDialogBox(
-                                  title: 'SET MPIN',
+                                  title: 'RESET MPIN',
                                   descriptions: strings.Mpin_AlertConfirm,
                                   Buttontext: 'OK',
                                   img: Image.asset(AssetPath.WarningBlueIcon),
@@ -185,7 +184,7 @@ class _ResetMpintate extends State<ResetMpin> {
                             context: context,
                             builder: (BuildContext context) {
                               return CustomDialogBox(
-                                title: 'SET MPIN',
+                                title: 'RESET MPIN',
                                 descriptions: strings.Mpin_Alert,
                                 Buttontext: 'OK',
                                 img: Image.asset(AssetPath.WarningBlueIcon),
