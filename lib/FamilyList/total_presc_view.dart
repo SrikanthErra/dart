@@ -6,9 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/TextStyles.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/TextStyles.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';

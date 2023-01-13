@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/modelClasses/family_list_names_provider.dart';
-import 'package:side_menu/modelClasses/prescription_list_provider.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/modelClasses/family_list_names_provider.dart';
+import 'package:medicineinventory/modelClasses/prescription_list_provider.dart';
 import 'Routes/App_pages.dart';
 import 'Routes/App_routes.dart';
 import 'Constants/appColor.dart';

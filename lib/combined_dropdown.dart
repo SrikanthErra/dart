@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
 import 'image_picker.dart';
 
 class combinedDropdown extends StatefulWidget {

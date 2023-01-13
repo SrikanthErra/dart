@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/TextStyles.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/modelClasses/view_medicine_model.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/TextStyles.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/modelClasses/view_medicine_model.dart';
 import '../Database/database_helper.dart';
 import '../Reusable/app_input_text.dart';
 

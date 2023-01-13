@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/Reusable/button_component.dart';
-import 'package:side_menu/Database/database_helper.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/Reusable/button_component.dart';
+import 'package:medicineinventory/Database/database_helper.dart';
 import '../CustomAlerts/SuccessCutomAlerts.dart';
 import '../CustomAlerts/customAlerts.dart';
 

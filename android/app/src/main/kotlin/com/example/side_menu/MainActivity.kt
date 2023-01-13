@@ -1,4 +1,4 @@
-package com.example.side_menu
+package com.cgg.gov.medicineinventory
 
 import io.flutter.embedding.android.FlutterActivity
 

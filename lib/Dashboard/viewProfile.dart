@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/TextStyles.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/TextStyles.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
 import '../Database/database_helper.dart';
 import '../modelClasses/registration_familyList_model.dart';
 import '../notifier/mobile_notifier.dart';

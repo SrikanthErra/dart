@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_app/rate_my_app.dart';
-import 'package:side_menu/AppRating/page/rate_comment_page.dart';
-import 'package:side_menu/AppRating/page/rate_dialog_page.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:medicineinventory/AppRating/page/rate_comment_page.dart';
+import 'package:medicineinventory/AppRating/page/rate_dialog_page.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
 import '../Constants/assetsPath.dart';
 import 'page/rate_stars_page.dart';
 import 'widget/rate_app_init_widget.dart';

@@ -7,9 +7,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:provider/provider.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/toast.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Reusable/toast.dart';
 
 import '../modelClasses/medicine_data_model.dart';
 import '../modelClasses/medicine_list_provider.dart';

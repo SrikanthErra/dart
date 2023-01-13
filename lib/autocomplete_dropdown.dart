@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
 import 'Database/database_helper.dart';
 import 'modelClasses/symptoms_model.dart';
 

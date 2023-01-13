@@ -2,7 +2,7 @@ import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../Constants/TextStyles.dart';
 import '../Constants/urlConstant.dart';
