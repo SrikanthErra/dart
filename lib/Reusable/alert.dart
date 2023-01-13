@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
 import 'dart:io';
-import 'package:side_menu/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
 import 'package:universal_io/io.dart';
 
 class AppShowAlert extends StatelessWidget {

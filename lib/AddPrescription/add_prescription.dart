@@ -7,23 +7,23 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:side_menu/Alerts/alert_for_medicineData.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/appColor.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/app_input_textfield.dart';
-import 'package:side_menu/Reusable/date_picker.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/modelClasses/medicine_list_provider.dart';
-import 'package:side_menu/Reusable/button_component.dart';
+import 'package:medicineinventory/Alerts/alert_for_medicineData.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/appColor.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Reusable/app_input_textfield.dart';
+import 'package:medicineinventory/Reusable/date_picker.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/modelClasses/medicine_list_provider.dart';
+import 'package:medicineinventory/Reusable/button_component.dart';
 import '../Constants/TextStyles.dart';
 import '../CustomAlerts/customAlertsTwoButtons.dart';
 import '../Database/database_helper.dart';
-import 'package:side_menu/modelClasses/familyNamesModel.dart';
-import 'package:side_menu/modelClasses/family_list_names_provider.dart';
-import 'package:side_menu/Reusable/toast.dart';
-import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
+import 'package:medicineinventory/modelClasses/familyNamesModel.dart';
+import 'package:medicineinventory/modelClasses/family_list_names_provider.dart';
+import 'package:medicineinventory/Reusable/toast.dart';
+import 'package:medicineinventory/modelClasses/database_modelClass/PrescriptionModel.dart';
 import '../Constants/app_constants.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
 import '../modelClasses/symptoms_model.dart';
@@ -125,6 +125,7 @@ class _addPrescriptionState extends State<addPrescription> {
                           padding: const EdgeInsets.all(8.0),
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.95,
+                           // height: MediaQuery.of(context).size.height * 0.3,
                             child: DropdownButtonFormField<String>(
                               //focusColor: Colors.white,
                               dropdownColor: Colors.blueGrey,
@@ -254,154 +255,146 @@ class _addPrescriptionState extends State<addPrescription> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.95,
-                            child: Visibility(
-                              visible: flag ?? false,
-                              child:
-                                  //AppInputTextfield(hintText: 'Please enter Symptoms', nameController: nameController, errorMessage: errorMessage, input_type: input_type, obsecuretext: obsecuretext, node: node, action: action, onEditingComplete: onEditingComplete)
-                                  Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 10, bottom: 8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.85,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.05,
-                                      child: TextFormField(
-                                        controller: _symptom,
-                                        cursorColor: Colors.white,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20),
-                                        decoration: InputDecoration(
-                                            hintText:
-                                                strings.Presc_Hint_EnterSymp,
-                                            hintStyle:
-                                                TextStyle(color: Colors.white)
-                                            /* labelText: 'Enter Symptoms',
-                                                labelStyle:
-                                                     */
-                                            ),
-                                      ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.95,
+                          child: Visibility(
+                            visible: flag ?? false,
+                            child:
+                                //AppInputTextfield(hintText: 'Please enter Symptoms', nameController: nameController, errorMessage: errorMessage, input_type: input_type, obsecuretext: obsecuretext, node: node, action: action, onEditingComplete: onEditingComplete)
+                                Padding(
+                              padding: const EdgeInsets.only(
+                                top: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.85,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.05,
+                                    child: TextFormField(
+                                      controller: _symptom,
+                                      cursorColor: Colors.white,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                      decoration: InputDecoration(
+                                          hintText:
+                                              strings.Presc_Hint_EnterSymp,
+                                          hintStyle:
+                                              TextStyle(color: Colors.white)
+                                          /* labelText: 'Enter Symptoms',
+                                              labelStyle:
+                                                   */
+                                          ),
                                     ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        if (flag == true) {
-                                          final result = SymptomsModelClass(
-                                              MasterSymptom: _symptom.text);
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      if (flag == true) {
+                                        final result = SymptomsModelClass(
+                                            MasterSymptom: _symptom.text);
 
-                                          print(
-                                              'object ${result.MasterSymptom}');
+                                        print('object ${result.MasterSymptom}');
 
-                                          final DatabaseHelper
-                                              _databaseService =
-                                              DatabaseHelper.instance;
-                                          final saved =
-                                              await _databaseService.insertInto(
-                                            result.toJson(),
-                                            "SymptomMaster",
-                                          );
-                                        }
-                                        print(selectedSymptomValue);
-                                        getMasterSymptomId(
-                                            selectedSymptomValue ?? '');
-                                        _symptom.text = '';
+                                        final DatabaseHelper _databaseService =
+                                            DatabaseHelper.instance;
+                                        final saved =
+                                            await _databaseService.insertInto(
+                                          result.toJson(),
+                                          "SymptomMaster",
+                                        );
+                                      }
+                                      print(selectedSymptomValue);
+                                      getMasterSymptomId(
+                                          selectedSymptomValue ?? '');
+                                      _symptom.text = '';
 
-                                        print('list is $SymptomsDataList');
-                                        setState(() {
-                                          flag = false;
-                                          textEditingController.text = '';
-                                        });
-                                        SymptomsDataList = [];
-                                        fetchData();
-                                        /* await EasyLoading.show(
-                                                              
-                                                                  status: "Loading...",
-                                                                  maskType: EasyLoadingMaskType.black);
-                                                              Navigator.pushReplacementNamed(
-                                                                  context, AppRoutes.addPrescription); */
-                                      },
-                                      child: SvgPicture.asset(
-                                        AssetPath.PlusIcon,
-                                        height: 30,
-                                        width: 30,
-                                        color: Colors.white,
-                                      ),
+                                      print('list is $SymptomsDataList');
+                                      setState(() {
+                                        flag = false;
+                                        textEditingController.text = '';
+                                      });
+                                      SymptomsDataList = [];
+                                      fetchData();
+                                      /* await EasyLoading.show(
+                                                            
+                                                                status: "Loading...",
+                                                                maskType: EasyLoadingMaskType.black);
+                                                            Navigator.pushReplacementNamed(
+                                                                context, AppRoutes.addPrescription); */
+                                    },
+                                    child: SvgPicture.asset(
+                                      AssetPath.PlusIcon,
+                                      height: 30,
+                                      width: 30,
+                                      color: Colors.white,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
                       ]),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.95,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AppInputText(
-                                  text: strings.DashBoard_AddMed,
-                                  colors: Colors.white,
-                                  size: 18,
-                                  weight: FontWeight.bold),
-                              GestureDetector(
-                                onTap: () {
-                                  print('names are $famNamesList');
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AppShowAlertMedicineData(
-                                            message: strings.MedAlert_message,
-                                            hintText:
-                                                strings.MedAlert_hintEnterMed,
-                                            hintText1:
-                                                strings.MedAlert_hintExpDate,
-                                            hintText2: strings
-                                                .MedAlert_hintTabletsCount,
-                                            errorMessage:
-                                                strings.MedAlert_errorMedName,
-                                            errorMessage1:
-                                                strings.MedAlert_errorExpDate,
-                                            errorMessage2: strings
-                                                .MedAlert_errorTabletsCount,
-                                            MedicinenameController:
-                                                MedicinenameController,
-                                            ExpiryDateController:
-                                                ExpiryDateController,
-                                            TabletCountController:
-                                                TabletCountController,
-                                            input_type: TextInputType.text,
-                                            obsecuretext: false,
-                                            //node: _node,
-                                            action: TextInputAction.next,
-                                            onEditingComplete: () {
-                                              _node.nextFocus();
-                                            },
-                                            globalKey: _formkey5);
-                                      });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: SvgPicture.asset(
-                                    AssetPath.PlusIcon,
-                                    height: 30,
-                                    width: 30,
-                                    color: Colors.white,
-                                  ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AppInputText(
+                                text: strings.DashBoard_AddMed,
+                                colors: Colors.white,
+                                size: 18,
+                                weight: FontWeight.bold),
+                            GestureDetector(
+                              onTap: () {
+                                print('names are $famNamesList');
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AppShowAlertMedicineData(
+                                          message: strings.MedAlert_message,
+                                          hintText:
+                                              strings.MedAlert_hintEnterMed,
+                                          hintText1:
+                                              strings.MedAlert_hintExpDate,
+                                          hintText2:
+                                              strings.MedAlert_hintTabletsCount,
+                                          errorMessage:
+                                              strings.MedAlert_errorMedName,
+                                          errorMessage1:
+                                              strings.MedAlert_errorExpDate,
+                                          errorMessage2: strings
+                                              .MedAlert_errorTabletsCount,
+                                          MedicinenameController:
+                                              MedicinenameController,
+                                          ExpiryDateController:
+                                              ExpiryDateController,
+                                          TabletCountController:
+                                              TabletCountController,
+                                          input_type: TextInputType.text,
+                                          obsecuretext: false,
+                                          //node: _node,
+                                          action: TextInputAction.next,
+                                          onEditingComplete: () {
+                                            _node.nextFocus();
+                                          },
+                                          globalKey: _formkey5);
+                                    });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: SvgPicture.asset(
+                                  AssetPath.PlusIcon,
+                                  height: 30,
+                                  width: 30,
+                                  color: Colors.white,
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ]),

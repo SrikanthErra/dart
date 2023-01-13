@@ -1,6 +1,6 @@
 {
-    "name": "side_menu",
-    "short_name": "side_menu",
+    "name": "medicineinventory",
+    "short_name": "medicineinventory",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#hexcode",

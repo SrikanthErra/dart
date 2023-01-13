@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/Constants/app_constants.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/Constants/app_constants.dart';
 import '../Constants/appColor.dart';
 import '../CustomAlerts/customAlerts.dart';
 import '../Database/database_helper.dart';
@@ -39,12 +39,17 @@ class _prescriptionListState extends State<prescriptionList> {
   List<totalPrescViewModel> totalPresc = [];
   List<MedicineModel> MedList = [];
   List<familyListModel> famList = [];
+  int? famID;
   @override
   Widget build(BuildContext context) {
     FamilyArguments argument =
         ModalRoute.of(context)?.settings.arguments as dynamic;
     prescList = argument.prescList;
     FamilyMemberName = argument.name;
+    famID = argument.id;
+    print('list ${prescList[0].Symptom}');
+    print('namefam $FamilyMemberName');
+    print('famid $famID');
     return Scaffold(
       appBar: AppBar(title: Text(strings.familyList_Title), centerTitle: true),
       body: Container(
@@ -73,11 +78,11 @@ class _prescriptionListState extends State<prescriptionList> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     AppInputText(
-                        text: "${FamilyMemberName}'s Prescriptions",
-                        colors: Colors.white,
-                        size: 15,
-                        weight: FontWeight.bold,
-                      ),
+                      text: "${FamilyMemberName}'s Prescriptions",
+                      colors: Colors.white,
+                      size: 15,
+                      weight: FontWeight.bold,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 8.0,
@@ -87,24 +92,24 @@ class _prescriptionListState extends State<prescriptionList> {
                       child: TextField(
                         style: TextStyle(color: Colors.white),
                         cursorColor: Colors.white,
-                        
+
                         //cursorHeight: 10,
                         //  TextStyle(color: Colors.white),
                         onChanged: (value) => _runFilter(value),
                         decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.white),
-                            labelText: strings.SearchSymptom,
-                            suffixIcon: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
-                           /*  enabledBorder: UnderlineInputBorder(      
+                          labelStyle: TextStyle(color: Colors.white),
+                          labelText: strings.SearchSymptom,
+                          suffixIcon: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                          /*  enabledBorder: UnderlineInputBorder(      
                       borderSide: BorderSide(color: Colors.white),   
                       ),   */
-              focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                   ),  
-                            ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                        ),
                       ),
                     ),
                     ListView.builder(
@@ -123,9 +128,10 @@ class _prescriptionListState extends State<prescriptionList> {
                               print(
                                   'symptom id is ${prescriptionlist.SymptomId}');
                               print('sid is ${prescriptionlist.SId}');
-                             // fetchdata(prescriptionlist.SId ?? 0);
-                              Navigator.pushNamed(context, AppRoutes.MedicineListView,
-                              arguments: prescriptionlist.SId);
+                              // fetchdata(prescriptionlist.SId ?? 0);
+                              Navigator.pushNamed(
+                                  context, AppRoutes.MedicineListView,
+                                  arguments: prescriptionlist.SId);
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(
@@ -309,11 +315,34 @@ class _prescriptionListState extends State<prescriptionList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchSymptomdata();
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      fetchSymptomdata(prescList);
+    });
+    
+
   }
 
-  fetchSymptomdata() async {
-    await DatabaseHelper.instance.viewSymp().then((value) {
+  fetchSymptomdata(var list) async {
+    setState(() {
+      viewSymptomList = list;
+      print('sym ${viewSymptomList}');
+
+      /* prescList.forEach((element) {
+        viewSymptomList.add(PrescriptionModel(
+          Symptom: element.Symptom,
+          DoctorName: element.DoctorName,
+          DateOfAppointment: element.DateOfAppointment,
+          FamilyMemberId: element.FamilyMemberId,
+          SId: element.SId,
+          SymptomId: element.SymptomId,
+        ));
+        print(' id ${viewSymptomList}');
+        
+      }); */
+      viewSearchSymptomList = viewSymptomList;
+        print('search ${viewSearchSymptomList}');
+    });
+   /*  await DatabaseHelper.instance.prescList('Prescription', id).then((value) {
       setState(() {
         viewSymptomList = [];
         value.forEach((element) {
@@ -326,12 +355,12 @@ class _prescriptionListState extends State<prescriptionList> {
             SId: element["SId"],
             SymptomId: element["SymptomId"],
           ));
-          print(' id ${viewSymptomList}');
+          print('one id ${viewSymptomList}');
           viewSearchSymptomList = viewSymptomList;
           print('search ${viewSearchSymptomList}');
         });
       });
-    });
+    }); */
   }
 
   _runFilter(String enteredKeyword) {
@@ -348,7 +377,7 @@ class _prescriptionListState extends State<prescriptionList> {
     }
     setState(() {
       viewSearchSymptomList = results;
-      print(viewSearchSymptomList.length);
+      print('len ${viewSearchSymptomList.length}');
     });
   }
 }

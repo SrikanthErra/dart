@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
 import '../Constants/StringConstants.dart';
 import '../CustomAlerts/WarningAlert.dart';
 import '../Routes/App_routes.dart';

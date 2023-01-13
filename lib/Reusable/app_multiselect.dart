@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
-import 'package:side_menu/Constants/app_constants.dart';
+import 'package:medicineinventory/Constants/app_constants.dart';
 
 class AppMultiSelect extends StatefulWidget {
   const AppMultiSelect({

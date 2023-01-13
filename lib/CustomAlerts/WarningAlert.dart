@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:side_menu/Constants/appColor.dart';
+import 'package:medicineinventory/Constants/appColor.dart';
 
 class WarningAlert extends StatefulWidget {
   final String title, descriptions, Buttontext1, Buttontext2;

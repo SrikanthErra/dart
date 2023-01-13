@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
 
 class AlertdatePickerComponent extends StatelessWidget {
   const AlertdatePickerComponent(

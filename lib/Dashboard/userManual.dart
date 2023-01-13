@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../Constants/TextStyles.dart';
 import '../Constants/assetsPath.dart';

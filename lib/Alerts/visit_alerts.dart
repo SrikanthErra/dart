@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/TextStyles.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/TextStyles.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
 import '../CustomAlerts/WarningAlert.dart';
-import 'package:side_menu/modelClasses/nextVisit_model.dart';
-import 'package:side_menu/modelClasses/next_visit._model.dart';
+import 'package:medicineinventory/modelClasses/nextVisit_model.dart';
+import 'package:medicineinventory/modelClasses/next_visit._model.dart';
 import '../Database/database_helper.dart';
 import '../Routes/App_routes.dart';
 import '../modelClasses/database_modelClass/PrescriptionModel.dart';
@@ -181,15 +181,15 @@ class _visitAlertsState extends State<visitAlerts>
                                                               'Do you want to delete "${expirylist.MedicineName}" Medicine from the table?',
                                                           img: Image.asset(AssetPath
                                                               .WarningBlueIcon),
-                                                          Buttontext1:
+                                                          Buttontext2:
                                                               strings.Alerts_No,
-                                                          onButton1Pressed: () {
+                                                          onButton2Pressed: () {
                                                             Navigator.pop(
                                                                 context);
                                                           },
-                                                          Buttontext2: strings
+                                                          Buttontext1: strings
                                                               .Alerts_Yes,
-                                                          onButton2Pressed:
+                                                          onButton1Pressed:
                                                               () async {
                                                             DatabaseHelper
                                                                 .instance

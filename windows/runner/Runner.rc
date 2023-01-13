@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "side_menu" "\0"
+            VALUE "CompanyName", "com.cgg.gov" "\0"
+            VALUE "FileDescription", "medicineinventory" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "side_menu" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "side_menu.exe" "\0"
-            VALUE "ProductName", "side_menu" "\0"
+            VALUE "InternalName", "medicineinventory" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 com.cgg.gov. All rights reserved." "\0"
+            VALUE "OriginalFilename", "medicineinventory.exe" "\0"
+            VALUE "ProductName", "medicineinventory" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

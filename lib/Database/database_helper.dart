@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:path/path.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/modelClasses/database_modelClass/medicationModel.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/modelClasses/database_modelClass/medicationModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -268,10 +268,10 @@ VALUES( value1,	value2 ,...); */
     // Medicines   Symptoms  SymptomId
   }
 
-  Future<List<Map>> viewSymp() async {
+  Future<List<Map>> viewSymp(int fid) async {
     Database db = await instance.database;
     return await db.rawQuery(
-        'SELECT Symptom,DoctorName,DateOfAppointment,FamilyMemberId,SId,SymptomId FROM $table2');
+        'SELECT Symptom,DoctorName,DateOfAppointment,FamilyMemberId,SId,SymptomId FROM $table2 WHERE FamilyMemberId = ?',[fid]);
     // Medicines   Symptoms  SymptomId DoctorName varchar(255),
     // HospitalName varchar(255),
     // DateOfAppointment varchar(255),
