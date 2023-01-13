@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -121,17 +119,17 @@ class _dashboardGridviewState extends State<dashboardGridview>
                 child: AppInputText(
                     text: strings.Dashboard,
                     colors: Colors.white,
-                    size: 30,
+                    size: 25,
                     weight: FontWeight.w400),
               ),
               GridView.builder(
                   shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(vertical: 20),
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
                   itemCount: dashboardList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 4 / 3,
-                      crossAxisSpacing: 20,
+                      crossAxisSpacing: 1,
                       mainAxisSpacing: 1),
                   itemBuilder: (context, index) {
                     final dashboardData = dashboardList[index];
@@ -159,12 +157,20 @@ class _dashboardGridviewState extends State<dashboardGridview>
                                                 flex: 2,
                                                 child: Material(
                                                   color: Colors.transparent,
-                                                  child: dashboardData.image!,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 15),
+                                                    child: dashboardData.image!,
+                                                  ),
                                                 ),
                                               ),
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.all(15.0),
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0,
+                                                    bottom: 12,
+                                                    right: 12,
+                                                    left: 20),
                                                 child: Text(
                                                   textAlign: TextAlign.center,
                                                   dashboardData.title ?? "",
@@ -235,7 +241,11 @@ class _dashboardGridviewState extends State<dashboardGridview>
                                           flex: 2,
                                           child: Material(
                                             color: Colors.transparent,
-                                            child: dashboardData.image!,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 20.0),
+                                              child: dashboardData.image!,
+                                            ),
                                           ),
                                         ),
                                         Expanded(
@@ -275,7 +285,11 @@ class _dashboardGridviewState extends State<dashboardGridview>
                                           color: Colors.transparent,
                                           //shape: CircleBorder(),
                                           //elevation: 3.0,
-                                          child: dashboardData.image),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 20.0),
+                                            child: dashboardData.image,
+                                          )),
                                     ),
                                     Expanded(
                                       flex: 1,

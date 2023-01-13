@@ -63,7 +63,7 @@ class AppInputTextfield extends StatelessWidget {
         child: Form(
           key: globalKey,
           child: SizedBox(
-            width: 330,
+            width: MediaQuery.of(context).size.width * 0.95,
             child: TextFormField(
               autofocus: autofocus ?? false,
               maxLength: length,
