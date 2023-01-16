@@ -1,24 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rate_my_app/rate_my_app.dart';
-import 'package:side_menu/AddPrescription/add_prescription.dart';
-import 'package:side_menu/AddPrescription/pdf_viewer.dart';
-import 'package:side_menu/AppRating/appRating.dart';
-import 'package:side_menu/Dashboard/allMedicinesView.dart';
-import 'package:side_menu/Dashboard/appInfo.dart';
-import 'package:side_menu/Dashboard/dashboard_gridview.dart';
-import 'package:side_menu/Dashboard/userManual.dart';
+import 'package:medicineinventory/AddPrescription/add_prescription.dart';
+import 'package:medicineinventory/AddPrescription/pdf_viewer.dart';
+import 'package:medicineinventory/AppRating/appRating.dart';
+import 'package:medicineinventory/Dashboard/allMedicinesView.dart';
+import 'package:medicineinventory/Dashboard/appInfo.dart';
+import 'package:medicineinventory/Dashboard/dashboard_gridview.dart';
+import 'package:medicineinventory/Dashboard/userManual.dart';
 
-import 'package:side_menu/FamilyList/reports.dart';
-import 'package:side_menu/FamilyList/total_presc_view.dart';
-import 'package:side_menu/Login/mpin.dart';
-import 'package:side_menu/Login/mpin_validate.dart';
-import 'package:side_menu/Login/otp.dart';
-import 'package:side_menu/Login/registration.dart';
-import 'package:side_menu/autocomplete_dropdown.dart';
-import 'package:side_menu/combined_dropdown.dart';
-import 'package:side_menu/multi_select_dropdown.dart';
-import 'package:side_menu/view_Medicine/prescription_view.dart';
-import 'package:side_menu/view_Medicine/view_medicine.dart';
+import 'package:medicineinventory/FamilyList/reports.dart';
+import 'package:medicineinventory/FamilyList/total_presc_view.dart';
+import 'package:medicineinventory/Login/mpin.dart';
+import 'package:medicineinventory/Login/mpin_validate.dart';
+import 'package:medicineinventory/Login/otp.dart';
+import 'package:medicineinventory/Login/registration.dart';
+import 'package:medicineinventory/Login/resetMpin.dart';
+import 'package:medicineinventory/autocomplete_dropdown.dart';
+import 'package:medicineinventory/combined_dropdown.dart';
+import 'package:medicineinventory/multi_select_dropdown.dart';
+import 'package:medicineinventory/view_Medicine/prescription_view.dart';
+import 'package:medicineinventory/view_Medicine/view_medicine.dart';
 
 import '../Alerts/visit_alerts.dart';
 import '../Dashboard/privacypolicy.dart';
@@ -63,6 +64,7 @@ class AppPages {
             rateMyApp: RateMyApp(),
           )),
       AppRoutes.UserManual: ((context) => UserManual()),
+      AppRoutes.ResetMpin: ((context) => ResetMpin()),
     };
   }
 }

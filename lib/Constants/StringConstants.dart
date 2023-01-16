@@ -47,8 +47,10 @@ class strings {
       "Please Enter the Tablets Count";
   static const String Med_MedName = "Medicine Name";
   static const String Med_ExpDate = "Expiry Date";
+  static const String Med_ExpDateAddPresc = "Expiry:";
   static const String Med_Photo = "Medicine Photo";
   static const String Med_TabletCount = "Tablets Count";
+  static const String Med_TabletCountAddPresc = "Tablets:";
   static const String Presc_Hint_hospName = "Hospital Name";
   static const String Presc_Hint_Symp = "Select Symptom";
   static const String Presc_Hint_EnterSymp = "Enter Symptom";
@@ -130,9 +132,11 @@ class strings {
   static const String AccountCheck = "Don't have an account?";
   static const String SignUp = "Sign Up here";
   static const String LoginAlert_enterMobile = "Please enter Mobie Number";
+  static const String LoginAlert_InvalidMobile =
+      "Please enter valid Mobie Number";
   static const String LoginAlert_signUp = "Please Sign Up";
   static const String LoginAlert_Invalid =
-      "Mobile Number Invalid.. Please Check!!!";
+      "Please Check and Enter a Valid Mobile Number";
   static const String Mpin_validate = "Validate MPIN";
   static const String Mpin_Hint = "Enter 4 digit MPIN";
   static const String Mpin_Alert = "Please enter 4 digit MPIN";
@@ -155,6 +159,8 @@ class strings {
   static const String CombinedDropDown_Hint = "Please enter Symptoms";
   static const String PrescView_FamName = "Family Member Name";
   static const String SearchText = "Search Symptom/MedicineName";
+  static const String SearchSymptom = "Search Symptom";
+  static const String SearchMedicine = "Search Medicine";
   static const String AppDescription =
       "    Medicine Home Inventory is an app which tracks your medicines and indicates us when the medicines are expired by taking the details of the medicines, symptoms.... With a provision where we can store our family members prescriptions and medicine data  ";
 }

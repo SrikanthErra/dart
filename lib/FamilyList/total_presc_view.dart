@@ -6,9 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/TextStyles.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/TextStyles.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -52,7 +52,7 @@ class _totalPrescViewState extends State<totalPrescView> {
         print('hello ${element.DateOfAppointment}');
         print('hello ${element.ReasonForAppointment}');
         print('hello ${element.NextAppointmentDate}');
-
+        
         check = element.PrescFiles;
         doctCheck = element.DoctorName;
         HospCheck = element.HospitalName;
@@ -189,10 +189,8 @@ class _totalPrescViewState extends State<totalPrescView> {
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Column(children: [
-                                RowMandatoryComponent(
-                                  strings.Profile_FamName,
-                                  totalPrescList.name,
-                                ),
+                                RowMandatoryComponent(strings.Profile_FamName,
+                                    totalPrescList.name,),
                                 RowMandatoryComponent(
                                     strings.Symptoms, totalPrescList.Symptom),
                                 RowMandatoryComponent(strings.Med_MedName,
@@ -200,21 +198,17 @@ class _totalPrescViewState extends State<totalPrescView> {
                                 RowMandatoryComponent(strings.Med_ExpDate,
                                     totalPrescList.ExpiryDate),
                                 RowComponent(strings.Presc_Hint_DrName,
-                                    totalPrescList.DoctorName, doctFlag),
+                                    totalPrescList.DoctorName,doctFlag),
                                 RowComponent(strings.Presc_Hint_hospName,
-                                    totalPrescList.HospitalName, HospFlag),
-                                RowComponent(
-                                    strings.Presc_Hint_AppointmentDate,
-                                    totalPrescList.DateOfAppointment,
-                                    AppointmentFlag),
+                                    totalPrescList.HospitalName,HospFlag),
+                                RowComponent(strings.Presc_Hint_AppointmentDate,
+                                    totalPrescList.DateOfAppointment,AppointmentFlag),
                                 RowComponent(
                                     strings.Presc_Hint_AppointmentReason,
-                                    totalPrescList.ReasonForAppointment,
-                                    ReasonFlag),
+                                    totalPrescList.ReasonForAppointment,ReasonFlag),
                                 RowComponent(
                                     strings.Presc_Hint_NextAppointmentDate,
-                                    totalPrescList.NextAppointmentDate,
-                                    NextAppointmentFlag),
+                                    totalPrescList.NextAppointmentDate,NextAppointmentFlag),
                                 RowImageComponent(strings.Med_Photo,
                                     totalPrescList.MedicinePhoto ?? ''),
                                 /* RowImageComponent("Prescription Files",
@@ -258,6 +252,7 @@ class _totalPrescViewState extends State<totalPrescView> {
                                               return SingleChildScrollView(
                                                 child: Container(
                                                     child: //(() {
+
                                                         (array
                                                                         ?.split(
                                                                             '.')
@@ -392,7 +387,6 @@ class _totalPrescViewState extends State<totalPrescView> {
       ),
     );
   }
-
   RowMandatoryComponent(var data, var value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
@@ -417,7 +411,6 @@ class _totalPrescViewState extends State<totalPrescView> {
       ),
     );
   }
-
   RowComponent(var data, var value, var vis) {
     return Visibility(
       visible: vis,

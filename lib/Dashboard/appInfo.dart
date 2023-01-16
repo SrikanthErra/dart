@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
 import '../Constants/TextStyles.dart';
 import '../Constants/appColor.dart';
 import '../Constants/assetsPath.dart';
@@ -88,7 +88,7 @@ class _AppInfoState extends State<AppInfo> {
                               BorderSide(color: AppColors.Navybluish, width: 1),
                         ),
                         //elevation: 10.0,
-                        shadowColor: AppColors.navy,
+                        shadowColor: Color.fromARGB(255, 17, 3, 50),
                         color: Colors.transparent,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),

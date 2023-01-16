@@ -1,4 +1,4 @@
-# side_menu
+# medicineinventory
 
 A new Flutter project.
 

@@ -41,46 +41,59 @@ class datePickerComponent extends StatelessWidget {
         node: node,
         child: Form(
           key: globalKey,
-          child: TextFormField(
-            obscureText: obsecuretext,
-            textInputAction: action,
-            onEditingComplete: onEditingComplete,
-            style: const TextStyle(color: Colors.white),
-            controller: nameController,
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: TextStyle(color: Colors.white),
-              prefixIcon: prefixIcon,
-              //suffixIcon: null == suffixIcon ? null : Icon(suffixIcon),
-              suffixIcon: suffixIcon,
-              enabledBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10),
-                   borderSide: BorderSide(color: Colors.white)),
-              labelStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.95,
+            child: TextFormField(
+              obscureText: obsecuretext,
+              textInputAction: action,
+              onEditingComplete: onEditingComplete,
+              style: const TextStyle(color: Colors.white),
+              controller: nameController,
+              decoration: InputDecoration(
+                hintText: hintText,
+                hintStyle: TextStyle(color: Colors.white),
+                prefixIcon: prefixIcon,
+                //suffixIcon: null == suffixIcon ? null : Icon(suffixIcon),
+                suffixIcon: suffixIcon,
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.red),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)),
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                labelText: hintText,
               ),
-              labelText: hintText,
+              onTap: () async {
+                await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2015),
+                  lastDate: DateTime(2025),
+                ).then((selectedDate) {
+                  if (selectedDate != null) {
+                    nameController.text =
+                        DateFormat('dd-MM-yyyy').format(selectedDate);
+                  }
+                });
+              },
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return errorMessage;
+                }
+              },
+              keyboardType: input_type,
             ),
-            onTap: () async {
-    await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2015),
-      lastDate: DateTime(2025),
-    ).then((selectedDate) {
-      if (selectedDate != null) {
-        nameController.text =
-            DateFormat('dd-MM-yyyy').format(selectedDate);
-      }
-    });
-  },
-            validator: (value) {
-              if (value!.isEmpty) {
-                return errorMessage;
-              }
-            },
-            keyboardType: input_type,
           ),
         ),
       ),

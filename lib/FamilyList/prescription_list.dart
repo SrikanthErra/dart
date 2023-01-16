@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/Constants/app_constants.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/Constants/app_constants.dart';
+import '../Constants/appColor.dart';
+import '../CustomAlerts/customAlerts.dart';
 import '../Database/database_helper.dart';
 import '../Reusable/alert.dart';
 import '../Reusable/app_input_text.dart';
@@ -30,15 +32,24 @@ class _prescriptionListState extends State<prescriptionList> {
   String? getIdUsingName;
   String? FamilyMemberName;
   List<PrescriptionModel> prescList = [];
+
+  List<PrescriptionModel> viewSymptomList = [];
+  List<PrescriptionModel> viewSearchSymptomList = [];
+
   List<totalPrescViewModel> totalPresc = [];
   List<MedicineModel> MedList = [];
   List<familyListModel> famList = [];
+  int? famID;
   @override
   Widget build(BuildContext context) {
     FamilyArguments argument =
         ModalRoute.of(context)?.settings.arguments as dynamic;
     prescList = argument.prescList;
     FamilyMemberName = argument.name;
+    famID = argument.id;
+    print('list ${prescList[0].Symptom}');
+    print('namefam $FamilyMemberName');
+    print('famid $famID');
     return Scaffold(
       appBar: AppBar(title: Text(strings.familyList_Title), centerTitle: true),
       body: Container(
@@ -67,16 +78,46 @@ class _prescriptionListState extends State<prescriptionList> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     AppInputText(
-                        text: "${FamilyMemberName}'s Prescriptions",
-                        colors: Colors.white,
-                        size: 15,
-                        weight: FontWeight.bold),
+                      text: "${FamilyMemberName}'s Prescriptions",
+                      colors: Colors.white,
+                      size: 15,
+                      weight: FontWeight.bold,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                        left: 8.0,
+                        right: 8.0,
+                      ),
+                      child: TextField(
+                        style: TextStyle(color: Colors.white),
+                        cursorColor: Colors.white,
+
+                        //cursorHeight: 10,
+                        //  TextStyle(color: Colors.white),
+                        onChanged: (value) => _runFilter(value),
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Colors.white),
+                          labelText: strings.SearchSymptom,
+                          suffixIcon: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                          /*  enabledBorder: UnderlineInputBorder(      
+                      borderSide: BorderSide(color: Colors.white),   
+                      ),   */
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
                     ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: prescList.length,
+                      itemCount: viewSearchSymptomList.length,
                       itemBuilder: (context, index) {
-                        final prescriptionlist = prescList[index];
+                        final prescriptionlist = viewSearchSymptomList[index];
                         DoctorName = prescriptionlist.DoctorName;
                         PrescriptionDate = prescriptionlist.DateOfAppointment;
                         Symptoms = prescriptionlist.Symptom;
@@ -87,7 +128,10 @@ class _prescriptionListState extends State<prescriptionList> {
                               print(
                                   'symptom id is ${prescriptionlist.SymptomId}');
                               print('sid is ${prescriptionlist.SId}');
-                              fetchdata(prescriptionlist.SId ?? 0);
+                              // fetchdata(prescriptionlist.SId ?? 0);
+                              Navigator.pushNamed(
+                                  context, AppRoutes.MedicineListView,
+                                  arguments: prescriptionlist.SId);
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(
@@ -193,7 +237,7 @@ class _prescriptionListState extends State<prescriptionList> {
     );
   }
 
-  fetchdata(int id) async {
+  /* fetchdata(int id) async {
     print('selected id is $id');
     await DatabaseHelper.instance
         .medicineList(strings.Db_MedTable, id)
@@ -217,7 +261,7 @@ class _prescriptionListState extends State<prescriptionList> {
         }
       });
     });
-  }
+  } */
 
   fetchAllPresData(int id, int sid) async {
     await DatabaseHelper.instance.viewTotalPres(id, sid).then((value) {
@@ -251,7 +295,15 @@ class _prescriptionListState extends State<prescriptionList> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AppShowAlert(message: strings.PrescAlert);
+                return CustomDialogBox(
+                    title: 'Prescription Data',
+                    descriptions: strings.familyList_AlertPresc,
+                    Buttontext: strings.Presc_Ok,
+                    img: Image.asset(AssetPath.AppLogo),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    bgColor: AppColors.navy);
               });
         }
         // print(totalPresc[0].name);
@@ -261,92 +313,71 @@ class _prescriptionListState extends State<prescriptionList> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      fetchSymptomdata(prescList);
+    });
+    
+
+  }
+
+  fetchSymptomdata(var list) async {
+    setState(() {
+      viewSymptomList = list;
+      print('sym ${viewSymptomList}');
+
+      /* prescList.forEach((element) {
+        viewSymptomList.add(PrescriptionModel(
+          Symptom: element.Symptom,
+          DoctorName: element.DoctorName,
+          DateOfAppointment: element.DateOfAppointment,
+          FamilyMemberId: element.FamilyMemberId,
+          SId: element.SId,
+          SymptomId: element.SymptomId,
+        ));
+        print(' id ${viewSymptomList}');
+        
+      }); */
+      viewSearchSymptomList = viewSymptomList;
+        print('search ${viewSearchSymptomList}');
+    });
+   /*  await DatabaseHelper.instance.prescList('Prescription', id).then((value) {
+      setState(() {
+        viewSymptomList = [];
+        value.forEach((element) {
+          print('element is $element');
+          viewSymptomList.add(PrescriptionModel(
+            Symptom: element["Symptom"],
+            DoctorName: element["DoctorName"],
+            DateOfAppointment: element["DateOfAppointment"],
+            FamilyMemberId: element["FamilyMemberId"],
+            SId: element["SId"],
+            SymptomId: element["SymptomId"],
+          ));
+          print('one id ${viewSymptomList}');
+          viewSearchSymptomList = viewSymptomList;
+          print('search ${viewSearchSymptomList}');
+        });
+      });
+    }); */
+  }
+
+  _runFilter(String enteredKeyword) {
+    List<PrescriptionModel> results = [];
+    if (enteredKeyword.isEmpty) {
+      results = viewSymptomList;
+    } else {
+      print(enteredKeyword);
+      results = viewSymptomList
+          .where((element) => element.Symptom!
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      viewSearchSymptomList = results;
+      print('len ${viewSearchSymptomList.length}');
+    });
   }
 }
-
-
-  /* void initState() {
-    super.initState();
-    // getId(getIdUsingName ?? '');
-    print('hello world');
-    fetchdata();
-  } */
-  /*
-  LoginCall(String phoneNumber, String mpin) async {
-    final DatabaseHelper _databaseService = DatabaseHelper.instance;
-    final saved = await _databaseService.queryRowCountforMpinValidate(
-        DatabaseHelper.table, phoneNumber);
-    print("data saved ${saved}");
-    mpin_value = saved[0];
-  */
-  /* fetchdata() async {
-    DatabaseHelper.instance
-        .prescList('Symptoms', selectedId ?? 0)
-        .then((value) {
-      setState(() {
-        value.forEach((element) {
-        //  print(element);
-          prescList.add(
-              PrescriptionModel(
-                Symptom: element["Symptom"],
-                DoctorName: element["DoctorName"],
-                HospitalName: element["HospitalName"],
-                DateOfAppointment: element["DateOfAppointment"],
-                ReasonForAppointment: element["ReasonForAppointment"],
-              ),
-            );
-            print(prescList.length);
-        });
-      });
-    //  print('data saved is ${saved}');
-    });
-  } */
-
-  /*  fetchdata() async {
-    DatabaseHelper.instance.prescList("Symptoms", selectedId ?? 0).then(
-      (value) {
-        setState(() {
-          value.forEach((element) {
-            print(element);
-            prescList.add(
-              PrescriptionModel(
-                Symptom: element["Symptom"],
-                DoctorName: element["DoctorName"],
-                HospitalName: element["HospitalName"],
-                DateOfAppointment: element["DateOfAppointment"],
-                ReasonForAppointment: element["ReasonForAppointment"],
-              ),
-            );
-            print(prescList.length);
-          });
-        });
-      },
-    );
-  } */
-  /* DatabaseHelper.instance.queryAllRows("Symptoms").then((value) {
-      setState(() {
-        value.forEach((element) {
-          prescList.add(
-            PrescriptionModel(
-              Symptom: element["Symptom"],
-              DoctorName: element["DoctorName"],
-              HospitalName: element["HospitalName"],
-              DateOfAppointment: element["DateOfAppointment"],
-              ReasonForAppointment: element["ReasonForAppointment"],
-            ),
-          );
-        });
-      });
-    }).catchError((error) {
-      print(error);
-    }); */
-
-  /* getId(String name) async {
-    final DatabaseHelper _databaseService = DatabaseHelper.instance;
-    final saved = await _databaseService.userId(DatabaseHelper.table, name);
-    print("data saved ${saved}");
-    selectedId = saved;
-    print('Id selected is $selectedId');
-  } */
-

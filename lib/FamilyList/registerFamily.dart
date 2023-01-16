@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/app_input_textfield.dart';
-import 'package:side_menu/Reusable/button_component.dart';
-import 'package:side_menu/Reusable/toast.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/modelClasses/registration_familyList_model.dart';
-import 'package:side_menu/Database/database_helper.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Reusable/app_input_textfield.dart';
+import 'package:medicineinventory/Reusable/button_component.dart';
+import 'package:medicineinventory/Reusable/toast.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/modelClasses/registration_familyList_model.dart';
+import 'package:medicineinventory/Database/database_helper.dart';
 import '../Constants/TextStyles.dart';
+import '../CustomAlerts/customAlerts.dart';
 
 class registerFamilyFromDashboard extends StatefulWidget {
   const registerFamilyFromDashboard({super.key});
@@ -56,6 +57,7 @@ class _registerFamilyFromDashboardState
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AssetPath.Background),
@@ -121,32 +123,38 @@ class _registerFamilyFromDashboardState
                   //lengthRequired: 10,
                   globalKey: _formkey3,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Text(
-                        strings.Gender_SelectHeader,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          strings.Gender_SelectHeader,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0, bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          addRadioButton(0, strings.Gender_Male),
-                          addRadioButton(1, strings.Gender_Female),
-                          addRadioButton(2, strings.Gender_Other),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width*0.9,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              addRadioButton(0, strings.Gender_Male),
+                              addRadioButton(1, strings.Gender_Female),
+                              addRadioButton(2, strings.Gender_Other),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 ButtonComponent(
                     onPressed: () async {
@@ -176,19 +184,14 @@ class _registerFamilyFromDashboardState
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(strings.MobileAlert),
-                              actions: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text(strings.Presc_Ok),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            return CustomDialogBox(
+                              title: "MOBILE NUMBER INVALID",
+                              descriptions: strings.MobileAlert,
+                              Buttontext: 'OK',
+                              img: Image.asset(AssetPath.WarningBlueIcon),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
                             );
                           },
                         );
@@ -207,7 +210,6 @@ class _registerFamilyFromDashboardState
 
   Row addRadioButton(int btnValue, String title) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
           activeColor: Colors.white,
@@ -220,9 +222,12 @@ class _registerFamilyFromDashboardState
             });
           },
         ),
-        Text(
-          title,
-          style: RadioTextSTyle,
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            title,
+            style: RadioTextSTyle,
+          ),
         )
       ],
     );

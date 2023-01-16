@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/app_input_textfield.dart';
-import 'package:side_menu/Reusable/button_component.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Reusable/app_input_textfield.dart';
+import 'package:medicineinventory/Reusable/button_component.dart';
 
 class otp extends StatefulWidget {
   const otp({super.key});

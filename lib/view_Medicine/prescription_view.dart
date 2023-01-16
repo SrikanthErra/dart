@@ -1,9 +1,9 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Reusable/app_input_textfield.dart';
-import 'package:side_menu/Reusable/date_picker.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Reusable/app_input_textfield.dart';
+import 'package:medicineinventory/Reusable/date_picker.dart';
 import '../Constants/urlConstant.dart';
 
 class viewPrescription extends StatefulWidget {

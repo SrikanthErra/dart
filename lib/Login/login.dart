@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Database/database_helper.dart';
-import 'package:side_menu/Reusable/alert.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/app_input_textfield.dart';
-import 'package:side_menu/Reusable/button_component.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/modelClasses/pass_number_to_validateMpin.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Database/database_helper.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Reusable/app_input_textfield.dart';
+import 'package:medicineinventory/Reusable/button_component.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/modelClasses/pass_number_to_validateMpin.dart';
+import '../CustomAlerts/customAlerts.dart';
 import '../notifier/mobile_notifier.dart';
 
 class LoginPage extends StatefulWidget {
@@ -139,17 +139,15 @@ class _LoginPageState extends State<LoginPage> {
                           size: 15,
                           weight: FontWeight.w300),
                       TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, AppRoutes.registraion);
-                          },
-                          child: Text(
-                            strings.SignUp,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white
-                                ),
-                          ),
-                          ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.registraion);
+                        },
+                        child: Text(
+                          strings.SignUp,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
                     ],
                   )
                 ],
@@ -163,9 +161,35 @@ class _LoginPageState extends State<LoginPage> {
 
   validateInputs() {
     if (_mobile.text.isEmpty) {
-      showAlert(strings.LoginAlert_enterMobile);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: "Mobile Number cannot be empty",
+              descriptions: strings.LoginAlert_enterMobile,
+              Buttontext: strings.Presc_Ok,
+              img: Image.asset(AssetPath.WarningBlueIcon),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            );
+          });
+      return false;
     } else if (_mobile.text.length < 10) {
-      showAlert(strings.LoginAlert_Invalid);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: "MOBILE NUMBER INVALID",
+              descriptions: strings.LoginAlert_Invalid,
+              Buttontext: strings.Presc_Ok,
+              img: Image.asset(AssetPath.WarningBlueIcon),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            );
+          });
+      return false;
     } /* else if (!RegExp(
             r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
         .hasMatch(_password.text)) {
@@ -176,23 +200,44 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  showAlert(String message) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AppShowAlert(message: message);
-        });
-  }
-
   LoginCall(String mobileNumber) async {
     final DatabaseHelper _databaseService = DatabaseHelper.instance;
     final saved = await _databaseService.queryRowCountforuser(
         DatabaseHelper.table, mobileNumber);
+    final users = await _databaseService.queryRowCount();
     print("data saved ${saved}");
     flag = saved;
     print('flag is $flag');
-    if (flag == 0) {
-      showAlert(strings.LoginAlert_signUp);
+
+    if (flag == 0 && users != 0) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: "Invalid User mobile number",
+              descriptions: strings.LoginAlert_InvalidMobile,
+              Buttontext: strings.Presc_Ok,
+              img: Image.asset(AssetPath.WarningBlueIcon),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            );
+          });
+    } else if (users == 0) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: "User Not found",
+              descriptions: strings.LoginAlert_signUp,
+              Buttontext: strings.Presc_Ok,
+              img: Image.asset(AssetPath.CrossIcon),
+              bgColor: Colors.red[900],
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            );
+          });
     } else {
       Navigator.pushNamed(context, AppRoutes.mpinValidate,
           arguments: ScreenArguments(_mobile.text));

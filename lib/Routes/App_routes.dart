@@ -28,4 +28,5 @@ class AppRoutes {
   static const AppInfo = "/appInfo.dart";
   static const AppRating = "/appRating.dart";
   static const UserManual = "/userManual.dart";
+  static const ResetMpin = "/resetMpin.dart";
 }

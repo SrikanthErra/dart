@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:side_menu/modelClasses/familyNamesModel.dart';
+import 'package:medicineinventory/modelClasses/familyNamesModel.dart';
 
 class FamilyListNamesProvider with ChangeNotifier {
   List<familyNamesDataModel> _items = [];

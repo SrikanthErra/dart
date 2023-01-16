@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Reusable/alert.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/Database/database_helper.dart';
-import 'package:side_menu/Constants/app_constants.dart';
-import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
-import 'package:side_menu/modelClasses/family_list_model.dart';
-import 'package:side_menu/modelClasses/total_presc_view_model.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/appColor.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/CustomAlerts/customAlerts.dart';
+import 'package:medicineinventory/Reusable/alert.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/Database/database_helper.dart';
+import 'package:medicineinventory/Constants/app_constants.dart';
+import 'package:medicineinventory/modelClasses/database_modelClass/PrescriptionModel.dart';
+import 'package:medicineinventory/modelClasses/family_list_model.dart';
+import 'package:medicineinventory/modelClasses/total_presc_view_model.dart';
 import '../Constants/TextStyles.dart';
 import '../Reusable/app_input_text.dart';
 
@@ -173,7 +175,6 @@ class _familyListState extends State<familyList> {
     print('app const is ${AppConstants.famMemId}');
 
     fetchdata(selectedId ?? 0, name);
-
   }
 
   /* fetchAllPresData(int id) async {
@@ -247,14 +248,22 @@ class _familyListState extends State<familyList> {
         });
         if (prescList.length != 0) {
           Navigator.pushNamed(context, AppRoutes.prescriptionList,
-              arguments: FamilyArguments(prescList, name)
+              arguments: FamilyArguments(prescList, name, id)
               // arguments:tappedNames(FamilyMemberName: familylist.Name!)
               );
         } else {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AppShowAlert(message: strings.familyList_AlertPresc);
+                return CustomDialogBox(
+                    title: 'Prescription Data',
+                    descriptions: strings.familyList_AlertPresc,
+                    Buttontext: strings.Presc_Ok,
+                    img: Image.asset(AssetPath.WarningBlueIcon),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    bgColor: AppColors.navy);
               });
         }
       });
@@ -266,6 +275,6 @@ class _familyListState extends State<familyList> {
 class FamilyArguments {
   final List<PrescriptionModel> prescList;
   final String name;
-
-  FamilyArguments(this.prescList, this.name);
+  final int id;
+  FamilyArguments(this.prescList, this.name, this.id);
 }

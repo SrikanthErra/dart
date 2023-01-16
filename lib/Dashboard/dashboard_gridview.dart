@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
-import 'package:side_menu/Dashboard/sidemenuDashboard.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/Constants/appColor.dart';
+import 'package:medicineinventory/CustomAlerts/WarningAlert.dart';
+import 'package:medicineinventory/Dashboard/sidemenuDashboard.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/Constants/appColor.dart';
 import '../Constants/StringConstants.dart';
 import '../Constants/assetsPath.dart';
 import '../Database/database_helper.dart';
@@ -118,17 +119,17 @@ class _dashboardGridviewState extends State<dashboardGridview>
                 child: AppInputText(
                     text: strings.Dashboard,
                     colors: Colors.white,
-                    size: 30,
+                    size: 25,
                     weight: FontWeight.w400),
               ),
               GridView.builder(
                   shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(vertical: 20),
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
                   itemCount: dashboardList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 4 / 3,
-                      crossAxisSpacing: 20,
+                      crossAxisSpacing: 1,
                       mainAxisSpacing: 1),
                   itemBuilder: (context, index) {
                     final dashboardData = dashboardList[index];
@@ -156,12 +157,20 @@ class _dashboardGridviewState extends State<dashboardGridview>
                                                 flex: 2,
                                                 child: Material(
                                                   color: Colors.transparent,
-                                                  child: dashboardData.image!,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 15),
+                                                    child: dashboardData.image!,
+                                                  ),
                                                 ),
                                               ),
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.all(15.0),
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0,
+                                                    bottom: 12,
+                                                    right: 12,
+                                                    left: 20),
                                                 child: Text(
                                                   textAlign: TextAlign.center,
                                                   dashboardData.title ?? "",
@@ -232,7 +241,11 @@ class _dashboardGridviewState extends State<dashboardGridview>
                                           flex: 2,
                                           child: Material(
                                             color: Colors.transparent,
-                                            child: dashboardData.image!,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 20.0),
+                                              child: dashboardData.image!,
+                                            ),
                                           ),
                                         ),
                                         Expanded(
@@ -272,7 +285,11 @@ class _dashboardGridviewState extends State<dashboardGridview>
                                           color: Colors.transparent,
                                           //shape: CircleBorder(),
                                           //elevation: 3.0,
-                                          child: dashboardData.image),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 20.0),
+                                            child: dashboardData.image,
+                                          )),
                                     ),
                                     Expanded(
                                       flex: 1,
@@ -353,23 +370,20 @@ class _dashboardGridviewState extends State<dashboardGridview>
 
   Future<bool> _onBackPressed() async {
     return await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text(strings.Alerts_titleAreYouSure),
-            content: new Text(strings.Alerts_ExitApp),
-            actions: <Widget>[
-              ElevatedButton(
-                onPressed: () => SystemNavigator.pop(),
-                child: Text(strings.Alerts_Yes),
-              ),
-              SizedBox(height: 16),
-              new ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(strings.Alerts_No),
-              ),
-            ],
-          ),
-        ) ??
+            context: context,
+            builder: (context) => WarningAlert(
+                title: strings.AppTitle,
+                descriptions:
+                    strings.Alerts_titleAreYouSure + strings.Alerts_ExitApp,
+                Buttontext2: strings.Alerts_No,
+                Buttontext1: strings.Alerts_Yes,
+                img: Image.asset(AssetPath.WarningBlueIcon),
+                onButton2Pressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                onButton1Pressed: () {
+                  SystemNavigator.pop();
+                })) ??
         false;
   }
 }

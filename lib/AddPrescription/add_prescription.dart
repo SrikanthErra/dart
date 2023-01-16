@@ -5,23 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:side_menu/Alerts/alert_for_medicineData.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/appColor.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/app_input_textfield.dart';
-import 'package:side_menu/Reusable/date_picker.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/modelClasses/medicine_list_provider.dart';
-import 'package:side_menu/Reusable/button_component.dart';
+import 'package:medicineinventory/Alerts/alert_for_medicineData.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/appColor.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Reusable/app_input_textfield.dart';
+import 'package:medicineinventory/Reusable/date_picker.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/modelClasses/medicine_list_provider.dart';
+import 'package:medicineinventory/Reusable/button_component.dart';
 import '../Constants/TextStyles.dart';
+import '../CustomAlerts/customAlertsTwoButtons.dart';
 import '../Database/database_helper.dart';
-import 'package:side_menu/modelClasses/familyNamesModel.dart';
-import 'package:side_menu/modelClasses/family_list_names_provider.dart';
-import 'package:side_menu/Reusable/toast.dart';
-import 'package:side_menu/modelClasses/database_modelClass/PrescriptionModel.dart';
+import 'package:medicineinventory/modelClasses/familyNamesModel.dart';
+import 'package:medicineinventory/modelClasses/family_list_names_provider.dart';
+import 'package:medicineinventory/Reusable/toast.dart';
+import 'package:medicineinventory/modelClasses/database_modelClass/PrescriptionModel.dart';
 import '../Constants/app_constants.dart';
 import '../modelClasses/database_modelClass/medicationModel.dart';
 import '../modelClasses/symptoms_model.dart';
@@ -78,6 +80,10 @@ class _addPrescriptionState extends State<addPrescription> {
   File? selectedImage;
   @override
   Widget build(BuildContext context) {
+    var sizeDevice = MediaQuery.of(context).size;
+
+    final double itemHeight = (sizeDevice.height - kToolbarHeight - 24) / 3;
+    final double itemWidth = sizeDevice.width / 3;
     EasyLoading.dismiss();
     //fetchNextVisitData();
     final familyNamesStateProvider =
@@ -117,54 +123,61 @@ class _addPrescriptionState extends State<addPrescription> {
                       Column(children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: DropdownButtonFormField<String>(
-                            //focusColor: Colors.white,
-                            dropdownColor: Colors.blueGrey,
-                            decoration: InputDecoration(
-                              labelText: strings.Presc_LabelMemName,
-                              labelStyle: TextStyle(color: Colors.white),
-                              hintText: strings.Presc_MemNameHint,
-                              hintStyle: TextStyle(color: Colors.white),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.white)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color: Colors.white)),
-                            ),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.95,
+                           // height: MediaQuery.of(context).size.height * 0.3,
+                            child: DropdownButtonFormField<String>(
+                              //focusColor: Colors.white,
+                              dropdownColor: Colors.blueGrey,
+                              decoration: InputDecoration(
+                                labelText: strings.Presc_LabelMemName,
+                                labelStyle: TextStyle(color: Colors.white),
+                                hintText: strings.Presc_MemNameHint,
+                                hintStyle: TextStyle(color: Colors.white),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                              ),
 
-                            value: selectedValue,
-                            items: familyNamesStateProvider.FamilyNames.map(
-                                (item) => DropdownMenuItem<String>(
-                                    value: item.FamilyMemberName,
-                                    child: Text(
-                                      item.FamilyMemberName,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ),
-                                    ))).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedValue = value as String;
-                                getId(selectedValue ?? "");
-                              });
-                              /* print('Id is $selectedId');
-                              print('Result is ${familyNamesStateProvider.FamilyNames.map(
-                                  (e) => e.FamilyMemberId)}'); */
-                            },
-                            style: TextStyle(color: Colors.white),
+                              value: selectedValue,
+                              items: familyNamesStateProvider.FamilyNames.map(
+                                  (item) => DropdownMenuItem<String>(
+                                      value: item.FamilyMemberName,
+                                      child: Text(
+                                        item.FamilyMemberName,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ))).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedValue = value as String;
+                                  getId(selectedValue ?? "");
+                                });
+                                /* print('Id is $selectedId');
+                                print('Result is ${familyNamesStateProvider.FamilyNames.map(
+                                    (e) => e.FamilyMemberId)}'); */
+                              },
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(6.0),
-                          child: Container(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.95,
                             //color: Colors.amber,
-                            decoration: BoxDecoration(
+                            /* decoration: BoxDecoration(
                               color: Colors.transparent,
-                              border: Border.all(width: 2, color: Colors.white),
+                              border: Border.all(color: Colors.white),
                               borderRadius: BorderRadius.circular(12),
-                            ),
+                            ), */
                             child: Autocomplete<String>(
                               onSelected: (String selectedItem) {
                                 selectedSymptomValue = selectedItem;
@@ -190,26 +203,39 @@ class _addPrescriptionState extends State<addPrescription> {
                                   VoidCallback onFieldSubmitted) {
                                 textEditingController =
                                     fieldTextEditingController;
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: TextFormField(
-                                    controller: fieldTextEditingController,
-                                    cursorColor: Colors.white,
-                                    decoration: InputDecoration(
-                                        hintText: strings.Presc_Hint_Symp,
-                                        hintStyle:
-                                            TextStyle(color: Colors.white)),
-                                    focusNode: focusNode,
-                                    style: TextStyle(color: Colors.white),
-                                    onFieldSubmitted: (String value) {
-                                      onFieldSubmitted();
-                                      print(
-                                          'text is ${textEditingController.text}');
-                                      print(
-                                          'You just typed a new entry  $value');
-                                    },
+                                return TextFormField(
+                                  controller: fieldTextEditingController,
+                                  cursorColor: Colors.white,
+                                  decoration: InputDecoration(
+                                    labelText: 'Symptom',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    hintText: strings.Presc_Hint_Symp,
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide:
+                                            BorderSide(color: Colors.white)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide:
+                                            BorderSide(color: Colors.white)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide:
+                                            BorderSide(color: Colors.white)),
                                   ),
+                                  focusNode: focusNode,
+                                  style: TextStyle(color: Colors.white),
+                                  onFieldSubmitted: (String value) {
+                                    onFieldSubmitted();
+                                    print(
+                                        'text is ${textEditingController.text}');
+                                    print('You just typed a new entry  $value');
+                                  },
                                 );
                               },
                               optionsBuilder:
@@ -229,20 +255,23 @@ class _addPrescriptionState extends State<addPrescription> {
                             ),
                           ),
                         ),
-                        Visibility(
-                          visible: flag ?? false,
-                          child:
-                              //AppInputTextfield(hintText: 'Please enter Symptoms', nameController: nameController, errorMessage: errorMessage, input_type: input_type, obsecuretext: obsecuretext, node: node, action: action, onEditingComplete: onEditingComplete)
-                              Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.95,
+                          child: Visibility(
+                            visible: flag ?? false,
+                            child:
+                                //AppInputTextfield(hintText: 'Please enter Symptoms', nameController: nameController, errorMessage: errorMessage, input_type: input_type, obsecuretext: obsecuretext, node: node, action: action, onEditingComplete: onEditingComplete)
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.8,
+                              padding: const EdgeInsets.only(
+                                top: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.85,
                                     height: MediaQuery.of(context).size.height *
                                         0.05,
                                     child: TextFormField(
@@ -261,10 +290,7 @@ class _addPrescriptionState extends State<addPrescription> {
                                           ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: GestureDetector(
+                                  GestureDetector(
                                     onTap: () async {
                                       if (flag == true) {
                                         final result = SymptomsModelClass(
@@ -293,10 +319,11 @@ class _addPrescriptionState extends State<addPrescription> {
                                       SymptomsDataList = [];
                                       fetchData();
                                       /* await EasyLoading.show(
-                                status: "Loading...",
-                                maskType: EasyLoadingMaskType.black);
-                            Navigator.pushReplacementNamed(
-                                context, AppRoutes.addPrescription); */
+                                                            
+                                                                status: "Loading...",
+                                                                maskType: EasyLoadingMaskType.black);
+                                                            Navigator.pushReplacementNamed(
+                                                                context, AppRoutes.addPrescription); */
                                     },
                                     child: SvgPicture.asset(
                                       AssetPath.PlusIcon,
@@ -305,26 +332,23 @@ class _addPrescriptionState extends State<addPrescription> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ]),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: AppInputText(
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AppInputText(
                                 text: strings.DashBoard_AddMed,
                                 colors: Colors.white,
                                 size: 18,
                                 weight: FontWeight.bold),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GestureDetector(
+                            GestureDetector(
                               onTap: () {
                                 print('names are $famNamesList');
                                 showDialog(
@@ -360,19 +384,23 @@ class _addPrescriptionState extends State<addPrescription> {
                                           globalKey: _formkey5);
                                     });
                               },
-                              child: SvgPicture.asset(
-                                AssetPath.PlusIcon,
-                                height: 30,
-                                width: 30,
-                                color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: SvgPicture.asset(
+                                  AssetPath.PlusIcon,
+                                  height: 30,
+                                  width: 30,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ]),
               ),
               Container(
+                width: MediaQuery.of(context).size.width * 0.95,
                 // color: AppColors.PRIMARY_COLOR_DARK,
                 child: Column(
                   children: [
@@ -382,100 +410,81 @@ class _addPrescriptionState extends State<addPrescription> {
                       itemCount: medicineStateProvider.Medicines.length,
                       itemBuilder: ((context, index) {
                         final details = medicineStateProvider.Medicines[index];
-
+                        print('medFile ${details.medicineFiles}');
                         //final details2 = medicineStateProvider.Medicines[index].medicineFiles[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: BorderSide(color: AppColors.navy, width: 1),
-                            ),
-                            color: Colors.white,
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      width: 120,
-                                      height: 110,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(24),
-                                        child: Image.file(
-                                          File(details.medicineFiles ?? ''),
-                                          width: 100,
-                                          height: 100,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(2),
+                            side: BorderSide(color: AppColors.navy, width: 1),
+                          ),
+                          color: Colors.white,
+                          child: Container(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    width: 100,
+                                    height: 100,
+                                    child: Image.file(
+                                      File(details.medicineFiles ?? ''),
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
-                                  Expanded(
-                                    flex: 5,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Center(
-                                          child: AppInputText(
-                                            text: details.medicineName,
-                                            colors: AppColors.navy,
-                                            size: 16,
-                                            weight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              flex: 4,
-                                              child: AppInputText(
-                                                  text: strings.Med_ExpDate,
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AppInputText(
+                                        text: details.medicineName,
+                                        colors: AppColors.navy,
+                                        size: 18,
+                                        weight: FontWeight.bold,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              AppInputText(
+                                                  text: strings
+                                                      .Med_ExpDateAddPresc,
                                                   colors: AppColors.navy,
                                                   size: 16,
                                                   weight: FontWeight.normal),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: AppInputText(
+                                              AppInputText(
                                                   text: details.ExpiryDate,
                                                   colors: AppColors.navy,
                                                   size: 16,
                                                   weight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 4,
-                                              child: AppInputText(
-                                                  text: strings.Med_TabletCount,
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              AppInputText(
+                                                  text: strings
+                                                      .Med_TabletCountAddPresc,
                                                   colors: AppColors.navy,
                                                   size: 16,
                                                   weight: FontWeight.normal),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: AppInputText(
+                                              AppInputText(
                                                   text: details.TabletsCount,
                                                   colors: AppColors.navy,
                                                   size: 16,
-                                                  weight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                                  weight: FontWeight.bold)
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         );
@@ -551,7 +560,7 @@ class _addPrescriptionState extends State<addPrescription> {
                         visible: vis ?? false,
                         child: SizedBox(
                           height: 80,
-                          // width: 80,
+                          width: MediaQuery.of(context).size.width * 0.95,
                           child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
@@ -613,13 +622,36 @@ class _addPrescriptionState extends State<addPrescription> {
                                         backgroundColor: Colors.white,
                                         child: GestureDetector(
                                           onTap: () {
-                                            print(
-                                                'hello ${Uploadedfiles[index]}');
-                                            setState(() {
-                                              Uploadedfiles.removeAt(index);
-                                              print(Uploadedfiles);
-                                              //Uploadedfiles = UploadedImagefiles + UploadedGalleryfiles;
-                                            });
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return CustomDialogBoxTwoButtons(
+                                                  title:
+                                                      'Delete Prescription File',
+                                                  descriptions:
+                                                      'Are you sure you want to delete the file?',
+                                                  Buttontext2: 'No',
+                                                  Buttontext1: 'Yes',
+                                                  img: Image.asset(AssetPath
+                                                      .WarningBlueIcon),
+                                                  onButton1Pressed: () {
+                                                    print(
+                                                        'hello ${Uploadedfiles[index]}');
+                                                    setState(() {
+                                                      Uploadedfiles.removeAt(
+                                                          index);
+                                                      print(Uploadedfiles);
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      //Uploadedfiles = UploadedImagefiles + UploadedGalleryfiles;
+                                                    });
+                                                  },
+                                                  onButton2Pressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                );
+                                              },
+                                            );
                                           },
                                           child: Center(
                                             child: Icon(
@@ -652,16 +684,19 @@ class _addPrescriptionState extends State<addPrescription> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
                             onPressed: () async {
-                              final result = await ImagePicker()
-                                  .pickImage(source: ImageSource.camera);
-                              if (result == null) return;
-                              selectedImage = File(result.path);
-                              setState(() {
-                                Uploadedfiles.add(selectedImage!);
-                                vis = true;
-                              });
-                              print(
-                                  'files length is ${selectedImage.toString()}');
+                              if (await checkallpermission_opencamera()) {
+                                final result = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                if (result == null) return;
+                                selectedImage = File(result.path);
+
+                                setState(() {
+                                  Uploadedfiles.add(selectedImage!);
+                                  vis = true;
+                                });
+                                print(
+                                    'files length is ${selectedImage.toString()}');
+                              }
                             },
                             child: Text(strings.Presc_ImgCamUpload),
                           ),
@@ -670,23 +705,30 @@ class _addPrescriptionState extends State<addPrescription> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
                             onPressed: () async {
-                              final result = await FilePicker.platform
-                                  .pickFiles(
-                                      withReadStream: true,
-                                      allowMultiple: true);
-                              if (result == null) return;
-                              setState(() {
-                                var parse = result.paths
-                                    .map((path) => File(path!))
-                                    .toList();
-                                parse.forEach((element) {
-                                  Uploadedfiles.add(element);
+                              if (checkallpermission_StoragePermission() ==
+                                  false) {
+                                showToast(
+                                    "Provide Storage permission to upload files.");
+                              } else {
+                                final result = await FilePicker.platform
+                                    .pickFiles(
+                                        withReadStream: true,
+                                        allowMultiple: true);
+                                if (result == null) return;
+                                setState(() {
+                                  var parse = result.paths
+                                      .map((path) => File(path!))
+                                      .toList();
+                                  parse.forEach((element) {
+                                    Uploadedfiles.add(element);
+                                  });
+                                  // Uploadedfiles.add(parse)
+                                  vis = true;
                                 });
-                                // Uploadedfiles.add(parse)
-                                vis = true;
-                              });
 
-                              print('files length is ${Uploadedfiles.length}');
+                                print(
+                                    'files length is ${Uploadedfiles.length}');
+                              }
                             },
                             child: Text(strings.Presc_ImgGalleryUpload),
                           ),
@@ -938,5 +980,41 @@ class _addPrescriptionState extends State<addPrescription> {
     } else {
       return true;
     }
+  }
+}
+
+Future<bool> checkallpermission_opencamera() async {
+  await [Permission.camera].request();
+  var cameraStatus = await Permission.camera.status;
+  print("Camera sssss: $cameraStatus");
+  if (cameraStatus.isGranted) {
+    print("PErmission granted");
+    return true;
+  } else if (cameraStatus.isPermanentlyDenied) {
+    print("denied");
+    await openAppSettings();
+    return false;
+  } else {
+    showToast(
+      "Provide Camera permission to use camera.",
+    );
+    await openAppSettings();
+    return false;
+  }
+}
+
+Future<bool> checkallpermission_StoragePermission() async {
+  await [
+    Permission.storage,
+  ].request();
+  var storageStatus = await Permission.storage.status;
+  if (storageStatus.isGranted) {
+    return true;
+  } else {
+    showToast(
+      "Provide Storage permission to upload files.",
+    );
+    await openAppSettings();
+    return false;
   }
 }

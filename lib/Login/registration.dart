@@ -1,23 +1,16 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_group_button/flutter_group_button.dart';
-import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
-import 'package:multi_select_flutter/util/multi_select_item.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Constants/assetsPath.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/app_input_textfield.dart';
-import 'package:side_menu/Reusable/app_multiselect.dart';
-import 'package:side_menu/Reusable/button_component.dart';
-import 'package:side_menu/Reusable/toast.dart';
-import 'package:side_menu/Routes/App_routes.dart';
-import 'package:side_menu/Constants/app_constants.dart';
-import 'package:side_menu/modelClasses/registration_familyList_model.dart';
-import 'package:side_menu/Reusable/button_component.dart';
-import 'package:side_menu/Database/database_helper.dart';
-import 'package:side_menu/multi_select_dropdown.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Constants/assetsPath.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Reusable/app_input_textfield.dart';
+import 'package:medicineinventory/Reusable/button_component.dart';
+import 'package:medicineinventory/Reusable/toast.dart';
+import 'package:medicineinventory/Routes/App_routes.dart';
+import 'package:medicineinventory/Constants/app_constants.dart';
+import 'package:medicineinventory/modelClasses/registration_familyList_model.dart';
+
+import '../Constants/TextStyles.dart';
+import '../CustomAlerts/customAlerts.dart';
 
 class registerFamily extends StatefulWidget {
   const registerFamily({super.key});
@@ -28,6 +21,7 @@ class registerFamily extends StatefulWidget {
 /* class Animal {
   final int? id;
   final String? name;
+
   Animal({
     this.id,
     this.name,
@@ -41,6 +35,12 @@ class _registerFamilyState extends State<registerFamily> {
   FocusScopeNode _node = FocusScopeNode();
   //List<String> _gender = ["Male", "Female", "Others"];
   String? gender;
+  List Gender = [
+    strings.Gender_Male,
+    strings.Gender_Female,
+    strings.Gender_Other
+  ];
+  late String select;
 
   //String holder = '';
   bool value = false;
@@ -73,9 +73,10 @@ class _registerFamilyState extends State<registerFamily> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      //resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Center(child: Text(strings.RegFamMem))),
       body: Container(
+        width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -162,76 +163,61 @@ class _registerFamilyState extends State<registerFamily> {
                   groupItemsAlignment: GroupItemsAlignment.row,
                   mainAxisAlignment: MainAxisAlignment.start,
                   internMainAxisAlignment: MainAxisAlignment.start,
+    
                   /// In reality this is not needed
                   // priority: RadioPriority.textBeforeRadio,
                   defaultSelectedItem: -1,
                   onSelectionChanged: (selection) {
                     print(selection);
                   }), */
-              Text(
-                strings.Gender_SelectHeader,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              RadioListTile(
-                // contentPadding: EdgeInsets.zero,
-                title: Text(
-                  strings.Gender_Male,
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        strings.Gender_SelectHeader,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            addRadioButton(0, strings.Gender_Male),
+                            addRadioButton(1, strings.Gender_Female),
+                            addRadioButton(2, strings.Gender_Other),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                value: strings.Gender_Male,
-                groupValue: gender,
-                onChanged: (value) {
-                  setState(() {
-                    gender = value.toString();
-                  });
-                },
-              ),
-              RadioListTile(
-                //contentPadding: EdgeInsets.zero,
-                title: Text(
-                  strings.Gender_Female,
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                value: strings.Gender_Female,
-                groupValue: gender,
-                onChanged: (value) {
-                  setState(() {
-                    gender = value.toString();
-                  });
-                },
-              ),
-              RadioListTile(
-                //contentPadding: EdgeInsets.zero,
-                title: Text(
-                  strings.Gender_Other,
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                value: strings.Gender_Other,
-                groupValue: gender,
-                onChanged: (value) {
-                  setState(() {
-                    gender = value.toString();
-                  });
-                },
               ),
               ButtonComponent(
                   onPressed: () async {
                     if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
                         _formkey3.currentState!.validate() &&
-                        gender != null &&
+                        selectedValue != null &&
                         (_mobileNumber.text.length == 10)) {
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.mpinPage,
                           arguments: registrationFamilyModel(
-                              name: _family_name.text,
-                              age: _age.text,
-                              mobile: _mobileNumber.text,
-                              gender: gender));
+                            name: _family_name.text,
+                            age: _age.text,
+                            mobile: _mobileNumber.text,
+                            gender: selectedValue,
+                          ));
                       //getDropDownItem();
                     } else if (_formkey1.currentState!.validate() &&
                         _formkey2.currentState!.validate() &&
@@ -241,23 +227,18 @@ class _registerFamilyState extends State<registerFamily> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(strings.MobileAlert),
-                            actions: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text(strings.Presc_Ok),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          return CustomDialogBox(
+                            title: "MOBILE NUMBER INVALID",
+                            descriptions: strings.MobileAlert,
+                            Buttontext: 'OK',
+                            img: Image.asset(AssetPath.WarningBlueIcon),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           );
                         },
                       );
-                    } else if (gender == null) {
+                    } else if (selectedValue == null) {
                       showToast(strings.GenderText);
                     }
                     print(AppConstants.symptomsList);
@@ -267,6 +248,31 @@ class _registerFamilyState extends State<registerFamily> {
           ),
         ),
       ),
+    );
+  }
+
+  Row addRadioButton(int btnValue, String title) {
+    return Row(
+      children: <Widget>[
+        Radio(
+          activeColor: Colors.white,
+          value: Gender[btnValue],
+          groupValue: selectedValue,
+          onChanged: (value) {
+            setState(() {
+              print(value);
+              selectedValue = value;
+            });
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            title,
+            style: RadioTextSTyle,
+          ),
+        )
+      ],
     );
   }
 

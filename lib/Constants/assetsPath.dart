@@ -11,4 +11,8 @@ class AssetPath {
   static const String PlusIcon = "assets/plus.svg";
   static const String Pdf_Svg = "assets/pdf.svg";
   static const String AppLogo = "assets/appLogo.png";
+  static const String WarningIcon = "assets/warning.png";
+  static const String WarningBlueIcon = "assets/warningblue.png";
+  static const String SuccessIcon = "assets/like.png";
+  static const String CrossIcon = "assets/closeBgicon.png";
 }

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:path/path.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/modelClasses/database_modelClass/medicationModel.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/modelClasses/database_modelClass/medicationModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -94,6 +94,8 @@ SId varchar(255)
 MasterSymptomId INTEGER PRIMARY KEY AUTOINCREMENT,
 MasterSymptom varchar(255)
 );
+
+
           ''');
     /*  INSERT INTO table (column1,column2 ,..)
 VALUES( value1,	value2 ,...); */
@@ -133,10 +135,17 @@ VALUES( value1,	value2 ,...); */
 
   Future<List<Map<String, dynamic>>> queryAllRows(String table) async {
     Database db = await instance.database;
-
     return await db.query(table);
   }
 
+  Future<List<Map>> nextVisit() async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+        'SELECT HospitalName,NextAppointmentDate,ReasonForAppointment FROM $table2');
+    // Medicines   Symptoms  SymptomId DoctorName varchar(255),
+    // HospitalName varchar(255),
+    // DateOfAppointment varchar(255),
+  }
   // Future<List<Map<String, dynamic>>> queryAllRowsofContact() async {
   //   Database db = await instance.database;
   //   return await db.query(tableContact);
@@ -185,7 +194,8 @@ VALUES( value1,	value2 ,...); */
   Future<int> queryRowCountforuser(String table, String mobile) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(await db.rawQuery(
-            'SELECT COUNT(*) FROM $table WHERE $mobileNumber = ?', [mobile])) ??
+            'SELECT COUNT(*) FROM $table WHERE $mobileNumber = ? AND $mpin != "-"',
+            [mobile])) ??
         0;
   }
 
@@ -258,6 +268,15 @@ VALUES( value1,	value2 ,...); */
     // Medicines   Symptoms  SymptomId
   }
 
+  Future<List<Map>> viewSymp(int fid) async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+        'SELECT Symptom,DoctorName,DateOfAppointment,FamilyMemberId,SId,SymptomId FROM $table2 WHERE FamilyMemberId = ?',[fid]);
+    // Medicines   Symptoms  SymptomId DoctorName varchar(255),
+    // HospitalName varchar(255),
+    // DateOfAppointment varchar(255),
+  }
+
   Future<List<Map>> viewTotalPres(int id, int SId) async {
     Database db = await instance.database;
     return await db.rawQuery(
@@ -316,13 +335,23 @@ VALUES( value1,	value2 ,...); */
     ''', [MedTabCount, id]);
   }
 
+  Future<int> UpdateMpin(mpin, mobileNumber) async {
+    Database db = await instance.database;
+    return await db.rawUpdate('''
+    UPDATE FamilyList
+    SET mpin = ?
+    WHERE mobileNumber = ?
+    ''', [mpin, mobileNumber]);
+  }
   /*  Future<User> checkLogin(String userName, String password) async {
     final dbClient = await db;
     var res = await dbClient.rawQuery(
         "SELECT * FROM $USER_TABLE WHERE username = '$userName' and password = '$password'");
+
     if (res.length > 0) {
       return new User.fromMap(res.first);
     }
+
     return null;
   } */
 
@@ -330,6 +359,7 @@ VALUES( value1,	value2 ,...); */
     Database db = await instance.database;
     var res = await db.rawQuery(
         "SELECT * FROM $table WHERE mobileNumber = '$mobileNumber'");
+
     if (res.length > 0) {
       return new familyListModel.fromMap(res.first);
     }

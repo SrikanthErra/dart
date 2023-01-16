@@ -1,18 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+
 import 'package:provider/provider.dart';
-import 'package:side_menu/Constants/StringConstants.dart';
-import 'package:side_menu/Reusable/app_input_text.dart';
-import 'package:side_menu/Reusable/toast.dart';
-import 'package:universal_io/io.dart';
+import 'package:medicineinventory/Constants/StringConstants.dart';
+import 'package:medicineinventory/Reusable/app_input_text.dart';
+import 'package:medicineinventory/Reusable/toast.dart';
+
 import '../modelClasses/medicine_data_model.dart';
 import '../modelClasses/medicine_list_provider.dart';
 import '../Reusable/alert_date_picker.dart';
 import '../Reusable/alert_textformfield.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AppShowAlertMedicineData extends StatelessWidget {
   AppShowAlertMedicineData({
@@ -117,12 +120,15 @@ class AppShowAlertMedicineData extends StatelessWidget {
                       globalKey: _formkey3),
                   TextButton(
                     onPressed: () async {
-                      final result = await ImagePicker()
-                          .pickImage(source: ImageSource.camera);
-                      if (result == null) return;
-                      // fileIs = File(result.path);
-                      fileIs = result;
-                      print('files length is ${fileIs.toString()}');
+                      if (await checkallpermission_opencamera() == false) {
+                        openAppSettings();
+                      } else {
+                        final result = await ImagePicker()
+                            .pickImage(source: ImageSource.camera);
+                        if (result == null) return;
+                        fileIs = result;
+                        print('files length is ${fileIs.toString()}');
+                      }
                     },
                     child: Text(strings.Presc_ImgCamUpload),
                   ),
@@ -131,7 +137,6 @@ class AppShowAlertMedicineData extends StatelessWidget {
                       final result = await ImagePicker()
                           .pickImage(source: ImageSource.gallery);
                       if (result == null) return;
-                      //fileIs = File(result.path);
                       fileIs = result;
                       print('files length is ${fileIs.toString()}');
                     },
@@ -190,6 +195,7 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     obsecuretext: obsecuretext,
                     node: node,
                     action: action,
+                    globalKey: _formkey1,
                     onEditingComplete: onEditingComplete),
                 AlertdatePickerComponent(
                     hintText: hintText1,
@@ -198,12 +204,13 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     obsecuretext: obsecuretext,
                     node: node,
                     action: action,
+                    globalKey: _formkey2,
                     onEditingComplete: onEditingComplete),
                 AlertTextFormField(
                     hintText: hintText2,
                     nameController: TabletCountController,
                     errorMessage: errorMessage2,
-                    input_type: input_type,
+                    input_type: TextInputType.number,
                     obsecuretext: obsecuretext,
                     node: node,
                     action: action,
@@ -211,12 +218,16 @@ class AppShowAlertMedicineData extends StatelessWidget {
                     globalKey: _formkey3),
                 TextButton(
                   onPressed: () async {
-                    final result = await ImagePicker()
-                        .pickImage(source: ImageSource.camera);
-                    if (result == null) return;
-                    fileIs = result;
+                    if (await checkallpermission_opencamera() == false) {
+                      openAppSettings();
+                    } else {
+                      final result = await ImagePicker()
+                          .pickImage(source: ImageSource.camera);
+                      if (result == null) return;
+                      fileIs = result;
 
-                    print('files length is ${fileIs.toString()}');
+                      print('files length is ${fileIs.toString()}');
+                    }
                   },
                   child: Text(strings.Presc_ImgCamUpload),
                 ),
@@ -251,8 +262,8 @@ class AppShowAlertMedicineData extends StatelessWidget {
                         studentsStateProvider.addMedicineData(medicineDataModel(
                             medicineName: MedicinenameController.text,
                             ExpiryDate: ExpiryDateController.text,
-                            // medicineFiles: fileIs,
-                            medicineFiles: '',
+                            medicineFiles: fileIs?.path,
+                            //medicineFiles: '',
                             TabletsCount: TabletCountController.text));
                         print('files are $fileIs');
                         print("data added successfully" +
@@ -277,3 +288,39 @@ class AppShowAlertMedicineData extends StatelessWidget {
     );
   }
 }
+
+Future<bool> checkallpermission_opencamera() async {
+  await [Permission.camera].request();
+  var cameraStatus = await Permission.camera.status;
+  print("Camera sssss: $cameraStatus");
+  if (cameraStatus.isGranted) {
+    print("PErmission granted");
+    return true;
+  } else if (cameraStatus.isPermanentlyDenied) {
+    print("denied");
+    await openAppSettings();
+    return false;
+  } else {
+    showToast(
+      "Provide Camera permission to use camera.",
+    );
+    // await openAppSettings();
+    return false;
+  }
+}
+
+/* Future<bool> checkallpermission_StoragePermission() async {
+  await [
+    Permission.storage,
+  ].request();
+  var storageStatus = await Permission.storage.status;
+  if (storageStatus.isGranted) {
+    return true;
+  } else {
+    showToast(
+      "Provide Storage permission to upload files.",
+    );
+    await openAppSettings();
+    return false;
+  }
+} */
